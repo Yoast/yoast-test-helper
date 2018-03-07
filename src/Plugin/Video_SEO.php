@@ -52,4 +52,11 @@ class Video_SEO implements Plugin {
 	public function get_features() {
 		return [];
 	}
+
+	/**
+	 * @return string
+	 */
+	public function get_version_constant() {
+		return defined( 'WPSEO_VIDEO_VERSION' ) ? WPSEO_VIDEO_VERSION : 'not active';
+	}
 }

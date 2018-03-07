@@ -80,10 +80,11 @@ class Admin_Page {
 	 */
 	protected function get_plugin_option( Plugin $plugin ) {
 		return sprintf(
-			'%s: <input type="text" name="%s" value="%s" maxlength="7" size="8"> %s<br>',
+			'%s: <input type="text" name="%s" value="%s" maxlength="7" size="8"> (%s) %s<br>',
 			esc_html( $plugin->get_name() ),
 			esc_attr( $plugin->get_identifier() ),
 			esc_attr( $this->get_version( $plugin ) ),
+			esc_html( $plugin->get_version_constant() ),
 			$this->get_option_history_select( $plugin )
 		);
 	}

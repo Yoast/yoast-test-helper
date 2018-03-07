@@ -85,4 +85,11 @@ class Yoast_SEO implements Plugin {
 
 		$wpdb->delete( $wpdb->prefix . 'postmeta', [ 'meta_key' => '_yst_prominent_words_version' ] );
 	}
+
+	/**
+	 * @return string
+	 */
+	public function get_version_constant() {
+		return defined('WPSEO_VERSION') ? WPSEO_VERSION : 'not active';
+	}
 }

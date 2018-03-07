@@ -52,4 +52,11 @@ class News_SEO implements Plugin {
 	public function get_features() {
 		return [];
 	}
+
+	/**
+	 * @return string
+	 */
+	public function get_version_constant() {
+		return class_exists( '\WPSEO_News' ) ? \WPSEO_News::VERSION : 'not active';
+	}
 }

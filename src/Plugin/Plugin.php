@@ -34,6 +34,11 @@ interface Plugin {
 	public function get_features();
 
 	/**
+	 * @return string
+	 */
+	public function get_version_constant();
+
+	/**
 	 * @param string $feature
 	 *
 	 * @return void

@@ -52,4 +52,11 @@ class Local_SEO implements Plugin {
 	public function get_features() {
 		return [];
 	}
+
+	/**
+	 * @return string
+	 */
+	public function get_version_constant() {
+		return defined( 'WPSEO_LOCAL_VERSION' ) ? WPSEO_LOCAL_VERSION : 'not active';
+	}
 }
