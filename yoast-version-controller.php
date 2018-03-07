@@ -4,7 +4,7 @@
  *
  * @package Yoast_Version_Controller\Main
  *
- * Plugin Name: Yoast SEO: Version Controller
+ * Plugin Name: Yoast tools: Version controller
  * Version: 1.0
  * Plugin URI: https://github.com/yoast/yoast-version-controller
  * Description: Manager Yoast Database Version to test upgrade routines.
@@ -13,10 +13,7 @@
  * Text Domain: yoast-version-controller
  * Domain Path: /languages/
  * License: GPL v3
- */
-
-/**
- * Yoast SEO: Version Controller
+ *
  * Copyright (C) 2018, Yoast BV - support@yoast.com
  *
  * This program is free software: you can redistribute it and/or modify
