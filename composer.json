@@ -1,0 +1,21 @@
+{
+  "name": "yoast/version-controller",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Team Yoast",
+      "email": "support@yoast.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Yoast\\Version_Controller\\": "src/"
+    }
+  },
+  "require": {},
+  "require-dev": {
+    "yoast/yoastcs": "~0.5.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3"
+  }
+}
