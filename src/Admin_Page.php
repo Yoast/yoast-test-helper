@@ -76,6 +76,8 @@ class Admin_Page {
 	public function show_admin_page() {
 		echo '<h1>Yoast Version Controller</h1>';
 
+		do_action( 'yoast_version_controller-notifications' );
+
 		echo '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
 		echo '<input type="hidden" name="action" value="yoast_version_control">';
 
@@ -125,10 +127,10 @@ class Admin_Page {
 		$timestamps = array_reverse( array_keys( $history ) );
 
 		return sprintf(
-			'<select name="%s"><option name=""></option>%s</select>',
+			'<select name="%s"><option value=""></option>%s</select>',
 			esc_attr( $plugin->get_identifier() . '-history' ),
 			implode( '', array_map( function ( $item ) {
-				return sprintf( '<option name="%s">%s</option>', esc_attr( $item ),
+				return sprintf( '<option value="%s">%s</option>', esc_attr( $item ),
 					esc_html( date( 'Y-m-d H:i:s', $item ) ) );
 			}, $timestamps ) )
 		);
@@ -140,7 +142,8 @@ class Admin_Page {
 	public function handle_submit() {
 		if ( ! $this->load_history() ) {
 			foreach ( $this->plugins as $plugin ) {
-				$this->update_plugin_version( $plugin, $_POST[ $plugin->get_identifier() ] );
+				$version = $_POST[ $plugin->get_identifier() ];
+				$this->update_plugin_version( $plugin, $version );
 			}
 		}
 
@@ -153,8 +156,23 @@ class Admin_Page {
 	protected function load_history() {
 		foreach ( $this->plugins as $plugin ) {
 			// if -history is set, load the history item, otherwise save.
-			if ( ! empty( $_POST[ $plugin->get_identifier() . '-history' ] ) ) {
-				$this->plugin_options->restore_options( $plugin, $_POST[ $plugin->get_identifier() . '-history' ] );
+			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
+			if ( ! empty( $timestamp ) ) {
+				$notification = new Notification(
+					'History ' . date( 'Y-m-d H:i:s', $timestamp ) .
+					' for ' . $plugin->get_name() . ' has not been loaded.',
+					'error'
+				);
+
+				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
+					$notification = new Notification(
+						'History ' . date( 'Y-m-d H:i:s', $timestamp ) .
+						' for ' . $plugin->get_name() . ' has been loaded.',
+						'success'
+					);
+				}
+
+				do_action( 'yoast_version_controller-notification', $notification );
 
 				return true;
 			}
@@ -168,8 +186,14 @@ class Admin_Page {
 	 * @param        $version
 	 */
 	protected function update_plugin_version( Plugin $plugin, $version ) {
-		$this->plugin_version->update_version( $plugin, $version );
-		$this->plugin_options->save_options( $plugin );
+		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
+			$this->plugin_options->save_options( $plugin );
+
+			do_action(
+				'yoast_version_controller-notification',
+				new Notification( $plugin->get_name() . ' version was set to ' . $version, 'success' )
+			);
+		}
 	}
 
 	/**

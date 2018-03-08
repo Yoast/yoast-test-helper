@@ -37,6 +37,7 @@ class Plugin {
 		);
 
 		$this->integrations[] = $plugin_features;
+		$this->integrations[] = new Admin_Notifications();
 	}
 
 	/**

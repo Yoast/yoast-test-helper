@@ -19,7 +19,8 @@ class Plugin_Features {
 	}
 
 	public function get_controls() {
-		$output = array_map( [ $this, 'get_plugin_features'], $this->plugins );
+		$output = array_map( [ $this, 'get_plugin_features' ], $this->plugins );
+
 		return implode( '', $output );
 	}
 
@@ -63,12 +64,18 @@ class Plugin_Features {
 			foreach ( $plugin->get_features() as $feature ) {
 				if ( isset( $_POST[ $feature ] ) ) {
 					$plugin->reset_feature( $feature );
+
+					$notification = new Notification(
+						$plugin->get_name() . ' feature <strong>' . $feature . '</strong> has been reset.',
+						'success'
+					);
+					do_action( 'yoast_version_controller-notification', $notification );
 				}
 			}
 
 			break;
 		}
 
-		wp_redirect( self_admin_url( '?page=' . apply_filters( 'wpseo_version_control_admin_page',  '' ) ) );
+		wp_redirect( self_admin_url( '?page=' . apply_filters( 'wpseo_version_control_admin_page', '' ) ) );
 	}
 }
