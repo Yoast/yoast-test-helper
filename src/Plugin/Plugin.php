@@ -41,7 +41,7 @@ interface Plugin {
 	/**
 	 * @param string $feature
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function reset_feature( $feature );
 }

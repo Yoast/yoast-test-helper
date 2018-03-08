@@ -56,16 +56,20 @@ class Yoast_SEO implements Plugin {
 
 	/**
 	 * @param string $feature
+	 *
+	 * @return bool
 	 */
 	public function reset_feature( $feature ) {
 		switch ( $feature ) {
 			case 'internal_link_count':
 				$this->reset_internal_link_count();
-				break;
+				return true;
 			case 'prominent_words_calculation':
 				$this->reset_prominent_words_calculation();
-				break;
+				return true;
 		}
+
+		return false;
 	}
 
 	/**

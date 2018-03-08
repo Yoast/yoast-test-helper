@@ -41,9 +41,10 @@ class Local_SEO implements Plugin {
 	/**
 	 * @param string $feature
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function reset_feature( $feature ) {
+		return false;
 	}
 
 	/**
