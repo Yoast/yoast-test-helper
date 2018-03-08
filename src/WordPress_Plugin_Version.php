@@ -2,15 +2,15 @@
 
 namespace Yoast\Version_Controller;
 
-use Yoast\Version_Controller\Plugin\Plugin;
+use Yoast\Version_Controller\WordPress_Plugins\WordPress_Plugin;
 
-class Plugin_Version {
+class WordPress_Plugin_Version {
 	/**
-	 * @param Plugin $plugin
+	 * @param WordPress_Plugin $plugin
 	 *
 	 * @return string
 	 */
-	public function get_version( Plugin $plugin ) {
+	public function get_version( WordPress_Plugin $plugin ) {
 		$data = get_option( $plugin->get_version_option_name() );
 		if ( isset( $data[ $plugin->get_version_key() ] ) ) {
 			return $data[ $plugin->get_version_key() ];
@@ -20,12 +20,12 @@ class Plugin_Version {
 	}
 
 	/**
-	 * @param Plugin $plugin
-	 * @param string $version
+	 * @param WordPress_Plugin $plugin
+	 * @param string           $version
 	 *
 	 * @return bool
 	 */
-	public function update_version( Plugin $plugin, $version ) {
+	public function update_version( WordPress_Plugin $plugin, $version ) {
 		$option_name = $plugin->get_version_option_name();
 		$data        = get_option( $option_name );
 

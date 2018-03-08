@@ -2,10 +2,10 @@
 
 namespace Yoast\Version_Controller;
 
-use Yoast\Version_Controller\Plugin\Plugin;
+use Yoast\Version_Controller\WordPress_Plugins\WordPress_Plugin;
 
-class Plugin_Features implements Integration {
-	/** @var Plugin[] */
+class WordPress_Plugin_Features implements Integration {
+	/** @var WordPress_Plugin[] */
 	protected $plugins;
 
 	public function __construct( $plugins ) {
@@ -28,11 +28,11 @@ class Plugin_Features implements Integration {
 	}
 
 	/**
-	 * @param Plugin $plugin
+	 * @param WordPress_Plugin $plugin
 	 *
 	 * @return string
 	 */
-	protected function get_plugin_features( Plugin $plugin ) {
+	protected function get_plugin_features( WordPress_Plugin $plugin ) {
 		$features = $plugin->get_features();
 		if ( [] === $features ) {
 			return '';
@@ -78,7 +78,7 @@ class Plugin_Features implements Integration {
 	/**
 	 * @param $plugin
 	 */
-	protected function reset_feature( Plugin $plugin ) {
+	protected function reset_feature( WordPress_Plugin $plugin ) {
 		foreach ( $plugin->get_features() as $feature => $name ) {
 			if ( ! isset( $_POST[ $feature ] ) ) {
 				continue;

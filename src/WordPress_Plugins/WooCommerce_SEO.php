@@ -1,34 +1,34 @@
 <?php
 
-namespace Yoast\Version_Controller\Plugin;
+namespace Yoast\Version_Controller\WordPress_Plugins;
 
-class Local_SEO implements Plugin {
+class WooCommerce_SEO implements WordPress_Plugin {
 	/**
 	 * @return string
 	 */
 	public function get_identifier() {
-		return 'wpseo-local';
+		return 'wpseo-woocommerce';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function get_name() {
-		return 'Yoast SEO: Local';
+		return 'Yoast SEO: WooCommerce';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function get_version_option_name() {
-		return 'wpseo_local';
+		return 'wpseo_woo';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function get_version_key() {
-		return 'version';
+		return 'dbversion';
 	}
 
 	/**
@@ -58,6 +58,6 @@ class Local_SEO implements Plugin {
 	 * @return string
 	 */
 	public function get_version_constant() {
-		return defined( 'WPSEO_LOCAL_VERSION' ) ? WPSEO_LOCAL_VERSION : 'not active';
+		return class_exists( '\Yoast_WooCommerce_SEO' ) ? \Yoast_WooCommerce_SEO::VERSION : 'not active';
 	}
 }

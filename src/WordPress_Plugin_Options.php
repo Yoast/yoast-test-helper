@@ -2,15 +2,15 @@
 
 namespace Yoast\Version_Controller;
 
-use Yoast\Version_Controller\Plugin\Plugin;
+use Yoast\Version_Controller\WordPress_Plugins\WordPress_Plugin;
 
-class Plugin_Options {
+class WordPress_Plugin_Options {
 	/**
-	 * @param Plugin $plugin
+	 * @param WordPress_Plugin $plugin
 	 *
 	 * @return bool
 	 */
-	public function save_options( Plugin $plugin ) {
+	public function save_options( WordPress_Plugin $plugin ) {
 		return $this->save_data( $plugin, $this->collect_data( $plugin->get_options() ) );
 	}
 
@@ -30,12 +30,12 @@ class Plugin_Options {
 	}
 
 	/**
-	 * @param Plugin $plugin
+	 * @param WordPress_Plugin $plugin
 	 * @param        $data
 	 *
 	 * @return bool
 	 */
-	protected function save_data( Plugin $plugin, $data ) {
+	protected function save_data( WordPress_Plugin $plugin, $data ) {
 		$option_name = $this->get_option_name( $plugin );
 
 		$current_data           = (array) get_option( $option_name, array() );
@@ -48,21 +48,21 @@ class Plugin_Options {
 	}
 
 	/**
-	 * @param Plugin $plugin
+	 * @param WordPress_Plugin $plugin
 	 *
 	 * @return array
 	 */
-	public function get_saved_options( Plugin $plugin ) {
+	public function get_saved_options( WordPress_Plugin $plugin ) {
 		return (array) get_option( $this->get_option_name( $plugin ), array() );
 	}
 
 	/**
-	 * @param Plugin $plugin
-	 * @param int    $timestamp
+	 * @param WordPress_Plugin $plugin
+	 * @param int              $timestamp
 	 *
 	 * @return bool
 	 */
-	public function restore_options( Plugin $plugin, $timestamp ) {
+	public function restore_options( WordPress_Plugin $plugin, $timestamp ) {
 		$history = $this->get_saved_options( $plugin );
 		if ( ! isset( $history[ $timestamp ] ) ) {
 			return false;
@@ -99,11 +99,11 @@ class Plugin_Options {
 	}
 
 	/**
-	 * @param Plugin $plugin
+	 * @param WordPress_Plugin $plugin
 	 *
 	 * @return string
 	 */
-	protected function get_option_name( Plugin $plugin ) {
+	protected function get_option_name( WordPress_Plugin $plugin ) {
 		return 'yoast_version_backup-' . $plugin->get_identifier();
 	}
 }

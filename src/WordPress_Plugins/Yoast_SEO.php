@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\Version_Controller\Plugin;
+namespace Yoast\Version_Controller\WordPress_Plugins;
 
-class Yoast_SEO implements Plugin {
+class Yoast_SEO implements WordPress_Plugin {
 	/**
 	 * @return string
 	 */

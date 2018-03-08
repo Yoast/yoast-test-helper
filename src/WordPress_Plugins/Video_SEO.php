@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\Version_Controller\Plugin;
+namespace Yoast\Version_Controller\WordPress_Plugins;
 
-class Video_SEO implements Plugin {
+class Video_SEO implements WordPress_Plugin {
 	/**
 	 * @return string
 	 */

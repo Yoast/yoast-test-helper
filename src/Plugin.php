@@ -2,11 +2,11 @@
 
 namespace Yoast\Version_Controller;
 
-use Yoast\Version_Controller\Plugin\Local_SEO;
-use Yoast\Version_Controller\Plugin\News_SEO;
-use Yoast\Version_Controller\Plugin\Video_SEO;
-use Yoast\Version_Controller\Plugin\WooCommerce_SEO;
-use Yoast\Version_Controller\Plugin\Yoast_SEO;
+use Yoast\Version_Controller\WordPress_Plugins\Local_SEO;
+use Yoast\Version_Controller\WordPress_Plugins\News_SEO;
+use Yoast\Version_Controller\WordPress_Plugins\Video_SEO;
+use Yoast\Version_Controller\WordPress_Plugins\WooCommerce_SEO;
+use Yoast\Version_Controller\WordPress_Plugins\Yoast_SEO;
 
 /**
  * Class Plugin
@@ -29,12 +29,12 @@ class Plugin implements Integration {
 			new WooCommerce_SEO(),
 		];
 
-		$plugin_features = new Plugin_Features( $plugins );
+		$plugin_features = new WordPress_Plugin_Features( $plugins );
 
 		$this->integrations[] = new Admin_Page(
 			$plugins,
-			new Plugin_Options(),
-			new Plugin_Version(),
+			new WordPress_Plugin_Options(),
+			new WordPress_Plugin_Version(),
 			$plugin_features
 		);
 

@@ -2,34 +2,34 @@
 
 namespace Yoast\Version_Controller;
 
-use Yoast\Version_Controller\Plugin\Plugin;
+use Yoast\Version_Controller\WordPress_Plugins\WordPress_Plugin;
 
 class Admin_Page implements Integration {
-	/** @var Plugin[] Plugins */
+	/** @var WordPress_Plugin[] Plugins */
 	protected $plugins;
 
-	/** @var Plugin_Options */
+	/** @var WordPress_Plugin_Options */
 	protected $plugin_options;
 
-	/** @var Plugin_Version */
+	/** @var WordPress_Plugin_Version */
 	protected $plugin_version;
 
-	/** @var Plugin_Features */
+	/** @var WordPress_Plugin_Features */
 	protected $plugin_features;
 
 	/**
 	 * Admin_Page constructor.
 	 *
 	 * @param                 $plugins
-	 * @param Plugin_Options  $plugin_options
-	 * @param Plugin_Version  $plugin_version
-	 * @param Plugin_Features $plugin_features
+	 * @param WordPress_Plugin_Options $plugin_options
+	 * @param WordPress_Plugin_Version $plugin_version
+	 * @param WordPress_Plugin_Features $plugin_features
 	 */
 	public function __construct(
 		$plugins,
-		Plugin_Options $plugin_options,
-		Plugin_Version $plugin_version,
-		Plugin_Features $plugin_features
+		WordPress_Plugin_Options $plugin_options,
+		WordPress_Plugin_Version $plugin_version,
+		WordPress_Plugin_Features $plugin_features
 	) {
 		$this->plugins         = $plugins;
 		$this->plugin_options  = $plugin_options;
@@ -112,11 +112,11 @@ class Admin_Page implements Integration {
 	}
 
 	/**
-	 * @param Plugin $plugin
+	 * @param WordPress_Plugin $plugin
 	 *
 	 * @return string
 	 */
-	protected function get_plugin_option( Plugin $plugin ) {
+	protected function get_plugin_option( WordPress_Plugin $plugin ) {
 		return sprintf(
 			'<tr><td>%s:</td><td><input type="text" name="%s" value="%s" maxlength="7" size="8"></td><td>(%s)</td><td>%s</td></tr>',
 			esc_html( $plugin->get_name() ),
@@ -128,11 +128,11 @@ class Admin_Page implements Integration {
 	}
 
 	/**
-	 * @param Plugin $plugin
+	 * @param WordPress_Plugin $plugin
 	 *
 	 * @return string
 	 */
-	protected function get_option_history_select( Plugin $plugin ) {
+	protected function get_option_history_select( WordPress_Plugin $plugin ) {
 		$history    = $this->plugin_options->get_saved_options( $plugin );
 		$history = array_reverse( $history, true );
 
@@ -176,15 +176,15 @@ class Admin_Page implements Integration {
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(
-					'History ' . date( 'Y-m-d H:i:s', $timestamp ) .
-					' for ' . $plugin->get_name() . ' has not been loaded.',
+					'Options from ' . date( 'Y-m-d H:i:s', $timestamp ) .
+					' for ' . $plugin->get_name() . ' have <strong>not</strong> been restored.',
 					'error'
 				);
 
 				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
 					$notification = new Notification(
-						'History ' . date( 'Y-m-d H:i:s', $timestamp ) .
-						' for ' . $plugin->get_name() . ' has been loaded.',
+						'Options from ' . date( 'Y-m-d H:i:s', $timestamp ) .
+						' for ' . $plugin->get_name() . ' have been restored.',
 						'success'
 					);
 				}
@@ -199,10 +199,10 @@ class Admin_Page implements Integration {
 	}
 
 	/**
-	 * @param Plugin  $plugin
+	 * @param WordPress_Plugin $plugin
 	 * @param        $version
 	 */
-	protected function update_plugin_version( Plugin $plugin, $version ) {
+	protected function update_plugin_version( WordPress_Plugin $plugin, $version ) {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
 			do_action(
 				'yoast_version_controller_notification',

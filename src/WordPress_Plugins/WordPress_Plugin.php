@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\Version_Controller\Plugin;
+namespace Yoast\Version_Controller\WordPress_Plugins;
 
-interface Plugin {
+interface WordPress_Plugin {
 	/**
 	 * @return string
 	 */
