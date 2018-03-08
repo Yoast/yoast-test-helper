@@ -38,7 +38,7 @@ class Plugin_Options {
 		$current_data[ time() ] = $data;
 
 		// Only keep the 10 latest entries.
-		$current_data = array_slice( $current_data, - 10, 10, true );
+		$current_data = array_slice( $current_data, -6, 6, true );
 
 		update_option( 'wpseo_version_backup-' . $plugin->get_identifier(), $current_data );
 	}
@@ -59,12 +59,14 @@ class Plugin_Options {
 	public function restore_options( Plugin $plugin, $timestamp ) {
 		$history = $this->get_saved_options( $plugin );
 		if ( ! isset( $history[ $timestamp ] ) ) {
-			return;
+			return false;
 		}
 
 		foreach ( $history[ $timestamp ] as $option_name => $option_value ) {
 			update_option( $option_name, $option_value );
 		}
+
+		return true;
 	}
 
 	/**

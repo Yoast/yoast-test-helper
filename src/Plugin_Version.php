@@ -22,11 +22,20 @@ class Plugin_Version {
 	/**
 	 * @param Plugin $plugin
 	 * @param string $version
+	 *
+	 * @return bool
 	 */
 	public function update_version( Plugin $plugin, $version ) {
-		$data                               = get_option( $plugin->get_version_option_name() );
+		$data = get_option( $plugin->get_version_option_name() );
+
+		if ( $data[ $plugin->get_version_key() ] === $version ) {
+			return false;
+		}
+
 		$data[ $plugin->get_version_key() ] = $version;
 
 		update_option( $plugin->get_version_option_name(), $data );
+
+		return true;
 	}
 }
