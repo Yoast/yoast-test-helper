@@ -72,7 +72,7 @@ class Plugin_Features implements Integration {
 			break;
 		}
 
-		wp_safe_redirect( self_admin_url( '?page=' . apply_filters( 'wpseo_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( '?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
 	}
 
 	/**

@@ -52,7 +52,7 @@ class Admin_Page implements Integration {
 		add_action( 'admin_post_yoast_version_control', [ $this, 'handle_submit' ] );
 
 		// Expose the admin page we are running on.
-		add_filter( 'wpseo_version_control_admin_page', [ $this, 'get_admin_page' ] );
+		add_filter( 'yoast_version_control_admin_page', [ $this, 'get_admin_page' ] );
 	}
 
 	/**

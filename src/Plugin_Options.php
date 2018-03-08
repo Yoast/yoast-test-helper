@@ -40,7 +40,7 @@ class Plugin_Options {
 		// Only keep the 10 latest entries.
 		$current_data = array_slice( $current_data, -6, 6, true );
 
-		update_option( 'wpseo_version_backup-' . $plugin->get_identifier(), $current_data );
+		update_option( $this->get_option_name( $plugin ), $current_data );
 	}
 
 	/**
@@ -77,6 +77,6 @@ class Plugin_Options {
 	 * @return string
 	 */
 	protected function get_option_name( Plugin $plugin ) {
-		return 'wpseo_version_backup-' . $plugin->get_identifier();
+		return 'yoast_version_backup-' . $plugin->get_identifier();
 	}
 }
