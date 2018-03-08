@@ -51,8 +51,18 @@ class Admin_Page implements Integration {
 		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
 		add_action( 'admin_post_yoast_version_control', [ $this, 'handle_submit' ] );
 
+		add_action( 'wpseo_run_upgrade', [ $this, 'add_upgrade_ran_notification' ] );
+
 		// Expose the admin page we are running on.
 		add_filter( 'yoast_version_control_admin_page', [ $this, 'get_admin_page' ] );
+	}
+
+	/**
+	 *
+	 */
+	public function add_upgrade_ran_notification() {
+		$notification = new Notification( 'The WPSEO upgrade routine was executed.', 'success' );
+		do_action( 'yoast_version_controller_notification', $notification );
 	}
 
 	/**
@@ -200,12 +210,12 @@ class Admin_Page implements Integration {
 			);
 		}
 
-		$this->plugin_options->save_options( $plugin );
-
-		do_action(
-			'yoast_version_controller_notification',
-			new Notification( $plugin->get_name() . ' options were saved.', 'success' )
-		);
+		if ( $this->plugin_options->save_options( $plugin ) ) {
+			do_action(
+				'yoast_version_controller_notification',
+				new Notification( $plugin->get_name() . ' options were saved.', 'success' )
+			);
+		}
 	}
 
 	/**

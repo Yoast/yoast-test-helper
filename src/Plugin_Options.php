@@ -7,9 +7,11 @@ use Yoast\Version_Controller\Plugin\Plugin;
 class Plugin_Options {
 	/**
 	 * @param Plugin $plugin
+	 *
+	 * @return bool
 	 */
 	public function save_options( Plugin $plugin ) {
-		$this->save_data( $plugin, $this->collect_data( $plugin->get_options() ) );
+		return $this->save_data( $plugin, $this->collect_data( $plugin->get_options() ) );
 	}
 
 	/**
@@ -30,6 +32,8 @@ class Plugin_Options {
 	/**
 	 * @param Plugin $plugin
 	 * @param        $data
+	 *
+	 * @return bool
 	 */
 	protected function save_data( Plugin $plugin, $data ) {
 		$option_name = $this->get_option_name( $plugin );
@@ -40,7 +44,7 @@ class Plugin_Options {
 		// Only keep the 10 latest entries.
 		$current_data = array_slice( $current_data, -6, 6, true );
 
-		update_option( $this->get_option_name( $plugin ), $current_data );
+		return update_option( $this->get_option_name( $plugin ), $current_data );
 	}
 
 	/**
@@ -65,10 +69,33 @@ class Plugin_Options {
 		}
 
 		foreach ( $history[ $timestamp ] as $option_name => $option_value ) {
+			$this->unhook_option_sanitization( $option_name );
 			update_option( $option_name, $option_value );
+			$this->hook_option_sanitization( $option_name );
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param $option_name
+	 */
+	public function unhook_option_sanitization( $option_name ) {
+		// Unhook option sanitization, otherwise the version cannot be changed.
+		if ( class_exists( '\WPSEO_Options' ) ) {
+			$option_instance = \WPSEO_Options::get_option_instance( $option_name );
+			remove_filter( 'sanitize_option_' . $option_name, array( $option_instance, 'validate' ) );
+		}
+	}
+
+	/**
+	 * @param $option_name
+	 */
+	public function hook_option_sanitization( $option_name ) {
+		if ( class_exists( '\WPSEO_Options' ) ) {
+			$option_instance = \WPSEO_Options::get_option_instance( $option_name );
+			add_filter( 'sanitize_option_' . $option_name, array( $option_instance, 'validate' ) );
+		}
 	}
 
 	/**
