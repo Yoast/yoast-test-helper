@@ -187,13 +187,18 @@ class Admin_Page {
 	 */
 	protected function update_plugin_version( Plugin $plugin, $version ) {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
-			$this->plugin_options->save_options( $plugin );
-
 			do_action(
 				'yoast_version_controller-notification',
 				new Notification( $plugin->get_name() . ' version was set to ' . $version, 'success' )
 			);
 		}
+
+		$this->plugin_options->save_options( $plugin );
+
+		do_action(
+			'yoast_version_controller-notification',
+			new Notification( $plugin->get_name() . ' options were saved.', 'success' )
+		);
 	}
 
 	/**
