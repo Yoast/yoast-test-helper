@@ -4,7 +4,7 @@ namespace Yoast\Version_Controller;
 
 use Yoast\Version_Controller\Plugin\Plugin;
 
-class Option_Control {
+class Plugin_Options {
 	/**
 	 * @param Plugin $plugin
 	 */

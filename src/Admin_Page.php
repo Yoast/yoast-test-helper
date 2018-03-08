@@ -8,23 +8,33 @@ class Admin_Page {
 	/** @var Plugin[] Plugins */
 	protected $plugins;
 
-	/** @var Option_Control */
-	protected $option_control;
+	/** @var Plugin_Options */
+	protected $plugin_options;
 
-	/** @var Version_Control */
-	protected $version_control;
+	/** @var Plugin_Version */
+	protected $plugin_version;
+
+	/** @var Plugin_Features */
+	protected $plugin_features;
 
 	/**
 	 * Admin_Page constructor.
 	 *
 	 * @param                 $plugins
-	 * @param Option_Control  $option_control
-	 * @param Version_Control $version_control
+	 * @param Plugin_Options  $plugin_options
+	 * @param Plugin_Version  $plugin_version
+	 * @param Plugin_Features $plugin_features
 	 */
-	public function __construct( $plugins, Option_Control $option_control, Version_Control $version_control ) {
+	public function __construct(
+		$plugins,
+		Plugin_Options $plugin_options,
+		Plugin_Version $plugin_version,
+		Plugin_Features $plugin_features
+	) {
 		$this->plugins         = $plugins;
-		$this->option_control  = $option_control;
-		$this->version_control = $version_control;
+		$this->plugin_options  = $plugin_options;
+		$this->plugin_version  = $plugin_version;
+		$this->plugin_features = $plugin_features;
 	}
 
 	/**
@@ -41,9 +51,8 @@ class Admin_Page {
 		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
 		add_action( 'admin_post_yoast_version_control', [ $this, 'handle_submit' ] );
 
-		foreach ( $this->plugins as $plugin ) {
-			add_action( 'admin_post_' . $plugin->get_identifier() . '-feature-reset', [ $this, 'reset_feature' ] );
-		}
+		// Expose the admin page we are running on.
+		add_filter( 'wpseo_version_control_admin_page', [ $this, 'get_admin_page' ] );
 	}
 
 	/**
@@ -67,22 +76,27 @@ class Admin_Page {
 	public function show_admin_page() {
 		echo '<h1>Yoast Version Controller</h1>';
 
-		// Plugins.
-
 		echo '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
 		echo '<input type="hidden" name="action" value="yoast_version_control">';
+
+		echo '<table>';
+		echo '<thead><tr>' .
+		     '<th style="text-align:left;">Plugin</th>' .
+		     '<th style="text-align:left;">DB Version</th>' .
+		     '<th style="text-align:left;">Real</th>' .
+		     '<th style="text-align:left;">Saved options</th>' .
+		     '</tr></thead>';
 
 		foreach ( $this->plugins as $plugin ) {
 			echo $this->get_plugin_option( $plugin );
 		}
+		echo '</table>';
 
 		echo '<button class="button button-primary">Save</button>';
 		echo '</form>';
 
 		// Show feature resets.
-		foreach ( $this->plugins as $plugin ) {
-			echo $this->get_plugin_features( $plugin );
-		}
+		echo $this->plugin_features->get_controls();
 	}
 
 	/**
@@ -92,10 +106,10 @@ class Admin_Page {
 	 */
 	protected function get_plugin_option( Plugin $plugin ) {
 		return sprintf(
-			'%s: <input type="text" name="%s" value="%s" maxlength="7" size="8"> (%s) %s<br>',
+			'<tr><td>%s:</td><td><input type="text" name="%s" value="%s" maxlength="7" size="8"></td><td>(%s)</td><td>%s</td></tr>',
 			esc_html( $plugin->get_name() ),
 			esc_attr( $plugin->get_identifier() ),
-			esc_attr( $this->version_control->get_version( $plugin ) ),
+			esc_attr( $this->plugin_version->get_version( $plugin ) ),
 			esc_html( $plugin->get_version_constant() ),
 			$this->get_option_history_select( $plugin )
 		);
@@ -107,7 +121,7 @@ class Admin_Page {
 	 * @return string
 	 */
 	protected function get_option_history_select( Plugin $plugin ) {
-		$history    = $this->option_control->get_saved_options( $plugin );
+		$history    = $this->plugin_options->get_saved_options( $plugin );
 		$timestamps = array_reverse( array_keys( $history ) );
 
 		return sprintf(
@@ -140,7 +154,7 @@ class Admin_Page {
 		foreach ( $this->plugins as $plugin ) {
 			// if -history is set, load the history item, otherwise save.
 			if ( ! empty( $_POST[ $plugin->get_identifier() . '-history' ] ) ) {
-				$this->option_control->restore_options( $plugin, $_POST[ $plugin->get_identifier() . '-history' ] );
+				$this->plugin_options->restore_options( $plugin, $_POST[ $plugin->get_identifier() . '-history' ] );
 
 				return true;
 			}
@@ -154,58 +168,8 @@ class Admin_Page {
 	 * @param        $version
 	 */
 	protected function update_plugin_version( Plugin $plugin, $version ) {
-		$this->version_control->update_version( $plugin, $version );
-		$this->option_control->save_options( $plugin );
-	}
-
-	/**
-	 * @param Plugin $plugin
-	 *
-	 * @return string
-	 */
-	protected function get_plugin_features( Plugin $plugin ) {
-		$features = $plugin->get_features();
-		if ( [] === $features ) {
-			return '';
-		}
-
-		$form = '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">' .
-		        '<input type="hidden" name="action" value="' . $plugin->get_identifier() . '-feature-reset">';
-
-		return
-			sprintf( '<h2>%s</h2>%s%s</form>',
-				esc_html( $plugin->get_name() ),
-				$form,
-				implode( '', array_map( function ( $feature ) {
-					return sprintf(
-						'<button name="%s" type="submit" class="button">Reset %s</button> ',
-						$feature,
-						$feature
-					);
-				}, $features ) )
-			);
-	}
-
-	/**
-	 *
-	 */
-	public function reset_feature() {
-		foreach ( $this->plugins as $plugin ) {
-			echo $plugin->get_identifier();
-			if ( $_POST['action'] !== $plugin->get_identifier() . '-feature-reset' ) {
-				continue;
-			}
-
-			foreach ( $plugin->get_features() as $feature ) {
-				if ( isset( $_POST[ $feature ] ) ) {
-					$plugin->reset_feature( $feature );
-				}
-			}
-
-			break;
-		}
-
-		wp_redirect( self_admin_url( '?page=' . $this->get_admin_page() ) );
+		$this->plugin_version->update_version( $plugin, $version );
+		$this->plugin_options->save_options( $plugin );
 	}
 
 	/**

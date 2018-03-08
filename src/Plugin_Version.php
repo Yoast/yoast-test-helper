@@ -4,7 +4,7 @@ namespace Yoast\Version_Controller;
 
 use Yoast\Version_Controller\Plugin\Plugin;
 
-class Version_Control {
+class Plugin_Version {
 	/**
 	 * @param Plugin $plugin
 	 *
@@ -21,7 +21,7 @@ class Version_Control {
 
 	/**
 	 * @param Plugin $plugin
-	 * @param        $version
+	 * @param string $version
 	 */
 	public function update_version( Plugin $plugin, $version ) {
 		$data                               = get_option( $plugin->get_version_option_name() );
