@@ -26,7 +26,8 @@ class Plugin_Version {
 	 * @return bool
 	 */
 	public function update_version( Plugin $plugin, $version ) {
-		$data = get_option( $plugin->get_version_option_name() );
+		$option_name = $plugin->get_version_option_name();
+		$data        = get_option( $option_name );
 
 		if ( $data[ $plugin->get_version_key() ] === $version ) {
 			return false;
@@ -34,8 +35,20 @@ class Plugin_Version {
 
 		$data[ $plugin->get_version_key() ] = $version;
 
-		update_option( $plugin->get_version_option_name(), $data );
+		$option_instance = false;
+		// Unhook option sanitization, otherwise the version cannot be changed.
+		if ( class_exists( '\WPSEO_Options' ) ) {
+			$option_instance = \WPSEO_Options::get_option_instance( $option_name );
+			remove_filter( 'sanitize_option_' . $option_name, array( $option_instance, 'validate' ) );
+		}
 
-		return true;
+		$success = update_option( $option_name, $data );
+
+		// Restore option sanitization.
+		if ( $option_instance ) {
+			add_filter( 'sanitize_option_' . $option_name, array( $option_instance, 'validate' ) );
+		}
+
+		return $success;
 	}
 }
