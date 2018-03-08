@@ -11,15 +11,27 @@ class Admin_Page {
 	/** @var Option_Control */
 	protected $option_control;
 
+	/** @var Version_Control */
+	protected $version_control;
+
 	/**
 	 * Admin_Page constructor.
 	 *
-	 * @param                $plugins
-	 * @param Option_Control $option_control
+	 * @param                 $plugins
+	 * @param Option_Control  $option_control
+	 * @param Version_Control $version_control
 	 */
-	public function __construct( $plugins, Option_Control $option_control ) {
-		$this->plugins        = $plugins;
-		$this->option_control = $option_control;
+	public function __construct( $plugins, Option_Control $option_control, Version_Control $version_control ) {
+		$this->plugins         = $plugins;
+		$this->option_control  = $option_control;
+		$this->version_control = $version_control;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_admin_page() {
+		return 'yoast-version-controller';
 	}
 
 	/**
@@ -83,7 +95,7 @@ class Admin_Page {
 			'%s: <input type="text" name="%s" value="%s" maxlength="7" size="8"> (%s) %s<br>',
 			esc_html( $plugin->get_name() ),
 			esc_attr( $plugin->get_identifier() ),
-			esc_attr( $this->get_version( $plugin ) ),
+			esc_attr( $this->version_control->get_version( $plugin ) ),
 			esc_html( $plugin->get_version_constant() ),
 			$this->get_option_history_select( $plugin )
 		);
@@ -106,20 +118,6 @@ class Admin_Page {
 					esc_html( date( 'Y-m-d H:i:s', $item ) ) );
 			}, $timestamps ) )
 		);
-	}
-
-	/**
-	 * @param Plugin $plugin
-	 *
-	 * @return string
-	 */
-	protected function get_version( Plugin $plugin ) {
-		$data = get_option( $plugin->get_version_option_name() );
-		if ( isset( $data[ $plugin->get_version_key() ] ) ) {
-			return $data[ $plugin->get_version_key() ];
-		}
-
-		return '';
 	}
 
 	/**
@@ -151,20 +149,12 @@ class Admin_Page {
 		return false;
 	}
 
-	public function get_admin_page() {
-		return 'yoast-version-controller';
-	}
-
 	/**
 	 * @param Plugin $plugin
 	 * @param        $version
 	 */
 	protected function update_plugin_version( Plugin $plugin, $version ) {
-		$data                               = get_option( $plugin->get_version_option_name() );
-		$data[ $plugin->get_version_key() ] = $version;
-
-		update_option( $plugin->get_version_option_name(), $data );
-
+		$this->version_control->update_version( $plugin, $version );
 		$this->option_control->save_options( $plugin );
 	}
 
@@ -196,6 +186,9 @@ class Admin_Page {
 			);
 	}
 
+	/**
+	 *
+	 */
 	public function reset_feature() {
 		foreach ( $this->plugins as $plugin ) {
 			echo $plugin->get_identifier();

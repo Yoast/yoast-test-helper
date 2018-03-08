@@ -27,7 +27,7 @@ class Plugin {
 			new Local_SEO()
 		];
 
-		$this->integrations[] = new Admin_Page( $plugins, new Option_Control() );
+		$this->integrations[] = new Admin_Page( $plugins, new Option_Control(), new Version_Control() );
 	}
 
 	/**
