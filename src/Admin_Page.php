@@ -124,19 +124,21 @@ class Admin_Page implements Integration {
 	 */
 	protected function get_option_history_select( Plugin $plugin ) {
 		$history    = $this->plugin_options->get_saved_options( $plugin );
-		$timestamps = array_reverse( array_keys( $history ) );
+		$history = array_reverse( $history, true );
 
 		return sprintf(
 			'<select name="%s"><option value=""></option>%s</select>',
 			esc_attr( $plugin->get_identifier() . '-history' ),
 			implode(
 				'', array_map(
-					function ( $item ) {
+					function ( $timestamp, $item ) use ( $plugin ) {
+						$version = $item[ $plugin->get_version_option_name() ][ $plugin->get_version_key() ];
 						return sprintf(
-							'<option value="%s">%s</option>', esc_attr( $item ),
-							esc_html( date( 'Y-m-d H:i:s', $item ) )
+							'<option value="%s">(%s) %s</option>', esc_attr( $timestamp ),
+							esc_html( $version ),
+							esc_html( date( 'Y-m-d H:i:s', $timestamp ) )
 						);
-					}, $timestamps
+					}, array_keys( $history ), $history
 				)
 			)
 		);
