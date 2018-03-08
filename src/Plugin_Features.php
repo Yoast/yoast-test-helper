@@ -44,13 +44,13 @@ class Plugin_Features implements Integration {
 			$form,
 			implode(
 				'', array_map(
-					function ( $feature ) {
+					function ( $name, $feature ) {
 							return sprintf(
 								'<button name="%s" type="submit" class="button">Reset %s</button> ',
 								$feature,
-								$feature
+								$name
 							);
-					}, $features
+					}, $features, array_keys( $features )
 				)
 			)
 		);
@@ -65,12 +65,12 @@ class Plugin_Features implements Integration {
 				continue;
 			}
 
-			foreach ( $plugin->get_features() as $feature ) {
+			foreach ( $plugin->get_features() as $feature => $name ) {
 				if ( isset( $_POST[ $feature ] ) ) {
 					$plugin->reset_feature( $feature );
 
 					$notification = new Notification(
-						$plugin->get_name() . ' feature <strong>' . $feature . '</strong> has been reset.',
+						$plugin->get_name() . ' feature <strong>' . $name . '</strong> has been reset.',
 						'success'
 					);
 					do_action( 'yoast_version_controller_notification', $notification );

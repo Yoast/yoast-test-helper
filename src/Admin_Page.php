@@ -148,8 +148,7 @@ class Admin_Page implements Integration {
 	public function handle_submit() {
 		if ( ! $this->load_history() ) {
 			foreach ( $this->plugins as $plugin ) {
-				$version = $_POST[ $plugin->get_identifier() ];
-				$this->update_plugin_version( $plugin, $version );
+				$this->update_plugin_version( $plugin, $_POST[ $plugin->get_identifier() ] );
 			}
 		}
 

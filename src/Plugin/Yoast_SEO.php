@@ -49,8 +49,8 @@ class Yoast_SEO implements Plugin {
 	 */
 	public function get_features() {
 		return [
-			'internal_link_count',
-			'prominent_words_calculation',
+			'internal_link_count' => 'Internal link counter',
+			'prominent_words_calculation' => 'Prominent words calculation',
 		];
 	}
 
