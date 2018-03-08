@@ -39,7 +39,9 @@ class Yoast_SEO implements Plugin {
 			'wpseo',
 			'wpseo_xml',
 			'wpseo_rss',
+			'wpseo_ms',
 			'wpseo_internallinks',
+			'wpseo_permalinks',
 			'wpseo_titles',
 		];
 	}
