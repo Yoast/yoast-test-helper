@@ -21,10 +21,10 @@ class Plugin {
 	public function __construct() {
 		$plugins = [
 			new Yoast_SEO(),
-			new WooCommerce_SEO(),
+			new Local_SEO(),
 			new Video_SEO(),
 			new News_SEO(),
-			new Local_SEO()
+			new WooCommerce_SEO(),
 		];
 
 		$plugin_features = new Plugin_Features( $plugins );
