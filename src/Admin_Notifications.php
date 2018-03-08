@@ -58,7 +58,7 @@ class Admin_Notifications implements Integration {
 	 * @return string
 	 */
 	protected function get_option_name() {
-		return 'wpseo_version_control_notifications';
+		return 'yoast_version_control_notifications';
 	}
 
 	/**
