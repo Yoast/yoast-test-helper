@@ -57,6 +57,6 @@ class WooCommerce_SEO implements Plugin {
 	 * @return string
 	 */
 	public function get_version_constant() {
-		return class_exists('\Yoast_WooCommerce_SEO') ? \Yoast_WooCommerce_SEO::VERSION : 'not active';
+		return class_exists( '\Yoast_WooCommerce_SEO' ) ? \Yoast_WooCommerce_SEO::VERSION : 'not active';
 	}
 }

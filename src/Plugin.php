@@ -10,9 +10,11 @@ use Yoast\Version_Controller\Plugin\Yoast_SEO;
 
 /**
  * Class Plugin
+ *
  * @package Yoast\Version_Controller
  */
-class Plugin {
+class Plugin implements Integration {
+	/** @var Integration[] List of integrations */
 	protected $integrations = [];
 
 	/**
@@ -45,7 +47,7 @@ class Plugin {
 	 */
 	public function add_hooks() {
 		array_map(
-			function ( $integration ) {
+			function ( Integration $integration ) {
 				$integration->add_hooks();
 			},
 			$this->integrations

@@ -2,16 +2,21 @@
 
 namespace Yoast\Version_Controller;
 
-class Admin_Notifications {
+class Admin_Notifications implements Integration {
 	/** @var Notification[] */
 	protected $notifications;
 
+	/**
+	 *
+	 */
 	public function add_hooks() {
-		add_action( 'yoast_version_controller-notification', [ $this, 'add_notification' ], 10, 2 );
-
-		add_action( 'yoast_version_controller-notifications', [ $this, 'display_notifications' ] );
+		add_action( 'yoast_version_controller_notification', [ $this, 'add_notification' ], 10, 2 );
+		add_action( 'yoast_version_controller_notifications', [ $this, 'display_notifications' ] );
 	}
 
+	/**
+	 * @param Notification $notification
+	 */
 	public function add_notification( Notification $notification ) {
 		$notifications   = $this->get_notifications();
 		$notifications[] = $notification;
@@ -19,6 +24,9 @@ class Admin_Notifications {
 		$this->save_notifications( $notifications );
 	}
 
+	/**
+	 *
+	 */
 	public function display_notifications() {
 		$notifications = $this->get_notifications();
 		if ( ! $notifications ) {
@@ -46,6 +54,9 @@ class Admin_Notifications {
 		return $saved;
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function get_option_name() {
 		return 'wpseo_version_control_notifications';
 	}

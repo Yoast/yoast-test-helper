@@ -4,7 +4,7 @@ namespace Yoast\Version_Controller;
 
 use Yoast\Version_Controller\Plugin\Plugin;
 
-class Plugin_Features {
+class Plugin_Features implements Integration {
 	/** @var Plugin[] */
 	protected $plugins;
 
@@ -36,20 +36,24 @@ class Plugin_Features {
 		}
 
 		$form = '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">' .
-		        '<input type="hidden" name="action" value="' . $plugin->get_identifier() . '-feature-reset">';
+				'<input type="hidden" name="action" value="' . $plugin->get_identifier() . '-feature-reset">';
 
-		return
-			sprintf( '<h2>%s</h2>%s%s</form>',
-				esc_html( $plugin->get_name() ),
-				$form,
-				implode( '', array_map( function ( $feature ) {
-					return sprintf(
-						'<button name="%s" type="submit" class="button">Reset %s</button> ',
-						$feature,
-						$feature
-					);
-				}, $features ) )
-			);
+		return sprintf(
+			'<h2>%s</h2>%s%s</form>',
+			esc_html( $plugin->get_name() ),
+			$form,
+			implode(
+				'', array_map(
+					function ( $feature ) {
+							return sprintf(
+								'<button name="%s" type="submit" class="button">Reset %s</button> ',
+								$feature,
+								$feature
+							);
+					}, $features
+				)
+			)
+		);
 	}
 
 	/**
@@ -69,13 +73,13 @@ class Plugin_Features {
 						$plugin->get_name() . ' feature <strong>' . $feature . '</strong> has been reset.',
 						'success'
 					);
-					do_action( 'yoast_version_controller-notification', $notification );
+					do_action( 'yoast_version_controller_notification', $notification );
 				}
 			}
 
 			break;
 		}
 
-		wp_redirect( self_admin_url( '?page=' . apply_filters( 'wpseo_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( '?page=' . apply_filters( 'wpseo_version_control_admin_page', '' ) ) );
 	}
 }

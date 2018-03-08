@@ -4,7 +4,7 @@ namespace Yoast\Version_Controller;
 
 use Yoast\Version_Controller\Plugin\Plugin;
 
-class Admin_Page {
+class Admin_Page implements Integration {
 	/** @var Plugin[] Plugins */
 	protected $plugins;
 
@@ -76,18 +76,18 @@ class Admin_Page {
 	public function show_admin_page() {
 		echo '<h1>Yoast Version Controller</h1>';
 
-		do_action( 'yoast_version_controller-notifications' );
+		do_action( 'yoast_version_controller_notifications' );
 
 		echo '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
 		echo '<input type="hidden" name="action" value="yoast_version_control">';
 
 		echo '<table>';
 		echo '<thead><tr>' .
-		     '<th style="text-align:left;">Plugin</th>' .
-		     '<th style="text-align:left;">DB Version</th>' .
-		     '<th style="text-align:left;">Real</th>' .
-		     '<th style="text-align:left;">Saved options</th>' .
-		     '</tr></thead>';
+			 '<th style="text-align:left;">Plugin</th>' .
+			 '<th style="text-align:left;">DB Version</th>' .
+			 '<th style="text-align:left;">Real</th>' .
+			 '<th style="text-align:left;">Saved options</th>' .
+			 '</tr></thead>';
 
 		foreach ( $this->plugins as $plugin ) {
 			echo $this->get_plugin_option( $plugin );
@@ -129,10 +129,16 @@ class Admin_Page {
 		return sprintf(
 			'<select name="%s"><option value=""></option>%s</select>',
 			esc_attr( $plugin->get_identifier() . '-history' ),
-			implode( '', array_map( function ( $item ) {
-				return sprintf( '<option value="%s">%s</option>', esc_attr( $item ),
-					esc_html( date( 'Y-m-d H:i:s', $item ) ) );
-			}, $timestamps ) )
+			implode(
+				'', array_map(
+					function ( $item ) {
+						return sprintf(
+							'<option value="%s">%s</option>', esc_attr( $item ),
+							esc_html( date( 'Y-m-d H:i:s', $item ) )
+						);
+					}, $timestamps
+				)
+			)
 		);
 	}
 
@@ -147,7 +153,7 @@ class Admin_Page {
 			}
 		}
 
-		wp_redirect( self_admin_url( '?page=' . $this->get_admin_page() ) );
+		wp_safe_redirect( self_admin_url( '?page=' . $this->get_admin_page() ) );
 	}
 
 	/**
@@ -172,7 +178,7 @@ class Admin_Page {
 					);
 				}
 
-				do_action( 'yoast_version_controller-notification', $notification );
+				do_action( 'yoast_version_controller_notification', $notification );
 
 				return true;
 			}
@@ -182,13 +188,13 @@ class Admin_Page {
 	}
 
 	/**
-	 * @param Plugin $plugin
+	 * @param Plugin  $plugin
 	 * @param        $version
 	 */
 	protected function update_plugin_version( Plugin $plugin, $version ) {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
 			do_action(
-				'yoast_version_controller-notification',
+				'yoast_version_controller_notification',
 				new Notification( $plugin->get_name() . ' version was set to ' . $version, 'success' )
 			);
 		}
@@ -196,7 +202,7 @@ class Admin_Page {
 		$this->plugin_options->save_options( $plugin );
 
 		do_action(
-			'yoast_version_controller-notification',
+			'yoast_version_controller_notification',
 			new Notification( $plugin->get_name() . ' options were saved.', 'success' )
 		);
 	}

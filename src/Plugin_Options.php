@@ -55,6 +55,8 @@ class Plugin_Options {
 	/**
 	 * @param Plugin $plugin
 	 * @param int    $timestamp
+	 *
+	 * @return bool
 	 */
 	public function restore_options( Plugin $plugin, $timestamp ) {
 		$history = $this->get_saved_options( $plugin );

@@ -50,7 +50,7 @@ class Yoast_SEO implements Plugin {
 	public function get_features() {
 		return [
 			'internal_link_count',
-			'prominent_words_calculation'
+			'prominent_words_calculation',
 		];
 	}
 
@@ -90,6 +90,6 @@ class Yoast_SEO implements Plugin {
 	 * @return string
 	 */
 	public function get_version_constant() {
-		return defined('WPSEO_VERSION') ? WPSEO_VERSION : 'not active';
+		return defined( 'WPSEO_VERSION' ) ? WPSEO_VERSION : 'not active';
 	}
 }
