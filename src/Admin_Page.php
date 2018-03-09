@@ -2,39 +2,16 @@
 
 namespace Yoast\Version_Controller;
 
-use Yoast\Version_Controller\WordPress_Plugins\WordPress_Plugin;
-
 class Admin_Page implements Integration {
-	/** @var WordPress_Plugin[] Plugins */
-	protected $plugins;
-
-	/** @var WordPress_Plugin_Options */
-	protected $plugin_options;
-
-	/** @var WordPress_Plugin_Version */
-	protected $plugin_version;
-
-	/** @var WordPress_Plugin_Features */
-	protected $plugin_features;
+	protected $admin_page_blocks = [];
 
 	/**
-	 * Admin_Page constructor.
 	 *
-	 * @param                 $plugins
-	 * @param WordPress_Plugin_Options $plugin_options
-	 * @param WordPress_Plugin_Version $plugin_version
-	 * @param WordPress_Plugin_Features $plugin_features
 	 */
-	public function __construct(
-		$plugins,
-		WordPress_Plugin_Options $plugin_options,
-		WordPress_Plugin_Version $plugin_version,
-		WordPress_Plugin_Features $plugin_features
-	) {
-		$this->plugins         = $plugins;
-		$this->plugin_options  = $plugin_options;
-		$this->plugin_version  = $plugin_version;
-		$this->plugin_features = $plugin_features;
+	public function add_hooks() {
+		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
+
+		add_filter( 'yoast_version_control_admin_page', [ $this, 'get_admin_page' ] );
 	}
 
 	/**
@@ -42,27 +19,6 @@ class Admin_Page implements Integration {
 	 */
 	public function get_admin_page() {
 		return 'yoast-version-controller';
-	}
-
-	/**
-	 *
-	 */
-	public function add_hooks() {
-		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
-		add_action( 'admin_post_yoast_version_control', [ $this, 'handle_submit' ] );
-
-		add_action( 'wpseo_run_upgrade', [ $this, 'add_upgrade_ran_notification' ] );
-
-		// Expose the admin page we are running on.
-		add_filter( 'yoast_version_control_admin_page', [ $this, 'get_admin_page' ] );
-	}
-
-	/**
-	 *
-	 */
-	public function add_upgrade_ran_notification() {
-		$notification = new Notification( 'The WPSEO upgrade routine was executed.', 'success' );
-		do_action( 'yoast_version_controller_notification', $notification );
 	}
 
 	/**
@@ -81,6 +37,13 @@ class Admin_Page implements Integration {
 	}
 
 	/**
+	 * @param callable $block
+	 */
+	public function add_admin_page_block( callable $block ) {
+		$this->admin_page_blocks[] = $block;
+	}
+
+	/**
 	 *
 	 */
 	public function show_admin_page() {
@@ -88,134 +51,9 @@ class Admin_Page implements Integration {
 
 		do_action( 'yoast_version_controller_notifications' );
 
-		echo '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		echo '<input type="hidden" name="action" value="yoast_version_control">';
-
-		echo '<table>';
-		echo '<thead><tr>' .
-			 '<th style="text-align:left;">Plugin</th>' .
-			 '<th style="text-align:left;">DB Version</th>' .
-			 '<th style="text-align:left;">Real</th>' .
-			 '<th style="text-align:left;">Saved options</th>' .
-			 '</tr></thead>';
-
-		foreach ( $this->plugins as $plugin ) {
-			echo $this->get_plugin_option( $plugin );
-		}
-		echo '</table>';
-
-		echo '<button class="button button-primary">Save</button>';
-		echo '</form>';
-
-		// Show feature resets.
-		echo $this->plugin_features->get_controls();
-	}
-
-	/**
-	 * @param WordPress_Plugin $plugin
-	 *
-	 * @return string
-	 */
-	protected function get_plugin_option( WordPress_Plugin $plugin ) {
-		return sprintf(
-			'<tr><td>%s:</td><td><input type="text" name="%s" value="%s" maxlength="7" size="8"></td><td>(%s)</td><td>%s</td></tr>',
-			esc_html( $plugin->get_name() ),
-			esc_attr( $plugin->get_identifier() ),
-			esc_attr( $this->plugin_version->get_version( $plugin ) ),
-			esc_html( $plugin->get_version_constant() ),
-			$this->get_option_history_select( $plugin )
-		);
-	}
-
-	/**
-	 * @param WordPress_Plugin $plugin
-	 *
-	 * @return string
-	 */
-	protected function get_option_history_select( WordPress_Plugin $plugin ) {
-		$history    = $this->plugin_options->get_saved_options( $plugin );
-		$history = array_reverse( $history, true );
-
-		return sprintf(
-			'<select name="%s"><option value=""></option>%s</select>',
-			esc_attr( $plugin->get_identifier() . '-history' ),
-			implode(
-				'', array_map(
-					function ( $timestamp, $item ) use ( $plugin ) {
-						$version = $item[ $plugin->get_version_option_name() ][ $plugin->get_version_key() ];
-						return sprintf(
-							'<option value="%s">(%s) %s</option>', esc_attr( $timestamp ),
-							esc_html( $version ),
-							esc_html( date( 'Y-m-d H:i:s', $timestamp ) )
-						);
-					}, array_keys( $history ), $history
-				)
-			)
-		);
-	}
-
-	/**
-	 *
-	 */
-	public function handle_submit() {
-		if ( ! $this->load_history() ) {
-			foreach ( $this->plugins as $plugin ) {
-				$this->update_plugin_version( $plugin, $_POST[ $plugin->get_identifier() ] );
-			}
-		}
-
-		wp_safe_redirect( self_admin_url( '?page=' . $this->get_admin_page() ) );
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function load_history() {
-		foreach ( $this->plugins as $plugin ) {
-			// if -history is set, load the history item, otherwise save.
-			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
-			if ( ! empty( $timestamp ) ) {
-				$notification = new Notification(
-					'Options from ' . date( 'Y-m-d H:i:s', $timestamp ) .
-					' for ' . $plugin->get_name() . ' have <strong>not</strong> been restored.',
-					'error'
-				);
-
-				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
-					$notification = new Notification(
-						'Options from ' . date( 'Y-m-d H:i:s', $timestamp ) .
-						' for ' . $plugin->get_name() . ' have been restored.',
-						'success'
-					);
-				}
-
-				do_action( 'yoast_version_controller_notification', $notification );
-
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * @param WordPress_Plugin $plugin
-	 * @param        $version
-	 */
-	protected function update_plugin_version( WordPress_Plugin $plugin, $version ) {
-		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
-			do_action(
-				'yoast_version_controller_notification',
-				new Notification( $plugin->get_name() . ' version was set to ' . $version, 'success' )
-			);
-		}
-
-		if ( $this->plugin_options->save_options( $plugin ) ) {
-			do_action(
-				'yoast_version_controller_notification',
-				new Notification( $plugin->get_name() . ' options were saved.', 'success' )
-			);
-		}
+		array_map( function ( $block ) {
+			echo $block();
+		}, $this->admin_page_blocks );
 	}
 
 	/**

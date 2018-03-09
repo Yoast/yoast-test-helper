@@ -28,18 +28,22 @@ class Plugin implements Integration {
 			new News_SEO(),
 			new WooCommerce_SEO(),
 		];
-
 		$plugin_features = new WordPress_Plugin_Features( $plugins );
-
-		$this->integrations[] = new Admin_Page(
+		$plugin_version_control = new WordPress_Plugin_Version_Control(
 			$plugins,
-			new WordPress_Plugin_Options(),
 			new WordPress_Plugin_Version(),
-			$plugin_features
+			new WordPress_Plugin_Options()
 		);
 
-		$this->integrations[] = $plugin_features;
+		$admin_page = new Admin_Page();
+		$admin_page->add_admin_page_block( [ $plugin_version_control, 'get_controls' ] );
+		$admin_page->add_admin_page_block( [ $plugin_features, 'get_controls' ] );
+
 		$this->integrations[] = new Admin_Notifications();
+		$this->integrations[] = new Upgrade_Detector;
+		$this->integrations[] = $admin_page;
+		$this->integrations[] = $plugin_features;
+		$this->integrations[] = $plugin_version_control;
 	}
 
 	/**
