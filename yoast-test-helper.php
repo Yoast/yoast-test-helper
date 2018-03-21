@@ -35,5 +35,5 @@ define( 'YOAST_TEST_HELPER_DIR', dirname( YOAST_TEST_HELPER_FILE ) );
 
 require __DIR__ . '/vendor/autoload.php';
 
-$yoast_version_controller = new Yoast\Test_Helper\Plugin();
-$yoast_version_controller->add_hooks();
+$yoast_test_helper = new Yoast\Test_Helper\Plugin();
+$yoast_test_helper->add_hooks();
