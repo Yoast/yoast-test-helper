@@ -1,16 +1,16 @@
 <?php
 /**
- * Yoast Version Controller plugin.
+ * Yoast Test Helper plugin.
  *
- * @package Yoast_Version_Controller\Main
+ * @package Yoast\Test_Helper
  *
- * Plugin Name: Yoast tools: Version controller
+ * Plugin Name: Yoast Development: Test Helper
  * Version: 1.0
  * Plugin URI: https://github.com/yoast/yoast-version-controller
- * Description: Manager Yoast Database Version to test upgrade routines.
+ * Description: Utility to provide testing features for Yoast plugins.
  * Author: Team Yoast
  * Author URI: https://yoast.com/
- * Text Domain: yoast-version-controller
+ * Text Domain: yoast-test-helper
  * Domain Path: /languages/
  * License: GPL v3
  *
@@ -30,7 +30,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+define( 'YOAST_TEST_HELPER_FILE', __FILE__ );
+define( 'YOAST_TEST_HELPER_DIR', dirname( YOAST_TEST_HELPER_FILE ) );
+
 require __DIR__ . '/vendor/autoload.php';
 
-$yoast_version_controller = new Yoast\Version_Controller\Plugin();
+$yoast_version_controller = new Yoast\Test_Helper\Plugin();
 $yoast_version_controller->add_hooks();

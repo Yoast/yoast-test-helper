@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\Version_Controller;
+namespace Yoast\Test_Helper;
 
-use Yoast\Version_Controller\WordPress_Plugins\WordPress_Plugin;
+use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 class WordPress_Plugin_Version {
 	/**
@@ -28,6 +28,10 @@ class WordPress_Plugin_Version {
 	public function update_version( WordPress_Plugin $plugin, $version ) {
 		$option_name = $plugin->get_version_option_name();
 		$data        = get_option( $option_name );
+
+		if ( empty( $version ) ) {
+			return false;
+		}
 
 		if ( $data[ $plugin->get_version_key() ] === $version ) {
 			return false;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Version_Controller\WordPress_Plugins;
+namespace Yoast\Test_Helper\WordPress_Plugins;
 
 class WooCommerce_SEO implements WordPress_Plugin {
 	/**

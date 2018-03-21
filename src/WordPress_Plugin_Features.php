@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\Version_Controller;
+namespace Yoast\Test_Helper;
 
-use Yoast\Version_Controller\WordPress_Plugins\WordPress_Plugin;
+use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 class WordPress_Plugin_Features implements Integration {
 	/** @var WordPress_Plugin[] */

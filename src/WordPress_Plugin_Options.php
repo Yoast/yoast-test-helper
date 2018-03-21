@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\Version_Controller;
+namespace Yoast\Test_Helper;
 
-use Yoast\Version_Controller\WordPress_Plugins\WordPress_Plugin;
+use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 class WordPress_Plugin_Options {
 	/**
@@ -23,7 +23,10 @@ class WordPress_Plugin_Options {
 		$data = [];
 
 		foreach ( $options as $option ) {
-			$data[ $option ] = get_option( $option, array() );
+			$option_value = $this->get_option( $option );
+			if ( $option_value !== array() ) {
+				$data[ $option ] = $option_value;
+			}
 		}
 
 		return $data;
@@ -31,20 +34,24 @@ class WordPress_Plugin_Options {
 
 	/**
 	 * @param WordPress_Plugin $plugin
-	 * @param        $data
+	 * @param                  $data
 	 *
 	 * @return bool
 	 */
 	protected function save_data( WordPress_Plugin $plugin, $data ) {
+		if ( empty( $data ) ) {
+			return false;
+		}
+
 		$option_name = $this->get_option_name( $plugin );
 
 		$current_data           = (array) get_option( $option_name, array() );
 		$current_data[ time() ] = $data;
 
 		// Only keep the 10 latest entries.
-		$current_data = array_slice( $current_data, -6, 6, true );
+		$current_data = array_slice( $current_data, - 6, 6, true );
 
-		return update_option( $this->get_option_name( $plugin ), $current_data );
+		return update_option( $this->get_option_name( $plugin ), $current_data, false );
 	}
 
 	/**
@@ -53,7 +60,23 @@ class WordPress_Plugin_Options {
 	 * @return array
 	 */
 	public function get_saved_options( WordPress_Plugin $plugin ) {
-		return (array) get_option( $this->get_option_name( $plugin ), array() );
+		return $this->get_option( $this->get_option_name( $plugin ) );
+	}
+
+	protected function get_option( $name ) {
+		global $wpdb;
+
+		$sql = $wpdb->prepare(
+			"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
+			$name
+		);
+
+		$result = $wpdb->get_col( $sql );
+		if ( empty( $result ) ) {
+			return array();
+		}
+
+		return maybe_unserialize( $result[0] );
 	}
 
 	/**
@@ -70,7 +93,13 @@ class WordPress_Plugin_Options {
 
 		foreach ( $history[ $timestamp ] as $option_name => $option_value ) {
 			$this->unhook_option_sanitization( $option_name );
-			update_option( $option_name, $option_value );
+
+			if ( $option_value === array() ) {
+				delete_option( $option_name );
+			} else {
+				update_option( $option_name, $option_value, false );
+			}
+
 			$this->hook_option_sanitization( $option_name );
 		}
 

@@ -10,7 +10,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Yoast\\Version_Controller\\": "src/"
+      "Yoast\\Test_Helper\\": "src/"
     }
   },
   "require": {},

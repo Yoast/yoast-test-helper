@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Version_Controller;
+namespace Yoast\Test_Helper;
 
 class Admin_Page implements Integration {
 	protected $admin_page_blocks = [];
@@ -26,8 +26,8 @@ class Admin_Page implements Integration {
 	 */
 	public function register_admin_menu() {
 		add_menu_page(
-			'Yoast Dev',
-			'SEO VC',
+			'Yoast Test',
+			'Yoast Test',
 			'manage_options',
 			sanitize_key( $this->get_admin_page() ),
 			[ $this, 'show_admin_page' ],
@@ -47,7 +47,7 @@ class Admin_Page implements Integration {
 	 *
 	 */
 	public function show_admin_page() {
-		echo '<h1>Yoast Version Controller</h1>';
+		echo '<h1>Yoast Test Helper</h1>';
 
 		do_action( 'yoast_version_controller_notifications' );
 

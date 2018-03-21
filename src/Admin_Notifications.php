@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Version_Controller;
+namespace Yoast\Test_Helper;
 
 class Admin_Notifications implements Integration {
 	/** @var Notification[] */

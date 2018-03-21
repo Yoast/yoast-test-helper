@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\Version_Controller;
+namespace Yoast\Test_Helper;
 
-use Yoast\Version_Controller\WordPress_Plugins\Local_SEO;
-use Yoast\Version_Controller\WordPress_Plugins\News_SEO;
-use Yoast\Version_Controller\WordPress_Plugins\Video_SEO;
-use Yoast\Version_Controller\WordPress_Plugins\WooCommerce_SEO;
-use Yoast\Version_Controller\WordPress_Plugins\Yoast_SEO;
+use Yoast\Test_Helper\WordPress_Plugins\Local_SEO;
+use Yoast\Test_Helper\WordPress_Plugins\News_SEO;
+use Yoast\Test_Helper\WordPress_Plugins\Video_SEO;
+use Yoast\Test_Helper\WordPress_Plugins\WooCommerce_SEO;
+use Yoast\Test_Helper\WordPress_Plugins\Yoast_SEO;
 
 /**
  * Class Plugin
@@ -44,6 +44,7 @@ class Plugin implements Integration {
 		$this->integrations[] = $admin_page;
 		$this->integrations[] = $plugin_features;
 		$this->integrations[] = $plugin_version_control;
+		$this->integrations[] = new Plugin_Toggler();
 	}
 
 	/**
