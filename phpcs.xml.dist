@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ruleset name="Yoast Test Helper">
+    <description>Yoast Test Helper rules for PHP_CodeSniffer</description>
+
+    <file>.</file>
+
+    <exclude-pattern>vendor/*</exclude-pattern>
+
+    <arg name="extensions" value="php"/>
+    <arg value="sp"/>
+
+    <config name="testVersion" value="5.3-"/>
+
+    <rule ref="Yoast">
+        <!-- Exclude PHP 5.2 sniffs -->
+        <exclude name="PHPCompatibility.PHP.NewLanguageConstructs.t_ns_separatorFound" />
+        <exclude name="PHPCompatibility.PHP.NewKeywords.t_namespaceFound" />
+        <exclude name="PHPCompatibility.PHP.NewKeywords.t_useFound" />
+        <exclude name="PHPCompatibility.PHP.NewKeywords.t_dirFound" />
+        <exclude name="PHPCompatibility.PHP.NewClosure.Found" />
+        <exclude name="Yoast.Files.FileName" />
+        <exclude name="WordPress.VIP" />
+    </rule>
+
+    <!--<rule ref="WordPress.NamingConventions.ValidVariableName">-->
+        <!--<properties>-->
+            <!--<property name="customVariablesWhitelist" type="array" value="pageUrl,responseCode,siteEntry,siteUrl,countPerTypes,urlCrawlErrorSample,buyUrl,infoUrl" />-->
+        <!--</properties>-->
+    <!--</rule>-->
+
+    <!-- TEMPORARY exclusion! This has to do with a bug in WPCS 0.10.0. The bug has been fixed in WPCS 0.11.0. -->
+    <!--<rule ref="WordPress.WP.I18n.UnorderedPlaceholders">-->
+        <!--<exclude-pattern>inc/class-wpseo-replace-vars.php</exclude-pattern>-->
+    <!--</rule>-->
+
+</ruleset>

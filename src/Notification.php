@@ -1,19 +1,35 @@
 <?php
+/**
+ * Test Helper notification.
+ *
+ * @package Yoast\Test_Helper
+ */
 
 namespace Yoast\Test_Helper;
 
+/**
+ * Test Helper Notification.
+ */
 class Notification {
-	/** @var string */
+	/**
+	 * The notification copy.
+	 *
+	 * @var string
+	 */
 	protected $message = '';
 
-	/** @var string */
+	/**
+	 * The type of the notification.
+	 *
+	 * @var string
+	 */
 	protected $type = '';
 
 	/**
-	 * Notification constructor.
+	 * Constructs a notification.
 	 *
-	 * @param string $message
-	 * @param string $type
+	 * @param string $message Notification message.
+	 * @param string $type    Notification type.
 	 */
 	public function __construct( $message, $type = 'info' ) {
 		$this->message = $message;
@@ -21,14 +37,18 @@ class Notification {
 	}
 
 	/**
-	 * @return string
+	 * Returns the notification type.
+	 *
+	 * @return string The notification type.
 	 */
 	public function get_type() {
 		return $this->type;
 	}
 
 	/**
-	 * @return string
+	 * Returns the notification copy.
+	 *
+	 * @return string The notification copy.
 	 */
 	public function get_message() {
 		return $this->message;

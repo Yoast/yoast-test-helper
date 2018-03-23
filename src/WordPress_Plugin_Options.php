@@ -1,26 +1,38 @@
 <?php
+/**
+ * Manage Plugin Options.
+ *
+ * @package Yoast\Test_Helper
+ */
 
 namespace Yoast\Test_Helper;
 
 use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
+/**
+ * Store and retrieve plugin options.
+ */
 class WordPress_Plugin_Options {
 	/**
-	 * @param WordPress_Plugin $plugin
+	 * Saves the options for a specific plugin.
 	 *
-	 * @return bool
+	 * @param WordPress_Plugin $plugin The plugin to save options of.
+	 *
+	 * @return bool True if options were saved.
 	 */
 	public function save_options( WordPress_Plugin $plugin ) {
 		return $this->save_data( $plugin, $this->collect_data( $plugin->get_options() ) );
 	}
 
 	/**
-	 * @param array $options
+	 * Collects the data from specified options.
 	 *
-	 * @return array
+	 * @param array $options Options to collect.
+	 *
+	 * @return array Data collected.
 	 */
 	protected function collect_data( array $options ) {
-		$data = [];
+		$data = array();
 
 		foreach ( $options as $option ) {
 			$option_value = $this->get_option( $option );
@@ -33,10 +45,12 @@ class WordPress_Plugin_Options {
 	}
 
 	/**
-	 * @param WordPress_Plugin $plugin
-	 * @param                  $data
+	 * Stores the data of a specific plugin.
 	 *
-	 * @return bool
+	 * @param WordPress_Plugin $plugin Plugin to store data of.
+	 * @param array            $data   Data to store.
+	 *
+	 * @return bool True if stored.
 	 */
 	protected function save_data( WordPress_Plugin $plugin, $data ) {
 		if ( empty( $data ) ) {
@@ -55,23 +69,35 @@ class WordPress_Plugin_Options {
 	}
 
 	/**
-	 * @param WordPress_Plugin $plugin
+	 * Retrieves saved options for a specific plugin.
 	 *
-	 * @return array
+	 * @param WordPress_Plugin $plugin Plugin to retrieve options of.
+	 *
+	 * @return array Stored data.
 	 */
 	public function get_saved_options( WordPress_Plugin $plugin ) {
 		return $this->get_option( $this->get_option_name( $plugin ) );
 	}
 
+	/**
+	 * Retrieves the data of a specific option.
+	 *
+	 * Does not use the WordPress API to make sure raw data is retrieved.
+	 *
+	 * @param string $name Name of the option to retrieve.
+	 *
+	 * @return array|mixed Contents of the option.
+	 */
 	protected function get_option( $name ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare(
-			"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
-			$name
+		$result = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
+				$name
+			)
 		);
 
-		$result = $wpdb->get_col( $sql );
 		if ( empty( $result ) ) {
 			return array();
 		}
@@ -80,10 +106,12 @@ class WordPress_Plugin_Options {
 	}
 
 	/**
-	 * @param WordPress_Plugin $plugin
-	 * @param int              $timestamp
+	 * Restores options of a specific plugin.
 	 *
-	 * @return bool
+	 * @param WordPress_Plugin $plugin    Plugin to restore options of.
+	 * @param int              $timestamp Specific save point to restore.
+	 *
+	 * @return bool True on succes.
 	 */
 	public function restore_options( WordPress_Plugin $plugin, $timestamp ) {
 		$history = $this->get_saved_options( $plugin );
@@ -96,7 +124,8 @@ class WordPress_Plugin_Options {
 
 			if ( $option_value === array() ) {
 				delete_option( $option_name );
-			} else {
+			}
+			else {
 				update_option( $option_name, $option_value, false );
 			}
 
@@ -107,7 +136,11 @@ class WordPress_Plugin_Options {
 	}
 
 	/**
-	 * @param $option_name
+	 * Unhooks option sanitization filters.
+	 *
+	 * @param string $option_name Option name to unhook the filters of.
+	 *
+	 * @return void
 	 */
 	public function unhook_option_sanitization( $option_name ) {
 		// Unhook option sanitization, otherwise the version cannot be changed.
@@ -118,7 +151,11 @@ class WordPress_Plugin_Options {
 	}
 
 	/**
-	 * @param $option_name
+	 * Hooks option sanitization filters.
+	 *
+	 * @param string $option_name Option name to hook the filters of.
+	 *
+	 * @return void
 	 */
 	public function hook_option_sanitization( $option_name ) {
 		if ( class_exists( '\WPSEO_Options' ) ) {
@@ -128,9 +165,11 @@ class WordPress_Plugin_Options {
 	}
 
 	/**
-	 * @param WordPress_Plugin $plugin
+	 * Returns the option name which stores the option data of a specific plugin.
 	 *
-	 * @return string
+	 * @param WordPress_Plugin $plugin The plugin.
+	 *
+	 * @return string The option name the data should be stored in.
 	 */
 	protected function get_option_name( WordPress_Plugin $plugin ) {
 		return 'yoast_version_backup-' . $plugin->get_identifier();

@@ -1,28 +1,47 @@
 <?php
+/**
+ * Admin page hander.
+ *
+ * @package Yoast\Test_Helper
+ */
 
 namespace Yoast\Test_Helper;
 
+/**
+ * Class to manage registering and rendering the admin page in WordPress.
+ */
 class Admin_Page implements Integration {
-	protected $admin_page_blocks = [];
+	/**
+	 * List of admin page blocks.
+	 *
+	 * @var array
+	 */
+	protected $admin_page_blocks = array();
 
 	/**
+	 * Registers WordPress hooks and filters.
 	 *
+	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
+		add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
 
-		add_filter( 'yoast_version_control_admin_page', [ $this, 'get_admin_page' ] );
+		add_filter( 'yoast_version_control_admin_page', array( $this, 'get_admin_page' ) );
 	}
 
 	/**
-	 * @return string
+	 * Retrieves the admin page identifier.
+	 *
+	 * @return string The admin page identifier.
 	 */
 	public function get_admin_page() {
 		return 'yoast-version-controller';
 	}
 
 	/**
+	 * Registers the admin menu.
 	 *
+	 * @return void
 	 */
 	public function register_admin_menu() {
 		add_menu_page(
@@ -30,34 +49,45 @@ class Admin_Page implements Integration {
 			'Yoast Test',
 			'manage_options',
 			sanitize_key( $this->get_admin_page() ),
-			[ $this, 'show_admin_page' ],
+			array( $this, 'show_admin_page' ),
 			$this->get_icon(),
 			999
 		);
 	}
 
 	/**
-	 * @param callable $block
+	 * Adds an admin block.
+	 *
+	 * @param callable $block Block to add.
+	 *
+	 * @return void
 	 */
-	public function add_admin_page_block( callable $block ) {
+	public function add_admin_page_block( $block ) {
 		$this->admin_page_blocks[] = $block;
 	}
 
 	/**
+	 * Shows the admin page.
 	 *
+	 * @return void
 	 */
 	public function show_admin_page() {
 		echo '<h1>Yoast Test Helper</h1>';
 
 		do_action( 'yoast_version_controller_notifications' );
 
-		array_map( function ( $block ) {
-			echo $block();
-		}, $this->admin_page_blocks );
+		array_map(
+			function ( $block ) {
+				// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+				echo $block();
+			}, $this->admin_page_blocks
+		);
 	}
 
 	/**
-	 * @return string
+	 * Retrieves the icon to be displayed.
+	 *
+	 * @return string Image content.
 	 */
 	protected function get_icon() {
 		if ( class_exists( '\WPSEO_Utils' ) ) {

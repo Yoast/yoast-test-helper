@@ -1,25 +1,45 @@
 <?php
+/**
+ * Admin Page plugin version control.
+ *
+ * @package Yoast\Test_Helper
+ */
 
 namespace Yoast\Test_Helper;
 
 use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
+/**
+ * Adds the plugin version controls to the admin page.
+ */
 class WordPress_Plugin_Version_Control implements Integration {
-	/** @var WordPress_Plugin_Version */
+	/**
+	 * The plugin version instance to use.
+	 *
+	 * @var WordPress_Plugin_Version
+	 */
 	protected $plugin_version;
 
-	/** @var WordPress_Plugin_Options */
+	/**
+	 * The plugin options to use.
+	 *
+	 * @var WordPress_Plugin_Options
+	 */
 	protected $plugin_options;
 
-	/** @var WordPress_Plugin[] */
+	/**
+	 * The list of plugins to use.
+	 *
+	 * @var WordPress_Plugin[]
+	 */
 	protected $plugins;
 
 	/**
 	 * WordPress_Plugin_Version_Control constructor.
 	 *
-	 * @param array                    $plugins
-	 * @param WordPress_Plugin_Version $plugin_version
-	 * @param WordPress_Plugin_Options $plugin_options
+	 * @param array                    $plugins        Plugins to use.
+	 * @param WordPress_Plugin_Version $plugin_version Plugin version to use.
+	 * @param WordPress_Plugin_Options $plugin_options Plugin options to use.
 	 */
 	public function __construct(
 		array $plugins,
@@ -32,26 +52,30 @@ class WordPress_Plugin_Version_Control implements Integration {
 	}
 
 	/**
-	 * @return mixed|void
+	 * Registers WordPress hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'admin_post_yoast_version_control', [ $this, 'handle_submit' ] );
+		add_action( 'admin_post_yoast_version_control', array( $this, 'handle_submit' ) );
 	}
 
 	/**
-	 * @return string
+	 * Retrieves the controls.
+	 *
+	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$output = '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
+		$output  = '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
 		$output .= '<input type="hidden" name="action" value="yoast_version_control">';
 
 		$output .= '<table>';
-		$output .= '<thead><tr>' .
-		           '<th style="text-align:left;">Plugin</th>' .
-		           '<th style="text-align:left;">DB Version</th>' .
-		           '<th style="text-align:left;">Real</th>' .
-		           '<th style="text-align:left;">Saved options</th>' .
-		           '</tr></thead>';
+		$output .= '<thead><tr>';
+		$output .= '<th style="text-align:left;">Plugin</th>';
+		$output .= '<th style="text-align:left;">DB Version</th>';
+		$output .= '<th style="text-align:left;">Real</th>';
+		$output .= '<th style="text-align:left;">Saved options</th>';
+		$output .= '</tr></thead>';
 
 		foreach ( $this->plugins as $plugin ) {
 			$output .= $this->get_plugin_option( $plugin );
@@ -65,7 +89,9 @@ class WordPress_Plugin_Version_Control implements Integration {
 	}
 
 	/**
+	 * Handles the form submit.
 	 *
+	 * @return void
 	 */
 	public function handle_submit() {
 		if ( ! $this->load_history() ) {
@@ -78,8 +104,10 @@ class WordPress_Plugin_Version_Control implements Integration {
 	}
 
 	/**
-	 * @param WordPress_Plugin $plugin
-	 * @param                  $version
+	 * Updates the plugin version.
+	 *
+	 * @param WordPress_Plugin $plugin  Plugin to update a version of.
+	 * @param string           $version Version to update.
 	 */
 	protected function update_plugin_version( WordPress_Plugin $plugin, $version ) {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
@@ -98,9 +126,11 @@ class WordPress_Plugin_Version_Control implements Integration {
 	}
 
 	/**
-	 * @param WordPress_Plugin $plugin
+	 * Retrieves a plugin option.
 	 *
-	 * @return string
+	 * @param WordPress_Plugin $plugin Plugin to retrieve the option of.
+	 *
+	 * @return string The plugin option.
 	 */
 	protected function get_plugin_option( WordPress_Plugin $plugin ) {
 		return sprintf(
@@ -114,9 +144,11 @@ class WordPress_Plugin_Version_Control implements Integration {
 	}
 
 	/**
-	 * @param WordPress_Plugin $plugin
+	 * Retrieves the plugin stored options history.
 	 *
-	 * @return string
+	 * @param WordPress_Plugin $plugin Plugin to retrieve the history of.
+	 *
+	 * @return string The plugin option history.
 	 */
 	protected function get_option_history_select( WordPress_Plugin $plugin ) {
 		$history = $this->plugin_options->get_saved_options( $plugin );
@@ -142,11 +174,13 @@ class WordPress_Plugin_Version_Control implements Integration {
 	}
 
 	/**
+	 * Loads the history.
+	 *
 	 * @return bool
 	 */
 	protected function load_history() {
 		foreach ( $this->plugins as $plugin ) {
-			// if -history is set, load the history item, otherwise save.
+			// If history is set, load the history item, otherwise save.
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(

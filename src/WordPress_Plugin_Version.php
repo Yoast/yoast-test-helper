@@ -1,14 +1,24 @@
 <?php
+/**
+ * Plugin Version helper.
+ *
+ * @package Yoast\Test_Helper
+ */
 
 namespace Yoast\Test_Helper;
 
 use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
+/**
+ * Class that retrieves and stores a plugin version.
+ */
 class WordPress_Plugin_Version {
 	/**
-	 * @param WordPress_Plugin $plugin
+	 * Retrieves the version of a specific plugin.
 	 *
-	 * @return string
+	 * @param WordPress_Plugin $plugin Plugin to retrieve the version of.
+	 *
+	 * @return string The version.
 	 */
 	public function get_version( WordPress_Plugin $plugin ) {
 		$data = get_option( $plugin->get_version_option_name() );
@@ -20,10 +30,12 @@ class WordPress_Plugin_Version {
 	}
 
 	/**
-	 * @param WordPress_Plugin $plugin
-	 * @param string           $version
+	 * Stores a plugin version.
 	 *
-	 * @return bool
+	 * @param WordPress_Plugin $plugin  Plugin to store the version of.
+	 * @param string           $version The version to store.
+	 *
+	 * @return bool True on succes.
 	 */
 	public function update_version( WordPress_Plugin $plugin, $version ) {
 		$option_name = $plugin->get_version_option_name();

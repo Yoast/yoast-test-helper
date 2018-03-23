@@ -1,61 +1,85 @@
 <?php
+/**
+ * News SEO plugin.
+ *
+ * @package Yoast\Test_Helper
+ */
 
 namespace Yoast\Test_Helper\WordPress_Plugins;
 
+/**
+ * Class to represent News SEO.
+ */
 class News_SEO implements WordPress_Plugin {
 	/**
-	 * @return string
+	 * Retrieves the plugin identifier.
+	 *
+	 * @return string The plugin identifier.
 	 */
 	public function get_identifier() {
 		return 'wpseo-news';
 	}
 
 	/**
-	 * @return string
+	 * Retrieves the plugin name.
+	 *
+	 * @return string The name of the plugin.
 	 */
 	public function get_name() {
 		return 'Yoast SEO: News';
 	}
 
 	/**
-	 * @return string
+	 * Retrieves the version option name.
+	 *
+	 * @return string The name that holds the version.
 	 */
 	public function get_version_option_name() {
 		return 'wpseo_news';
 	}
 
 	/**
-	 * @return string
+	 * Retrieves the version key.
+	 *
+	 * @return string The version key.
 	 */
 	public function get_version_key() {
 		return 'version';
 	}
 
 	/**
-	 * @return array
+	 * Retrieves the options.
+	 *
+	 * @return array The options.
 	 */
 	public function get_options() {
-		return [ $this->get_version_option_name() ];
+		return array( $this->get_version_option_name() );
 	}
 
 	/**
-	 * @param string $feature
+	 * Resets a feature.
 	 *
-	 * @return bool
+	 * @param string $feature Feature to reset.
+	 *
+	 * @return bool True on succes.
 	 */
 	public function reset_feature( $feature ) {
 		return false;
 	}
 
 	/**
-	 * @return array
+	 * Retrieves the list of features.
+	 *
+	 * @return array List of features.
 	 */
 	public function get_features() {
-		return [];
+		return array();
 	}
 
 	/**
-	 * @return string
+	 * Retrieves the active version of the plugin.
+	 *
+	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
 		return class_exists( '\WPSEO_News' ) ? \WPSEO_News::VERSION : 'not active';

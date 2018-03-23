@@ -1,5 +1,5 @@
 {
-  "name": "yoast/version-controller",
+  "name": "yoast/test-helper",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
   "authors": [
@@ -13,6 +13,9 @@
       "Yoast\\Test_Helper\\": "src/"
     }
   },
-  "require": {},
-  "require-dev": {}
+  "require-dev": {
+    "yoast/yoastcs": "^0.5",
+    "roave/security-advisories": "dev-master",
+    "dealerdirect/phpcodesniffer-composer-installer": "0.4.3"
+  }
 }
