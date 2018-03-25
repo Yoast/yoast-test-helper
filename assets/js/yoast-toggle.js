@@ -11,7 +11,7 @@ var Yoast_Plugin_Toggler = {
 			},
 			function( response ) {
 				if ( response.activated_version !== undefined ) {
-					window.history.go(0);
+					window.location.reload(true);
 				}
 			}
 		);
