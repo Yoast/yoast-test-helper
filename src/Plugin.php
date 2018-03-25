@@ -53,6 +53,8 @@ class Plugin implements Integration {
 		$this->integrations[] = $plugin_features;
 		$this->integrations[] = $plugin_version_control;
 		$this->integrations[] = new Plugin_Toggler();
+		$this->integrations[] = new Post_Types();
+		$this->integrations[] = new Taxonomies();
 	}
 
 	/**
