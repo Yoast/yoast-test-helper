@@ -22,7 +22,7 @@ class Admin_Debug_Info implements Integration {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->options = $this->get_options();
+		$this->options = Option::get_option();
 	}
 
 	/**
@@ -92,18 +92,9 @@ class Admin_Debug_Info implements Integration {
 			if ( isset( $_POST['show_options_debug'] ) ) {
 				$this->options['show_options_debug'] = true;
 			}
-			update_option( 'yoast_test_helper', $this->options );
+			Option::set_option( $this->options );
 		}
 
 		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
-	}
-
-	/**
-	 * Retrieves our options array.
-	 *
-	 * @return array
-	 */
-	private function get_options() {
-		return get_option( 'yoast_test_helper' );
 	}
 }
