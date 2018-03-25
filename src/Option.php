@@ -16,7 +16,7 @@ class Option {
 	 *
 	 * @var string
 	 */
-	public $option_name;
+	private $option_name;
 
 	/**
 	 * Holds our options.
@@ -32,6 +32,7 @@ class Option {
 	 */
 	public function __construct( $option_name = 'yoast_test_helper' ) {
 		$this->option_name = $option_name;
+		$this->options     = $this->get_option();
 	}
 
 	/**
@@ -64,7 +65,7 @@ class Option {
 	 *
 	 * @return array The Test Helper options.
 	 */
-	public function get_option() {
+	private function get_option() {
 		return get_option( $this->option_name );
 	}
 
@@ -73,7 +74,7 @@ class Option {
 	 *
 	 * @return bool False if value was not updated and true if value was updated.
 	 */
-	public function save_options() {
+	private function save_options() {
 		return update_option( $this->option_name, $this->options, false );
 	}
 }
