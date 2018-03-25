@@ -1,6 +1,7 @@
 {
   "name": "yoast/test-helper",
   "type": "wordpress-plugin",
+  "description": "Yoast plugin testing helper",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
