@@ -67,8 +67,10 @@ class WordPress_Plugin_Features implements Integration {
 			return '';
 		}
 
-		$form  = '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		$form .= '<input type="hidden" name="action" value="' . $plugin->get_identifier() . '-feature-reset">';
+		$action = $plugin->get_identifier() . '-feature-reset';
+		$form   = '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
+		$form  .= '<input type="hidden" name="action" value="' . $action . '">';
+		$form  .= wp_nonce_field( $action, '_wpnonce', true, false );
 
 		return sprintf(
 			'<h2>%s</h2>%s%s</form>',
@@ -95,7 +97,11 @@ class WordPress_Plugin_Features implements Integration {
 	 */
 	public function handle_reset_feature() {
 		foreach ( $this->plugins as $plugin ) {
-			if ( $_POST['action'] !== $plugin->get_identifier() . '-feature-reset' ) {
+			$action = $plugin->get_identifier() . '-feature-reset';
+
+			check_admin_referer( $action );
+
+			if ( $_POST['action'] !== $action ) {
 				continue;
 			}
 
@@ -118,6 +124,8 @@ class WordPress_Plugin_Features implements Integration {
 			if ( ! isset( $_POST[ $feature ] ) ) {
 				continue;
 			}
+
+			check_admin_referer( $plugin->get_identifier() . '-feature-reset' );
 
 			$notification = new Notification(
 				$plugin->get_name() . ' feature <strong>' . $name . '</strong> could not be reset.',

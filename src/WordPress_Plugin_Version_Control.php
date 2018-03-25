@@ -67,6 +67,7 @@ class WordPress_Plugin_Version_Control implements Integration {
 	 */
 	public function get_controls() {
 		$output  = '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
+		$output .= wp_nonce_field( 'yoast_version_control', '_wpnonce', true, false );
 		$output .= '<input type="hidden" name="action" value="yoast_version_control">';
 
 		$output .= '<table>';
@@ -96,6 +97,7 @@ class WordPress_Plugin_Version_Control implements Integration {
 	public function handle_submit() {
 		if ( ! $this->load_history() ) {
 			foreach ( $this->plugins as $plugin ) {
+				check_admin_referer( 'yoast_version_control' );
 				$this->update_plugin_version( $plugin, $_POST[ $plugin->get_identifier() ] );
 			}
 		}
@@ -179,6 +181,7 @@ class WordPress_Plugin_Version_Control implements Integration {
 	 * @return bool
 	 */
 	protected function load_history() {
+		check_admin_referer( 'yoast_version_control' );
 		foreach ( $this->plugins as $plugin ) {
 			// If history is set, load the history item, otherwise save.
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
