@@ -11,6 +11,19 @@ namespace Yoast\Test_Helper;
  * Toggles between plugins.
  */
 class Plugin_Toggler implements Integration {
+	/**
+	 * Holds our options.
+	 *
+	 * @var array
+	 */
+	private $options;
+
+	/**
+	 * Class constructor.
+	 */
+	public function __construct() {
+		$this->options = $this->get_options();
+	}
 
 	/**
 	 * The plugins to compare.
@@ -31,6 +44,12 @@ class Plugin_Toggler implements Integration {
 	 */
 	public function add_hooks() {
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
+
+		add_action(
+			'admin_post_yoast_seo_plugin_toggler',
+			array( $this, 'handle_submit' )
+		);
+
 	}
 
 	/**
@@ -43,6 +62,10 @@ class Plugin_Toggler implements Integration {
 	 */
 	public function init() {
 		if ( ! $this->has_rights() ) {
+			return;
+		}
+
+		if ( ! $this->options['plugin_toggler'] ) {
 			return;
 		}
 
@@ -140,6 +163,42 @@ class Plugin_Toggler implements Integration {
 
 		echo wp_json_encode( $response );
 		die();
+	}
+
+	/**
+	 * Retrieves the controls.
+	 *
+	 * @return string The HTML to use to render the controls.
+	 */
+	public function get_controls() {
+		$output  = '<h2>Plugin toggler</h2>';
+		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
+		$output .= wp_nonce_field( 'plugin_toggler', '_wpnonce', true, false );
+		$output .= '<input type="hidden" name="action" value="yoast_seo_plugin_toggler">';
+
+		$output .= '<input type="checkbox" ' . checked( $this->options['plugin_toggler'], true, false ) . ' name="plugin_toggler" id="plugin_toggler"/> <label for="plugin_toggler">Show plugin toggler.</label>';
+		$output .= '<br/><br/>';
+		$output .= '<button class="button button-primary">Save</button>';
+		$output .= '</form>';
+
+		return $output;
+	}
+
+	/**
+	 * Handles the form submit.
+	 *
+	 * @return void
+	 */
+	public function handle_submit() {
+		if ( check_admin_referer( 'plugin_toggler' ) !== false ) {
+			$this->options['plugin_toggler'] = false;
+			if ( isset( $_POST['plugin_toggler'] ) ) {
+				$this->options['plugin_toggler'] = true;
+			}
+			update_option( 'yoast_test_helper', $this->options );
+		}
+
+		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
 	}
 
 	/**
@@ -285,5 +344,14 @@ class Plugin_Toggler implements Integration {
 		if ( wp_verify_nonce( $ajax_nonce, 'yoast-plugin-toggle' ) ) {
 			return true;
 		}
+	}
+
+	/**
+	 * Retrieves our options array.
+	 *
+	 * @return array
+	 */
+	private function get_options() {
+		return get_option( 'yoast_test_helper' );
 	}
 }
