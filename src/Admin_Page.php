@@ -90,7 +90,7 @@ class Admin_Page implements Integration {
 
 		array_map(
 			function ( $block ) {
-				echo '<div class="block">';
+				echo '<div class="wpseo_test_block">';
 				// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 				echo $block();
 				echo '</div>';
