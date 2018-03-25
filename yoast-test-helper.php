@@ -3,18 +3,19 @@
  * Yoast Test Helper plugin.
  *
  * @package Yoast\Test_Helper
+ * @copyright Copyright (C) 2008-2016, Yoast BV - support@yoast.com
+ * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  *
+ * @wordpress-plugin
  * Plugin Name: Yoast Development: Test Helper
- * Version: 1.0
- * Plugin URI: https://github.com/yoast/yoast-version-controller
+ * Version:     1.0
+ * Plugin URI:  https://github.com/yoast/yoast-test-helper
  * Description: Utility to provide testing features for Yoast plugins.
- * Author: Team Yoast
- * Author URI: https://yoast.com/
+ * Author:      Team Yoast
+ * Author URI:  https://yoa.st/1uk
  * Text Domain: yoast-test-helper
  * Domain Path: /languages/
- * License: GPL v3
- *
- * Copyright (C) 2018, Yoast BV - support@yoast.com
+ * License:     GPL v3
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
