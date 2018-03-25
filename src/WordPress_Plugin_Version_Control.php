@@ -95,9 +95,8 @@ class WordPress_Plugin_Version_Control implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
-		if ( ! $this->load_history() ) {
+		if ( ! $this->load_history() && check_admin_referer( 'yoast_version_control' ) !== false ) {
 			foreach ( $this->plugins as $plugin ) {
-				check_admin_referer( 'yoast_version_control' );
 				$this->update_plugin_version( $plugin, $_POST[ $plugin->get_identifier() ] );
 			}
 		}
@@ -181,7 +180,10 @@ class WordPress_Plugin_Version_Control implements Integration {
 	 * @return bool
 	 */
 	protected function load_history() {
-		check_admin_referer( 'yoast_version_control' );
+		if ( check_admin_referer( 'yoast_version_control' ) === false ) {
+			return false;
+		}
+
 		foreach ( $this->plugins as $plugin ) {
 			// If history is set, load the history item, otherwise save.
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];

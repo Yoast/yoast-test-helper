@@ -99,7 +99,9 @@ class WordPress_Plugin_Features implements Integration {
 		foreach ( $this->plugins as $plugin ) {
 			$action = $plugin->get_identifier() . '-feature-reset';
 
-			check_admin_referer( $action );
+			if ( check_admin_referer( $action ) === false ) {
+				continue;
+			}
 
 			if ( $_POST['action'] !== $action ) {
 				continue;
@@ -125,7 +127,9 @@ class WordPress_Plugin_Features implements Integration {
 				continue;
 			}
 
-			check_admin_referer( $plugin->get_identifier() . '-feature-reset' );
+			if ( check_admin_referer( $plugin->get_identifier() . '-feature-reset' ) === false ) {
+				continue;
+			}
 
 			$notification = new Notification(
 				$plugin->get_name() . ' feature <strong>' . $name . '</strong> could not be reset.',
