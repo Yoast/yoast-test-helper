@@ -2,7 +2,7 @@
 /**
  * Yoast Test Helper plugin.
  *
- * @package Yoast\Test_Helper
+ * @package   Yoast\Test_Helper
  * @copyright Copyright (C) 2008-2016, Yoast BV - support@yoast.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  *
