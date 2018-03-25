@@ -12,17 +12,17 @@ namespace Yoast\Test_Helper;
  */
 class Admin_Debug_Info implements Integration {
 	/**
-	 * Holds our options.
+	 * Holds our option instance.
 	 *
-	 * @var array
+	 * @var Option
 	 */
-	private $options;
+	private $option;
 
 	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->options = Option::get_option();
+		$this->option = new Option();
 	}
 
 	/**
@@ -37,7 +37,6 @@ class Admin_Debug_Info implements Integration {
 			'admin_post_yoast_seo_debug_settings',
 			array( $this, 'handle_submit' )
 		);
-
 	}
 
 	/**
@@ -48,7 +47,7 @@ class Admin_Debug_Info implements Integration {
 	 * @return void
 	 */
 	public function show_debug_info( $form ) {
-		if ( $this->options['show_options_debug'] ) {
+		if ( $this->option->get( 'show_options_debug' ) ) {
 			$xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
 			echo '<div id="wpseo-debug-info" class="yoast-container">';
 			echo '<h2>Debug Information</h2>';
@@ -73,7 +72,7 @@ class Admin_Debug_Info implements Integration {
 		$output .= wp_nonce_field( 'debug_settings', '_wpnonce', true, false );
 		$output .= '<input type="hidden" name="action" value="yoast_seo_debug_settings">';
 
-		$output .= '<input type="checkbox" ' . checked( $this->options['show_options_debug'], true, false ) . ' name="show_options_debug" id="show_options_debug"/> <label for="show_options_debug">Show options on admin screens for debugging.</label>';
+		$output .= '<input type="checkbox" ' . checked( $this->option->get( 'show_options_debug' ), true, false ) . ' name="show_options_debug" id="show_options_debug"/> <label for="show_options_debug">Show options on admin screens for debugging.</label>';
 		$output .= '<br/><br/>';
 		$output .= '<button class="button button-primary">Save</button>';
 		$output .= '</form>';
@@ -88,11 +87,7 @@ class Admin_Debug_Info implements Integration {
 	 */
 	public function handle_submit() {
 		if ( check_admin_referer( 'debug_settings' ) !== false ) {
-			$this->options['show_options_debug'] = false;
-			if ( isset( $_POST['show_options_debug'] ) ) {
-				$this->options['show_options_debug'] = true;
-			}
-			Option::set_option( $this->options );
+			$this->option->set( 'show_options_debug', isset( $_POST['show_options_debug'] ) );
 		}
 
 		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );

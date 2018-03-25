@@ -12,17 +12,17 @@ namespace Yoast\Test_Helper;
  */
 class Plugin_Toggler implements Integration {
 	/**
-	 * Holds our options.
+	 * Holds our option instance.
 	 *
-	 * @var array
+	 * @var Option
 	 */
-	private $options;
+	private $option;
 
 	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->options = Option::get_option();
+		$this->option = new Option();
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Plugin_Toggler implements Integration {
 			return;
 		}
 
-		if ( ! $this->options['plugin_toggler'] ) {
+		if ( $this->option->get( 'plugin_toggler' ) === null ) {
 			return;
 		}
 
@@ -176,7 +176,7 @@ class Plugin_Toggler implements Integration {
 		$output .= wp_nonce_field( 'plugin_toggler', '_wpnonce', true, false );
 		$output .= '<input type="hidden" name="action" value="yoast_seo_plugin_toggler">';
 
-		$output .= '<input type="checkbox" ' . checked( $this->options['plugin_toggler'], true, false ) . ' name="plugin_toggler" id="plugin_toggler"/> <label for="plugin_toggler">Show plugin toggler.</label>';
+		$output .= '<input type="checkbox" ' . checked( $this->option->get( 'plugin_toggler' ), true, false ) . ' name="plugin_toggler" id="plugin_toggler"/> <label for="plugin_toggler">Show plugin toggler.</label>';
 		$output .= '<br/><br/>';
 		$output .= '<button class="button button-primary">Save</button>';
 		$output .= '</form>';
@@ -191,11 +191,7 @@ class Plugin_Toggler implements Integration {
 	 */
 	public function handle_submit() {
 		if ( check_admin_referer( 'plugin_toggler' ) !== false ) {
-			$this->options['plugin_toggler'] = false;
-			if ( isset( $_POST['plugin_toggler'] ) ) {
-				$this->options['plugin_toggler'] = true;
-			}
-			Option::set_option( $this->options );
+			$this->option->set( 'plugin_toggler', isset( $_POST['plugin_toggler'] ) );
 		}
 
 		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
