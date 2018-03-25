@@ -40,7 +40,6 @@ before_script:
 - phpenv versions
 - php --version
 - php -m
-- $PHPUNIT_BIN --version
 - curl --version
 - git --version
 - svn --version
