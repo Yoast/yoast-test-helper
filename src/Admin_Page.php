@@ -86,7 +86,7 @@ class Admin_Page implements Integration {
 	public function show_admin_page() {
 		echo '<h1>Yoast Test Helper</h1>';
 
-		do_action( 'yoast_version_controller_notifications' );
+		do_action( 'yoast_version_controller_notifications', $this );
 
 		array_map(
 			function ( $block ) {
