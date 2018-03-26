@@ -11,6 +11,12 @@ namespace Yoast\Test_Helper;
  * Bootstrap for the entire plugin.
  */
 class Taxonomies implements Integration {
+	/**
+	 * Holds our option instance.
+	 *
+	 * @var Option
+	 */
+	private $option;
 
 	/**
 	 * Arguments to use when registering category like taxonomies.
@@ -52,10 +58,19 @@ class Taxonomies implements Integration {
 	);
 
 	/**
+	 * Post_Types constructor.
+	 */
+	public function __construct() {
+		$this->option = new Option();
+	}
+
+	/**
 	 * Register the needed hooks.
 	 */
 	public function add_hooks() {
-		add_action( 'init', array( $this, 'register_taxonomies' ) );
+		if ( $this->option->get( 'enable_post_types' ) === true ) {
+			add_action( 'init', array( $this, 'register_taxonomies' ) );
+		}
 	}
 
 	/**
