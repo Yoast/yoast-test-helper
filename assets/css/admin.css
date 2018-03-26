@@ -1,0 +1,10 @@
+div.wpseo_test_block {
+    max-width: 800px;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: white;
+}
+
+div.wpseo_test_block h2 {
+    margin: 10px 0 20px 0;
+}
