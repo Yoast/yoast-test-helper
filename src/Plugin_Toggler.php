@@ -65,7 +65,7 @@ class Plugin_Toggler implements Integration {
 			return;
 		}
 
-		if ( $this->option->get( 'plugin_toggler' ) === null ) {
+		if ( $this->option->get( 'plugin_toggler' ) !== true ) {
 			return;
 		}
 
