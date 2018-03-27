@@ -34,7 +34,7 @@ class Yoast_SEO_Admin_Bar_Debug_Panel extends \Debug_Bar_Panel {
 		foreach ( WPSEO_Options::get_option_names() as $option ) {
 			echo '<h3 id="' . esc_attr( $option ) . '">Option: <span class="wpseo-debug">' . esc_html( $option ) . '</span></h3>';
 			echo '<pre>';
-			// @codingStandardsIgnoreLine.
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export,WordPress.XSS.EscapeOutput.OutputNotEscaped
 			echo var_export( get_option( $option ) );
 			echo '</pre>';
 		}
