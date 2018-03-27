@@ -19,6 +19,7 @@ This test helper plugin has several features:
 * Add options debug info to Yoast SEO admin pages.
 * Reset the internal link counter and prominent words calculation.
 * Add two post types (Books and Movies) with two taxonomies (Category and Genre) each.
+* Enable Gutenberg for either or both of these post types.
 
 Installation
 ------------

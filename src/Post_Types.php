@@ -73,6 +73,8 @@ class Post_Types implements Integration {
 
 	/**
 	 * Register the needed hooks.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'enable_post_types' ) === true ) {
@@ -80,10 +82,32 @@ class Post_Types implements Integration {
 		}
 
 		add_action( 'admin_post_yoast_seo_test_post_types', array( $this, 'handle_submit' ) );
+		add_filter( 'gutenberg_can_edit_post_type', array( $this, 'enable_gutenberg' ), 10, 2 );
+	}
+
+	/**
+	 * Checks whether Gutenberg is enabled for a certain post type.
+	 *
+	 * @param bool   $can_edit  Whether or not Gutenberg can edit the post type.
+	 * @param string $post_type The post type slug.
+	 *
+	 * @return bool Whether or not Gutenberg is enabled.
+	 */
+	public function enable_gutenberg( $can_edit, $post_type ) {
+		if ( $post_type === $this->movie_args['rewrite']['slug'] && $this->option->get( 'enable_gutenberg_videos' ) === true ) {
+			return true;
+		}
+		if ( $post_type === $this->book_args['rewrite']['slug'] && $this->option->get( 'enable_gutenberg_books' ) === true ) {
+			return true;
+		}
+
+		return $can_edit;
 	}
 
 	/**
 	 * Registers our post types.
+	 *
+	 * @return void
 	 */
 	public function register_post_types() {
 		register_post_type( 'book', $this->book_args );
@@ -101,8 +125,9 @@ class Post_Types implements Integration {
 		$output .= wp_nonce_field( 'yoast_seo_test_post_types', '_wpnonce', true, false );
 		$output .= '<input type="hidden" name="action" value="yoast_seo_test_post_types">';
 
-		$output .= '<p>This adds two post types, Books and Movies, each with two taxonomies of their own, to your test site. Disabling this setting will not remove existing data from your database.</p>';
-		$output .= '<input type="checkbox" ' . checked( $this->option->get( 'enable_post_types' ), true, false ) . ' name="enable_post_types" id="enable_post_types"/> <label for="enable_post_types">Enable post types & taxonomies.</label>';
+		$output .= $this->checkbox( 'enable_post_types', 'Enable post types & taxonomies.' );
+		$output .= $this->checkbox( 'enable_gutenberg_books', 'Enable Gutenberg for Books.' );
+		$output .= $this->checkbox( 'enable_gutenberg_videos', 'Enable Gutenberg for Videos.' );
 		$output .= '<br/><br/>';
 		$output .= '<button class="button button-primary">Save</button>';
 		$output .= '</form>';
@@ -117,9 +142,37 @@ class Post_Types implements Integration {
 	 */
 	public function handle_submit() {
 		if ( check_admin_referer( 'yoast_seo_test_post_types' ) !== false ) {
-			$this->option->set( 'enable_post_types', isset( $_POST['enable_post_types'] ) );
+			$this->set_bool_option( 'enable_post_types' );
+			$this->set_bool_option( 'enable_gutenberg_books' );
+			$this->set_bool_option( 'enable_gutenberg_videos' );
 		}
 
 		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+	}
+
+	/**
+	 * Build a checkbox element.
+	 *
+	 * @param string $option The option to make a checkbox for.
+	 * @param string $label  The label for the checkbox.
+	 *
+	 * @return string The checkbox & label HTML.
+	 */
+	private function checkbox( $option, $label ) {
+		$output  = sprintf( '<input type="checkbox" ' . checked( $this->option->get( $option ), true, false ) . ' name="%1$s" id="%1$s"/>', $option );
+		$output .= sprintf( '<label for="%1$s">%2$s</label><br/>', $option, $label );
+
+		return $output;
+	}
+
+	/**
+	 * Sets a boolean option based on a POST parameter.
+	 *
+	 * @param string $option The option to check and set.
+	 */
+	private function set_bool_option( $option ) {
+		// The nonce is checked in the handle_submit function.
+		// phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+		$this->option->set( $option, isset( $_POST[ $option ] ) );
 	}
 }
