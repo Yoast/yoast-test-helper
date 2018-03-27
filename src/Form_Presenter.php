@@ -30,8 +30,7 @@ class Form_Presenter {
 		$output .= $fields;
 
 		if ( $submit ) {
-			$output .= '<br/><br/>';
-			$output .= '<button class="button button-primary">Save</button>';
+			$output .= '<button class="button" type="submit">Save</button>';
 		}
 
 		$output .= '</form>';

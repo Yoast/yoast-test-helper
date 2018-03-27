@@ -60,17 +60,11 @@ class Admin_Debug_Info implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$output  = '<h2>Debug info</h2>';
-		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		$output .= wp_nonce_field( 'debug_settings', '_wpnonce', true, false );
-		$output .= '<input type="hidden" name="action" value="yoast_seo_debug_settings">';
-
-		$output .= '<input type="checkbox" ' . checked( $this->option->get( 'show_options_debug' ), true, false ) . ' name="show_options_debug" id="show_options_debug"/> <label for="show_options_debug">Show options on admin screens for debugging.</label>';
-		$output .= '<br/><br/>';
-		$output .= '<button class="button button-primary">Save</button>';
-		$output .= '</form>';
-
-		return $output;
+		$fields = Form_Presenter::create_checkbox(
+			'show_options_debug', 'Add Yoast SEO panel to <a href="https://wordpress.org/plugins/debug-bar/">Debug Bar</a>.',
+			$this->option->get( 'show_options_debug' )
+		);
+		return Form_Presenter::get_html( 'Debug Bar integration', 'yoast_seo_debug_settings', $fields );
 	}
 
 	/**
@@ -79,7 +73,7 @@ class Admin_Debug_Info implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
-		if ( check_admin_referer( 'debug_settings' ) !== false ) {
+		if ( check_admin_referer( 'yoast_seo_debug_settings' ) !== false ) {
 			$this->option->set( 'show_options_debug', isset( $_POST['show_options_debug'] ) );
 		}
 
