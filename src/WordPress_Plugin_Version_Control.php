@@ -66,7 +66,8 @@ class WordPress_Plugin_Version_Control implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$output  = '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
+		$output  = '<h2>Plugin options &amp; database versions</h2>';
+		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
 		$output .= wp_nonce_field( 'yoast_version_control', '_wpnonce', true, false );
 		$output .= '<input type="hidden" name="action" value="yoast_version_control">';
 

@@ -49,6 +49,7 @@ class Admin_Page implements Integration {
 			'yoast-test-admin-style',
 			plugin_dir_url( YOAST_TEST_HELPER_FILE ) . 'assets/css/admin.css'
 		);
+		wp_enqueue_script( 'masonry' );
 	}
 
 	/**
@@ -85,7 +86,8 @@ class Admin_Page implements Integration {
 	 */
 	public function show_admin_page() {
 		echo '<h1>Yoast Test Helper</h1>';
-
+		echo '<div id="yoast_masonry">';
+		$this->masonry_script();
 		do_action( 'yoast_version_controller_notifications', $this );
 
 		array_map(
@@ -96,5 +98,25 @@ class Admin_Page implements Integration {
 				echo '</div>';
 			}, $this->admin_page_blocks
 		);
+		echo '</div>';
+	}
+
+	/**
+	 * Prints our masonry script.
+	 *
+	 * @return void
+	 */
+	private function masonry_script() {
+?>
+		<script type="text/javascript">
+			jQuery(window).load(function() {
+				var container = document.querySelector('#yoast_masonry');
+				new Masonry( container, {
+					itemSelector: '.wpseo_test_block',
+					columnWidth: '.wpseo_test_block'
+				});
+			});
+		</script>
+<?php
 	}
 }

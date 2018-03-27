@@ -1,10 +1,63 @@
+body.tools_page_yoast-version-controller h1, div.wpseo_test_block h2 {
+    font-family: "Open Sans", sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 300;
+    margin: 30px 0 20px 15px;
+}
+
 div.wpseo_test_block {
-    max-width: 800px;
-    margin: 20px 0;
+    display: block;
+    float: left;
+    margin: 10px;
+    width: 600px;
     padding: 20px;
     background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+div.wpseo_test_block:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 div.wpseo_test_block h2 {
+    font-size: 24px;
     margin: 10px 0 20px 0;
+}
+
+div.wpseo_test_block button.button, div.wpseo_test_block button.button.button-primary {
+    margin: 10px 10px 0 0;
+    padding: 0 16px;
+    height: 48px;
+    font-family: "Open Sans", sans-serif;
+    font-variant-caps: normal;
+    font-weight: 400;
+    font-stretch: normal;
+    font-size: 14px;
+    line-height: 24px;
+    color: #fff;
+    text-shadow: rgb(0, 0, 0) 0 0 2px;
+    border-radius: 4px;
+    background-color: rgb(100, 166, 10);
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    border-width: 0 0 2px 0;
+    text-transform: uppercase;
+}
+div.wpseo_test_block button.button:hover, div.wpseo_test_block button.button.button-primary:hover {
+    background-color: rgb(80, 150, 0);
+    color: #fff;
+}
+
+div.wpseo_test_block td {
+    padding: 2px 3px;
+}
+
+div.wpseo_test_block input[type=checkbox]{
+    margin: 5px 10px 5px 0;
+}
+
+div.wpseo_test_block input[type=number]{
+    width: 80px;
+    margin: 5px 0 5px 10px;
 }
