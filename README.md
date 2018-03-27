@@ -9,13 +9,6 @@ Purpose of this plugin
 
 This is a plugin to aid in testing and developing the [Yoast SEO plugin](https://yoa.st/1ul) and its extensions. 
 
-Installation
-------------
-
-1. Download the latest version.
-2. Run `composer install`.
-3. You're done. You will find the plugin settings under Tools → Yoast Test in your WordPress admin.
- 
 Features
 --------
 
@@ -26,3 +19,10 @@ This test helper plugin has several features:
 * Add options debug info to Yoast SEO admin pages.
 * Reset the internal link counter and prominent words calculation.
 * Add two post types (Books and Movies) with two taxonomies (Category and Genre) each.
+
+Installation
+------------
+
+1. Download the latest version.
+2. Run `composer install`.
+3. You're done. You will find the plugin settings under Tools → Yoast Test in your WordPress admin.
