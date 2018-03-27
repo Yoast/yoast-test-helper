@@ -52,3 +52,12 @@ div.wpseo_test_block button.button:hover, div.wpseo_test_block button.button.but
 div.wpseo_test_block td {
     padding: 2px 3px;
 }
+
+div.wpseo_test_block input[type=checkbox]{
+    margin: 5px 10px 5px 0;
+}
+
+div.wpseo_test_block input[type=number]{
+    width: 80px;
+    margin: 5px 0 5px 10px;
+}
