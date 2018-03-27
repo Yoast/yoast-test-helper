@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin page hander.
+ * Handler for the XML Sitemaps testing functions.
  *
  * @package Yoast\Test_Helper
  */
