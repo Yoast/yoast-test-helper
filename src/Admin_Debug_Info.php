@@ -31,7 +31,7 @@ class Admin_Debug_Info implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'wpseo_admin_footer', array( $this, 'show_debug_info' ), 90, 1 );
+		add_filter( 'debug_bar_panels', array( $this, 'add_debug_panel' ) );
 
 		add_action(
 			'admin_post_yoast_seo_debug_settings',
@@ -40,25 +40,18 @@ class Admin_Debug_Info implements Integration {
 	}
 
 	/**
-	 * Shows debug info about the current option
+	 * Makes the debug info appear in a Debug Bar panel.
 	 *
-	 * @param \Yoast_Form $form Form instance.
+	 * @param array $panels Existing debug bar panels.
 	 *
-	 * @return void
+	 * @return array Panels array.
 	 */
-	public function show_debug_info( $form ) {
-		if ( $this->option->get( 'show_options_debug' ) ) {
-			$xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
-			echo '<div id="wpseo-debug-info" class="yoast-container">';
-			echo '<h2>Debug Information</h2>';
-			echo '<div>';
-			echo '<h3 class="wpseo-debug-heading">Current option: <span class="wpseo-debug">' . esc_html( $form->option_name ) . '</span></h3>';
-			echo( ( $xdebug ) ? '' : '<pre>' );
-			// @codingStandardsIgnoreLine.
-			var_dump( $form->get_option() );
-			echo( ( $xdebug ) ? '' : '</pre>' );
-			echo '</div></div>';
+	public function add_debug_panel( $panels ) {
+		if ( $this->option->get( 'show_options_debug' ) === true ) {
+			require_once 'Yoast_SEO_Admin_Bar_Debug_Panel.php';
+			$panels[] = new \Yoast_SEO_Admin_Bar_Debug_Panel();
 		}
+		return $panels;
 	}
 
 	/**
