@@ -120,9 +120,20 @@ class Post_Types implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$fields  = $this->checkbox( 'enable_post_types', 'Enable post types & taxonomies.' );
-		$fields .= $this->checkbox( 'enable_gutenberg_books', 'Enable Gutenberg for Books.' );
-		$fields .= $this->checkbox( 'enable_gutenberg_videos', 'Enable Gutenberg for Videos.' );
+		$fields = Form_Presenter::create_checkbox(
+			'enable_post_types', 'Enable post types & taxonomies.',
+			$this->option->get( 'enable_post_types' )
+		);
+
+		$fields .= Form_Presenter::create_checkbox(
+			'enable_gutenberg_books', 'Enable Gutenberg for Books.',
+			$this->option->get( 'enable_gutenberg_books' )
+		);
+
+		$fields .= Form_Presenter::create_checkbox(
+			'enable_gutenberg_videos', 'Enable Gutenberg for Videos.',
+			$this->option->get( 'enable_gutenberg_videos' )
+		);
 
 		return Form_Presenter::get_html( 'Post types & Taxonomies', 'yoast_seo_test_post_types', $fields );
 	}
@@ -139,22 +150,12 @@ class Post_Types implements Integration {
 			$this->set_bool_option( 'enable_gutenberg_videos' );
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
-	}
-
-	/**
-	 * Build a checkbox element.
-	 *
-	 * @param string $option The option to make a checkbox for.
-	 * @param string $label  The label for the checkbox.
-	 *
-	 * @return string The checkbox & label HTML.
-	 */
-	private function checkbox( $option, $label ) {
-		$output  = sprintf( '<input type="checkbox" ' . checked( $this->option->get( $option ), true, false ) . ' name="%1$s" id="%1$s"/>', $option );
-		$output .= sprintf( '<label for="%1$s">%2$s</label><br/>', $option, $label );
-
-		return $output;
+		wp_safe_redirect(
+			self_admin_url(
+				'tools.php?page=' .
+				apply_filters( 'yoast_version_control_admin_page', '' )
+			)
+		);
 	}
 
 	/**

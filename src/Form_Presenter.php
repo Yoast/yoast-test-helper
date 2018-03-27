@@ -38,4 +38,21 @@ class Form_Presenter {
 
 		return $output;
 	}
+
+	/**
+	 * Build a checkbox element.
+	 *
+	 * @param string $option  The option to make a checkbox for.
+	 * @param string $label   The label for the checkbox.
+	 * @param bool   $checked If the checkbox should be checked or not.
+	 *
+	 * @return string The checkbox & label HTML.
+	 */
+	public static function create_checkbox( $option, $label, $checked = false ) {
+		$checked_html = checked( $checked, true, false );
+		$output       = sprintf( '<input type="checkbox" ' . $checked_html . ' name="%1$s" id="%1$s"/>', $option );
+		$output      .= sprintf( '<label for="%1$s">%2$s</label><br/>', $option, $label );
+
+		return $output;
+	}
 }
