@@ -59,24 +59,18 @@ class XML_Sitemaps implements Integration {
 	 */
 	public function get_controls() {
 		$placeholder = apply_filters( 'wpseo_sitemap_entries_per_page', 1000 );
+
 		$value = '';
 		if ( $this->option->get( 'xml_sitemap_entries' ) > 0 ) {
 			$value = $this->option->get( 'xml_sitemap_entries' );
 		}
-		$output  = '<h2>XML Sitemaps</h2>';
-		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		$output .= wp_nonce_field( 'yoast_seo_test_xml_sitemaps', '_wpnonce', true, false );
-		$output .= '<input type="hidden" name="action" value="yoast_seo_test_xml_sitemaps">';
 
-		$output .= '<input type="checkbox" ' . checked( $this->option->get( 'disable_xml_sitemap_cache' ), true, false ) . ' name="disable_xml_sitemap_cache" id="disable_xml_sitemap_cache"/>';
+		$output  = '<input type="checkbox" ' . checked( $this->option->get( 'disable_xml_sitemap_cache' ), true, false ) . ' name="disable_xml_sitemap_cache" id="disable_xml_sitemap_cache"/>';
 		$output .= '<label for="disable_xml_sitemap_cache">Disable the XML sitemaps cache.</label><br/>';
 		$output .= '<label for="xml_sitemap_entries">Maximum entries per XML sitemap:</label>';
 		$output .= '<input type="number" size="5" value="' . $value . '" placeholder="' . $placeholder . '" name="xml_sitemap_entries" id="xml_sitemap_entries"/><br/>';
-		$output .= '<br/><br/>';
-		$output .= '<button class="button button-primary">Save</button>';
-		$output .= '</form>';
 
-		return $output;
+		return Form_Presenter::get_html( 'XML Sitemaps', 'yoast_seo_test_xml_sitemaps', $output );
 	}
 
 	/**

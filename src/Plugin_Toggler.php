@@ -171,17 +171,9 @@ class Plugin_Toggler implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$output  = '<h2>Plugin toggler</h2>';
-		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		$output .= wp_nonce_field( 'plugin_toggler', '_wpnonce', true, false );
-		$output .= '<input type="hidden" name="action" value="yoast_seo_plugin_toggler">';
+		$fields = '<input type="checkbox" ' . checked( $this->option->get( 'plugin_toggler' ), true, false ) . ' name="plugin_toggler" id="plugin_toggler"/> <label for="plugin_toggler">Show plugin toggler.</label>';
 
-		$output .= '<input type="checkbox" ' . checked( $this->option->get( 'plugin_toggler' ), true, false ) . ' name="plugin_toggler" id="plugin_toggler"/> <label for="plugin_toggler">Show plugin toggler.</label>';
-		$output .= '<br/><br/>';
-		$output .= '<button class="button button-primary">Save</button>';
-		$output .= '</form>';
-
-		return $output;
+		return Form_Presenter::get_html( 'Plugin toggler', 'plugin_toggler', $fields );
 	}
 
 	/**

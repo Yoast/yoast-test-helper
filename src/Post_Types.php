@@ -120,19 +120,11 @@ class Post_Types implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$output  = '<h2>Post types &amp; Taxonomies</h2>';
-		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		$output .= wp_nonce_field( 'yoast_seo_test_post_types', '_wpnonce', true, false );
-		$output .= '<input type="hidden" name="action" value="yoast_seo_test_post_types">';
+		$fields  = $this->checkbox( 'enable_post_types', 'Enable post types & taxonomies.' );
+		$fields .= $this->checkbox( 'enable_gutenberg_books', 'Enable Gutenberg for Books.' );
+		$fields .= $this->checkbox( 'enable_gutenberg_videos', 'Enable Gutenberg for Videos.' );
 
-		$output .= $this->checkbox( 'enable_post_types', 'Enable post types & taxonomies.' );
-		$output .= $this->checkbox( 'enable_gutenberg_books', 'Enable Gutenberg for Books.' );
-		$output .= $this->checkbox( 'enable_gutenberg_videos', 'Enable Gutenberg for Videos.' );
-		$output .= '<br/><br/>';
-		$output .= '<button class="button button-primary">Save</button>';
-		$output .= '</form>';
-
-		return $output;
+		return Form_Presenter::get_html( 'Post types & Taxonomies', 'yoast_seo_test_post_types', $fields );
 	}
 
 	/**

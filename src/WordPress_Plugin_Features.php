@@ -68,26 +68,20 @@ class WordPress_Plugin_Features implements Integration {
 		}
 
 		$action = $plugin->get_identifier() . '-feature-reset';
-		$form   = '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		$form  .= '<input type="hidden" name="action" value="' . $action . '">';
-		$form  .= wp_nonce_field( $action, '_wpnonce', true, false );
 
-		return sprintf(
-			'<h2>%s</h2>%s%s</form>',
-			esc_html( $plugin->get_name() ),
-			$form,
-			implode(
-				'', array_map(
-					function ( $name, $feature ) {
-						return sprintf(
-							'<button name="%s" type="submit" class="button">Reset %s</button> ',
-							$feature,
-							$name
-						);
-					}, $features, array_keys( $features )
-				)
+		$fields = implode(
+			'', array_map(
+				function ( $name, $feature ) {
+					return sprintf(
+						'<button name="%s" type="submit" class="button">Reset %s</button> ',
+						$feature,
+						$name
+					);
+				}, $features, array_keys( $features )
 			)
 		);
+
+		return Form_Presenter::get_html( $plugin->get_name(), $action, $fields, false );
 	}
 
 	/**
@@ -111,7 +105,8 @@ class WordPress_Plugin_Features implements Integration {
 			break;
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page',
+				'' ) ) );
 	}
 
 	/**
