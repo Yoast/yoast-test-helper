@@ -31,7 +31,7 @@ class Admin_Debug_Info implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'wpseo_admin_below_content', array( $this, 'show_debug_info' ), 90, 1 );
+		add_action( 'wpseo_admin_footer', array( $this, 'show_debug_info' ), 90, 1 );
 
 		add_action(
 			'admin_post_yoast_seo_debug_settings',
@@ -42,7 +42,7 @@ class Admin_Debug_Info implements Integration {
 	/**
 	 * Shows debug info about the current option
 	 *
-	 * @param Yoast_Form $form Form instance.
+	 * @param \Yoast_Form $form Form instance.
 	 *
 	 * @return void
 	 */
