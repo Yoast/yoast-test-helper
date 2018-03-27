@@ -66,12 +66,8 @@ class WordPress_Plugin_Version_Control implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$output  = '<h2>Plugin options &amp; database versions</h2>';
-		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		$output .= wp_nonce_field( 'yoast_version_control', '_wpnonce', true, false );
-		$output .= '<input type="hidden" name="action" value="yoast_version_control">';
 
-		$output .= '<table>';
+		$output  = '<table>';
 		$output .= '<thead><tr>';
 		$output .= '<th style="text-align:left;">Plugin</th>';
 		$output .= '<th style="text-align:left;">DB Version</th>';
@@ -84,10 +80,7 @@ class WordPress_Plugin_Version_Control implements Integration {
 		}
 		$output .= '</table>';
 
-		$output .= '<button class="button button-primary">Save</button>';
-		$output .= '</form>';
-
-		return $output;
+		return Form_Presenter::get_html( 'Plugin options & database versions', 'yoast_version_control', $output );
 	}
 
 	/**
