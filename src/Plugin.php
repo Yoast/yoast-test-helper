@@ -51,6 +51,7 @@ class Plugin implements Integration {
 		$this->integrations[] = new Plugin_Toggler();
 		$this->integrations[] = new Post_Types();
 		$this->integrations[] = new Taxonomies();
+		$this->integrations[] = new XML_Sitemaps();
 
 		add_action( 'yoast_version_controller_notifications', array( $this, 'admin_page_blocks' ) );
 	}

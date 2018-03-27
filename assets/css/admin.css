@@ -1,8 +1,11 @@
 div.wpseo_test_block {
-    max-width: 800px;
-    margin: 20px 0;
+    display: block;
+    float: left;
+    margin: 20px 20px 20px 0;
+    width: 600px;
     padding: 20px;
     background-color: white;
+    box-shadow: #aaa 2px 2px 2px;
 }
 
 div.wpseo_test_block h2 {
