@@ -44,7 +44,14 @@ div.wpseo_test_block button.button {
     border-width: 0 0 2px 0;
     text-transform: uppercase;
 }
-div.wpseo_test_block button.button:hover, div.wpseo_test_block button.button.button-primary:hover {
+
+div.wpseo_test_block button.button:focus,
+div.wpseo_test_block button.button:active {
+    color: #fff;
+    background-color: rgb(100, 166, 10);
+}
+
+div.wpseo_test_block button.button:hover {
     background-color: rgb(80, 150, 0);
     color: #fff;
 }
