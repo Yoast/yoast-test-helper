@@ -20,9 +20,11 @@ class Plugin_Toggler implements Integration {
 
 	/**
 	 * Class constructor.
+	 *
+	 * @param Option $option Our option array.
 	 */
-	public function __construct() {
-		$this->option = new Option();
+	public function __construct( Option $option ) {
+		$this->option = $option;
 	}
 
 	/**

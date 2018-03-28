@@ -36,7 +36,7 @@ class Post_Types implements Integration {
 		'menu_icon'    => 'dashicons-book-alt',
 		'has_archive'  => true,
 		'rewrite'      => array(
-			'slug' => 'books',
+			'slug' => 'yoast-test-books',
 		),
 		'show_in_rest' => true,
 	);
@@ -59,16 +59,18 @@ class Post_Types implements Integration {
 		'menu_icon'    => 'dashicons-format-video',
 		'has_archive'  => true,
 		'rewrite'      => array(
-			'slug' => 'movies',
+			'slug' => 'yoast-test-movies',
 		),
 		'show_in_rest' => true,
 	);
 
 	/**
-	 * Post_Types constructor.
+	 * Class constructor.
+	 *
+	 * @param Option $option Our option array.
 	 */
-	public function __construct() {
-		$this->option = new Option();
+	public function __construct( Option $option ) {
+		$this->option = $option;
 	}
 
 	/**
