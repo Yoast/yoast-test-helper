@@ -171,9 +171,12 @@ class Plugin_Toggler implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$fields = '<input type="checkbox" ' . checked( $this->option->get( 'plugin_toggler' ), true, false ) . ' name="plugin_toggler" id="plugin_toggler"/> <label for="plugin_toggler">Show plugin toggler.</label>';
+		$fields = Form_Presenter::create_checkbox(
+			'plugin_toggler', 'Show plugin toggler.',
+			$this->option->get( 'plugin_toggler' )
+		);
 
-		return Form_Presenter::get_html( 'Plugin toggler', 'plugin_toggler', $fields );
+		return Form_Presenter::get_html( 'Plugin toggler', 'yoast_seo_plugin_toggler', $fields );
 	}
 
 	/**
@@ -182,7 +185,7 @@ class Plugin_Toggler implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
-		if ( check_admin_referer( 'plugin_toggler' ) !== false ) {
+		if ( check_admin_referer( 'yoast_seo_plugin_toggler' ) !== false ) {
 			$this->option->set( 'plugin_toggler', isset( $_POST['plugin_toggler'] ) );
 		}
 

@@ -65,8 +65,10 @@ class XML_Sitemaps implements Integration {
 			$value = $this->option->get( 'xml_sitemap_entries' );
 		}
 
-		$output  = '<input type="checkbox" ' . checked( $this->option->get( 'disable_xml_sitemap_cache' ), true, false ) . ' name="disable_xml_sitemap_cache" id="disable_xml_sitemap_cache"/>';
-		$output .= '<label for="disable_xml_sitemap_cache">Disable the XML sitemaps cache.</label><br/>';
+		$output  = Form_Presenter::create_checkbox(
+			'disable_xml_sitemap_cache', 'Disable the XML sitemaps cache.',
+			$this->option->get( 'disable_xml_sitemap_cache' )
+		);
 		$output .= '<label for="xml_sitemap_entries">Maximum entries per XML sitemap:</label>';
 		$output .= '<input type="number" size="5" value="' . $value . '" placeholder="' . $placeholder . '" name="xml_sitemap_entries" id="xml_sitemap_entries"/><br/>';
 

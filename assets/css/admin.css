@@ -25,7 +25,7 @@ div.wpseo_test_block h2 {
     margin: 10px 0 20px 0;
 }
 
-div.wpseo_test_block button.button, div.wpseo_test_block button.button.button-primary {
+div.wpseo_test_block button.button {
     margin: 10px 10px 0 0;
     padding: 0 16px;
     height: 48px;
@@ -44,13 +44,24 @@ div.wpseo_test_block button.button, div.wpseo_test_block button.button.button-pr
     border-width: 0 0 2px 0;
     text-transform: uppercase;
 }
-div.wpseo_test_block button.button:hover, div.wpseo_test_block button.button.button-primary:hover {
+
+div.wpseo_test_block button.button:focus,
+div.wpseo_test_block button.button:active {
+    color: #fff;
+    background-color: rgb(100, 166, 10);
+}
+
+div.wpseo_test_block button.button:hover {
     background-color: rgb(80, 150, 0);
     color: #fff;
 }
 
 div.wpseo_test_block td {
     padding: 2px 3px;
+}
+
+div.wpseo_test_block button.button[type=submit]{
+    margin: 20px 10px 0 0 !important;
 }
 
 div.wpseo_test_block input[type=checkbox]{
