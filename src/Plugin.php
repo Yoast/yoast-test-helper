@@ -25,17 +25,9 @@ class Plugin implements Integration {
 	protected $integrations = array();
 
 	/**
-	 * List of plugin objects.
-	 *
-	 * @var array
-	 */
-	protected $plugins = array();
-
-	/**
 	 * Constructs the class.
 	 */
 	public function __construct() {
-		$this->load_plugins();
 		$this->load_integrations();
 
 		add_action( 'yoast_version_controller_notifications', array( $this, 'admin_page_blocks' ) );
@@ -74,8 +66,10 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	private function load_integrations() {
+		$plugins = $this->get_plugins();
+
 		$plugin_version_control = new WordPress_Plugin_Version_Control(
-			$this->plugins,
+			$plugins,
 			new WordPress_Plugin_Version(),
 			new WordPress_Plugin_Options()
 		);
@@ -86,7 +80,7 @@ class Plugin implements Integration {
 		$this->integrations[] = new Admin_Notifications();
 		$this->integrations[] = new Upgrade_Detector();
 		$this->integrations[] = new Admin_Page();
-		$this->integrations[] = new WordPress_Plugin_Features( $this->plugins );
+		$this->integrations[] = new WordPress_Plugin_Features( $plugins );
 		$this->integrations[] = new Admin_Debug_Info( $option );
 		$this->integrations[] = new Plugin_Toggler( $option );
 		$this->integrations[] = new Post_Types( $option );
@@ -95,12 +89,12 @@ class Plugin implements Integration {
 	}
 
 	/**
-	 * Loads all the plugins.
+	 * Retrieves all the plugins.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	private function load_plugins() {
-		$this->plugins = array(
+	private function get_plugins() {
+		return array(
 			new Yoast_SEO(),
 			new Local_SEO(),
 			new Video_SEO(),
