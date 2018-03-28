@@ -29,6 +29,9 @@ class Taxonomies implements Integration {
 			'name'          => 'Categories',
 			'singular_name' => 'Category',
 		),
+		'rewrite'      => array(
+			'slug' => '',
+		),
 		'hierarchical' => true,
 		'public'       => true,
 		'show_in_rest' => true,
@@ -42,15 +45,18 @@ class Taxonomies implements Integration {
 	private $genre_args = array(
 		'label'        => 'Genres',
 		'labels'       => array(
-			'name'              => 'Genres',
-			'singular_name'     => 'Genre',
-			'search_items'      => 'Search Genres',
-			'all_items'         => 'All Genres',
-			'edit_item'         => 'Edit Genre',
-			'update_item'       => 'Update Genre',
-			'add_new_item'      => 'Add New Genre',
-			'new_item_name'     => 'New Genre Name',
-			'menu_name'         => 'Genre',
+			'name'          => 'Genres',
+			'singular_name' => 'Genre',
+			'search_items'  => 'Search Genres',
+			'all_items'     => 'All Genres',
+			'edit_item'     => 'Edit Genre',
+			'update_item'   => 'Update Genre',
+			'add_new_item'  => 'Add New Genre',
+			'new_item_name' => 'New Genre Name',
+			'menu_name'     => 'Genre',
+		),
+		'rewrite'      => array(
+			'slug' => '',
 		),
 		'hierarchical' => false,
 		'public'       => true,
@@ -58,10 +64,12 @@ class Taxonomies implements Integration {
 	);
 
 	/**
-	 * Post_Types constructor.
+	 * Class constructor.
+	 *
+	 * @param Option $option Our option array.
 	 */
-	public function __construct() {
-		$this->option = new Option();
+	public function __construct( Option $option ) {
+		$this->option = $option;
 	}
 
 	/**
@@ -78,11 +86,25 @@ class Taxonomies implements Integration {
 	 */
 	public function register_taxonomies() {
 		// Taxonomies for books.
-		register_taxonomy( 'book-category', array( 'book' ), $this->category_args );
-		register_taxonomy( 'book-genre', array( 'book' ), $this->genre_args );
+		register_taxonomy( 'book-category', array( 'book' ), $this->set_slug( $this->category_args, 'yoast-test-book-category' ) );
+		register_taxonomy( 'book-genre', array( 'book' ), $this->set_slug( $this->genre_args, 'yoast-test-book-genre' ) );
 
 		// Taxonomies for movies.
-		register_taxonomy( 'movie-category', array( 'movie' ), $this->category_args );
-		register_taxonomy( 'movie-genre', array( 'movie' ), $this->genre_args );
+		register_taxonomy( 'movie-category', array( 'movie' ), $this->set_slug( $this->category_args, 'yoast-test-movie-category' ) );
+		register_taxonomy( 'movie-genre', array( 'movie' ), $this->set_slug( $this->genre_args, 'yoast-test-movie-genre' ) );
+	}
+
+	/**
+	 * Sets the slug for a taxonomy.
+	 *
+	 * @param array  $taxonomy The taxonomy arguments.
+	 * @param string $slug     The slug to set.
+	 *
+	 * @return array Taxonomy parameters.
+	 */
+	private function set_slug( $taxonomy, $slug ) {
+		$taxonomy['rewrite']['slug'] = $slug;
+
+		return $taxonomy;
 	}
 }

@@ -20,9 +20,11 @@ class Admin_Debug_Info implements Integration {
 
 	/**
 	 * Class constructor.
+	 *
+	 * @param Option $option Our option array.
 	 */
-	public function __construct() {
-		$this->option = new Option();
+	public function __construct( Option $option ) {
+		$this->option = $option;
 	}
 
 	/**
