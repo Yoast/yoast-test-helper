@@ -1,8 +1,25 @@
 # Grunt aliases
 ---
-# Build task
-build: some_task
+# Create a zipped artifact from a fresh build
+'create:artifact':
+  - 'update-version'
+  - 'copy:artifact'
+# Create a zipped artifact from and do not keep the artifact folder
+'create-artifact-zip':
+  - 'create:artifact'
+  - 'compress:artifact'
+  - 'clean:artifact'
+
+'deploy:trunk':
+  - 'update-version-trunk'
+  - 'create:artifact'
+  - 'wp_deploy:trunk'
+
+'deploy:master':
+  - 'update-version'
+  - 'create:artifact'
+  - 'wp_deploy:master'
 
 # Default task
 default:
-  - 'build'
+  - 'create:artifact-zip'

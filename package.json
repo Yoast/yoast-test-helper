@@ -7,8 +7,10 @@
   "license": "SEE LICENSE IN licence.txt",
   "devDependencies": {
     "grunt": "^1.0.2",
+    "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-compress": "^1.4.3",
     "grunt-contrib-copy": "^1.0.0",
+    "grunt-wp-deploy": "^1.2.1",
     "grunt-yoast-tasks": "https://github.com/Yoast/plugin-grunt-tasks#1-Create-grunt-plugin-for-custom-tasks",
     "jit-grunt": "^0.10.0",
     "load-grunt-config": "^0.19.2",
