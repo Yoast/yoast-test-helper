@@ -1,9 +1,7 @@
 # Grunt aliases
 ---
 # Build task
-build:
-
-#
+build: some_task
 
 # Default task
 default:

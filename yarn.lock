@@ -585,6 +585,10 @@ grunt-legacy-util@~1.0.0:
     underscore.string "~3.2.3"
     which "~1.2.1"
 
+"grunt-yoast-tasks@https://github.com/Yoast/plugin-grunt-tasks#1-Create-grunt-plugin-for-custom-tasks":
+  version "0.1.0"
+  resolved "https://github.com/Yoast/plugin-grunt-tasks#6f2f15f73c2c5a4da741d10d6e6ef00d51abe354"
+
 grunt@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/grunt/-/grunt-1.0.2.tgz#4e6a5e695b70472fd5304f5fa9e34236836a73bc"
