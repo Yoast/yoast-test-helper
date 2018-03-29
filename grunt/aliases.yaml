@@ -1,0 +1,10 @@
+# Grunt aliases
+---
+# Build task
+build:
+
+#
+
+# Default task
+default:
+  - 'build'

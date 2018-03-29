@@ -1,0 +1,16 @@
+{
+  "name": "yoast-test-helper",
+  "version": "1.0.0",
+  "description": "A plugin to aid in testing and developing the Yoast SEO plugin and its extensions.",
+  "repository": "https://github.com/Yoast/yoast-test-helper.git",
+  "author": "Yoast",
+  "license": "licence.txt",
+  "devDependencies": {
+    "grunt": "^1.0.2",
+    "grunt-contrib-compress": "^1.4.3",
+    "grunt-contrib-copy": "^1.0.0",
+    "jit-grunt": "^0.10.0",
+    "load-grunt-config": "^0.19.2",
+    "time-grunt": "^1.4.0"
+  }
+}
