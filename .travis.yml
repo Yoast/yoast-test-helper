@@ -63,3 +63,14 @@ script:
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
 - if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.2" ]]; then composer validate --no-check-all; fi
+
+ # If the commit was tagged, create an artifact and push it to the distribution github
+deploy:
+  script: grunt artifact
+  skip_cleanup: true
+  provider: script
+  script: bash scripts/deploy_to_dist.sh
+  on:
+    tags: true
+    repo: Yoast/wordpress-seo
+    all_branches: true
