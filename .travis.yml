@@ -44,6 +44,7 @@ before_script:
 - git --version
 - svn --version
 - locale -a
+- echo "repo $TRAVIS_REPO_SLUG commit $TRAVIS_COMMIT containing tag $TRAVIS_TAG"
 
 script:
 # PHP Linting
