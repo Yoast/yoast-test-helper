@@ -71,5 +71,5 @@ deploy:
   script: grunt artifact || scripts/deploy_to_dist.sh
   on:
     tags: true
-    repo: Yoast/wordpress-seo
+    repo: $TRAVIS_REPO_SLUG
     all_branches: true
