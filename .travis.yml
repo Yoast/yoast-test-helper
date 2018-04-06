@@ -66,10 +66,9 @@ script:
 
  # If the commit was tagged, create an artifact and push it to the distribution github
 deploy:
-  script: grunt artifact
   skip_cleanup: true
   provider: script
-  script: bash scripts/deploy_to_dist.sh
+  script: grunt artifact || scripts/deploy_to_dist.sh
   on:
     tags: true
     repo: Yoast/wordpress-seo

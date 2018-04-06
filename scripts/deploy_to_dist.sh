@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # Repo to deploy to:
 USER="Yoast-dist"
-REPO="wordpress-seo"
+REPO="yoast-test-helper"
 REPO_URL="git@github.com:$USER/$REPO.git"
 # Get the latest tag
-lastTag=$(git describe --abbrev=0 --tags)
+#lastTag=$(git describe --abbrev=0 --tags)
+lastTag=$(TRAVIS_TAG)
 mainDir=$(pwd)
 # Create a new git repos
 cd ./artifact
