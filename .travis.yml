@@ -67,6 +67,13 @@ script:
 # @link https://getcomposer.org/doc/03-cli.md#validate
 - if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.2" ]]; then composer validate --no-check-all; fi
 
+before_deploy:
+  - nvm install node
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn global add grunt-cli
+  - yarn install
+
  # If the commit was tagged, create an artifact and push it to the distribution github
 deploy:
   skip_cleanup: true
