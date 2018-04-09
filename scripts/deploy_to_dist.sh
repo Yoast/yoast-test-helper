@@ -4,7 +4,7 @@ USER="Yoast-dist"
 REPO="yoast-test-helper"
 REPO_URL="git@github.com:$USER/$REPO.git"
 # Get the latest tag.
-lastTag=$(TRAVIS_TAG)
+lastTag=$1
 mainDir=$(pwd)
 # Create a new git repos.
 cd ./artifact
