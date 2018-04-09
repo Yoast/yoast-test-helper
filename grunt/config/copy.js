@@ -8,6 +8,7 @@ module.exports = {
 				src: [
 					"assets/**",
 					"src/**",
+					"vendor/**",
 					"licence.txt",
 					"README.md",
 					"readme.txt",

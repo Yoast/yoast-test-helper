@@ -5,8 +5,11 @@
   - 'update-version'
   - 'clean:artifact'
   - 'clean:artifact-zip'
+  - 'clean:vendor'
+  - 'shell:composerInstallNoDev'
   - 'copy:artifact'
   - 'compress:artifact'
+  - 'shell:composerInstall'
 
 # Create a zipped artifact from and do not keep the artifact folder
 'artifact:zip':
