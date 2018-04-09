@@ -6,7 +6,7 @@
   - 'clean:artifact'
   - 'clean:artifact-zip'
   - 'clean:vendor'
-  - 'shell:composerInstallNoDev'
+  - 'shell:composerProduction'
   - 'copy:artifact'
   - 'compress:artifact'
   - 'shell:composerInstall'
