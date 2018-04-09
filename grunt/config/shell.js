@@ -1,9 +1,9 @@
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = {
 	composerInstall: {
-		command: 'composer install'
+		command: "composer install"
 	},
-	composerInstallNoDev: {
-		command: 'composer install --no-dev'
+	composerInstallProduction: {
+		command: "composer install --prefer-dist --optimize-autoloader --no-dev"
 	},
 };
