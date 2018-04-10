@@ -8,7 +8,7 @@ module.exports = function ( grunt ) {
 	const pkg = grunt.file.readJSON( "package.json" );
 	const pluginVersion = pkg.yoast.pluginVersion;
 
-	// Define project configuration
+	// Define project configuration.
 	var project = {
 		pluginVersion: pluginVersion,
 		pluginSlug: "yoast-test-helper",
@@ -22,7 +22,7 @@ module.exports = function ( grunt ) {
 		pkg,
 	};
 
-	// Load Grunt configurations and tasks
+	// Load Grunt configurations and tasks.
 	loadGruntConfig( grunt, {
 		configPath: path.join(process.cwd(), project.paths.config),
 		data: project,
