@@ -1,4 +1,4 @@
-// Custom task
+// See https://github.com/Yoast/plugin-grunt-tasks
 module.exports = {
 	packageJSON: {
 		options: {
