@@ -4,7 +4,7 @@
   "description": "A plugin to aid in testing and developing the Yoast SEO plugin and its extensions.",
   "repository": "https://github.com/Yoast/yoast-test-helper.git",
   "author": "Yoast",
-  "license": "SEE LICENSE IN licence.txt",
+  "license": "SEE LICENSE IN license.txt",
   "devDependencies": {
     "grunt": "^1.0.2",
     "grunt-contrib-clean": "^1.1.0",
