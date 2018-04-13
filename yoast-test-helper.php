@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Yoast Development: Test Helper
- * Version:     1.0
+ * Version:     1.0.2
  * Plugin URI:  https://github.com/yoast/yoast-test-helper
  * Description: Utility to provide testing features for Yoast plugins.
  * Author:      Team Yoast
