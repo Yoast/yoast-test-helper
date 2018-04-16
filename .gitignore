@@ -1,2 +1,6 @@
 /vendor/
+/node_modules/
 .idea/
+artifact.zip
+/artifact/
+yarn-error.log
