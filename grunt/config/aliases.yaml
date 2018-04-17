@@ -1,0 +1,17 @@
+# Grunt aliases
+---
+# Create a zipped artifact from a fresh build
+'artifact':
+  - 'update-version'
+  - 'clean:artifact'
+  - 'clean:artifact-zip'
+  - 'clean:vendor'
+  - 'shell:composerInstallProduction'
+  - 'copy:artifact'
+  - 'compress:artifact'
+  - 'shell:composerInstall'
+
+# Create a zipped artifact from and do not keep the artifact folder
+'artifact:zip':
+  - 'artifact'
+  - 'clean:artifact'
