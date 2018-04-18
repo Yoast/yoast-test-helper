@@ -18,6 +18,7 @@ jobs:
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
     - stage: deploy
+      if: tag IS present
       before_deploy:
         - nvm install node
         - curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -35,8 +36,6 @@ jobs:
           tags: true
           repo: $TRAVIS_REPO_SLUG
           all_branches: true
-      on:
-        tags: true
 
 
 cache:
