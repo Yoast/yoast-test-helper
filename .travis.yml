@@ -25,18 +25,19 @@ jobs:
         - export PATH=$HOME/.yarn/bin:$PATH
         - yarn global add grunt-cli
         - yarn install
+        - grunt set-version -new-version=$TRAVIS_TAG
+        - grunt update-version
         - grunt artifact
 
        # If the commit was tagged, create an artifact and push it to the distribution github
       deploy:
         skip_cleanup: true
         provider: script
-        script: bash scripts/deploy_to_dist.sh $TRAVIS_TAG
+        script: bash scripts/deploy_to_dist.sh $TRAVIS_TAG yoast-test-helper
         on:
           tags: true
           repo: $TRAVIS_REPO_SLUG
           all_branches: true
-
 
 cache:
   directories:
