@@ -15,13 +15,3 @@
 'artifact:zip':
   - 'artifact'
   - 'clean:artifact'
-
-'deploy:trunk':
-  - 'update-version'
-  - 'create:artifact'
-  - 'wp_deploy:trunk'
-
-'deploy:master':
-  - 'update-version-release'
-  - 'create:artifact'
-  - 'wp_deploy:master'
