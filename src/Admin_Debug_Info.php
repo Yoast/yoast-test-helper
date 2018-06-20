@@ -49,7 +49,7 @@ class Admin_Debug_Info implements Integration {
 	 * @return array Panels array.
 	 */
 	public function add_debug_panel( $panels ) {
-		if ( $this->option->get( 'show_options_debug' ) === true ) {
+		if ( $this->option->get( 'show_options_debug' ) === true && defined( 'WPSEO_VERSION' ) ) {
 			require_once 'Yoast_SEO_Admin_Bar_Debug_Panel.php';
 			$panels[] = new \Yoast_SEO_Admin_Bar_Debug_Panel();
 		}
