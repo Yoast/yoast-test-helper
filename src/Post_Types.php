@@ -34,7 +34,7 @@ class Post_Types implements Integration {
 		'description'  => 'Our books post type',
 		'public'       => true,
 		'menu_icon'    => 'dashicons-book-alt',
-		'has_archive'  => true,
+		'has_archive'  => 'my-books',
 		'rewrite'      => array(
 			'slug' => 'yoast-test-books',
 		),
