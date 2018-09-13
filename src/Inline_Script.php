@@ -7,6 +7,9 @@
 
 namespace Yoast\Test_Helper;
 
+/**
+ * Class to add an inline script after a wordpress-seo script.
+ */
 class Inline_Script implements Integration {
 	/**
 	 * Holds our option instance.
@@ -30,7 +33,7 @@ class Inline_Script implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		if( $this->option->get( 'add_inline_script' ) == true ) {
+		if ( $this->option->get( 'add_inline_script' ) === true ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'add_inline_script' ) );
 		}
 
@@ -53,18 +56,21 @@ class Inline_Script implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$output  = Form_Presenter::create_checkbox(
+		$output = Form_Presenter::create_checkbox(
 			'add_inline_script', 'Add the specified inline script',
 			$this->option->get( 'add_inline_script' )
 		);
 
 		$value = $this->option->get( 'inline_script_handle' );
+
 		$output .= '<label for="inline_script_handle">Handle: </label>';
 		$output .= '<input value="' . $value . '" name="inline_script_handle" id="inline_script_handle"/><br/>';
 
 		$value = $this->option->get( 'inline_script' );
+
 		$output .= '<label for="inline_script">Script:</label><br/>';
 		$output .= '<textarea style="width: 100%; min-height: 300px; font-family: monospace;" name="inline_script" id="inline_script">' . stripslashes( $value ) . '</textarea><br/>';
+
 		return Form_Presenter::get_html( 'Inline script', 'yoast_seo_test_inline_script', $output );
 	}
 
