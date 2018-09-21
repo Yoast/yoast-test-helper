@@ -8,7 +8,7 @@ module.exports = {
 			{
 				cwd: "artifact/",
 				src: [ "**" ],
-				dest: "./",
+				dest: "yoast-test-helper/",
 			},
 		],
 	},
