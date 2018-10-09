@@ -2,7 +2,7 @@
 ---
 # Create a zipped artifact from a fresh build
 'artifact':
-  - 'update-version'
+  - 'update-version-trunk'
   - 'clean:artifact'
   - 'clean:artifact-zip'
   - 'clean:vendor'
@@ -10,6 +10,11 @@
   - 'copy:artifact'
   - 'compress:artifact'
   - 'shell:composerInstall'
+
+# Update all versions except the stable tag
+'update-version-trunk':
+  - 'update-version:pluginFile'
+  - 'update-version:initializer'
 
 # Create a zipped artifact from and do not keep the artifact folder
 'artifact:zip':
@@ -22,6 +27,6 @@
   - 'wp_deploy:trunk'
 
 'deploy:master':
-  - 'update-version-release'
+  - 'update-version'
   - 'create:artifact'
   - 'wp_deploy:master'
