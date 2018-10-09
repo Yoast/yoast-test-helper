@@ -12,7 +12,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-shell": "^2.1.0",
     "grunt-wp-deploy": "^1.2.1",
-    "grunt-yoast-tasks": "https://github.com/Yoast/plugin-grunt-tasks#1-Create-grunt-plugin-for-custom-tasks",
+    "@yoast/grunt-plugin-tasks": "^1.0.0",
     "jit-grunt": "^0.10.0",
     "load-grunt-config": "^0.19.2",
     "time-grunt": "^1.4.0"

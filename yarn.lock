@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@yoast/grunt-plugin-tasks@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.0.0.tgz#647261449f9f5a90014c5310cfb050db47d22202"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -625,10 +629,6 @@ grunt-wp-deploy@^1.2.1:
   resolved "https://registry.yarnpkg.com/grunt-wp-deploy/-/grunt-wp-deploy-1.2.1.tgz#7d5c284157a181c106c45be052ba9aa71a3c2474"
   dependencies:
     inquirer "~0.2.1"
-
-"grunt-yoast-tasks@https://github.com/Yoast/plugin-grunt-tasks#1-Create-grunt-plugin-for-custom-tasks":
-  version "0.1.0"
-  resolved "https://github.com/Yoast/plugin-grunt-tasks#6f2f15f73c2c5a4da741d10d6e6ef00d51abe354"
 
 grunt@^1.0.2:
   version "1.0.2"
