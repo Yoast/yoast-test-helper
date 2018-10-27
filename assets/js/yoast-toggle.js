@@ -1,16 +1,17 @@
 var Yoast_Plugin_Toggler = {
-	toggle_plugin: function( plugin, nonce ) {
+	toggle_plugin: function( group, plugin, nonce ) {
 		"use strict";
 
 		jQuery.getJSON(
 			ajaxurl,
 			{
-				action: "toggle_version",
+				action: "toggle_plugin",
 				ajax_nonce: nonce,
+				group: group,
 				plugin: plugin
 			},
 			function( response ) {
-				if ( response.activated_version !== undefined ) {
+				if ( response.activated_plugin !== undefined ) {
 					window.location.reload(true);
 				}
 			}
