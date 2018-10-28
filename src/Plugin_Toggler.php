@@ -17,7 +17,7 @@ class Plugin_Toggler implements Integration {
 	 *
 	 * @var array
 	 */
-	private $plugins = array();
+	private $plugin_groups = array();
 
 	/**
 	 * Regex with groups to filter the available plugins by name.
@@ -25,13 +25,6 @@ class Plugin_Toggler implements Integration {
 	 * @var string
 	 */
 	private $grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/';
-
-	/**
-	 * The active plugin of each group.
-	 *
-	 * @var array
-	 */
-	private $active_plugins = array();
 
 	/**
 	 * Holds our option instance.
@@ -93,16 +86,13 @@ class Plugin_Toggler implements Integration {
 		$this->grouped_name_filter = apply_filters( 'yoast_plugin_toggler_filter', $this->grouped_name_filter );
 
 		// Find the plugins.
-		$this->plugins = $this->get_filtered_plugin_groups( $this->grouped_name_filter );
+		$this->plugin_groups = $this->get_filtered_plugin_groups( $this->grouped_name_filter );
 
-		// Apply filters to extend the $this->plugins property.
-		$this->plugins = (array) apply_filters( 'yoast_plugin_toggler_extend', $this->plugins );
+		// Apply filters to extend the $this->plugin_groups property.
+		$this->plugin_groups = (array) apply_filters( 'yoast_plugin_toggler_extend', $this->plugin_groups );
 
-		// First check if the plugins are installed.
-		$this->plugins = $this->get_installed_plugins( $this->plugins );
-
-		// Get the currently active plugins.
-		$this->active_plugins = $this->get_active_plugins();
+		// Check the plugins after the filter.
+		$this->plugin_groups = $this->check_plugins( $this->plugin_groups );
 
 		// Adding the hooks.
 		$this->add_additional_hooks();
@@ -120,7 +110,7 @@ class Plugin_Toggler implements Integration {
 		global $wp_admin_bar;
 
 		// Add a menu for each group.
-		foreach ( $this->plugins as $group => $plugins ) {
+		foreach ( $this->plugin_groups as $group => $plugins ) {
 			$active_plugin = $this->get_active_plugin( $group );
 			$menu_id       = 'wpseo-plugin-toggler-' . sanitize_title( $group );
 			$menu_title    = $active_plugin;
@@ -143,22 +133,24 @@ class Plugin_Toggler implements Integration {
 
 			// Add a node for each plugin.
 			foreach ( $plugins as $plugin => $plugin_path ) {
-				if ( $plugin !== $active_plugin ) {
-					$wp_admin_bar->add_node( array(
-						'parent' => $menu_id,
-						'id'     => 'wpseo-plugin-toggle-' . sanitize_title( $plugin ),
-						'title'  => 'Switch to ' . $plugin,
-						'href'   => '#',
-						'meta'   => array(
-							'onclick' => sprintf(
-								'Yoast_Plugin_Toggler.toggle_plugin( "%1$s", "%2$s", "%3$s" )',
-								$group,
-								$plugin,
-								$nonce
-							)
-						)
-					) );
+				if ( $plugin === $active_plugin ) {
+					continue;
 				}
+
+				$wp_admin_bar->add_node( array(
+					'parent' => $menu_id,
+					'id'     => 'wpseo-plugin-toggle-' . sanitize_title( $plugin ),
+					'title'  => 'Switch to ' . $plugin,
+					'href'   => '#',
+					'meta'   => array(
+						'onclick' => sprintf(
+							'Yoast_Plugin_Toggler.toggle_plugin( "%1$s", "%2$s", "%3$s" )',
+							$group,
+							$plugin,
+							$nonce
+						)
+					)
+				) );
 			}
 		}
 	}
@@ -194,7 +186,7 @@ class Plugin_Toggler implements Integration {
 			$plugin = filter_input( INPUT_GET, 'plugin' );
 
 			// First deactivate the current plugin.
-			$this->deactivate_plugins( $group );
+			$this->deactivate_plugin_group( $group );
 			$this->activate_plugin( $group, $plugin );
 
 			$response = array(
@@ -248,11 +240,14 @@ class Plugin_Toggler implements Integration {
 	}
 
 	/**
-	 * Check the plugins directory and retrieve plugins that match the filter.
+	 * Retrieves a grouped and filtered list of installed plugins.
+	 *
+	 * Uses WordPress's 'get_plugins' for the list of installed plugins.
+	 * Uses $grouped_name_filter regex to group and filter.
 	 *
 	 * Example:
 	 * $grouped_name_filter = '/^((Yoast SEO)|(Yoast SEO) Premium)[ \d.]*$/'
-	 * $plugins = array(
+	 * $plugin_groups = array(
 	 * 	'Yoast SEO' => array(
 	 * 		'Yoast SEO'             => 'wordpress-seo/wp-seo.php',
 	 * 		'Yoast SEO 8.4'         => 'wordpress-seo 8.4/wp-seo.php',
@@ -267,10 +262,10 @@ class Plugin_Toggler implements Integration {
 	 */
 	private function get_filtered_plugin_groups( $grouped_name_filter ) {
 		// Use WordPress to get all the plugins with their data.
-		$all_plugins = get_plugins();
-		$plugins     = array();
+		$plugins       = get_plugins();
+		$plugin_groups = array();
 
-		foreach ( $all_plugins as $file => $data ) {
+		foreach ( $plugins as $file => $data ) {
 			$matches = array();
 			$name    = $data[ 'Name' ];
 
@@ -286,29 +281,28 @@ class Plugin_Toggler implements Integration {
 					}
 				}
 
-				if ( ! isset( $plugins[ $group ] ) ) {
-					$plugins[ $group ] = array();
+				if ( ! isset( $plugin_groups[ $group ] ) ) {
+					$plugin_groups[ $group ] = array();
 				}
-				$plugins[ $group ][ $name ] = $file;
+				$plugin_groups[ $group ][ $name ] = $file;
 			}
 		}
 
-		return $plugins;
+		return $plugin_groups;
 	}
 
 	/**
 	 * Retrieves a list of installed plugins, pruned by group.
 	 *
-	 * @param array $filter_plugins Plugins to filter for installed plugins.
-	 * @param bool  [$prune=true]   Whether to prune the groups if they contain
-	 *                              less than 2 plugins.
+	 * @param array $plugin_groups Plugins to filter for installed plugins.
+	 * @param bool  [$prune=true]  Whether to prune the groups if they contain less than 2 plugins.
 	 *
 	 * @return array Plugins that are actually installed.
 	 */
-	private function get_installed_plugins( array $filter_plugins, $prune = true ) {
+	private function check_plugins( array $plugin_groups, $prune = true ) {
 		$installed = array();
 
-		foreach ( $filter_plugins AS $group => $plugins ) {
+		foreach ( $plugin_groups AS $group => $plugins ) {
 			foreach ( $plugins AS $plugin => $plugin_path ) {
 				$full_plugin_path = ABSPATH . 'wp-content/plugins/' . plugin_basename( $plugin_path );
 
@@ -330,35 +324,24 @@ class Plugin_Toggler implements Integration {
 	}
 
 	/**
-	 * Retrieves a list of active plugins.
-	 *
-	 * @return array List of active plugins.
-	 */
-	private function get_active_plugins() {
-		$active = array();
-
-		foreach ( $this->plugins as $group => $plugins ) {
-			foreach ( $plugins as $plugin => $plugin_path ) {
-				if ( is_plugin_active( $plugin_path ) ) {
-					$active[ $group ] = $plugin;
-				}
-			}
-		}
-
-		return $active;
-	}
-
-	/**
-	 * Retrieves the active plugin of a group.
+	 * Retrieves the active plugin of a group. First hit if there are multiple.
 	 *
 	 * @param string $group The group of to check.
 	 *
 	 * @return string The plugin name or an empty string.
 	 */
 	private function get_active_plugin( $group ) {
-		if ( array_key_exists( $group, $this->active_plugins ) ) {
-			return $this->active_plugins[ $group ];
+		if ( ! array_key_exists( $group, $this->plugin_groups ) ) {
+			return '';
 		}
+
+		$plugins = $this->plugin_groups[ $group ];
+		foreach ( $plugins as $plugin => $plugin_path ) {
+			if ( is_plugin_active( $plugin_path ) ) {
+				return $plugin;
+			}
+		}
+
 		return '';
 	}
 
@@ -386,27 +369,37 @@ class Plugin_Toggler implements Integration {
 	 * @return void
 	 */
 	private function activate_plugin( $group, $plugin ) {
-		$plugin_path = $this->plugins[ $group ][ $plugin ];
+		if ( ! array_key_exists( $group, $this->plugin_groups ) ) {
+			return;
+		}
+		if ( ! array_key_exists( $plugin, $this->plugin_groups[ $group ] ) ) {
+			return;
+		}
 
-		// Activate plugin.
+		$plugin_path = $this->plugin_groups[ $group ][ $plugin ];
 		activate_plugin( plugin_basename( $plugin_path ), null, false, true );
-		$this->active_plugins[ $group ] = $plugin;
 	}
 
 	/**
-	 * Deactivates the plugins for a specific group.
+	 * Deactivates the plugins in a specific group.
 	 *
 	 * This will be performed in silent mode.
 	 *
-	 * @param string $group  Group to deactivate the plugins of.
+	 * @param string $group Group to deactivate the plugins of.
 	 *
 	 * @return void
 	 */
-	private function deactivate_plugins( $group ) {
-		$active_plugin = array_key_exists( $group, $this->active_plugins ) ? $this->active_plugins[ $group ] : '';
+	private function deactivate_plugin_group( $group ) {
+		if ( ! array_key_exists( $group, $this->plugin_groups ) )  {
+			return;
+		}
 
-		deactivate_plugins( plugin_basename( $this->plugins[ $group ][ $active_plugin ] ), true );
-		unset( $this->active_plugins[ $group ] );
+		$plugins = $this->plugin_groups[ $group ];
+		foreach( $plugins as $plugin => $plugin_path ) {
+			if ( is_plugin_active( $plugin_path ) ) {
+				deactivate_plugins( plugin_basename( $plugin_path ), true );
+			}
+		}
 	}
 
 	/**
