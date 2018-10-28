@@ -85,8 +85,8 @@ class Plugin_Toggler implements Integration {
 		// Apply filters to adapt the $this->grouped_name_filter property.
 		$this->grouped_name_filter = apply_filters( 'yoast_plugin_toggler_filter', $this->grouped_name_filter );
 
-		// Find the plugins.
-		$this->plugin_groups = $this->get_filtered_plugin_groups( $this->grouped_name_filter );
+		// Find the plugin groups.
+		$this->plugin_groups = $this->get_plugin_groups();
 
 		// Apply filters to extend the $this->plugin_groups property.
 		$this->plugin_groups = (array) apply_filters( 'yoast_plugin_toggler_extend', $this->plugin_groups );
@@ -243,10 +243,10 @@ class Plugin_Toggler implements Integration {
 	 * Retrieves a grouped and filtered list of installed plugins.
 	 *
 	 * Uses WordPress's 'get_plugins' for the list of installed plugins.
-	 * Uses $grouped_name_filter regex to group and filter.
+	 * Uses $this->grouped_name_filter regex to get the group.
 	 *
 	 * Example:
-	 * $grouped_name_filter = '/^((Yoast SEO)|(Yoast SEO) Premium)[ \d.]*$/'
+	 * $this->grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
 	 * $plugin_groups = array(
 	 * 	'Yoast SEO' => array(
 	 * 		'Yoast SEO'             => 'wordpress-seo/wp-seo.php',
@@ -256,39 +256,53 @@ class Plugin_Toggler implements Integration {
 	 * 	),
 	 * );
 	 *
-	 * @param string $grouped_name_filter Regex to filter on the plugin data name.
-	 *
 	 * @return array The plugins grouped by the regex matches.
 	 */
-	private function get_filtered_plugin_groups( $grouped_name_filter ) {
+	private function get_plugin_groups() {
 		// Use WordPress to get all the plugins with their data.
 		$plugins       = get_plugins();
 		$plugin_groups = array();
 
 		foreach ( $plugins as $file => $data ) {
-			$matches = array();
-			$name    = $data[ 'Name' ];
+			$plugin = $data[ 'Name' ];
+			$group  = $this->get_group_from_plugin_name( $plugin, $this->grouped_name_filter );
+			if ( $group === '' ) {
+				continue;
+			}
 
 			// Save the plugin under a group.
-			if ( preg_match( $grouped_name_filter, $name, $matches ) ) {
-				$matches = array_reverse( $matches );
-				$group   = '';
-
-				foreach ( $matches as $match ) {
-					if ( $match !== '' ) {
-						$group = $match;
-						break;
-					}
-				}
-
-				if ( ! isset( $plugin_groups[ $group ] ) ) {
-					$plugin_groups[ $group ] = array();
-				}
-				$plugin_groups[ $group ][ $name ] = $file;
+			if ( ! isset( $plugin_groups[ $group ] ) ) {
+				$plugin_groups[ $group ] = array();
 			}
+			$plugin_groups[ $group ][ $plugin ] = $file;
 		}
 
 		return $plugin_groups;
+	}
+
+	/**
+	 * Retrieves the group of the plugin via a regular expression.
+	 *
+	 * Example filter:
+	 * $grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
+	 *
+	 * @param string $plugin_name         The plugin name.
+	 * @param string $grouped_name_filter The regex string that matches the group.
+	 *
+	 * @return string The group.
+	 */
+	private function get_group_from_plugin_name( $plugin_name, $grouped_name_filter ) {
+		$matches = array();
+
+		if ( preg_match( $grouped_name_filter, $plugin_name, $matches ) ) {
+			foreach ( $matches as $match ) {
+				if ( $match !== '' ) {
+					return trim( $match );
+				}
+			}
+		}
+
+		return '';
 	}
 
 	/**
@@ -302,8 +316,8 @@ class Plugin_Toggler implements Integration {
 	private function check_plugins( array $plugin_groups, $prune = true ) {
 		$installed = array();
 
-		foreach ( $plugin_groups AS $group => $plugins ) {
-			foreach ( $plugins AS $plugin => $plugin_path ) {
+		foreach ( $plugin_groups as $group => $plugins ) {
+			foreach ( $plugins as $plugin => $plugin_path ) {
 				$full_plugin_path = ABSPATH . 'wp-content/plugins/' . plugin_basename( $plugin_path );
 
 				// Add the plugin to the group if it exists.
@@ -313,7 +327,7 @@ class Plugin_Toggler implements Integration {
 			}
 
 			if ( $prune ) {
-				// Remove the group entirely if there is less than 2 plugins in it.
+				// Remove the group entirely if there are less than 2 plugins in it.
 				if ( count( $installed[ $group ] ) < 2 ) {
 					unset( $installed[ $group ] );
 				}
