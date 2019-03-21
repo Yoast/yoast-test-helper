@@ -74,6 +74,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'internal_link_count'         => 'Internal link counter',
 			'prominent_words_calculation' => 'Prominent words calculation',
 			'reset_notifications'         => 'Notifications',
+			'reset_site_information'      => 'Site information',
 		);
 	}
 
@@ -95,6 +96,8 @@ class Yoast_SEO implements WordPress_Plugin {
 			case 'reset_notifications':
 				$this->reset_notifications();
 				return true;
+			case 'reset_site_information':
+				return $this->reset_site_information();
 		}
 
 		return false;
@@ -154,5 +157,14 @@ class Yoast_SEO implements WordPress_Plugin {
 		// Restore dismissed notifications.
 		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . 'usermeta WHERE meta_key = "wp_yoast_promo_hide_premium_upsell_admin_block"' );
 		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . 'usermeta WHERE meta_key = "wpseo-remove-upsell-notice"' );
+	}
+
+	/**
+	 * Resets the site information.
+	 *
+	 * @return bool True if successful, false otherwise.
+	 */
+	private function reset_site_information() {
+		return delete_transient( 'wpseo_site_information' );
 	}
 }
