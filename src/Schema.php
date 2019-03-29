@@ -73,7 +73,14 @@ class Schema implements Integration {
 	 * @return array $data Data to replace the domain in.
 	 */
 	public function replace_domain( $data ) {
-		return $this->array_value_str_replace( \WPSEO_Utils::get_home_url(), 'https://example.com/', $data );
+		$source = \WPSEO_Utils::get_home_url();
+		$target = 'https://example.com';
+
+		if ( $source[ strlen( $source ) - 1 ] === '/' ) {
+			$source = substr( $source, 0, -1 );
+		}
+
+		return $this->array_value_str_replace( $source, $target, $data );
 	}
 
 	/**
