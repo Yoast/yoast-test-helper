@@ -11,6 +11,21 @@ namespace Yoast\Test_Helper;
  * Toggles between plugins.
  */
 class Plugin_Toggler implements Integration {
+
+	/**
+	 * The plugins per group.
+	 *
+	 * @var array
+	 */
+	private $plugin_groups = array();
+
+	/**
+	 * Regex with groups to filter the available plugins by name.
+	 *
+	 * @var string
+	 */
+	private $grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/';
+
 	/**
 	 * Holds our option instance.
 	 *
@@ -26,18 +41,6 @@ class Plugin_Toggler implements Integration {
 	public function __construct( Option $option ) {
 		$this->option = $option;
 	}
-
-	/**
-	 * The plugins to compare.
-	 *
-	 * @var array[]
-	 */
-	private $plugins = array(
-		'Yoast SEO' => array(
-			'Free'    => 'wordpress-seo/wp-seo.php',
-			'Premium' => 'wordpress-seo-premium/wp-seo-premium.php',
-		),
-	);
 
 	/**
 	 * Constructs the object and set init hook.
@@ -71,16 +74,18 @@ class Plugin_Toggler implements Integration {
 			return;
 		}
 
-		// Load core plugin.php if not exists.
-		if ( ! function_exists( 'is_plugin_active' ) ) {
+		// Load WordPress core plugin.php when needed.
+		if (
+			! function_exists( 'is_plugin_active' ) ||
+			! function_exists( 'get_plugins' )
+		) {
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		// Apply filters to extends the $this->plugins property.
-		$this->plugins = (array) apply_filters( 'yoast_plugin_toggler_extend', $this->plugins );
+		// Apply filters to adapt the $this->grouped_name_filter property.
+		$this->grouped_name_filter = apply_filters( 'yoast_plugin_toggler_filter', $this->grouped_name_filter );
 
-		// First check if both versions of plugin do exist.
-		$this->plugins = $this->get_installed_plugins( $this->plugins );
+		$this->init_plugin_groups();
 
 		// Adding the hooks.
 		$this->add_additional_hooks();
@@ -97,28 +102,48 @@ class Plugin_Toggler implements Integration {
 		/** \WP_Admin_Bar $wp_admin_bar */
 		global $wp_admin_bar;
 
-		foreach ( $this->get_active_plugins() as $label => $version ) {
-			$menu_id = 'wpseo-plugin-toggler-' . sanitize_title( $label );
-			$wp_admin_bar->add_menu(
-				array(
-					'id'    => $menu_id,
-					'title' => $label . ': ' . $version,
-					'href'  => '#',
-				)
-			);
+		// Add a menu for each group.
+		foreach ( $this->plugin_groups as $group => $plugins ) {
+			$active_plugin = $this->get_active_plugin( $group );
+			$menu_id       = 'wpseo-plugin-toggler-' . sanitize_title( $group );
+			$menu_title    = $active_plugin;
 
-			foreach ( $this->plugins[ $label ] as $switch_version => $data ) {
-				if ( $switch_version !== $version ) {
-					$wp_admin_bar->add_menu(
-						array(
-							'parent' => $menu_id,
-							'id'     => 'wpseo-plugin-toggle-' . sanitize_title( $label ),
-							'title'  => 'Switch to ' . $switch_version,
-							'href'   => '#',
-							'meta'   => array( 'onclick' => 'Yoast_Plugin_Toggler.toggle_plugin( "' . $label . '", "' . $nonce . '")' ),
-						)
-					);
+			// Menu title fallback: active plugin > group > first plugin.
+			if ( $menu_title === '' ) {
+				$menu_title = $group;
+				if ( $menu_title === '' ) {
+					reset( $plugins );
+					$menu_title = key( $plugins );
 				}
+			}
+
+			$wp_admin_bar->add_menu( array(
+				'parent' => false,
+				'id'     => $menu_id,
+				'title'  => $menu_title,
+				'href'   => '#',
+			) );
+
+			// Add a node for each plugin.
+			foreach ( $plugins as $plugin => $plugin_path ) {
+				if ( $plugin === $active_plugin ) {
+					continue;
+				}
+
+				$wp_admin_bar->add_node( array(
+					'parent' => $menu_id,
+					'id'     => 'wpseo-plugin-toggle-' . sanitize_title( $plugin ),
+					'title'  => 'Switch to ' . $plugin,
+					'href'   => '#',
+					'meta'   => array(
+						'onclick' => sprintf(
+							'Yoast_Plugin_Toggler.toggle_plugin( "%1$s", "%2$s", "%3$s" )',
+							$group,
+							$plugin,
+							$nonce
+						)
+					)
+				) );
 			}
 		}
 	}
@@ -137,29 +162,31 @@ class Plugin_Toggler implements Integration {
 	}
 
 	/**
-	 * Toggle between the versions.
+	 * Toggle between the plugins.
 	 *
-	 * The active version will be deactivated. The inactive version will be printed as JSON and will be used to active
-	 * this version in another AJAX request.
+	 * The active plugin will be deactivated. The inactive plugin will be printed as JSON and will be used to active
+	 * this plugin in another AJAX request.
 	 *
 	 * @return void
 	 */
-	public function ajax_toggle_plugin_version() {
+	public function ajax_toggle_plugin() {
 
 		$response = array();
 
 		// If nonce is valid.
 		if ( $this->verify_nonce() ) {
-			$current_plugin        = filter_input( INPUT_GET, 'plugin' );
-			$version_to_activate   = $this->get_inactive_version( $current_plugin );
-			$version_to_deactivate = $this->get_active_version( $current_plugin );
+			$group  = filter_input( INPUT_GET, 'group' );
+			$plugin = filter_input( INPUT_GET, 'plugin' );
 
-			// First deactivate current version.
-			$this->deactivate_plugin_version( $current_plugin, $version_to_deactivate );
-			$this->activate_plugin_version( $current_plugin, $version_to_activate );
+			// First deactivate the current plugin.
+			$this->deactivate_plugin_group( $group );
+			$this->activate_plugin( $group, $plugin );
 
 			$response = array(
-				'activated_version' => $version_to_activate,
+				'activated_plugin' => array(
+					'group'  => $group,
+					'plugin' => $plugin
+				)
 			);
 		}
 
@@ -206,21 +233,95 @@ class Plugin_Toggler implements Integration {
 	}
 
 	/**
-	 * Retrieves a list of installed plugins.
+	 * Retrieves a grouped and filtered list of installed plugins.
 	 *
-	 * @param array $plugins Plugins to filter for installed plugins.
+	 * Uses WordPress's 'get_plugins' for the list of installed plugins.
+	 * Uses $this->grouped_name_filter regex to get the group.
+	 *
+	 * Example:
+	 * $this->grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
+	 * $plugin_groups = array(
+	 * 	'Yoast SEO' => array(
+	 * 		'Yoast SEO'             => 'wordpress-seo/wp-seo.php',
+	 * 		'Yoast SEO 8.4'         => 'wordpress-seo 8.4/wp-seo.php',
+	 * 		'Yoast SEO Premium'     => 'wordpress-seo-premium/wp-seo-premium.php',
+	 * 		'Yoast SEO Premium 8.4' => 'wordpress-seo-premium 8.4/wp-seo-premium.php',
+	 * 	),
+	 * );
+	 *
+	 * @return array The plugins grouped by the regex matches.
+	 */
+	private function get_plugin_groups() {
+		// Use WordPress to get all the plugins with their data.
+		$plugins       = get_plugins();
+		$plugin_groups = array();
+
+		foreach ( $plugins as $file => $data ) {
+			$plugin = $data[ 'Name' ];
+			$group  = $this->get_group_from_plugin_name( $plugin );
+			if ( $group === '' ) {
+				continue;
+			}
+
+			// Save the plugin under a group.
+			if ( ! isset( $plugin_groups[ $group ] ) ) {
+				$plugin_groups[ $group ] = array();
+			}
+			$plugin_groups[ $group ][ $plugin ] = $file;
+		}
+
+		return $plugin_groups;
+	}
+
+	/**
+	 * Retrieves the group of the plugin via a regular expression.
+	 *
+	 * Example filter:
+	 * $grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
+	 *
+	 * @param string $plugin_name         The plugin name.
+	 *
+	 * @return string The group.
+	 */
+	private function get_group_from_plugin_name( $plugin_name ) {
+		$matches = array();
+
+		if ( preg_match( $this->grouped_name_filter, $plugin_name, $matches ) ) {
+			foreach ( $matches as $match ) {
+				if ( $match !== '' ) {
+					return trim( $match );
+				}
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Retrieves a list of installed plugins, pruned by group.
+	 *
+	 * @param array $plugin_groups Plugins to filter for installed plugins.
+	 * @param bool  [$prune=true]  Whether to prune the groups if they contain less than 2 plugins.
 	 *
 	 * @return array Plugins that are actually installed.
 	 */
-	private function get_installed_plugins( array $plugins ) {
+	private function check_plugins( array $plugin_groups, $prune = true ) {
 		$installed = array();
 
-		foreach ( $plugins as $plugin => $versions ) {
-			foreach ( $versions as $version => $plugin_path ) {
+		foreach ( $plugin_groups as $group => $plugins ) {
+			foreach ( $plugins as $plugin => $plugin_path ) {
 				$full_plugin_path = ABSPATH . 'wp-content/plugins/' . plugin_basename( $plugin_path );
 
+				// Add the plugin to the group if it exists.
 				if ( file_exists( $full_plugin_path ) ) {
-					$installed[ $plugin ][ $version ] = $plugin_path;
+					$installed[ $group ][ $plugin ] = $plugin_path;
+				}
+			}
+
+			if ( $prune ) {
+				// Remove the group entirely if there are less than 2 plugins in it.
+				if ( count( $installed[ $group ] ) < 2 ) {
+					unset( $installed[ $group ] );
 				}
 			}
 		}
@@ -229,22 +330,25 @@ class Plugin_Toggler implements Integration {
 	}
 
 	/**
-	 * Retrieves a list of active plugins.
+	 * Retrieves the active plugin of a group. First hit if there are multiple.
 	 *
-	 * @return array List of active plugins.
+	 * @param string $group The group of to check.
+	 *
+	 * @return string The plugin name or an empty string.
 	 */
-	private function get_active_plugins() {
-		$active = array();
+	private function get_active_plugin( $group ) {
+		if ( ! array_key_exists( $group, $this->plugin_groups ) ) {
+			return '';
+		}
 
-		foreach ( $this->plugins as $plugin => $versions ) {
-			foreach ( $versions as $version => $plugin_path ) {
-				if ( is_plugin_active( $plugin_path ) ) {
-					$active[ $plugin ] = $version;
-				}
+		$plugins = $this->plugin_groups[ $group ];
+		foreach ( $plugins as $plugin => $plugin_path ) {
+			if ( is_plugin_active( $plugin_path ) ) {
+				return $plugin;
 			}
 		}
 
-		return $active;
+		return '';
 	}
 
 	/**
@@ -253,8 +357,8 @@ class Plugin_Toggler implements Integration {
 	 * @return void
 	 */
 	private function add_additional_hooks() {
-		// Setting AJAX-request for toggle between version.
-		add_action( 'wp_ajax_toggle_version', array( $this, 'ajax_toggle_plugin_version' ) );
+		// Setting AJAX-request to toggle the plugin.
+		add_action( 'wp_ajax_toggle_plugin', array( $this, 'ajax_toggle_plugin' ) );
 
 		// Adding assets.
 		add_action( 'admin_init', array( $this, 'add_assets' ) );
@@ -263,63 +367,43 @@ class Plugin_Toggler implements Integration {
 	}
 
 	/**
-	 * Activates a version of a specific plugin.
+	 * Activates a plugin of a specific group.
 	 *
-	 * @param string $plugin  Plugin to activate a version of.
-	 * @param string $version Version to activate.
+	 * @param string $group  Group to activate a plugin of.
+	 * @param string $plugin Plugin to activate.
 	 *
 	 * @return void
 	 */
-	private function activate_plugin_version( $plugin, $version ) {
-		$plugin_to_enable = $this->plugins[ $plugin ][ $version ];
+	private function activate_plugin( $group, $plugin ) {
+		if ( ! array_key_exists( $group, $this->plugin_groups ) ) {
+			return;
+		}
+		if ( ! array_key_exists( $plugin, $this->plugin_groups[ $group ] ) ) {
+			return;
+		}
 
-		// Activate plugin.
-		activate_plugin( plugin_basename( $plugin_to_enable ), null, false, true );
+		$plugin_path = $this->plugin_groups[ $group ][ $plugin ];
+		activate_plugin( plugin_basename( $plugin_path ), null, false, true );
 	}
 
 	/**
-	 * Deactivates a version for a specific plugin
+	 * Deactivates the plugins in a specific group.
 	 *
 	 * This will be performed in silent mode.
 	 *
-	 * @param string $plugin  Plugin to deactivate a version of.
-	 * @param string $version Version to deactivate.
+	 * @param string $group Group to deactivate the plugins of.
 	 *
 	 * @return void
 	 */
-	private function deactivate_plugin_version( $plugin, $version ) {
-		$plugin_to_disable = $this->plugins[ $plugin ][ $version ];
-
-		// Disable plugin.
-		deactivate_plugins( plugin_basename( $plugin_to_disable ), true );
-	}
-
-	/**
-	 * Retrieves the active version of the plugin.
-	 *
-	 * @param string $plugin The plugin to retrieve the version from.
-	 *
-	 * @return string The version that is active.
-	 */
-	private function get_active_version( $plugin ) {
-		foreach ( $this->plugins[ $plugin ] as $version => $plugin_path ) {
-			if ( is_plugin_active( $plugin_path ) ) {
-				return $version;
-			}
+	private function deactivate_plugin_group( $group ) {
+		if ( ! array_key_exists( $group, $this->plugin_groups ) )  {
+			return;
 		}
-	}
 
-	/**
-	 * Getting the version of given $plugin which is inactive
-	 *
-	 * @param string $plugin The plugin to retrieve the version from.
-	 *
-	 * @return string The version that is inactive.
-	 */
-	private function get_inactive_version( $plugin ) {
-		foreach ( $this->plugins[ $plugin ] as $version => $plugin_path ) {
-			if ( $this->get_active_version( $plugin ) !== $version ) {
-				return $version;
+		$plugins = $this->plugin_groups[ $group ];
+		foreach( $plugins as $plugin => $plugin_path ) {
+			if ( is_plugin_active( $plugin_path ) ) {
+				deactivate_plugins( plugin_basename( $plugin_path ), true );
 			}
 		}
 	}
@@ -337,5 +421,21 @@ class Plugin_Toggler implements Integration {
 		if ( wp_verify_nonce( $ajax_nonce, 'yoast-plugin-toggle' ) ) {
 			return true;
 		}
+	}
+
+	/**
+	 * Initializes the plugin groups.
+	 *
+	 * @return void
+	 */
+	private function init_plugin_groups() {
+		// Find the plugin groups.
+		$plugin_groups = $this->get_plugin_groups();
+
+		// Apply filters to extend the $this->plugin_groups property.
+		$plugin_groups = (array) apply_filters( 'yoast_plugin_toggler_extend', $plugin_groups );
+
+		// Check the plugins after the filter.
+		$this->plugin_groups = $this->check_plugins( $plugin_groups );
 	}
 }
