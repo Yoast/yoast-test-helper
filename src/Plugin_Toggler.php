@@ -85,14 +85,7 @@ class Plugin_Toggler implements Integration {
 		// Apply filters to adapt the $this->grouped_name_filter property.
 		$this->grouped_name_filter = apply_filters( 'yoast_plugin_toggler_filter', $this->grouped_name_filter );
 
-		// Find the plugin groups.
-		$this->plugin_groups = $this->get_plugin_groups();
-
-		// Apply filters to extend the $this->plugin_groups property.
-		$this->plugin_groups = (array) apply_filters( 'yoast_plugin_toggler_extend', $this->plugin_groups );
-
-		// Check the plugins after the filter.
-		$this->plugin_groups = $this->check_plugins( $this->plugin_groups );
+		$this->init_plugin_groups();
 
 		// Adding the hooks.
 		$this->add_additional_hooks();
@@ -265,7 +258,7 @@ class Plugin_Toggler implements Integration {
 
 		foreach ( $plugins as $file => $data ) {
 			$plugin = $data[ 'Name' ];
-			$group  = $this->get_group_from_plugin_name( $plugin, $this->grouped_name_filter );
+			$group  = $this->get_group_from_plugin_name( $plugin );
 			if ( $group === '' ) {
 				continue;
 			}
@@ -287,14 +280,13 @@ class Plugin_Toggler implements Integration {
 	 * $grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
 	 *
 	 * @param string $plugin_name         The plugin name.
-	 * @param string $grouped_name_filter The regex string that matches the group.
 	 *
 	 * @return string The group.
 	 */
-	private function get_group_from_plugin_name( $plugin_name, $grouped_name_filter ) {
+	private function get_group_from_plugin_name( $plugin_name ) {
 		$matches = array();
 
-		if ( preg_match( $grouped_name_filter, $plugin_name, $matches ) ) {
+		if ( preg_match( $this->grouped_name_filter, $plugin_name, $matches ) ) {
 			foreach ( $matches as $match ) {
 				if ( $match !== '' ) {
 					return trim( $match );
@@ -429,5 +421,21 @@ class Plugin_Toggler implements Integration {
 		if ( wp_verify_nonce( $ajax_nonce, 'yoast-plugin-toggle' ) ) {
 			return true;
 		}
+	}
+
+	/**
+	 * Initializes the plugin groups.
+	 *
+	 * @return void
+	 */
+	private function init_plugin_groups() {
+		// Find the plugin groups.
+		$plugin_groups = $this->get_plugin_groups();
+
+		// Apply filters to extend the $this->plugin_groups property.
+		$plugin_groups = (array) apply_filters( 'yoast_plugin_toggler_extend', $plugin_groups );
+
+		// Check the plugins after the filter.
+		$this->plugin_groups = $this->check_plugins( $plugin_groups );
 	}
 }
