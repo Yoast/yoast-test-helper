@@ -1,6 +1,6 @@
 <?php
 /**
- * Toggles between free and premium plugins.
+ * Toggles features on and off based on feature flags.
  *
  * @package Yoast\Test_Helper
  */
@@ -8,7 +8,7 @@
 namespace Yoast\Test_Helper;
 
 /**
- * Toggles between plugins.
+ * Toggles the features on and off.
  */
 class Feature_Toggler implements Integration {
 
@@ -38,7 +38,7 @@ class Feature_Toggler implements Integration {
 	}
 
 	/**
-	 * Constructs the object and set init hook.
+	 * Registers WordPress hooks.
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class Feature_Toggler implements Integration {
 	 * @return array The modified array of enabled features.
 	 */
 	public function enable_features( $featureArray ) {
-		foreach ( $this->features as $feature ) {
+		foreach ( $this->features as $feature => $label ) {
 			if ( $this->option->get( 'feature_toggle_' . $feature ) ) {
 				$featureArray[] = $feature;
 			}
