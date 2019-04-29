@@ -37,13 +37,15 @@ class Schema implements Integration {
 
 		if ( $this->option->get( 'is_needed_breadcrumb' ) === 'none' ) {
 			remove_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
-		} else {
+		}
+		else {
 			add_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
 		}
 
 		if ( $this->option->get( 'is_needed_webpage' ) === 'none' ) {
 			remove_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
-		} else {
+		}
+		else {
 			add_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
 		}
 
@@ -112,7 +114,7 @@ class Schema implements Integration {
 		$source = \WPSEO_Utils::get_home_url();
 		$target = 'https://example.com';
 
-		if ( $source[ strlen( $source ) - 1 ] === '/' ) {
+		if ( $source[ ( strlen( $source ) - 1 ) ] === '/' ) {
 			$source = substr( $source, 0, -1 );
 		}
 

@@ -70,7 +70,7 @@ class Form_Presenter {
 		$output .= sprintf( '<select name="%1$s" id="%1$s">', $option );
 		foreach ( $options as $value => $option_label ) {
 			$selected_html = selected( $selected === $value, true, false );
-			$output .= sprintf( '<option ' . $selected_html . ' value="%1$s">%2$s</option>', $value, $option_label );
+			$output       .= sprintf( '<option ' . $selected_html . ' value="%1$s">%2$s</option>', $value, $option_label );
 		}
 		$output .= '</select><br/>';
 
