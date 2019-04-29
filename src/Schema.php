@@ -65,7 +65,7 @@ class Schema implements Integration {
 		$select_options = array(
 			'none' => 'Don\'t influence',
 			'show' => 'Always include',
-			'hide' => 'Always hide',
+			'hide' => 'Never include',
 		);
 
 		$output .= Form_Presenter::create_select(
