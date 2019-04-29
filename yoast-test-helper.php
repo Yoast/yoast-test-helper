@@ -36,7 +36,9 @@ define( 'YOAST_TEST_HELPER_DIR', dirname( YOAST_TEST_HELPER_FILE ) );
 
 define( 'YOAST_TEST_HELPER_VERSION', '1.0.2' );
 
-require __DIR__ . '/vendor/autoload.php';
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require __DIR__ . '/vendor/autoload.php';
+}
 
 $yoast_test_helper = new Yoast\Test_Helper\Plugin();
 $yoast_test_helper->add_hooks();
