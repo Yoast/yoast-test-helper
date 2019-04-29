@@ -35,6 +35,18 @@ class Schema implements Integration {
 			add_filter( 'wpseo_debug_json_data', array( $this, 'replace_domain' ) );
 		}
 
+		if ( $this->option->get( 'is_needed_breadcrumb' ) === 'none' ) {
+			remove_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
+		} else {
+			add_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
+		}
+
+		if ( $this->option->get( 'is_needed_webpage' ) === 'none' ) {
+			remove_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
+		} else {
+			add_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
+		}
+
 		add_action( 'admin_post_yoast_seo_test_schema', array( $this, 'handle_submit' ) );
 	}
 
@@ -45,8 +57,29 @@ class Schema implements Integration {
 	 */
 	public function get_controls() {
 		$output = Form_Presenter::create_checkbox(
-			'replace_schema_domain', 'Replace .test domain name with example.com in Schema output.',
+			'replace_schema_domain',
+			'Replace .test domain name with example.com in Schema output.',
 			$this->option->get( 'replace_schema_domain' )
+		);
+
+		$select_options = array(
+			'none' => 'Don\'t influence',
+			'show' => 'Always include',
+			'hide' => 'Always hide',
+		);
+
+		$output .= Form_Presenter::create_select(
+			'is_needed_breadcrumb',
+			'Influence the Breadcrumb Graph piece: ',
+			$select_options,
+			$this->option->get( 'is_needed_breadcrumb' )
+		);
+
+		$output .= Form_Presenter::create_select(
+			'is_needed_webpage',
+			'Influence the WebPage Graph piece: ',
+			$select_options,
+			$this->option->get( 'is_needed_webpage' )
 		);
 
 		return Form_Presenter::get_html( 'Schema', 'yoast_seo_test_schema', $output );
@@ -61,6 +94,9 @@ class Schema implements Integration {
 		if ( check_admin_referer( 'yoast_seo_test_schema' ) !== false ) {
 			$this->option->set( 'replace_schema_domain', isset( $_POST['replace_schema_domain'] ) );
 		}
+
+		$this->option->set( 'is_needed_breadcrumb', $_POST['is_needed_breadcrumb'] );
+		$this->option->set( 'is_needed_webpage', $_POST['is_needed_webpage'] );
 
 		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
 	}
@@ -81,6 +117,24 @@ class Schema implements Integration {
 		}
 
 		return $this->array_value_str_replace( $source, $target, $data );
+	}
+
+	/**
+	 * Returns the current breadcrumb option as boolean.
+	 *
+	 * @return bool
+	 */
+	public function filter_is_needed_breadcrumb() {
+		return $this->option->get( 'is_needed_breadcrumb' ) === 'show';
+	}
+
+	/**
+	 * Returns the current webpage option as boolean.
+	 *
+	 * @return bool
+	 */
+	public function filter_is_needed_webpage() {
+		return $this->option->get( 'is_needed_webpage' ) === 'show';
 	}
 
 	/**
