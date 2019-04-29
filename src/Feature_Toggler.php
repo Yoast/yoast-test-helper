@@ -52,19 +52,6 @@ class Feature_Toggler implements Integration {
 	}
 
 	/**
-	 * Adding the assets to the page.
-	 *
-	 * @return void
-	 */
-	public function add_assets() {
-		// JS file.
-		wp_enqueue_script(
-			'yoast-toggle-script',
-			plugin_dir_url( YOAST_TEST_HELPER_FILE ) . 'assets/js/yoast-toggle.js'
-		);
-	}
-
-	/**
 	 * Retrieves the controls.
 	 *
 	 * @return string The HTML to use to render the controls.
