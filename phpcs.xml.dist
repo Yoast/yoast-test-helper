@@ -5,6 +5,7 @@
     <file>.</file>
 
     <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>node_modules/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
     <arg value="sp"/>
