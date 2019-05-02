@@ -60,9 +60,9 @@ class Feature_Toggler implements Integration {
 		$fields = '';
 
 		foreach ( $this->features as $feature => $label ) {
-			$key = 'feature_toggle_' . $feature;
+			$key     = 'feature_toggle_' . $feature;
 			$fields .= Form_Presenter::create_checkbox(
-				$key, 'Enable '. $label,
+				$key, 'Enable ' . $label,
 				$this->option->get( $key )
 			);
 		}
@@ -89,17 +89,17 @@ class Feature_Toggler implements Integration {
 	/**
 	 * Enable a feature in the plugin.
 	 *
-	 * @param array $featureArray The array of enabled features.
+	 * @param array $feature_array The array of enabled features.
 	 *
 	 * @return array The modified array of enabled features.
 	 */
-	public function enable_features( $featureArray ) {
+	public function enable_features( $feature_array ) {
 		foreach ( $this->features as $feature => $label ) {
 			if ( $this->option->get( 'feature_toggle_' . $feature ) ) {
-				$featureArray[] = $feature;
+				$feature_array[] = $feature;
 			}
 		}
 
-		return $featureArray;
+		return $feature_array;
 	}
 }
