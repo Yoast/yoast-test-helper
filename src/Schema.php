@@ -37,6 +37,7 @@ class Schema implements Integration {
 
 		switch ( $this->option->get( 'is_needed_breadcrumb' ) ) {
 			case 'show':
+			case 'hide':
 				add_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
 				break;
 			default:
@@ -45,6 +46,7 @@ class Schema implements Integration {
 
 		switch ( $this->option->get( 'is_needed_webpage' ) ) {
 			case 'show':
+			case 'hide':
 				add_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
 				break;
 			default:
