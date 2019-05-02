@@ -22,15 +22,16 @@ class Form_Presenter {
 	 * @return string The HTML to render the form.
 	 */
 	public static function get_html( $title, $nonce_field, $fields, $submit = true ) {
+		$field   = esc_attr( $nonce_field );
 		$output  = '<h2>' . esc_html( $title ) . '</h2>';
 		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
 		$output .= wp_nonce_field( $nonce_field, '_wpnonce', true, false );
-		$output .= '<input type="hidden" name="action" value="' . esc_attr( $nonce_field ) . '">';
+		$output .= '<input type="hidden" name="action" value="' . $field . '">';
 
 		$output .= $fields;
 
 		if ( $submit ) {
-			$output .= '<button class="button" type="submit">Save</button>';
+			$output .= '<button id="' . $field .'_save" class="button" type="submit">Save</button>';
 		}
 
 		$output .= '</form>';
