@@ -35,18 +35,20 @@ class Schema implements Integration {
 			add_filter( 'wpseo_debug_json_data', array( $this, 'replace_domain' ) );
 		}
 
-		if ( $this->option->get( 'is_needed_breadcrumb' ) === 'none' ) {
-			remove_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
-		}
-		else {
-			add_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
+		switch ( $this->option->get( 'is_needed_breadcrumb' ) ) {
+			case 'show':
+				add_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
+				break;
+			default:
+				remove_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
 		}
 
-		if ( $this->option->get( 'is_needed_webpage' ) === 'none' ) {
-			remove_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
-		}
-		else {
-			add_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
+		switch ( $this->option->get( 'is_needed_webpage' ) ) {
+			case 'show':
+				add_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
+				break;
+			default:
+				remove_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
 		}
 
 		add_action( 'admin_post_yoast_seo_test_schema', array( $this, 'handle_submit' ) );
