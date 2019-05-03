@@ -42,6 +42,7 @@ class Schema implements Integration {
 				break;
 			default:
 				remove_filter( 'wpseo_schema_needs_breadcrumb', array( $this, 'filter_is_needed_breadcrumb' ) );
+				break;
 		}
 
 		switch ( $this->option->get( 'is_needed_webpage' ) ) {
@@ -51,6 +52,7 @@ class Schema implements Integration {
 				break;
 			default:
 				remove_filter( 'wpseo_schema_needs_webpage', array( $this, 'filter_is_needed_webpage' ) );
+				break;
 		}
 
 		add_action( 'admin_post_yoast_seo_test_schema', array( $this, 'handle_submit' ) );
