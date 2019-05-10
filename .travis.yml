@@ -27,7 +27,7 @@ jobs:
         - yarn install
         - grunt set-version -new-version=$TRAVIS_TAG
         - grunt update-version
-        - grunt 
+        - grunt artifact
         - openssl aes-256-cbc -K $encrypted_8f6358b271ea_key -iv $encrypted_8f6358b271ea_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d
         - chmod 600 ./deploy_keys/travis_dist_id_rsa
         - eval $(ssh-agent -s)
