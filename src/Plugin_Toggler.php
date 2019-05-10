@@ -141,8 +141,8 @@ class Plugin_Toggler implements Integration {
 							$group,
 							$plugin,
 							$nonce
-						)
-					)
+						),
+					),
 				) );
 			}
 		}
@@ -185,8 +185,8 @@ class Plugin_Toggler implements Integration {
 			$response = array(
 				'activated_plugin' => array(
 					'group'  => $group,
-					'plugin' => $plugin
-				)
+					'plugin' => $plugin,
+				),
 			);
 		}
 
@@ -241,12 +241,12 @@ class Plugin_Toggler implements Integration {
 	 * Example:
 	 * $this->grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
 	 * $plugin_groups = array(
-	 * 	'Yoast SEO' => array(
-	 * 		'Yoast SEO'             => 'wordpress-seo/wp-seo.php',
-	 * 		'Yoast SEO 8.4'         => 'wordpress-seo 8.4/wp-seo.php',
-	 * 		'Yoast SEO Premium'     => 'wordpress-seo-premium/wp-seo-premium.php',
-	 * 		'Yoast SEO Premium 8.4' => 'wordpress-seo-premium 8.4/wp-seo-premium.php',
-	 * 	),
+	 *   'Yoast SEO' => array(
+	 *     'Yoast SEO'             => 'wordpress-seo/wp-seo.php',
+	 *     'Yoast SEO 8.4'         => 'wordpress-seo 8.4/wp-seo.php',
+	 *     'Yoast SEO Premium'     => 'wordpress-seo-premium/wp-seo-premium.php',
+	 *     'Yoast SEO Premium 8.4' => 'wordpress-seo-premium 8.4/wp-seo-premium.php',
+	 *   ),
 	 * );
 	 *
 	 * @return array The plugins grouped by the regex matches.
@@ -257,7 +257,7 @@ class Plugin_Toggler implements Integration {
 		$plugin_groups = array();
 
 		foreach ( $plugins as $file => $data ) {
-			$plugin = $data[ 'Name' ];
+			$plugin = $data['Name'];
 			$group  = $this->get_group_from_plugin_name( $plugin );
 			if ( $group === '' ) {
 				continue;
@@ -301,7 +301,7 @@ class Plugin_Toggler implements Integration {
 	 * Retrieves a list of installed plugins, pruned by group.
 	 *
 	 * @param array $plugin_groups Plugins to filter for installed plugins.
-	 * @param bool  [$prune=true]  Whether to prune the groups if they contain less than 2 plugins.
+	 * @param bool  $prune         Whether to prune the groups if they contain less than 2 plugins. Defaults to true.
 	 *
 	 * @return array Plugins that are actually installed.
 	 */
@@ -396,12 +396,12 @@ class Plugin_Toggler implements Integration {
 	 * @return void
 	 */
 	private function deactivate_plugin_group( $group ) {
-		if ( ! array_key_exists( $group, $this->plugin_groups ) )  {
+		if ( ! array_key_exists( $group, $this->plugin_groups ) ) {
 			return;
 		}
 
 		$plugins = $this->plugin_groups[ $group ];
-		foreach( $plugins as $plugin => $plugin_path ) {
+		foreach ( $plugins as $plugin => $plugin_path ) {
 			if ( is_plugin_active( $plugin_path ) ) {
 				deactivate_plugins( plugin_basename( $plugin_path ), true );
 			}
