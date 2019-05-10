@@ -46,10 +46,7 @@ cache:
 
 before_install:
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
-- openssl aes-256-cbc -K $encrypted_8f6358b271ea_key -iv $encrypted_8f6358b271ea_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d
-- chmod 600 ./deploy_keys/travis_dist_id_rsa
-- eval $(ssh-agent -s)
-- ssh-add ./deploy_keys/travis_dist_id_rsa
+
 
 - 
 
@@ -74,6 +71,13 @@ before_script:
 - svn --version
 - locale -a
 - echo "repo $TRAVIS_REPO_SLUG commit $TRAVIS_COMMIT containing tag $TRAVIS_TAG"
+
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_8f6358b271ea_key -iv $encrypted_8f6358b271ea_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d
+- chmod 600 ./deploy_keys/travis_dist_id_rsa
+- eval $(ssh-agent -s)
+- ssh-add ./deploy_keys/travis_dist_id_rsa
+
 
 script:
 # PHP Linting
