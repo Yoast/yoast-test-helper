@@ -18,10 +18,10 @@
 
 'deploy:trunk':
   - 'update-version'
-  - 'create:artifact'
+  - 'artifact'
   - 'wp_deploy:trunk'
 
 'deploy:master':
-  - 'update-version-release'
-  - 'create:artifact'
+  - 'update-version'
+  - 'artifact'
   - 'wp_deploy:master'
