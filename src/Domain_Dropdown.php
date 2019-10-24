@@ -40,7 +40,7 @@ class Domain_Dropdown implements Integration {
 		if ( $domain !== null && $domain !== 'https://my.yoast.com/') {
 			add_action( 'requests-requests.before_request', array ( $this, 'modify_myyoast_request' ), 10, 2 );
 		} else {
-			remove_action( 'requests-requests.before_request', array ( $this, 'modify_myyoast_request' ), 10, 2 );
+			remove_action( 'requests-requests.before_request', array ( $this, 'modify_myyoast_request' ), 10 );
 		}
 	}
 
@@ -82,7 +82,7 @@ class Domain_Dropdown implements Integration {
 	}
 
 	/**
-	 * If a testing domain is set, modify any request to myYoast to go to the testing domain. 
+	 * If a testing domain is set, modify any request to myYoast to go to the testing domain.
 	 *
 	 * Attached to the `requests-requests.before_request` filter.
 	 * @param string &$url URL of request about to be made
@@ -119,6 +119,7 @@ class Domain_Dropdown implements Integration {
 
 		switch ( $url_host ) {
 			case 'my.yoast.com' :
+			case 'my.yoast.test:3000' :
 				$host = isset( $headers['Host'] ) ? $headers['Host'] : $url_host;
 				$url = preg_replace(
 					'@^(https?://)' . preg_quote( $url_host, '@' ) . '(?=[/?#].*|$)@',
@@ -127,8 +128,7 @@ class Domain_Dropdown implements Integration {
 					1
 				);
 		}
-
 		return compact( 'url', 'host' );
 	}
-
 }
+
