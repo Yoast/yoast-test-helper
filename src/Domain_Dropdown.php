@@ -37,7 +37,7 @@ class Domain_Dropdown implements Integration {
 		add_action( 'admin_post_yoast_seo_domain_dropdown', array( $this, 'handle_submit' ) );
 
 		$domain = $this->option->get('myyoast_test_domain');
-		if ( $domain !== null && $domain !== 'https://my.yoast.com/') {
+		if ( ! empty( $domain ) && $domain !== 'https://my.yoast.com' ) {
 			add_action( 'requests-requests.before_request', array ( $this, 'modify_myyoast_request' ), 10, 2 );
 		} else {
 			remove_action( 'requests-requests.before_request', array ( $this, 'modify_myyoast_request' ), 10 );
@@ -51,11 +51,11 @@ class Domain_Dropdown implements Integration {
 	 */
 	public function get_controls() {
 		$select_options = array(
-			'my.yoast.com/' => 'live',
-			'staging-my.yoast.com' => 'staging',
-			'staging-plugins-my.yoast.com/' => 'staging-plugins',
-			'staging-platform-my.yoast.com/' => 'staging-platform',
-			'my.yoast.test:3000' => 'local',
+			'https://my.yoast.com' => 'live',
+			'https://staging-my.yoast.com' => 'staging',
+			'https://staging-plugins-my.yoast.com' => 'staging-plugins',
+			'https://staging-platform-my.yoast.com' => 'staging-platform',
+			'http://my.yoast.test:3000' => 'local',
 		);
 
 		$output = Form_Presenter::create_select(
@@ -91,7 +91,8 @@ class Domain_Dropdown implements Integration {
 	 */
 	public function modify_myyoast_request( &$url, &$headers ) {
 		$domain = $this->option->get( 'myyoast_test_domain' );
-		if ( ! $domain || $domain === 'https://my.yoast.com/') {
+
+		if ( empty( $domain ) || $domain === 'https://my.yoast.com' ) {
 			return;
 		}
 
@@ -117,17 +118,11 @@ class Domain_Dropdown implements Integration {
 		$host = '';
 		$url_host = wp_parse_url( $url, PHP_URL_HOST );
 
-		switch ( $url_host ) {
-			case 'my.yoast.com' :
-			case 'my.yoast.test:3000' :
-				$host = isset( $headers['Host'] ) ? $headers['Host'] : $url_host;
-				$url = preg_replace(
-					'@^(https?://)' . preg_quote( $url_host, '@' ) . '(?=[/?#].*|$)@',
-					'\\1' . $domain,
-					$url,
-					1
-				);
+		if ( $url_host === 'my.yoast.com' ) {
+			$host = isset( $headers['Host'] ) ? $headers['Host'] : $url_host;
+			$url = str_replace( 'https://' . $url_host, $domain, $url );
 		}
+
 		return compact( 'url', 'host' );
 	}
 }
