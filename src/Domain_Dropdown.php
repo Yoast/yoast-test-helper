@@ -118,7 +118,7 @@ class Domain_Dropdown implements Integration {
 	 * @param array  $headers Headers of request about to be made.
 	 * @return array [ 'url' => new URL, 'host' => new Host ]
 	 */
-	public function replace_domain( $domain, $url, $headers ) {
+	private function replace_domain( $domain, $url, $headers ) {
 		$host     = '';
 		$url_host = wp_parse_url( $url, PHP_URL_HOST );
 
