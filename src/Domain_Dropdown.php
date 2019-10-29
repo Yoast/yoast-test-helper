@@ -1,6 +1,6 @@
 <?php
 /**
- * Toggles features on and off based on feature flags.
+ * Sends requests to my.yoast.com to a chosen testing domain instead.
  *
  * @package Yoast\Test_Helper
  */
@@ -8,7 +8,7 @@
 namespace Yoast\Test_Helper;
 
 /**
- * Toggles the features on and off.
+ * Sends myYoast requests to a chosen testing domain.
  */
 class Domain_Dropdown implements Integration {
 
@@ -36,11 +36,12 @@ class Domain_Dropdown implements Integration {
 	public function add_hooks() {
 		add_action( 'admin_post_yoast_seo_domain_dropdown', array( $this, 'handle_submit' ) );
 
-		$domain = $this->option->get('myyoast_test_domain');
+		$domain = $this->option->get( 'myyoast_test_domain' );
 		if ( ! empty( $domain ) && $domain !== 'https://my.yoast.com' ) {
-			add_action( 'requests-requests.before_request', array ( $this, 'modify_myyoast_request' ), 10, 2 );
-		} else {
-			remove_action( 'requests-requests.before_request', array ( $this, 'modify_myyoast_request' ), 10 );
+			add_action( 'requests-requests.before_request', array( $this, 'modify_myyoast_request' ), 10, 2 );
+		}
+		else {
+			remove_action( 'requests-requests.before_request', array( $this, 'modify_myyoast_request' ), 10 );
 		}
 	}
 
@@ -51,11 +52,11 @@ class Domain_Dropdown implements Integration {
 	 */
 	public function get_controls() {
 		$select_options = array(
-			'https://my.yoast.com' => 'live',
-			'https://staging-my.yoast.com' => 'staging',
-			'https://staging-plugins-my.yoast.com' => 'staging-plugins',
+			'https://my.yoast.com'                  => 'live',
+			'https://staging-my.yoast.com'          => 'staging',
+			'https://staging-plugins-my.yoast.com'  => 'staging-plugins',
 			'https://staging-platform-my.yoast.com' => 'staging-platform',
-			'http://my.yoast.test:3000' => 'local',
+			'http://my.yoast.test:3000'             => 'local',
 		);
 
 		$output = Form_Presenter::create_select(
@@ -83,10 +84,10 @@ class Domain_Dropdown implements Integration {
 
 	/**
 	 * If a testing domain is set, modify any request to myYoast to go to the testing domain.
-	 *
 	 * Attached to the `requests-requests.before_request` filter.
-	 * @param string &$url URL of request about to be made
-	 * @param array  &$headers Headers of request about to be made
+	 *
+	 * @param string $url URL of the request about to be made.
+	 * @param array  $headers Headers of the request about to be made.
 	 * @return void
 	 */
 	public function modify_myyoast_request( &$url, &$headers ) {
@@ -96,31 +97,34 @@ class Domain_Dropdown implements Integration {
 			return;
 		}
 
-		$original_url = $url;
+		$original_url       = $url;
 		$request_parameters = $this->replace_domain( $domain, $url, $headers );
-		$url = $request_parameters['url'];
+		$url                = $request_parameters['url'];
 
 		if ( $request_parameters['host'] ) {
 			$headers['Host'] = $request_parameters['host'];
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 				error_log( sprintf( "SANDBOXING via '%s': '%s'", $domain, $original_url ) );
 			}
 		}
 	}
 
 	/**
+	 * Replace the domain of the url with the passed domain for my-yoast urls.
+	 *
 	 * @param string $domain Testing domain to take place in the request.
-	 * @param string $url URL of request about to be made
-	 * @param array  $headers Headers of request about to be made
+	 * @param string $url URL of request about to be made.
+	 * @param array  $headers Headers of request about to be made.
 	 * @return array [ 'url' => new URL, 'host' => new Host ]
 	 */
-	function replace_domain( $domain, $url, $headers ) {
-		$host = '';
+	public function replace_domain( $domain, $url, $headers ) {
+		$host     = '';
 		$url_host = wp_parse_url( $url, PHP_URL_HOST );
 
 		if ( $url_host === 'my.yoast.com' ) {
 			$host = isset( $headers['Host'] ) ? $headers['Host'] : $url_host;
-			$url = str_replace( 'https://' . $url_host, $domain, $url );
+			$url  = str_replace( 'https://' . $url_host, $domain, $url );
 		}
 
 		return compact( 'url', 'host' );
