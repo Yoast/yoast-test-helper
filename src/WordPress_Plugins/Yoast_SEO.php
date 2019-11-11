@@ -75,7 +75,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'prominent_words_calculation' => 'Prominent words calculation',
 			'reset_notifications'         => 'Notifications',
 			'reset_site_information'      => 'Site information',
-			'reset_tracking' 		      => 'Tracking',
+			'reset_tracking'              => 'Tracking',
 		);
 	}
 
