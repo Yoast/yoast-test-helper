@@ -39,6 +39,9 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
+		// Enabling this plugin means you are in development mode.
+		add_filter( 'yoast_seo_development_mode', '__return_true' );
+
 		array_map(
 			function ( Integration $integration ) {
 				$integration->add_hooks();
