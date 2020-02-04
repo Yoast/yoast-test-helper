@@ -88,6 +88,7 @@ class Plugin implements Integration {
 		$this->integrations[] = new Taxonomies( $option );
 		$this->integrations[] = new Schema( $option );
 		$this->integrations[] = new XML_Sitemaps( $option );
+		$this->integrations[] = new Inline_Script( $option );
 	}
 
 	/**
