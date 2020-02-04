@@ -77,6 +77,7 @@ class Plugin implements Integration {
 		$option = new Option();
 
 		$this->integrations[] = $plugin_version_control;
+		$this->integrations[] = new Development_Mode( $option );
 		$this->integrations[] = new Admin_Notifications();
 		$this->integrations[] = new Upgrade_Detector();
 		$this->integrations[] = new Admin_Page();
@@ -87,6 +88,7 @@ class Plugin implements Integration {
 		$this->integrations[] = new Post_Types( $option );
 		$this->integrations[] = new Taxonomies( $option );
 		$this->integrations[] = new Schema( $option );
+		$this->integrations[] = new Domain_Dropdown( $option );
 		$this->integrations[] = new XML_Sitemaps( $option );
 		$this->integrations[] = new Inline_Script( $option );
 	}

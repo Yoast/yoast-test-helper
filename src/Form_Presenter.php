@@ -25,7 +25,7 @@ class Form_Presenter {
 		$field   = esc_attr( $nonce_field );
 		$output  = '<h2>' . esc_html( $title ) . '</h2>';
 		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		$output .= wp_nonce_field( $nonce_field, '_wpnonce', true, false );
+		$output .= str_replace( 'id="_wpnonce"', '', wp_nonce_field( $nonce_field, '_wpnonce', true, false ) );
 		$output .= '<input type="hidden" name="action" value="' . $field . '">';
 
 		$output .= $fields;

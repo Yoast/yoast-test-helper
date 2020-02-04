@@ -75,6 +75,6 @@ class Option {
 	 * @return bool False if value was not updated and true if value was updated.
 	 */
 	private function save_options() {
-		return update_option( $this->option_name, $this->options, false );
+		return update_option( $this->option_name, $this->options, true );
 	}
 }

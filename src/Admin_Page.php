@@ -109,16 +109,16 @@ class Admin_Page implements Integration {
 	 * @return void
 	 */
 	private function masonry_script() {
-?>
-		<script type="text/javascript">
-			jQuery(window).load(function() {
-				var container = document.querySelector('#yoast_masonry');
-				new Masonry( container, {
-					itemSelector: '.wpseo_test_block',
-					columnWidth: '.wpseo_test_block'
-				});
-			});
-		</script>
-<?php
+		?>
+				<script type="text/javascript">
+					jQuery(window).load(function() {
+						var container = document.querySelector('#yoast_masonry');
+						new Masonry( container, {
+							itemSelector: '.wpseo_test_block',
+							columnWidth: '.wpseo_test_block'
+						});
+					});
+				</script>
+		<?php
 	}
 }

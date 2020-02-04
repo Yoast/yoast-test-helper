@@ -129,7 +129,7 @@ class WordPress_Plugin_Version_Control implements Integration {
 	 */
 	protected function get_plugin_option( WordPress_Plugin $plugin ) {
 		return sprintf(
-			'<tr><td>%s:</td><td><input type="text" name="%s" value="%s" maxlength="7" size="8"></td><td>(%s)</td><td>%s</td></tr>',
+			'<tr><td>%s:</td><td><input type="text" name="%s" value="%s" maxlength="9" size="10"></td><td>(%s)</td><td>%s</td></tr>',
 			esc_html( $plugin->get_name() ),
 			esc_attr( $plugin->get_identifier() ),
 			esc_attr( $this->plugin_version->get_version( $plugin ) ),

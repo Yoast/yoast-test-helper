@@ -84,7 +84,8 @@ class Post_Types implements Integration {
 		}
 
 		add_action( 'admin_post_yoast_seo_test_post_types', array( $this, 'handle_submit' ) );
-		add_filter( 'gutenberg_can_edit_post_type', array( $this, 'enable_gutenberg' ), 10, 2 );
+		add_filter( 'gutenberg_can_edit_post_type', array( $this, 'disable_gutenberg' ), 10, 2 );
+		add_filter( 'use_block_editor_for_post_type', array( $this, 'disable_gutenberg' ), 10, 2 );
 	}
 
 	/**
@@ -95,12 +96,12 @@ class Post_Types implements Integration {
 	 *
 	 * @return bool Whether or not Gutenberg is enabled.
 	 */
-	public function enable_gutenberg( $can_edit, $post_type ) {
-		if ( $post_type === $this->movie_args['rewrite']['slug'] && $this->option->get( 'enable_gutenberg_videos' ) === true ) {
-			return true;
+	public function disable_gutenberg( $can_edit, $post_type ) {
+		if ( $post_type === 'movie' && $this->option->get( 'enable_gutenberg_videos' ) === false ) {
+			return false;
 		}
-		if ( $post_type === $this->book_args['rewrite']['slug'] && $this->option->get( 'enable_gutenberg_books' ) === true ) {
-			return true;
+		if ( $post_type === 'book' && $this->option->get( 'enable_gutenberg_books' ) === false ) {
+			return false;
 		}
 
 		return $can_edit;
@@ -128,12 +129,12 @@ class Post_Types implements Integration {
 		);
 
 		$fields .= Form_Presenter::create_checkbox(
-			'enable_gutenberg_books', 'Enable Gutenberg for Books.',
+			'enable_gutenberg_books', 'Enable block editor for Books.',
 			$this->option->get( 'enable_gutenberg_books' )
 		);
 
 		$fields .= Form_Presenter::create_checkbox(
-			'enable_gutenberg_videos', 'Enable Gutenberg for Videos.',
+			'enable_gutenberg_videos', 'Enable block editor for Videos.',
 			$this->option->get( 'enable_gutenberg_videos' )
 		);
 

@@ -75,6 +75,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'prominent_words_calculation' => 'Prominent words calculation',
 			'reset_notifications'         => 'Notifications',
 			'reset_site_information'      => 'Site information',
+			'reset_tracking'              => 'Tracking',
 		);
 	}
 
@@ -98,6 +99,8 @@ class Yoast_SEO implements WordPress_Plugin {
 				return true;
 			case 'reset_site_information':
 				return $this->reset_site_information();
+			case 'reset_tracking':
+				return $this->reset_tracking();
 		}
 
 		return false;
@@ -166,5 +169,14 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	private function reset_site_information() {
 		return delete_transient( 'wpseo_site_information' );
+	}
+
+	/**
+	 * Resets the tracking to fire again.
+	 *
+	 * @return bool True if successful, false otherwise.
+	 */
+	private function reset_tracking() {
+		return delete_option( 'wpseo_tracking_last_request' );
 	}
 }
