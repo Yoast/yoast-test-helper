@@ -155,7 +155,12 @@ class WordPress_Plugin_Version_Control implements Integration {
 			implode(
 				'', array_map(
 					function ( $timestamp, $item ) use ( $plugin ) {
-						$version = $item[ $plugin->get_version_option_name() ][ $plugin->get_version_key() ];
+						if ( $plugin->get_version_key() !== '' ) {
+							$version = $item[ $plugin->get_version_option_name() ][ $plugin->get_version_key() ];
+						}
+						else {
+							$version = $item[ $plugin->get_version_option_name() ];
+						}
 
 						return sprintf(
 							'<option value="%s">(%s) %s</option>', esc_attr( $timestamp ),

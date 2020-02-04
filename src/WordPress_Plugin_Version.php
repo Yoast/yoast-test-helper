@@ -45,6 +45,10 @@ class WordPress_Plugin_Version {
 			return false;
 		}
 
+		if ( $plugin->get_version_key() === '' ) {
+			return update_option( $plugin->get_version_option_name(), $version );
+		}
+
 		if ( $data[ $plugin->get_version_key() ] === $version ) {
 			return false;
 		}
