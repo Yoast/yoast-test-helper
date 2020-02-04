@@ -12,6 +12,7 @@ use Yoast\Test_Helper\WordPress_Plugins\News_SEO;
 use Yoast\Test_Helper\WordPress_Plugins\Video_SEO;
 use Yoast\Test_Helper\WordPress_Plugins\WooCommerce_SEO;
 use Yoast\Test_Helper\WordPress_Plugins\Yoast_SEO;
+use Yoast\Test_Helper\WordPress_Plugins\Yoast_SEO_Premium;
 
 /**
  * Bootstrap for the entire plugin.
@@ -101,6 +102,7 @@ class Plugin implements Integration {
 	private function get_plugins() {
 		return array(
 			new Yoast_SEO(),
+			new Yoast_SEO_Premium(),
 			new Local_SEO(),
 			new Video_SEO(),
 			new News_SEO(),
