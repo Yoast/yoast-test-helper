@@ -7,7 +7,7 @@ Yoast SEO Test Helper
 Purpose of this plugin
 ----------------------
 
-This is a plugin to aid in testing and developing the [Yoast SEO plugin](https://yoa.st/1ul) and its extensions. 
+This is a plugin to aid in testing and developing the [Yoast SEO plugin](https://yoa.st/1ul) and its extensions.
 
 Features
 --------

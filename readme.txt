@@ -1,5 +1,21 @@
 === Yoast test helper ===
+
+= 1.3 =
+
+Release Date: February 4th, 2020
+
+Enhancements:
+
+* Added the option to add an inline script after a selected script.
+* Added the option to enable and disable Yoast SEO development mode.
+* Slight styling improvements.
+
+Bugfixes:
+
+* Fixed the fact that disabling Gutenberg / the block editor on Books and Movies post type didn't actually work.
+
 = 1.2.5 =
+
 Release Date: July 12th, 2019
 
 Enhancements:
