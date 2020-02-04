@@ -33,10 +33,7 @@ class Inline_Script implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		if ( $this->option->get( 'add_inline_script' ) === true ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'add_inline_script' ) );
-		}
-
+		add_action( 'admin_enqueue_scripts', array( $this, 'add_inline_script' ) );
 		add_action( 'admin_post_yoast_seo_test_inline_script', array( $this, 'handle_submit' ) );
 	}
 
@@ -44,8 +41,11 @@ class Inline_Script implements Integration {
 	 * Add an inline script after the specified script.
 	 */
 	public function add_inline_script() {
+		if ( $this->option->get( 'add_inline_script' ) !== true ) {
+			return;
+		}
 		wp_add_inline_script(
-			'yoast-seo-' . $this->option->get( 'inline_script_handle' ),
+			$this->option->get( 'inline_script_handle' ),
 			$this->option->get( 'inline_script' )
 		);
 	}
@@ -57,19 +57,18 @@ class Inline_Script implements Integration {
 	 */
 	public function get_controls() {
 		$output = Form_Presenter::create_checkbox(
-			'add_inline_script', 'Add the specified inline script',
+			'add_inline_script', 'Add the inline script specified below after the script selected here.',
 			$this->option->get( 'add_inline_script' )
-		);
+		) . '<br/>';
 
-		$value = $this->option->get( 'inline_script_handle' );
-
-		$output .= '<label for="inline_script_handle">Handle: </label>';
-		$output .= '<input value="' . $value . '" name="inline_script_handle" id="inline_script_handle"/><br/>';
+		$output .= '<label for="inline_script_handle">After script: </label>';
+		$output .= $this->select_script( $this->option->get( 'inline_script_handle' ) );
+		$output .= '<br><br>';
 
 		$value = $this->option->get( 'inline_script' );
 
-		$output .= '<label for="inline_script">Script:</label><br/>';
-		$output .= '<textarea style="width: 100%; min-height: 300px; font-family: monospace;" name="inline_script" id="inline_script">' . stripslashes( $value ) . '</textarea><br/>';
+		$output .= '<label for="inline_script">Script (do not include <code>&lt;script&gt;</code> tags):</label><br/>';
+		$output .= '<textarea style="width: 100%; min-height: 300px; font-family: monospace;" name="inline_script" id="inline_script">' . esc_html( $value ) . '</textarea><br/>';
 
 		return Form_Presenter::get_html( 'Inline script', 'yoast_seo_test_inline_script', $output );
 	}
@@ -87,5 +86,27 @@ class Inline_Script implements Integration {
 		}
 
 		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+	}
+
+	/**
+	 * Return a select with all the scripts currently registered to WP.
+	 *
+	 * @param string $value The currently selected value, if any.
+	 *
+	 * @return string
+	 */
+	private function select_script( $value ) {
+		$output  = '<select name="inline_script_handle" id="inline_script_handle">';
+		$scripts = wp_scripts();
+		foreach ( array_keys( $scripts->registered ) as $script ) {
+			$sel = '';
+			if ( $value === $script ) {
+				$sel = 'selected';
+			}
+			$output .= '<option value="' . esc_attr( $script ) . '" ' . $sel . '>' . esc_html( $script ) . '</option>';
+		}
+		$output .= '</select>';
+
+		return $output;
 	}
 }
