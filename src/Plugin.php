@@ -77,6 +77,7 @@ class Plugin implements Integration {
 		$option = new Option();
 
 		$this->integrations[] = $plugin_version_control;
+		$this->integrations[] = new Development_Mode( $option );
 		$this->integrations[] = new Admin_Notifications();
 		$this->integrations[] = new Upgrade_Detector();
 		$this->integrations[] = new Admin_Page();
