@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Yoast Development: Test Helper
- * Version:     1.3.0
+ * Version:     1.4
  * Plugin URI:  https://github.com/yoast/yoast-test-helper
  * Description: Utility to provide testing features for Yoast plugins.
  * Author:      Team Yoast
@@ -34,7 +34,7 @@
 define( 'YOAST_TEST_HELPER_FILE', __FILE__ );
 define( 'YOAST_TEST_HELPER_DIR', dirname( YOAST_TEST_HELPER_FILE ) );
 
-define( 'YOAST_TEST_HELPER_VERSION', '1.3.0' );
+define( 'YOAST_TEST_HELPER_VERSION', '1.4' );
 
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
