@@ -2,12 +2,12 @@
 module.exports = {
 	artifact: {
 		options: {
-			archive: "artifact.zip",
+			archive: "yoast-test-helper.zip",
 		},
 		files: [
 			{
 				cwd: "artifact/",
-				src: [ "**" ],
+				src: ["**"],
 				dest: "yoast-test-helper/",
 			},
 		],
