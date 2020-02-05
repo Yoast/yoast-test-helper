@@ -1,5 +1,13 @@
 === Yoast test helper ===
 
+= 1.4. =
+
+Release Date: February 5th, 2020
+
+Enhancements:
+
+* Added the option to set Yoast SEO Premium version number.
+
 = 1.3 =
 
 Release Date: February 4th, 2020
