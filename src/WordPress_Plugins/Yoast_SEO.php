@@ -7,6 +7,8 @@
 
 namespace Yoast\Test_Helper\WordPress_Plugins;
 
+use WPSEO_Options;
+
 /**
  * Class to represent Yoast SEO.
  */
@@ -73,6 +75,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		return array(
 			'internal_link_count'         => 'Internal link counter',
 			'prominent_words_calculation' => 'Prominent words calculation',
+			'reset_configuration_wizard'  => 'Configuration wizard',
 			'reset_notifications'         => 'Notifications',
 			'reset_site_information'      => 'Site information',
 			'reset_tracking'              => 'Tracking',
@@ -94,6 +97,8 @@ class Yoast_SEO implements WordPress_Plugin {
 			case 'prominent_words_calculation':
 				$this->reset_prominent_words_calculation();
 				return true;
+			case 'reset_configuration_wizard':
+				return $this->reset_configuration_wizard();
 			case 'reset_notifications':
 				$this->reset_notifications();
 				return true;
@@ -178,5 +183,14 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	private function reset_tracking() {
 		return delete_option( 'wpseo_tracking_last_request' );
+	}
+
+	/**
+	 * Resets the configuration wizard to its initial state.
+	 *
+	 * @return bool True if successful, false otherwise.
+	 */
+	private function reset_configuration_wizard() {
+		return WPSEO_Options::set( 'show_onboarding_notice', true );
 	}
 }
