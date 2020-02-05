@@ -156,7 +156,10 @@ class WordPress_Plugin_Version_Control implements Integration {
 				'', array_map(
 					function ( $timestamp, $item ) use ( $plugin ) {
 						if ( $plugin->get_version_key() !== '' ) {
-							$version = $item[ $plugin->get_version_option_name() ][ $plugin->get_version_key() ];
+							$version = '';
+							if ( isset( $item[ $plugin->get_version_option_name() ][ $plugin->get_version_key() ] ) ) {
+								$version = $item[ $plugin->get_version_option_name() ][ $plugin->get_version_key() ];
+							}
 						}
 						else {
 							$version = $item[ $plugin->get_version_option_name() ];
