@@ -21,7 +21,6 @@
    				<element value="Yoast\WP\Test_Helper"/>
    			</property>
     	</properties>
-        <exclude name="Yoast.NamingConventions.NamespaceName.TooLong" />
         <!-- We exclude this here because this is kind of the point of this plugin. -->
         <exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
         <exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching" />
