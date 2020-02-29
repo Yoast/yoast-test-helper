@@ -10,9 +10,9 @@
     }
   ],
   "autoload": {
-    "psr-4": {
-      "Yoast\\Test_Helper\\": "src/"
-    }
+    "classmap": [
+      "src/"
+    ]
   },
   "config": {
     "platform": {
@@ -20,8 +20,21 @@
     }
   },
   "require-dev": {
-    "yoast/yoastcs": "^0.5",
-    "roave/security-advisories": "dev-master",
-    "dealerdirect/phpcodesniffer-composer-installer": "0.4.3"
+    "yoast/yoastcs": "^2.0.0"
+  },
+  "scripts": {
+    "config-yoastcs": [
+      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set default_standard Yoast"
+    ],
+    "check-cs": [
+      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
+    ],
+    "fix-cs": [
+      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
+    ]
+  },
+  "require": {
+    "squizlabs/php_codesniffer": "^3.5"
   }
 }

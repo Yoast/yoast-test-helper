@@ -1,11 +1,6 @@
 <?php
-/**
- * Toggles features on and off based on feature flags.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Toggles the features on and off.
@@ -17,9 +12,9 @@ class Feature_Toggler implements Integration {
 	 *
 	 * @var array
 	 */
-	private $features = array(
+	private $features = [
 		'improvedInternalLinking' => 'Improved internal linking',
-	);
+	];
 
 	/**
 	 * Holds our option instance.
@@ -43,11 +38,11 @@ class Feature_Toggler implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'wpseo_enable_feature', array( $this, 'enable_features' ) );
+		add_action( 'wpseo_enable_feature', [ $this, 'enable_features' ] );
 
 		add_action(
 			'admin_post_yoast_seo_feature_toggler',
-			array( $this, 'handle_submit' )
+			[ $this, 'handle_submit' ]
 		);
 	}
 
@@ -62,7 +57,8 @@ class Feature_Toggler implements Integration {
 		foreach ( $this->features as $feature => $label ) {
 			$key     = 'feature_toggle_' . $feature;
 			$fields .= Form_Presenter::create_checkbox(
-				$key, 'Enable ' . $label,
+				$key,
+				'Enable ' . $label,
 				$this->option->get( $key )
 			);
 		}
@@ -83,7 +79,7 @@ class Feature_Toggler implements Integration {
 			}
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**

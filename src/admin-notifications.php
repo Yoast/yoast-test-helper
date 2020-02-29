@@ -1,16 +1,12 @@
 <?php
-/**
- * Handle admin notifications.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Shows admin notifications on the proper page.
  */
 class Admin_Notifications implements Integration {
+
 	/**
 	 * List of notifications.
 	 *
@@ -24,8 +20,8 @@ class Admin_Notifications implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'yoast_version_controller_notification', array( $this, 'add_notification' ), 10, 2 );
-		add_action( 'yoast_version_controller_notifications', array( $this, 'display_notifications' ) );
+		add_action( 'Yoast\WP\Test_Helper\notification', [ $this, 'add_notification' ], 10, 2 );
+		add_action( 'Yoast\WP\Test_Helper\notifications', [ $this, 'display_notifications' ] );
 	}
 
 	/**
@@ -56,7 +52,7 @@ class Admin_Notifications implements Integration {
 		echo '<div style="margin: 15px 0 15px -15px;">';
 		foreach ( $notifications as $notification ) {
 			// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
-			echo '<div class="notice notice-' . esc_attr( $notification->get_type() ) . '"><p>' . $notification->get_message() . '</p></div>';
+			echo '<div class="notice notice-' . esc_attr( $notification->get_type() ) . '"><p>' . esc_html( $notification->get_message() ) . '</p></div>';
 		}
 		echo '</div>';
 
@@ -71,7 +67,7 @@ class Admin_Notifications implements Integration {
 	protected function get_notifications() {
 		$saved = get_user_meta( get_current_user_id(), $this->get_option_name(), true );
 		if ( ! is_array( $saved ) ) {
-			return array();
+			return [];
 		}
 
 		return $saved;

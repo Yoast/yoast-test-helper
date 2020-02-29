@@ -1,29 +1,25 @@
 <?php
-/**
- * The main plugin file.
- *
- * @package Yoast\Version_Controller
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
-use Yoast\Test_Helper\WordPress_Plugins\Local_SEO;
-use Yoast\Test_Helper\WordPress_Plugins\News_SEO;
-use Yoast\Test_Helper\WordPress_Plugins\Video_SEO;
-use Yoast\Test_Helper\WordPress_Plugins\WooCommerce_SEO;
-use Yoast\Test_Helper\WordPress_Plugins\Yoast_SEO;
-use Yoast\Test_Helper\WordPress_Plugins\Yoast_SEO_Premium;
+use Yoast\WP\Test_Helper\WordPress_Plugins\Local_SEO;
+use Yoast\WP\Test_Helper\WordPress_Plugins\News_SEO;
+use Yoast\WP\Test_Helper\WordPress_Plugins\Video_SEO;
+use Yoast\WP\Test_Helper\WordPress_Plugins\WooCommerce_SEO;
+use Yoast\WP\Test_Helper\WordPress_Plugins\Yoast_SEO;
+use Yoast\WP\Test_Helper\WordPress_Plugins\Yoast_SEO_Premium;
 
 /**
  * Bootstrap for the entire plugin.
  */
 class Plugin implements Integration {
+
 	/**
 	 * List of integrations
 	 *
 	 * @var Integration[]
 	 */
-	protected $integrations = array();
+	protected $integrations = [];
 
 	/**
 	 * Constructs the class.
@@ -31,7 +27,7 @@ class Plugin implements Integration {
 	public function __construct() {
 		$this->load_integrations();
 
-		add_action( 'yoast_version_controller_notifications', array( $this, 'admin_page_blocks' ) );
+		add_action( 'Yoast\WP\Test_Helper\notifications', [ $this, 'admin_page_blocks' ] );
 	}
 
 	/**
@@ -56,7 +52,7 @@ class Plugin implements Integration {
 	public function admin_page_blocks( Admin_Page $admin_page ) {
 		foreach ( $this->integrations as $integration ) {
 			if ( method_exists( $integration, 'get_controls' ) ) {
-				$admin_page->add_admin_page_block( array( $integration, 'get_controls' ) );
+				$admin_page->add_admin_page_block( [ $integration, 'get_controls' ] );
 			}
 		}
 	}
@@ -69,7 +65,7 @@ class Plugin implements Integration {
 	private function load_integrations() {
 		$plugins = $this->get_plugins();
 
-		$plugin_version_control = new WordPress_Plugin_Version_Control(
+		$plugin_version_control = new Plugin_Version_Control(
 			$plugins,
 			new WordPress_Plugin_Version(),
 			new WordPress_Plugin_Options()
@@ -100,13 +96,13 @@ class Plugin implements Integration {
 	 * @return array
 	 */
 	private function get_plugins() {
-		return array(
+		return [
 			new Yoast_SEO(),
 			new Yoast_SEO_Premium(),
 			new Local_SEO(),
 			new Video_SEO(),
 			new News_SEO(),
 			new WooCommerce_SEO(),
-		);
+		];
 	}
 }

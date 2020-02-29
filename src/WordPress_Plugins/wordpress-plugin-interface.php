@@ -1,16 +1,12 @@
 <?php
-/**
- * Interface for WordPress Plugins.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper\WordPress_Plugins;
+namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 /**
  * Interface defining the API for WordPress Plugins.
  */
 interface WordPress_Plugin {
+
 	/**
 	 * Retrieves the plugin identifier.
 	 *

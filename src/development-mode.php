@@ -1,11 +1,6 @@
 <?php
-/**
- * Handle admin notifications.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Shows admin notifications on the proper page.
@@ -38,7 +33,7 @@ class Development_Mode implements Integration {
 			add_filter( 'yoast_seo_development_mode', '__return_true' );
 		}
 
-		add_action( 'admin_post_yoast_seo_test_development_mode', array( $this, 'handle_submit' ) );
+		add_action( 'admin_post_yoast_seo_test_development_mode', [ $this, 'handle_submit' ] );
 	}
 
 	/**
@@ -66,7 +61,7 @@ class Development_Mode implements Integration {
 			$this->set_bool_option( 'enable_development_mode' );
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**
@@ -76,7 +71,7 @@ class Development_Mode implements Integration {
 	 */
 	private function set_bool_option( $option ) {
 		// The nonce is checked in the handle_submit function.
-		// phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+		// @phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$this->option->set( $option, isset( $_POST[ $option ] ) );
 	}
 }

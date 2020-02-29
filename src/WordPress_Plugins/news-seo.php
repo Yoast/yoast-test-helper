@@ -1,16 +1,12 @@
 <?php
-/**
- * News SEO plugin.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper\WordPress_Plugins;
+namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 /**
  * Class to represent News SEO.
  */
 class News_SEO implements WordPress_Plugin {
+
 	/**
 	 * Retrieves the plugin identifier.
 	 *
@@ -53,7 +49,7 @@ class News_SEO implements WordPress_Plugin {
 	 * @return array The options.
 	 */
 	public function get_options() {
-		return array( $this->get_version_option_name() );
+		return [ $this->get_version_option_name() ];
 	}
 
 	/**
@@ -73,7 +69,7 @@ class News_SEO implements WordPress_Plugin {
 	 * @return array List of features.
 	 */
 	public function get_features() {
-		return array();
+		return [];
 	}
 
 	/**

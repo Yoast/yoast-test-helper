@@ -1,18 +1,14 @@
 <?php
-/**
- * Plugin Version helper.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
-use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
+use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
  * Class that retrieves and stores a plugin version.
  */
 class WordPress_Plugin_Version {
+
 	/**
 	 * Retrieves the version of a specific plugin.
 	 *
@@ -59,14 +55,14 @@ class WordPress_Plugin_Version {
 		// Unhook option sanitization, otherwise the version cannot be changed.
 		if ( class_exists( '\WPSEO_Options' ) ) {
 			$option_instance = \WPSEO_Options::get_option_instance( $option_name );
-			remove_filter( 'sanitize_option_' . $option_name, array( $option_instance, 'validate' ) );
+			remove_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 
 		$success = update_option( $option_name, $data );
 
 		// Restore option sanitization.
 		if ( $option_instance ) {
-			add_filter( 'sanitize_option_' . $option_name, array( $option_instance, 'validate' ) );
+			add_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 
 		return $success;

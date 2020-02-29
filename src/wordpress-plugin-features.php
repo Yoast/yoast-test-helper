@@ -1,18 +1,14 @@
 <?php
-/**
- * Adds the plugin features to the admin page.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
-use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
+use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
  * Render plugin features HTML.
  */
 class WordPress_Plugin_Features implements Integration {
+
 	/**
 	 * Plugins to use.
 	 *
@@ -38,7 +34,7 @@ class WordPress_Plugin_Features implements Integration {
 		foreach ( $this->plugins as $plugin ) {
 			add_action(
 				'admin_post_' . $plugin->get_identifier() . '-feature-reset',
-				array( $this, 'handle_reset_feature' )
+				[ $this, 'handle_reset_feature' ]
 			);
 		}
 	}
@@ -49,7 +45,7 @@ class WordPress_Plugin_Features implements Integration {
 	 * @return string Combined features.
 	 */
 	public function get_controls() {
-		$output = array_map( array( $this, 'get_plugin_features' ), $this->plugins );
+		$output = array_map( [ $this, 'get_plugin_features' ], $this->plugins );
 
 		return implode( '', $output );
 	}
@@ -63,14 +59,15 @@ class WordPress_Plugin_Features implements Integration {
 	 */
 	protected function get_plugin_features( WordPress_Plugin $plugin ) {
 		$features = $plugin->get_features();
-		if ( array() === $features ) {
+		if ( $features === [] ) {
 			return '';
 		}
 
 		$action = $plugin->get_identifier() . '-feature-reset';
 
 		$fields = implode(
-			'', array_map(
+			'',
+			array_map(
 				function ( $name, $feature ) {
 					return sprintf(
 						'<button id="%s" name="%s" type="submit" class="button secondary">Reset %s</button> ',
@@ -78,7 +75,9 @@ class WordPress_Plugin_Features implements Integration {
 						$feature,
 						$name
 					);
-				}, $features, array_keys( $features )
+				},
+				$features,
+				array_keys( $features )
 			)
 		);
 
@@ -98,7 +97,7 @@ class WordPress_Plugin_Features implements Integration {
 				continue;
 			}
 
-			if ( $_POST['action'] !== $action ) {
+			if ( isset( $_POST['action'] ) && $action !== $_POST['action'] ) {
 				continue;
 			}
 
@@ -109,7 +108,7 @@ class WordPress_Plugin_Features implements Integration {
 		wp_safe_redirect(
 			self_admin_url(
 				'tools.php?page=' .
-				apply_filters( 'yoast_version_control_admin_page', '' )
+				apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' )
 			)
 		);
 	}
@@ -143,7 +142,7 @@ class WordPress_Plugin_Features implements Integration {
 				);
 			}
 
-			do_action( 'yoast_version_controller_notification', $notification );
+			do_action( 'Yoast\WP\Test_Helper\notification', $notification );
 		}
 	}
 }

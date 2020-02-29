@@ -1,16 +1,12 @@
 <?php
-/**
- * Handler for the XML Sitemaps testing functions.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Class to manage registering and rendering the admin page in WordPress.
  */
 class XML_Sitemaps implements Integration {
+
 	/**
 	 * Holds our option instance.
 	 *
@@ -34,9 +30,9 @@ class XML_Sitemaps implements Integration {
 		if ( $this->option->get( 'disable_xml_sitemap_cache' ) === true ) {
 			add_filter( 'wpseo_enable_xml_sitemap_transient_caching', '__return_false' );
 		}
-		add_filter( 'wpseo_sitemap_entries_per_page', array( $this, 'xml_sitemap_entries' ), 10, 1 );
+		add_filter( 'wpseo_sitemap_entries_per_page', [ $this, 'xml_sitemap_entries' ], 10, 1 );
 
-		add_action( 'admin_post_yoast_seo_test_xml_sitemaps', array( $this, 'handle_submit' ) );
+		add_action( 'admin_post_yoast_seo_test_xml_sitemaps', [ $this, 'handle_submit' ] );
 	}
 
 	/**
@@ -60,6 +56,7 @@ class XML_Sitemaps implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
+		// @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$placeholder = apply_filters( 'wpseo_sitemap_entries_per_page', 1000 );
 
 		$value = '';
@@ -68,7 +65,8 @@ class XML_Sitemaps implements Integration {
 		}
 
 		$output  = Form_Presenter::create_checkbox(
-			'disable_xml_sitemap_cache', 'Disable the XML sitemaps cache.',
+			'disable_xml_sitemap_cache',
+			'Disable the XML sitemaps cache.',
 			$this->option->get( 'disable_xml_sitemap_cache' )
 		);
 		$output .= '<label for="xml_sitemap_entries">Maximum entries per XML sitemap:</label>';
@@ -85,9 +83,13 @@ class XML_Sitemaps implements Integration {
 	public function handle_submit() {
 		if ( check_admin_referer( 'yoast_seo_test_xml_sitemaps' ) !== false ) {
 			$this->option->set( 'disable_xml_sitemap_cache', isset( $_POST['disable_xml_sitemap_cache'] ) );
-			$this->option->set( 'xml_sitemap_entries', (int) $_POST['xml_sitemap_entries'] );
+			$xml_sitemap_entries = null;
+			if ( isset( $_POST['xml_sitemap_entries'] ) ) {
+				$xml_sitemap_entries = filter_input( INPUT_POST, 'xml_sitemap_entries', FILTER_SANITIZE_NUMBER_INT );
+			}
+			$this->option->set( 'xml_sitemap_entries', $xml_sitemap_entries );
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 }

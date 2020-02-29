@@ -1,17 +1,12 @@
 <?php
-/**
- * Admin page hander.
- *
- * @package Yoast\Yoast_SEO_Admin_Bar_Debug_Panel
- *
- * Cannot use a namespace because the DebugBar plugin uses classnames as CSS selectors and the slashes this returns
- * for namespaced classes cause havoc everywhere.
- */
+
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Class to manage registering and rendering the admin page in WordPress.
  */
-class Yoast_SEO_Admin_Bar_Debug_Panel extends \Debug_Bar_Panel {
+class Admin_Bar_Panel extends \Debug_Bar_Panel {
+
 	/**
 	 * Admin_Bar_Debug_Panel constructor.
 	 */
@@ -34,7 +29,7 @@ class Yoast_SEO_Admin_Bar_Debug_Panel extends \Debug_Bar_Panel {
 		foreach ( WPSEO_Options::get_option_names() as $option ) {
 			echo '<h3 id="' . esc_attr( $option ) . '">Option: <span class="wpseo-debug">' . esc_html( $option ) . '</span></h3>';
 			echo '<pre>';
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export,WordPress.XSS.EscapeOutput.OutputNotEscaped
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export,WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo var_export( get_option( $option ) );
 			echo '</pre>';
 		}

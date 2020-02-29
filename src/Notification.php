@@ -1,16 +1,12 @@
 <?php
-/**
- * Test Helper notification.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Test Helper Notification.
  */
 class Notification {
+
 	/**
 	 * The notification copy.
 	 *

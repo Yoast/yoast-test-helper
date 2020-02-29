@@ -1,18 +1,14 @@
 <?php
-/**
- * Admin Page plugin version control.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
-use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
+use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
  * Adds the plugin version controls to the admin page.
  */
-class WordPress_Plugin_Version_Control implements Integration {
+class Plugin_Version_Control implements Integration {
+
 	/**
 	 * The plugin version instance to use.
 	 *
@@ -57,7 +53,7 @@ class WordPress_Plugin_Version_Control implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'admin_post_yoast_version_control', array( $this, 'handle_submit' ) );
+		add_action( 'admin_post_yoast_version_control', [ $this, 'handle_submit' ] );
 	}
 
 	/**
@@ -91,11 +87,12 @@ class WordPress_Plugin_Version_Control implements Integration {
 	public function handle_submit() {
 		if ( ! $this->load_history() && check_admin_referer( 'yoast_version_control' ) !== false ) {
 			foreach ( $this->plugins as $plugin ) {
+				// @phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 				$this->update_plugin_version( $plugin, $_POST[ $plugin->get_identifier() ] );
 			}
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**
@@ -107,14 +104,14 @@ class WordPress_Plugin_Version_Control implements Integration {
 	protected function update_plugin_version( WordPress_Plugin $plugin, $version ) {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
 			do_action(
-				'yoast_version_controller_notification',
+				'Yoast\WP\Test_Helper\notification',
 				new Notification( $plugin->get_name() . ' version was set to ' . $version, 'success' )
 			);
 		}
 
 		if ( $this->plugin_options->save_options( $plugin ) ) {
 			do_action(
-				'yoast_version_controller_notification',
+				'Yoast\WP\Test_Helper\notification',
 				new Notification( $plugin->get_name() . ' options were saved.', 'success' )
 			);
 		}
@@ -153,24 +150,30 @@ class WordPress_Plugin_Version_Control implements Integration {
 			'<select name="%s"><option value=""></option>%s</select>',
 			esc_attr( $plugin->get_identifier() . '-history' ),
 			implode(
-				'', array_map(
+				'',
+				array_map(
 					function ( $timestamp, $item ) use ( $plugin ) {
-						if ( $plugin->get_version_key() !== '' ) {
+						$version_option = $plugin->get_version_option_name();
+						$version_key    = $plugin->get_version_key();
+						if ( ! empty( $version_key ) ) {
 							$version = '';
-							if ( isset( $item[ $plugin->get_version_option_name() ][ $plugin->get_version_key() ] ) ) {
-								$version = $item[ $plugin->get_version_option_name() ][ $plugin->get_version_key() ];
+							if ( isset( $item[ $version_option ][ $version_key ] ) ) {
+								$version = $item[ $version_option ][ $version_key ];
 							}
 						}
 						else {
-							$version = $item[ $plugin->get_version_option_name() ];
+							$version = $item[ $version_option ];
 						}
 
 						return sprintf(
-							'<option value="%s">(%s) %s</option>', esc_attr( $timestamp ),
+							'<option value="%s">(%s) %s</option>',
+							esc_attr( $timestamp ),
 							esc_html( $version ),
-							esc_html( date( 'Y-m-d H:i:s', $timestamp ) )
+							esc_html( gmdate( 'Y-m-d H:i:s', $timestamp ) )
 						);
-					}, array_keys( $history ), $history
+					},
+					array_keys( $history ),
+					$history
 				)
 			)
 		);
@@ -188,23 +191,24 @@ class WordPress_Plugin_Version_Control implements Integration {
 
 		foreach ( $this->plugins as $plugin ) {
 			// If history is set, load the history item, otherwise save.
+			// @phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(
-					'Options from ' . date( 'Y-m-d H:i:s', $timestamp ) .
+					'Options from ' . gmdate( 'Y-m-d H:i:s', $timestamp ) .
 					' for ' . $plugin->get_name() . ' have <strong>not</strong> been restored.',
 					'error'
 				);
 
 				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
 					$notification = new Notification(
-						'Options from ' . date( 'Y-m-d H:i:s', $timestamp ) .
+						'Options from ' . gmdate( 'Y-m-d H:i:s', $timestamp ) .
 						' for ' . $plugin->get_name() . ' have been restored.',
 						'success'
 					);
 				}
 
-				do_action( 'yoast_version_controller_notification', $notification );
+				do_action( 'Yoast\WP\Test_Helper\notification', $notification );
 
 				return true;
 			}

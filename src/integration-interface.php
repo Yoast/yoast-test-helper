@@ -1,16 +1,12 @@
 <?php
-/**
- * Interface Integration
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * WordPress Integration interface.
  */
 interface Integration {
+
 	/**
 	 * Registers WordPress hooks and filters.
 	 *

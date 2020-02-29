@@ -1,16 +1,12 @@
 <?php
-/**
- * Option handler
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Class to manage registering and rendering the admin page in WordPress.
  */
 class Option {
+
 	/**
 	 * The name of our option.
 	 *

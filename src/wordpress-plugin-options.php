@@ -1,18 +1,14 @@
 <?php
-/**
- * Manage Plugin Options.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
-use Yoast\Test_Helper\WordPress_Plugins\WordPress_Plugin;
+use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
  * Store and retrieve plugin options.
  */
 class WordPress_Plugin_Options {
+
 	/**
 	 * Saves the options for a specific plugin.
 	 *
@@ -32,11 +28,11 @@ class WordPress_Plugin_Options {
 	 * @return array Data collected.
 	 */
 	protected function collect_data( array $options ) {
-		$data = array();
+		$data = [];
 
 		foreach ( $options as $option ) {
 			$option_value = $this->get_option( $option );
-			if ( $option_value !== array() ) {
+			if ( $option_value !== [] ) {
 				$data[ $option ] = $option_value;
 			}
 		}
@@ -59,7 +55,7 @@ class WordPress_Plugin_Options {
 
 		$option_name = $this->get_option_name( $plugin );
 
-		$current_data           = (array) get_option( $option_name, array() );
+		$current_data           = (array) get_option( $option_name, [] );
 		$current_data[ time() ] = $data;
 
 		// Only keep the 10 latest entries.
@@ -99,7 +95,7 @@ class WordPress_Plugin_Options {
 		);
 
 		if ( empty( $result ) ) {
-			return array();
+			return [];
 		}
 
 		return maybe_unserialize( $result[0] );
@@ -122,7 +118,7 @@ class WordPress_Plugin_Options {
 		foreach ( $history[ $timestamp ] as $option_name => $option_value ) {
 			$this->unhook_option_sanitization( $option_name );
 
-			if ( $option_value === array() ) {
+			if ( $option_value === [] ) {
 				delete_option( $option_name );
 			}
 			else {
@@ -146,7 +142,7 @@ class WordPress_Plugin_Options {
 		// Unhook option sanitization, otherwise the version cannot be changed.
 		if ( class_exists( '\WPSEO_Options' ) ) {
 			$option_instance = \WPSEO_Options::get_option_instance( $option_name );
-			remove_filter( 'sanitize_option_' . $option_name, array( $option_instance, 'validate' ) );
+			remove_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 	}
 
@@ -160,7 +156,7 @@ class WordPress_Plugin_Options {
 	public function hook_option_sanitization( $option_name ) {
 		if ( class_exists( '\WPSEO_Options' ) ) {
 			$option_instance = \WPSEO_Options::get_option_instance( $option_name );
-			add_filter( 'sanitize_option_' . $option_name, array( $option_instance, 'validate' ) );
+			add_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 	}
 

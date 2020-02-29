@@ -1,11 +1,6 @@
 <?php
-/**
- * Toggles between free and premium plugins.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Toggles between plugins.
@@ -17,7 +12,7 @@ class Plugin_Toggler implements Integration {
 	 *
 	 * @var array
 	 */
-	private $plugin_groups = array();
+	private $plugin_groups = [];
 
 	/**
 	 * Regex with groups to filter the available plugins by name.
@@ -48,13 +43,12 @@ class Plugin_Toggler implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'plugins_loaded', array( $this, 'init' ) );
+		add_action( 'plugins_loaded', [ $this, 'init' ] );
 
 		add_action(
 			'admin_post_yoast_seo_plugin_toggler',
-			array( $this, 'handle_submit' )
+			[ $this, 'handle_submit' ]
 		);
-
 	}
 
 	/**
@@ -83,7 +77,7 @@ class Plugin_Toggler implements Integration {
 		}
 
 		// Apply filters to adapt the $this->grouped_name_filter property.
-		$this->grouped_name_filter = apply_filters( 'yoast_plugin_toggler_filter', $this->grouped_name_filter );
+		$this->grouped_name_filter = apply_filters( 'Yoast\WP\Test_Helper\plugin_toggler_filter', $this->grouped_name_filter );
 
 		$this->init_plugin_groups();
 
@@ -117,12 +111,14 @@ class Plugin_Toggler implements Integration {
 				}
 			}
 
-			$wp_admin_bar->add_menu( array(
-				'parent' => false,
-				'id'     => $menu_id,
-				'title'  => $menu_title,
-				'href'   => '#',
-			) );
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => false,
+					'id'     => $menu_id,
+					'title'  => $menu_title,
+					'href'   => '#',
+				]
+			);
 
 			// Add a node for each plugin.
 			foreach ( $plugins as $plugin => $plugin_path ) {
@@ -130,20 +126,22 @@ class Plugin_Toggler implements Integration {
 					continue;
 				}
 
-				$wp_admin_bar->add_node( array(
-					'parent' => $menu_id,
-					'id'     => 'wpseo-plugin-toggle-' . sanitize_title( $plugin ),
-					'title'  => 'Switch to ' . $plugin,
-					'href'   => '#',
-					'meta'   => array(
-						'onclick' => sprintf(
-							'Yoast_Plugin_Toggler.toggle_plugin( "%1$s", "%2$s", "%3$s" )',
-							$group,
-							$plugin,
-							$nonce
-						),
-					),
-				) );
+				$wp_admin_bar->add_node(
+					[
+						'parent' => $menu_id,
+						'id'     => 'wpseo-plugin-toggle-' . sanitize_title( $plugin ),
+						'title'  => 'Switch to ' . $plugin,
+						'href'   => '#',
+						'meta'   => [
+							'onclick' => sprintf(
+								'Yoast_Plugin_Toggler.toggle_plugin( "%1$s", "%2$s", "%3$s" )',
+								$group,
+								$plugin,
+								$nonce
+							),
+						],
+					]
+				);
 			}
 		}
 	}
@@ -157,7 +155,10 @@ class Plugin_Toggler implements Integration {
 		// JS file.
 		wp_enqueue_script(
 			'yoast-toggle-script',
-			plugin_dir_url( YOAST_TEST_HELPER_FILE ) . 'assets/js/yoast-toggle.js'
+			plugin_dir_url( YOAST_TEST_HELPER_FILE ) . 'assets/js/yoast-toggle.js',
+			[],
+			YOAST_TEST_HELPER_VERSION,
+			true
 		);
 	}
 
@@ -171,7 +172,7 @@ class Plugin_Toggler implements Integration {
 	 */
 	public function ajax_toggle_plugin() {
 
-		$response = array();
+		$response = [];
 
 		// If nonce is valid.
 		if ( $this->verify_nonce() ) {
@@ -182,15 +183,16 @@ class Plugin_Toggler implements Integration {
 			$this->deactivate_plugin_group( $group );
 			$this->activate_plugin( $group, $plugin );
 
-			$response = array(
-				'activated_plugin' => array(
+			$response = [
+				'activated_plugin' => [
 					'group'  => $group,
 					'plugin' => $plugin,
-				),
-			);
+				],
+			];
 		}
 
-		echo wp_json_encode( $response );
+		// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The util takes care of escaping.
+		echo \WPSEO_Utils::format_json_encode( $response );
 		die();
 	}
 
@@ -201,7 +203,8 @@ class Plugin_Toggler implements Integration {
 	 */
 	public function get_controls() {
 		$fields = Form_Presenter::create_checkbox(
-			'plugin_toggler', 'Show plugin toggler.',
+			'plugin_toggler',
+			'Show plugin toggler.',
 			$this->option->get( 'plugin_toggler' )
 		);
 
@@ -218,7 +221,7 @@ class Plugin_Toggler implements Integration {
 			$this->option->set( 'plugin_toggler', isset( $_POST['plugin_toggler'] ) );
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**
@@ -254,7 +257,7 @@ class Plugin_Toggler implements Integration {
 	private function get_plugin_groups() {
 		// Use WordPress to get all the plugins with their data.
 		$plugins       = get_plugins();
-		$plugin_groups = array();
+		$plugin_groups = [];
 
 		foreach ( $plugins as $file => $data ) {
 			$plugin = $data['Name'];
@@ -265,7 +268,7 @@ class Plugin_Toggler implements Integration {
 
 			// Save the plugin under a group.
 			if ( ! isset( $plugin_groups[ $group ] ) ) {
-				$plugin_groups[ $group ] = array();
+				$plugin_groups[ $group ] = [];
 			}
 			$plugin_groups[ $group ][ $plugin ] = $file;
 		}
@@ -284,7 +287,7 @@ class Plugin_Toggler implements Integration {
 	 * @return string The group.
 	 */
 	private function get_group_from_plugin_name( $plugin_name ) {
-		$matches = array();
+		$matches = [];
 
 		if ( preg_match( $this->grouped_name_filter, $plugin_name, $matches ) ) {
 			foreach ( $matches as $match ) {
@@ -306,7 +309,7 @@ class Plugin_Toggler implements Integration {
 	 * @return array Plugins that are actually installed.
 	 */
 	private function check_plugins( array $plugin_groups, $prune = true ) {
-		$installed = array();
+		$installed = [];
 
 		foreach ( $plugin_groups as $group => $plugins ) {
 			foreach ( $plugins as $plugin => $plugin_path ) {
@@ -358,12 +361,12 @@ class Plugin_Toggler implements Integration {
 	 */
 	private function add_additional_hooks() {
 		// Setting AJAX-request to toggle the plugin.
-		add_action( 'wp_ajax_toggle_plugin', array( $this, 'ajax_toggle_plugin' ) );
+		add_action( 'wp_ajax_toggle_plugin', [ $this, 'ajax_toggle_plugin' ] );
 
 		// Adding assets.
-		add_action( 'admin_init', array( $this, 'add_assets' ) );
+		add_action( 'admin_init', [ $this, 'add_assets' ] );
 
-		add_action( 'admin_bar_menu', array( $this, 'add_toggle' ), 100 );
+		add_action( 'admin_bar_menu', [ $this, 'add_toggle' ], 100 );
 	}
 
 	/**
@@ -433,7 +436,7 @@ class Plugin_Toggler implements Integration {
 		$plugin_groups = $this->get_plugin_groups();
 
 		// Apply filters to extend the $this->plugin_groups property.
-		$plugin_groups = (array) apply_filters( 'yoast_plugin_toggler_extend', $plugin_groups );
+		$plugin_groups = (array) apply_filters( 'Yoast\WP\Test_Helper\plugin_toggle_extend', $plugin_groups );
 
 		// Check the plugins after the filter.
 		$this->plugin_groups = $this->check_plugins( $plugin_groups );

@@ -1,16 +1,12 @@
 <?php
-/**
- * HTML Form renderer.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Renders the generic form code.
  */
 class Form_Presenter {
+
 	/**
 	 * Retrieves the HTML for a form.
 	 *
