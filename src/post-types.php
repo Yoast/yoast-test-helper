@@ -152,12 +152,27 @@ class Post_Types implements Integration {
 			$this->set_bool_option( 'enable_gutenberg_videos' );
 		}
 
+		// If we've now enabled the post types, make sure they work.
+		if ( $this->option->get( 'enable_post_types' ) && ! post_type_exists( 'book' ) ) {
+			$this->register_post_types();
+
+			// Hook this to shutdown so we're certain all the required post types have been registered.
+			add_action( 'shutdown', [ $this, 'flush_rewrite_rules' ] );
+		}
+
 		wp_safe_redirect(
 			self_admin_url(
 				'tools.php?page=' .
 				apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' )
 			)
 		);
+	}
+
+	/**
+	 * Flushes the rewrite rules on the required action.
+	 */
+	public function flush_rewrite_rules() {
+		\flush_rewrite_rules();
 	}
 
 	/**
