@@ -75,6 +75,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'reset_notifications'         => 'Notifications',
 			'reset_site_information'      => 'Site information',
 			'reset_tracking'              => 'Tracking',
+			'reset_indexables'            => 'Indexables tables & migrations',
 		];
 	}
 
@@ -95,6 +96,8 @@ class Yoast_SEO implements WordPress_Plugin {
 				return true;
 			case 'reset_configuration_wizard':
 				return $this->reset_configuration_wizard();
+			case 'reset_indexables':
+				return $this->reset_indexables();
 			case 'reset_notifications':
 				$this->reset_notifications();
 				return true;
@@ -189,6 +192,25 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	private function reset_configuration_wizard() {
 		update_user_meta( get_current_user_id(), 'wpseo-dismiss-configuration-notice', 'no' );
+
 		return WPSEO_Options::set( 'show_onboarding_notice', true );
+	}
+
+	/**
+	 * Resets the indexables tables, basically deleting them.
+	 *
+	 * @return bool True if successful, false otherwise.
+	 */
+	private function reset_indexables() {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- We know.
+		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_indexable' );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- What.
+		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_indexable_hierarchy' );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- We're doing.
+		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_migrations' );
+
+		return delete_option( 'yoast_migrations_free' );
 	}
 }
