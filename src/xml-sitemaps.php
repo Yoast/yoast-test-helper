@@ -56,7 +56,7 @@ class XML_Sitemaps implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		// @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$placeholder = apply_filters( 'wpseo_sitemap_entries_per_page', 1000 );
 
 		$value = '';

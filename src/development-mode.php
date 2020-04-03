@@ -71,7 +71,7 @@ class Development_Mode implements Integration {
 	 */
 	private function set_bool_option( $option ) {
 		// The nonce is checked in the handle_submit function.
-		// @phpcs:ignore WordPress.Security.NonceVerification.Missing
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$this->option->set( $option, isset( $_POST[ $option ] ) );
 	}
 }

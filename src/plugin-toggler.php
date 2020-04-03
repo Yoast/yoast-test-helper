@@ -191,7 +191,7 @@ class Plugin_Toggler implements Integration {
 			];
 		}
 
-		// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The util takes care of escaping.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The util takes care of escaping.
 		echo \WPSEO_Utils::format_json_encode( $response );
 		die();
 	}

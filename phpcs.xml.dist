@@ -5,14 +5,10 @@
     <file>.</file>
 
     <exclude-pattern>artifact/*</exclude-pattern>
-    <exclude-pattern>vendor/*</exclude-pattern>
-    <exclude-pattern>node_modules/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
     <arg value="sp"/>
-
-    <config name="testVersion" value="5.6-"/>
-    <rule ref="PHPCompatibilityWP"/>
+    <arg name="basepath" value="./"/>
 
     <rule ref="Yoast">
         <properties>
@@ -28,11 +24,20 @@
     </rule>
 
     <rule ref="Yoast.Files.FileName">
-   		<properties>
-   			<!-- Remove the following prefixes from the names of object structures. -->
-   			<property name="oo_prefixes" type="array">
-   				<element value="wpseo"/>
-   			</property>
-   		</properties>
-   	</rule>
+        <properties>
+            <!-- Remove the following prefixes from the names of object structures. -->
+            <property name="oo_prefixes" type="array">
+                <element value="wpseo"/>
+    		</property>
+    	</properties>
+    </rule>
+
+    <rule ref="Yoast.NamingConventions.NamespaceName">
+        <properties>
+            <!-- Treat the "src" directory as the project root for path to namespace translations. -->
+            <property name="src_directory" type="array">
+                <element value="src"/>
+            </property>
+        </properties>
+    </rule>
 </ruleset>

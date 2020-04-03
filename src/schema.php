@@ -99,8 +99,8 @@ class Schema implements Integration {
 			$this->option->set( 'replace_schema_domain', isset( $_POST['replace_schema_domain'] ) );
 		}
 
-		$this->option->set( 'is_needed_breadcrumb', isset( $_POST['is_needed_breadcrumb'] ) ? true : false );
-		$this->option->set( 'is_needed_webpage', isset( $_POST['is_needed_webpage'] ) ? true : false );
+		$this->option->set( 'is_needed_breadcrumb', isset( $_POST['is_needed_breadcrumb'] ) );
+		$this->option->set( 'is_needed_webpage', isset( $_POST['is_needed_webpage'] ) );
 
 		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
