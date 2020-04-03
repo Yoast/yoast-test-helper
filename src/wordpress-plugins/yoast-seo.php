@@ -213,6 +213,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- Really.
 		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_primary_term' );
 
+		delete_option( 'yoast_migrations_premium' );
 		return delete_option( 'yoast_migrations_free' );
 	}
 }
