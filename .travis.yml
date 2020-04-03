@@ -13,10 +13,8 @@ jobs:
   include:
     - php: 7.2
       env: PHPLINT=1 PHPCS=1
-    - php: 5.3
+    - php: 5.6
       env: PHPLINT=1
-      # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
-      dist: precise
     - stage: deploy
       if: tag IS present
       before_deploy:
@@ -52,15 +50,12 @@ cache:
 before_install:
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
 
-
-- 
-
 install:
 - |
   if [[ "$PHPCS" == "1" ]]; then
-    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local 5.6.13; fi
+    if [[ $TRAVIS_PHP_VERSION == "5.6" ]]; then phpenv local 5.6.13; fi
     composer install --no-interaction
-    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local --unset; fi
+    if [[ $TRAVIS_PHP_VERSION == "5.6" ]]; then phpenv local --unset; fi
   fi
 
 before_script:
@@ -76,9 +71,6 @@ before_script:
 - svn --version
 - locale -a
 - echo "repo $TRAVIS_REPO_SLUG commit $TRAVIS_COMMIT containing tag $TRAVIS_TAG"
-
-
-
 
 script:
 # PHP Linting
