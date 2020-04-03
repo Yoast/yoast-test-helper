@@ -116,7 +116,8 @@ class Schema implements Integration {
 	 * @return string The validated submit value.
 	 */
 	private function validate_submit( $value ) {
-		if ( in_array( $value, [ 'none', 'show', 'hide' ] ) ) {
+		$value = (string) $value;
+		if ( in_array( $value, [ 'none', 'show', 'hide' ], true ) ) {
 			return $value;
 		}
 		return 'none';
@@ -172,7 +173,8 @@ class Schema implements Integration {
 			foreach ( $array as $key => $value ) {
 				if ( is_array( $value ) ) {
 					$array[ $key ] = $this->array_value_str_replace( $needle, $replacement, $array[ $key ] );
-				} else {
+				}
+				else {
 					if ( strpos( $value, $needle ) !== false ) {
 						$array[ $key ] = str_replace( $needle, $replacement, $value );
 					}
