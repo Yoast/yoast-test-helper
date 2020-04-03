@@ -1,4 +1,56 @@
 === Yoast test helper ===
+Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
+Tags: Yoast, Yoast SEO, development
+Requires at least: 5.4
+Tested up to: 5.4
+Stable tag: 1.5
+Requires PHP: 5.6
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+== Description ==
+
+This plugin makes testing Yoast SEO, Yoast SEO add-ons and integrations and resetting the different features a lot easier. It also makes testing database migrations a lot easier as it allows you to set the database version and see if the upgrade process runs smoothly.
+
+= Features =
+
+This test helper plugin has several features:
+
+* Toggle between premium and free Yoast SEO versions easily.
+* Easily enable Yoast SEO development mode.
+* Saving and restoring Yoast SEO and Yoast SEO extension options, to test upgrade paths.
+* Add options debug info to Yoast SEO admin pages.
+* Reset the internal link counter, prominent words calculation and other features.
+* Add two post types (Books and Movies) with two taxonomies (Category and Genre) each and optionally disable the block editor for them.
+* Easily add an inline script after a selected script.
+* Replace your `.test` TLD with `example.com` in your Schema output, so you can easily copy paste to Google's Structured Data Testing Tool.
+* Change the number of URLs shown in an XML Sitemap.
+* Easily change your MyYoast URL.
+
+If you find bugs or would like to contribute, see our [GitHub repo](https://github.com/Yoast/yoast-test-helper).
+
+== Screenshots ==
+
+1. Screenshot of the Yoast test helper admin page.
+
+== Changelog ==
+
+= 1.5 =
+
+Release Date: April 3rd, 2020
+
+Enhancements:
+
+* Added a button to reset your database to pre-Indexables state. When running an indexables branch this causes all migrations to re-run and thus all tables to be created cleanly.
+* Added a button to reset the configuration wizard state.
+
+Bugfixes:
+
+* Fixes a bug where saving the Influence schema setting wouldn't work.
+
+General:
+
+* Switched to YoastCS 2.0 and changed the auto-loading process.
 
 = 1.4. =
 
