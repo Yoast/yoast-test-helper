@@ -210,7 +210,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_indexable_hierarchy' );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- We're doing.
 		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_migrations' );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- We're doing.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- Really.
 		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_primary_term' );
 
 		return delete_option( 'yoast_migrations_free' );
