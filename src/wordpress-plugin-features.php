@@ -71,9 +71,9 @@ class WordPress_Plugin_Features implements Integration {
 				function ( $name, $feature ) {
 					return sprintf(
 						'<button id="%s" name="%s" type="submit" class="button secondary">Reset %s</button> ',
-						$feature . '_button',
-						$feature,
-						$name
+						esc_attr( $feature ) . '_button',
+						esc_attr( $feature ),
+						esc_html( $name )
 					);
 				},
 				$features,
