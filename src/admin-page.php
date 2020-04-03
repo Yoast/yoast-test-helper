@@ -31,7 +31,7 @@ class Admin_Page implements Integration {
 	 * @return string The admin page identifier.
 	 */
 	public function get_admin_page() {
-		return 'yoast-version-controller';
+		return 'yoast-test-helper';
 	}
 
 	/**
