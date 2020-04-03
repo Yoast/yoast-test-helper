@@ -1,16 +1,12 @@
 <?php
-/**
- * The main plugin file.
- *
- * @package Yoast\Version_Controller
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Bootstrap for the entire plugin.
  */
 class Taxonomies implements Integration {
+
 	/**
 	 * Holds our option instance.
 	 *
@@ -23,28 +19,28 @@ class Taxonomies implements Integration {
 	 *
 	 * @var array
 	 */
-	private $category_args = array(
+	private $category_args = [
 		'label'        => 'Categories',
-		'labels'       => array(
+		'labels'       => [
 			'name'          => 'Categories',
 			'singular_name' => 'Category',
-		),
-		'rewrite'      => array(
+		],
+		'rewrite'      => [
 			'slug' => '',
-		),
+		],
 		'hierarchical' => true,
 		'public'       => true,
 		'show_in_rest' => true,
-	);
+	];
 
 	/**
 	 * Arguments to use when registering the genre taxonomy.
 	 *
 	 * @var array
 	 */
-	private $genre_args = array(
+	private $genre_args = [
 		'label'        => 'Genres',
-		'labels'       => array(
+		'labels'       => [
 			'name'          => 'Genres',
 			'singular_name' => 'Genre',
 			'search_items'  => 'Search Genres',
@@ -54,14 +50,14 @@ class Taxonomies implements Integration {
 			'add_new_item'  => 'Add New Genre',
 			'new_item_name' => 'New Genre Name',
 			'menu_name'     => 'Genre',
-		),
-		'rewrite'      => array(
+		],
+		'rewrite'      => [
 			'slug' => '',
-		),
+		],
 		'hierarchical' => false,
 		'public'       => true,
 		'show_in_rest' => true,
-	);
+	];
 
 	/**
 	 * Class constructor.
@@ -77,7 +73,7 @@ class Taxonomies implements Integration {
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'enable_post_types' ) === true ) {
-			add_action( 'init', array( $this, 'register_taxonomies' ) );
+			add_action( 'init', [ $this, 'register_taxonomies' ] );
 		}
 	}
 
@@ -86,12 +82,12 @@ class Taxonomies implements Integration {
 	 */
 	public function register_taxonomies() {
 		// Taxonomies for books.
-		register_taxonomy( 'book-category', array( 'book' ), $this->set_slug( $this->category_args, 'yoast-test-book-category' ) );
-		register_taxonomy( 'book-genre', array( 'book' ), $this->set_slug( $this->genre_args, 'yoast-test-book-genre' ) );
+		register_taxonomy( 'book-category', [ 'book' ], $this->set_slug( $this->category_args, 'yoast-test-book-category' ) );
+		register_taxonomy( 'book-genre', [ 'book' ], $this->set_slug( $this->genre_args, 'yoast-test-book-genre' ) );
 
 		// Taxonomies for movies.
-		register_taxonomy( 'movie-category', array( 'movie' ), $this->set_slug( $this->category_args, 'yoast-test-movie-category' ) );
-		register_taxonomy( 'movie-genre', array( 'movie' ), $this->set_slug( $this->genre_args, 'yoast-test-movie-genre' ) );
+		register_taxonomy( 'movie-category', [ 'movie' ], $this->set_slug( $this->category_args, 'yoast-test-movie-category' ) );
+		register_taxonomy( 'movie-genre', [ 'movie' ], $this->set_slug( $this->genre_args, 'yoast-test-movie-genre' ) );
 	}
 
 	/**

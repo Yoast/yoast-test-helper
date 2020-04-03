@@ -10,18 +10,32 @@
     }
   ],
   "autoload": {
-    "psr-4": {
-      "Yoast\\Test_Helper\\": "src/"
-    }
+    "classmap": [
+      "src/"
+    ]
   },
   "config": {
     "platform": {
-      "php": "5.6"
+      "php": "5.6.20"
     }
   },
+  "require": {
+    "php": "^5.6.20||^7.0"
+  },
   "require-dev": {
-    "yoast/yoastcs": "^0.5",
-    "roave/security-advisories": "dev-master",
-    "dealerdirect/phpcodesniffer-composer-installer": "0.4.3"
+    "yoast/yoastcs": "^2.0.2",
+    "roave/security-advisories": "dev-master"
+  },
+  "scripts": {
+    "config-yoastcs": [
+      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set default_standard Yoast"
+    ],
+    "check-cs": [
+      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
+    ],
+    "fix-cs": [
+      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
+    ]
   }
 }

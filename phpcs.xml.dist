@@ -4,22 +4,40 @@
 
     <file>.</file>
 
-    <exclude-pattern>vendor/*</exclude-pattern>
-    <exclude-pattern>node_modules/*</exclude-pattern>
+    <exclude-pattern>artifact/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
     <arg value="sp"/>
-
-    <config name="testVersion" value="5.3-"/>
+    <arg name="basepath" value="./"/>
 
     <rule ref="Yoast">
-        <!-- Exclude PHP 5.2 sniffs -->
-        <exclude name="PHPCompatibility.PHP.NewLanguageConstructs.t_ns_separatorFound" />
-        <exclude name="PHPCompatibility.PHP.NewKeywords.t_namespaceFound" />
-        <exclude name="PHPCompatibility.PHP.NewKeywords.t_useFound" />
-        <exclude name="PHPCompatibility.PHP.NewKeywords.t_dirFound" />
-        <exclude name="PHPCompatibility.PHP.NewClosure.Found" />
-        <exclude name="Yoast.Files.FileName" />
-        <exclude name="WordPress.VIP" />
+        <properties>
+   			<!-- Provide the plugin specific prefixes for all naming related sniffs. -->
+   			<property name="prefixes" type="array">
+   				<element value="Yoast\WP\Test_Helper"/>
+   			</property>
+    	</properties>
+        <!-- We exclude this here because this is kind of the point of this plugin. -->
+        <exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
+        <exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching" />
+        <exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key" />
+    </rule>
+
+    <rule ref="Yoast.Files.FileName">
+        <properties>
+            <!-- Remove the following prefixes from the names of object structures. -->
+            <property name="oo_prefixes" type="array">
+                <element value="wpseo"/>
+    		</property>
+    	</properties>
+    </rule>
+
+    <rule ref="Yoast.NamingConventions.NamespaceName">
+        <properties>
+            <!-- Treat the "src" directory as the project root for path to namespace translations. -->
+            <property name="src_directory" type="array">
+                <element value="src"/>
+            </property>
+        </properties>
     </rule>
 </ruleset>

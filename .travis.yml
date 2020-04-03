@@ -11,12 +11,10 @@ branches:
 jobs:
   fast_finish: true
   include:
-    - php: 7.2
+    - php: 7.4
       env: PHPLINT=1 PHPCS=1
-    - php: 5.3
+    - php: 5.6
       env: PHPLINT=1
-      # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
-      dist: precise
     - stage: deploy
       if: tag IS present
       before_deploy:
@@ -52,15 +50,12 @@ cache:
 before_install:
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
 
-
-- 
-
 install:
 - |
   if [[ "$PHPCS" == "1" ]]; then
-    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local 5.6.13; fi
+    if [[ $TRAVIS_PHP_VERSION == "5.6" ]]; then phpenv local 5.6.13; fi
     composer install --no-interaction
-    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local --unset; fi
+    if [[ $TRAVIS_PHP_VERSION == "5.6" ]]; then phpenv local --unset; fi
   fi
 
 before_script:
@@ -77,9 +72,6 @@ before_script:
 - locale -a
 - echo "repo $TRAVIS_REPO_SLUG commit $TRAVIS_COMMIT containing tag $TRAVIS_TAG"
 
-
-
-
 script:
 # PHP Linting
 - |
@@ -92,9 +84,9 @@ script:
 - |
   if [[ "$PHPCS" == "1" ]]; then
     travis_fold start "PHP.code-style" && travis_time_start
-    vendor/bin/phpcs -q --runtime-set ignore_warnings_on_exit 1
+    vendor/bin/phpcs
     travis_time_finish && travis_fold end "PHP.code-style"
   fi
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
-- if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.2" ]]; then composer validate --no-check-all; fi
+- if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi

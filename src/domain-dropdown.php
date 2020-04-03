@@ -1,11 +1,6 @@
 <?php
-/**
- * Sends requests to my.yoast.com to a chosen testing domain instead.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Sends myYoast requests to a chosen testing domain.
@@ -34,14 +29,14 @@ class Domain_Dropdown implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'admin_post_yoast_seo_domain_dropdown', array( $this, 'handle_submit' ) );
+		add_action( 'admin_post_yoast_seo_domain_dropdown', [ $this, 'handle_submit' ] );
 
 		$domain = $this->option->get( 'myyoast_test_domain' );
 		if ( ! empty( $domain ) && $domain !== 'https://my.yoast.com' ) {
-			add_action( 'requests-requests.before_request', array( $this, 'modify_myyoast_request' ), 10, 2 );
+			add_action( 'requests-requests.before_request', [ $this, 'modify_myyoast_request' ], 10, 2 );
 		}
 		else {
-			remove_action( 'requests-requests.before_request', array( $this, 'modify_myyoast_request' ), 10 );
+			remove_action( 'requests-requests.before_request', [ $this, 'modify_myyoast_request' ], 10 );
 		}
 	}
 
@@ -51,13 +46,13 @@ class Domain_Dropdown implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$select_options = array(
+		$select_options = [
 			'https://my.yoast.com'                  => 'live',
 			'https://staging-my.yoast.com'          => 'staging',
 			'https://staging-plugins-my.yoast.com'  => 'staging-plugins',
 			'https://staging-platform-my.yoast.com' => 'staging-platform',
 			'http://my.yoast.test:3000'             => 'local',
-		);
+		];
 
 		$output = Form_Presenter::create_select(
 			'myyoast_test_domain',
@@ -76,10 +71,10 @@ class Domain_Dropdown implements Integration {
 	 */
 	public function handle_submit() {
 		if ( check_admin_referer( 'yoast_seo_domain_dropdown' ) !== false ) {
-			$this->option->set( 'myyoast_test_domain', $_POST['myyoast_test_domain'] );
+			$this->option->set( 'myyoast_test_domain', filter_input( INPUT_POST, 'myyoast_test_domain', FILTER_SANITIZE_STRING ) );
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**

@@ -1,16 +1,12 @@
 <?php
-/**
- * Detects if an upgrade is ran.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper;
+namespace Yoast\WP\Test_Helper;
 
 /**
  * Class to add an inline script after a wordpress-seo script.
  */
 class Inline_Script implements Integration {
+
 	/**
 	 * Holds our option instance.
 	 *
@@ -33,8 +29,8 @@ class Inline_Script implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'add_inline_script' ) );
-		add_action( 'admin_post_yoast_seo_test_inline_script', array( $this, 'handle_submit' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'add_inline_script' ] );
+		add_action( 'admin_post_yoast_seo_test_inline_script', [ $this, 'handle_submit' ] );
 	}
 
 	/**
@@ -57,7 +53,8 @@ class Inline_Script implements Integration {
 	 */
 	public function get_controls() {
 		$output = Form_Presenter::create_checkbox(
-			'add_inline_script', 'Add the inline script specified below after the script selected here.',
+			'add_inline_script',
+			'Add the inline script specified below after the script selected here.',
 			$this->option->get( 'add_inline_script' )
 		) . '<br/>';
 
@@ -81,11 +78,11 @@ class Inline_Script implements Integration {
 	public function handle_submit() {
 		if ( check_admin_referer( 'yoast_seo_test_inline_script' ) !== false ) {
 			$this->option->set( 'add_inline_script', isset( $_POST['add_inline_script'] ) );
-			$this->option->set( 'inline_script_handle', (string) $_POST['inline_script_handle'] );
-			$this->option->set( 'inline_script', stripslashes( (string) $_POST['inline_script'] ) );
+			$this->option->set( 'inline_script_handle', filter_input( INPUT_POST, 'inline_script_handle', FILTER_SANITIZE_STRING ) );
+			$this->option->set( 'inline_script', filter_input( INPUT_POST, 'inline_script', FILTER_SANITIZE_STRING ) );
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'yoast_version_control_admin_page', '' ) ) );
+		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**

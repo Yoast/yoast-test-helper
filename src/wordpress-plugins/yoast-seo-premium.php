@@ -1,23 +1,21 @@
 <?php
-/**
- * Video SEO plugin
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper\WordPress_Plugins;
+namespace Yoast\WP\Test_Helper\WordPress_Plugins;
+
+use WPSEO_Premium;
 
 /**
- * Class to represent Video SEO.
+ * Class to represent Local SEO.
  */
-class Video_SEO implements WordPress_Plugin {
+class Yoast_SEO_Premium implements WordPress_Plugin {
+
 	/**
 	 * Retrieves the plugin identifier.
 	 *
 	 * @return string The plugin identifier.
 	 */
 	public function get_identifier() {
-		return 'wpseo-video';
+		return 'wordpress-seo-premium';
 	}
 
 	/**
@@ -26,7 +24,7 @@ class Video_SEO implements WordPress_Plugin {
 	 * @return string The name of the plugin.
 	 */
 	public function get_name() {
-		return 'Yoast SEO: Video';
+		return 'Yoast SEO Premium';
 	}
 
 	/**
@@ -35,7 +33,7 @@ class Video_SEO implements WordPress_Plugin {
 	 * @return string The name that holds the version.
 	 */
 	public function get_version_option_name() {
-		return 'wpseo_video';
+		return 'wpseo_premium_version';
 	}
 
 	/**
@@ -44,7 +42,7 @@ class Video_SEO implements WordPress_Plugin {
 	 * @return string The version key.
 	 */
 	public function get_version_key() {
-		return 'dbversion';
+		return '';
 	}
 
 	/**
@@ -53,7 +51,7 @@ class Video_SEO implements WordPress_Plugin {
 	 * @return array The options.
 	 */
 	public function get_options() {
-		return array( $this->get_version_option_name() );
+		return [ $this->get_version_option_name() ];
 	}
 
 	/**
@@ -73,7 +71,7 @@ class Video_SEO implements WordPress_Plugin {
 	 * @return array List of features.
 	 */
 	public function get_features() {
-		return array();
+		return [];
 	}
 
 	/**
@@ -82,6 +80,6 @@ class Video_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return defined( 'WPSEO_VIDEO_VERSION' ) ? WPSEO_VIDEO_VERSION : 'not active';
+		return defined( 'WPSEO_Premium::PLUGIN_VERSION_NAME' ) ? WPSEO_Premium::PLUGIN_VERSION_NAME : 'not active';
 	}
 }

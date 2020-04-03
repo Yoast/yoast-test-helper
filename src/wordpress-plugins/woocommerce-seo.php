@@ -1,23 +1,19 @@
 <?php
-/**
- * Local SEO plugin.
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper\WordPress_Plugins;
+namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 /**
- * Class to represent Local SEO.
+ * Class to represent WooCommerce SEO.
  */
-class Local_SEO implements WordPress_Plugin {
+class WooCommerce_SEO implements WordPress_Plugin {
+
 	/**
 	 * Retrieves the plugin identifier.
 	 *
 	 * @return string The plugin identifier.
 	 */
 	public function get_identifier() {
-		return 'wpseo-local';
+		return 'wpseo-woocommerce';
 	}
 
 	/**
@@ -26,7 +22,7 @@ class Local_SEO implements WordPress_Plugin {
 	 * @return string The name of the plugin.
 	 */
 	public function get_name() {
-		return 'Yoast SEO: Local';
+		return 'Yoast SEO: WooCommerce';
 	}
 
 	/**
@@ -35,7 +31,7 @@ class Local_SEO implements WordPress_Plugin {
 	 * @return string The name that holds the version.
 	 */
 	public function get_version_option_name() {
-		return 'wpseo_local';
+		return 'wpseo_woo';
 	}
 
 	/**
@@ -44,7 +40,7 @@ class Local_SEO implements WordPress_Plugin {
 	 * @return string The version key.
 	 */
 	public function get_version_key() {
-		return 'version';
+		return 'dbversion';
 	}
 
 	/**
@@ -53,7 +49,7 @@ class Local_SEO implements WordPress_Plugin {
 	 * @return array The options.
 	 */
 	public function get_options() {
-		return array( $this->get_version_option_name() );
+		return [ $this->get_version_option_name() ];
 	}
 
 	/**
@@ -73,7 +69,7 @@ class Local_SEO implements WordPress_Plugin {
 	 * @return array List of features.
 	 */
 	public function get_features() {
-		return array();
+		return [];
 	}
 
 	/**
@@ -82,6 +78,6 @@ class Local_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return defined( 'WPSEO_LOCAL_VERSION' ) ? WPSEO_LOCAL_VERSION : 'not active';
+		return class_exists( '\Yoast_WooCommerce_SEO' ) ? \Yoast_WooCommerce_SEO::VERSION : 'not active';
 	}
 }

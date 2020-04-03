@@ -1,11 +1,6 @@
 <?php
-/**
- * Yoast SEO plugin
- *
- * @package Yoast\Test_Helper
- */
 
-namespace Yoast\Test_Helper\WordPress_Plugins;
+namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 use WPSEO_Options;
 
@@ -13,6 +8,7 @@ use WPSEO_Options;
  * Class to represent Yoast SEO.
  */
 class Yoast_SEO implements WordPress_Plugin {
+
 	/**
 	 * Retrieves the plugin identifier.
 	 *
@@ -55,7 +51,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return array The options.
 	 */
 	public function get_options() {
-		return array(
+		return [
 			'wpseo',
 			'wpseo_xml',
 			'wpseo_rss',
@@ -63,7 +59,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'wpseo_internallinks',
 			'wpseo_permalinks',
 			'wpseo_titles',
-		);
+		];
 	}
 
 	/**
@@ -72,14 +68,14 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return array List of features.
 	 */
 	public function get_features() {
-		return array(
+		return [
 			'internal_link_count'         => 'Internal link counter',
 			'prominent_words_calculation' => 'Prominent words calculation',
 			'reset_configuration_wizard'  => 'Configuration wizard',
 			'reset_notifications'         => 'Notifications',
 			'reset_site_information'      => 'Site information',
 			'reset_tracking'              => 'Tracking',
-		);
+		];
 	}
 
 	/**
@@ -139,7 +135,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	private function reset_prominent_words_calculation() {
 		global $wpdb;
 
-		$wpdb->delete( $wpdb->prefix . 'postmeta', array( 'meta_key' => '_yst_prominent_words_version' ) );
+		$wpdb->delete( $wpdb->prefix . 'postmeta', [ 'meta_key' => '_yst_prominent_words_version' ] );
 	}
 
 	/**
@@ -151,11 +147,12 @@ class Yoast_SEO implements WordPress_Plugin {
 		global $wpdb;
 
 		// Remove all notifications from the saved stack.
-		$wpdb->delete( $wpdb->prefix . 'usermeta',
-			array(
+		$wpdb->delete(
+			$wpdb->prefix . 'usermeta',
+			[
 				'meta_key' => 'wp_yoast_notifications',
 				'user_id'  => get_current_user_id(),
-			)
+			]
 		);
 
 		// Delete all muted notification settings.
