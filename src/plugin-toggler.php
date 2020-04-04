@@ -242,6 +242,7 @@ class Plugin_Toggler implements Integration {
 	 * Uses $this->grouped_name_filter regex to get the group.
 	 *
 	 * Example:
+	 * <code>
 	 * $this->grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
 	 * $plugin_groups = array(
 	 *   'Yoast SEO' => array(
@@ -251,6 +252,7 @@ class Plugin_Toggler implements Integration {
 	 *     'Yoast SEO Premium 8.4' => 'wordpress-seo-premium 8.4/wp-seo-premium.php',
 	 *   ),
 	 * );
+	 * </code>
 	 *
 	 * @return array The plugins grouped by the regex matches.
 	 */
