@@ -75,8 +75,8 @@ class Plugin_Toggler implements Integration {
 
 		// Load WordPress core plugin.php when needed.
 		if (
-			! \function_exists( 'is_plugin_active' ) ||
-			! \function_exists( 'get_plugins' )
+			! \function_exists( 'is_plugin_active' )
+			|| ! \function_exists( 'get_plugins' )
 		) {
 			include_once \ABSPATH . 'wp-admin/includes/plugin.php';
 		}
