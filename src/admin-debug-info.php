@@ -2,6 +2,11 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Admin_Bar_Panel;
+use Yoast\WP\Test_Helper\Form_Presenter;
+use Yoast\WP\Test_Helper\Integration;
+use Yoast\WP\Test_Helper\Option;
+
 /**
  * Class to manage registering and rendering the admin page in WordPress.
  */
@@ -46,7 +51,7 @@ class Admin_Debug_Info implements Integration {
 	 */
 	public function add_debug_panel( $panels ) {
 		if ( $this->option->get( 'show_options_debug' ) === true && defined( 'WPSEO_VERSION' ) ) {
-			$panels[] = new \Admin_Bar_Panel();
+			$panels[] = new Admin_Bar_Panel();
 		}
 		return $panels;
 	}

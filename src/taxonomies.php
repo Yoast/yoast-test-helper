@@ -2,6 +2,9 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Yoast\WP\Test_Helper\Integration;
+use Yoast\WP\Test_Helper\Option;
+
 /**
  * Bootstrap for the entire plugin.
  */

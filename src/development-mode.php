@@ -2,6 +2,10 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Yoast\WP\Test_Helper\Integration;
+use Yoast\WP\Test_Helper\Form_Presenter;
+use Yoast\WP\Test_Helper\Option;
+
 /**
  * Shows admin notifications on the proper page.
  */

@@ -2,6 +2,11 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use WPSEO_Utils;
+use Yoast\WP\Test_Helper\Form_Presenter;
+use Yoast\WP\Test_Helper\Integration;
+use Yoast\WP\Test_Helper\Option;
+
 /**
  * Class to manage registering and rendering the admin page in WordPress.
  */
@@ -131,7 +136,7 @@ class Schema implements Integration {
 	 * @return array Data to replace the domain in.
 	 */
 	public function replace_domain( $data ) {
-		$source = \WPSEO_Utils::get_home_url();
+		$source = WPSEO_Utils::get_home_url();
 		$target = 'https://example.com';
 
 		if ( $source[ ( strlen( $source ) - 1 ) ] === '/' ) {
