@@ -128,7 +128,7 @@ class Schema implements Integration {
 	 *
 	 * @param array $data Data to replace the domain in.
 	 *
-	 * @return array $data Data to replace the domain in.
+	 * @return array Data to replace the domain in.
 	 */
 	public function replace_domain( $data ) {
 		$source = \WPSEO_Utils::get_home_url();
