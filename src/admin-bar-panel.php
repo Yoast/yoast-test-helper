@@ -3,6 +3,7 @@
 namespace Yoast\WP\Test_Helper;
 
 use Debug_Bar_Panel;
+use WPSEO_Options;
 
 /**
  * Class to manage registering and rendering the admin page in WordPress.
