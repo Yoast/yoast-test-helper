@@ -204,14 +204,12 @@ class Yoast_SEO implements WordPress_Plugin {
 	private function reset_indexables() {
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- We know.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange -- We know what we're doing. Really.
 		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_indexable' );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- What.
 		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_indexable_hierarchy' );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- We're doing.
 		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_migrations' );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- Really.
 		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_primary_term' );
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 		delete_option( 'yoast_migrations_premium' );
 		return delete_option( 'yoast_migrations_free' );

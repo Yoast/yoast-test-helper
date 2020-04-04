@@ -87,7 +87,7 @@ class Plugin_Version_Control implements Integration {
 	public function handle_submit() {
 		if ( ! $this->load_history() && check_admin_referer( 'yoast_version_control' ) !== false ) {
 			foreach ( $this->plugins as $plugin ) {
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 				$this->update_plugin_version( $plugin, $_POST[ $plugin->get_identifier() ] );
 			}
 		}
@@ -191,7 +191,7 @@ class Plugin_Version_Control implements Integration {
 
 		foreach ( $this->plugins as $plugin ) {
 			// If history is set, load the history item, otherwise save.
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(
