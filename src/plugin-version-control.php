@@ -152,7 +152,7 @@ class Plugin_Version_Control implements Integration {
 			implode(
 				'',
 				array_map(
-					function ( $timestamp, $item ) use ( $plugin ) {
+					static function ( $timestamp, $item ) use ( $plugin ) {
 						$version_option = $plugin->get_version_option_name();
 						$version_key    = $plugin->get_version_key();
 						if ( ! empty( $version_key ) ) {
