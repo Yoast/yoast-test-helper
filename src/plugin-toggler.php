@@ -282,7 +282,7 @@ class Plugin_Toggler implements Integration {
 	 * Example filter:
 	 * $grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
 	 *
-	 * @param string $plugin_name         The plugin name.
+	 * @param string $plugin_name The plugin name.
 	 *
 	 * @return string The group.
 	 */
