@@ -75,7 +75,7 @@ class Domain_Dropdown implements Integration {
 	 */
 	public function handle_submit() {
 		if ( \check_admin_referer( 'yoast_seo_domain_dropdown' ) !== false ) {
-			$this->option->set( 'myyoast_test_domain', \filter_input( INPUT_POST, 'myyoast_test_domain', FILTER_SANITIZE_STRING ) );
+			$this->option->set( 'myyoast_test_domain', \filter_input( \INPUT_POST, 'myyoast_test_domain', \FILTER_SANITIZE_STRING ) );
 		}
 
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
@@ -102,7 +102,7 @@ class Domain_Dropdown implements Integration {
 
 		if ( $request_parameters['host'] ) {
 			$headers['Host'] = $request_parameters['host'];
-			if ( \defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( \defined( 'WP_DEBUG' ) && \WP_DEBUG ) {
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 				\error_log( \sprintf( "SANDBOXING via '%s': '%s'", $domain, $original_url ) );
 			}
@@ -119,7 +119,7 @@ class Domain_Dropdown implements Integration {
 	 */
 	private function replace_domain( $domain, $url, $headers ) {
 		$host     = '';
-		$url_host = \wp_parse_url( $url, PHP_URL_HOST );
+		$url_host = \wp_parse_url( $url, \PHP_URL_HOST );
 
 		if ( $url_host === 'my.yoast.com' ) {
 			$host = isset( $headers['Host'] ) ? $headers['Host'] : $url_host;

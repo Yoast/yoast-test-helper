@@ -82,8 +82,8 @@ class Inline_Script implements Integration {
 	public function handle_submit() {
 		if ( \check_admin_referer( 'yoast_seo_test_inline_script' ) !== false ) {
 			$this->option->set( 'add_inline_script', isset( $_POST['add_inline_script'] ) );
-			$this->option->set( 'inline_script_handle', \filter_input( INPUT_POST, 'inline_script_handle', FILTER_SANITIZE_STRING ) );
-			$this->option->set( 'inline_script', \filter_input( INPUT_POST, 'inline_script', FILTER_SANITIZE_STRING ) );
+			$this->option->set( 'inline_script_handle', \filter_input( \INPUT_POST, 'inline_script_handle', \FILTER_SANITIZE_STRING ) );
+			$this->option->set( 'inline_script', \filter_input( \INPUT_POST, 'inline_script', \FILTER_SANITIZE_STRING ) );
 		}
 
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
