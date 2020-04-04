@@ -80,6 +80,6 @@ class Video_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return defined( 'WPSEO_VIDEO_VERSION' ) ? WPSEO_VIDEO_VERSION : 'not active';
+		return \defined( 'WPSEO_VIDEO_VERSION' ) ? WPSEO_VIDEO_VERSION : 'not active';
 	}
 }

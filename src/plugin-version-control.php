@@ -58,7 +58,7 @@ class Plugin_Version_Control implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'admin_post_yoast_version_control', [ $this, 'handle_submit' ] );
+		\add_action( 'admin_post_yoast_version_control', [ $this, 'handle_submit' ] );
 	}
 
 	/**
@@ -90,14 +90,14 @@ class Plugin_Version_Control implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
-		if ( ! $this->load_history() && check_admin_referer( 'yoast_version_control' ) !== false ) {
+		if ( ! $this->load_history() && \check_admin_referer( 'yoast_version_control' ) !== false ) {
 			foreach ( $this->plugins as $plugin ) {
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 				$this->update_plugin_version( $plugin, $_POST[ $plugin->get_identifier() ] );
 			}
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
+		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**
@@ -108,14 +108,14 @@ class Plugin_Version_Control implements Integration {
 	 */
 	protected function update_plugin_version( WordPress_Plugin $plugin, $version ) {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
-			do_action(
+			\do_action(
 				'Yoast\WP\Test_Helper\notification',
 				new Notification( $plugin->get_name() . ' version was set to ' . $version, 'success' )
 			);
 		}
 
 		if ( $this->plugin_options->save_options( $plugin ) ) {
-			do_action(
+			\do_action(
 				'Yoast\WP\Test_Helper\notification',
 				new Notification( $plugin->get_name() . ' options were saved.', 'success' )
 			);
@@ -130,12 +130,12 @@ class Plugin_Version_Control implements Integration {
 	 * @return string The plugin option.
 	 */
 	protected function get_plugin_option( WordPress_Plugin $plugin ) {
-		return sprintf(
+		return \sprintf(
 			'<tr><td>%s:</td><td><input type="text" name="%s" value="%s" maxlength="9" size="10"></td><td>(%s)</td><td>%s</td></tr>',
-			esc_html( $plugin->get_name() ),
-			esc_attr( $plugin->get_identifier() ),
-			esc_attr( $this->plugin_version->get_version( $plugin ) ),
-			esc_html( $plugin->get_version_constant() ),
+			\esc_html( $plugin->get_name() ),
+			\esc_attr( $plugin->get_identifier() ),
+			\esc_attr( $this->plugin_version->get_version( $plugin ) ),
+			\esc_html( $plugin->get_version_constant() ),
 			$this->get_option_history_select( $plugin )
 		);
 	}
@@ -149,14 +149,14 @@ class Plugin_Version_Control implements Integration {
 	 */
 	protected function get_option_history_select( WordPress_Plugin $plugin ) {
 		$history = $this->plugin_options->get_saved_options( $plugin );
-		$history = array_reverse( $history, true );
+		$history = \array_reverse( $history, true );
 
-		return sprintf(
+		return \sprintf(
 			'<select name="%s"><option value=""></option>%s</select>',
-			esc_attr( $plugin->get_identifier() . '-history' ),
-			implode(
+			\esc_attr( $plugin->get_identifier() . '-history' ),
+			\implode(
 				'',
-				array_map(
+				\array_map(
 					static function ( $timestamp, $item ) use ( $plugin ) {
 						$version_option = $plugin->get_version_option_name();
 						$version_key    = $plugin->get_version_key();
@@ -170,14 +170,14 @@ class Plugin_Version_Control implements Integration {
 							$version = $item[ $version_option ];
 						}
 
-						return sprintf(
+						return \sprintf(
 							'<option value="%s">(%s) %s</option>',
-							esc_attr( $timestamp ),
-							esc_html( $version ),
-							esc_html( gmdate( 'Y-m-d H:i:s', $timestamp ) )
+							\esc_attr( $timestamp ),
+							\esc_html( $version ),
+							\esc_html( \gmdate( 'Y-m-d H:i:s', $timestamp ) )
 						);
 					},
-					array_keys( $history ),
+					\array_keys( $history ),
 					$history
 				)
 			)
@@ -190,7 +190,7 @@ class Plugin_Version_Control implements Integration {
 	 * @return bool
 	 */
 	protected function load_history() {
-		if ( check_admin_referer( 'yoast_version_control' ) === false ) {
+		if ( \check_admin_referer( 'yoast_version_control' ) === false ) {
 			return false;
 		}
 
@@ -200,20 +200,20 @@ class Plugin_Version_Control implements Integration {
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(
-					'Options from ' . gmdate( 'Y-m-d H:i:s', $timestamp )
+					'Options from ' . \gmdate( 'Y-m-d H:i:s', $timestamp )
 					. ' for ' . $plugin->get_name() . ' have <strong>not</strong> been restored.',
 					'error'
 				);
 
 				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
 					$notification = new Notification(
-						'Options from ' . gmdate( 'Y-m-d H:i:s', $timestamp )
+						'Options from ' . \gmdate( 'Y-m-d H:i:s', $timestamp )
 						. ' for ' . $plugin->get_name() . ' have been restored.',
 						'success'
 					);
 				}
 
-				do_action( 'Yoast\WP\Test_Helper\notification', $notification );
+				\do_action( 'Yoast\WP\Test_Helper\notification', $notification );
 
 				return true;
 			}

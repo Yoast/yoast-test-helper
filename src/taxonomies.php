@@ -76,7 +76,7 @@ class Taxonomies implements Integration {
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'enable_post_types' ) === true ) {
-			add_action( 'init', [ $this, 'register_taxonomies' ] );
+			\add_action( 'init', [ $this, 'register_taxonomies' ] );
 		}
 	}
 
@@ -85,12 +85,12 @@ class Taxonomies implements Integration {
 	 */
 	public function register_taxonomies() {
 		// Taxonomies for books.
-		register_taxonomy( 'book-category', [ 'book' ], $this->set_slug( $this->category_args, 'yoast-test-book-category' ) );
-		register_taxonomy( 'book-genre', [ 'book' ], $this->set_slug( $this->genre_args, 'yoast-test-book-genre' ) );
+		\register_taxonomy( 'book-category', [ 'book' ], $this->set_slug( $this->category_args, 'yoast-test-book-category' ) );
+		\register_taxonomy( 'book-genre', [ 'book' ], $this->set_slug( $this->genre_args, 'yoast-test-book-genre' ) );
 
 		// Taxonomies for movies.
-		register_taxonomy( 'movie-category', [ 'movie' ], $this->set_slug( $this->category_args, 'yoast-test-movie-category' ) );
-		register_taxonomy( 'movie-genre', [ 'movie' ], $this->set_slug( $this->genre_args, 'yoast-test-movie-genre' ) );
+		\register_taxonomy( 'movie-category', [ 'movie' ], $this->set_slug( $this->category_args, 'yoast-test-movie-category' ) );
+		\register_taxonomy( 'movie-genre', [ 'movie' ], $this->set_slug( $this->genre_args, 'yoast-test-movie-genre' ) );
 	}
 
 	/**

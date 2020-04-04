@@ -18,7 +18,7 @@ class WordPress_Plugin_Version {
 	 * @return string The version.
 	 */
 	public function get_version( WordPress_Plugin $plugin ) {
-		$data = get_option( $plugin->get_version_option_name() );
+		$data = \get_option( $plugin->get_version_option_name() );
 		if ( isset( $data[ $plugin->get_version_key() ] ) ) {
 			return $data[ $plugin->get_version_key() ];
 		}
@@ -36,14 +36,14 @@ class WordPress_Plugin_Version {
 	 */
 	public function update_version( WordPress_Plugin $plugin, $version ) {
 		$option_name = $plugin->get_version_option_name();
-		$data        = get_option( $option_name );
+		$data        = \get_option( $option_name );
 
 		if ( empty( $version ) ) {
 			return false;
 		}
 
 		if ( $plugin->get_version_key() === '' ) {
-			return update_option( $plugin->get_version_option_name(), $version );
+			return \update_option( $plugin->get_version_option_name(), $version );
 		}
 
 		if ( $data[ $plugin->get_version_key() ] === $version ) {
@@ -54,16 +54,16 @@ class WordPress_Plugin_Version {
 
 		$option_instance = false;
 		// Unhook option sanitization, otherwise the version cannot be changed.
-		if ( class_exists( WPSEO_Options::class ) ) {
+		if ( \class_exists( WPSEO_Options::class ) ) {
 			$option_instance = WPSEO_Options::get_option_instance( $option_name );
-			remove_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
+			\remove_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 
-		$success = update_option( $option_name, $data );
+		$success = \update_option( $option_name, $data );
 
 		// Restore option sanitization.
 		if ( $option_instance ) {
-			add_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
+			\add_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 
 		return $success;

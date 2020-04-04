@@ -33,30 +33,30 @@ class Schema implements Integration {
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'replace_schema_domain' ) === true ) {
-			add_filter( 'wpseo_debug_json_data', [ $this, 'replace_domain' ] );
+			\add_filter( 'wpseo_debug_json_data', [ $this, 'replace_domain' ] );
 		}
 
 		switch ( $this->option->get( 'is_needed_breadcrumb' ) ) {
 			case 'show':
 			case 'hide':
-				add_filter( 'wpseo_schema_needs_breadcrumb', [ $this, 'filter_is_needed_breadcrumb' ] );
+				\add_filter( 'wpseo_schema_needs_breadcrumb', [ $this, 'filter_is_needed_breadcrumb' ] );
 				break;
 			default:
-				remove_filter( 'wpseo_schema_needs_breadcrumb', [ $this, 'filter_is_needed_breadcrumb' ] );
+				\remove_filter( 'wpseo_schema_needs_breadcrumb', [ $this, 'filter_is_needed_breadcrumb' ] );
 				break;
 		}
 
 		switch ( $this->option->get( 'is_needed_webpage' ) ) {
 			case 'show':
 			case 'hide':
-				add_filter( 'wpseo_schema_needs_webpage', [ $this, 'filter_is_needed_webpage' ] );
+				\add_filter( 'wpseo_schema_needs_webpage', [ $this, 'filter_is_needed_webpage' ] );
 				break;
 			default:
-				remove_filter( 'wpseo_schema_needs_webpage', [ $this, 'filter_is_needed_webpage' ] );
+				\remove_filter( 'wpseo_schema_needs_webpage', [ $this, 'filter_is_needed_webpage' ] );
 				break;
 		}
 
-		add_action( 'admin_post_yoast_seo_test_schema', [ $this, 'handle_submit' ] );
+		\add_action( 'admin_post_yoast_seo_test_schema', [ $this, 'handle_submit' ] );
 	}
 
 	/**
@@ -100,17 +100,17 @@ class Schema implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
-		if ( check_admin_referer( 'yoast_seo_test_schema' ) !== false ) {
+		if ( \check_admin_referer( 'yoast_seo_test_schema' ) !== false ) {
 			$this->option->set( 'replace_schema_domain', isset( $_POST['replace_schema_domain'] ) );
 		}
 
-		$is_needed_breadcrumb = $this->validate_submit( filter_input( INPUT_POST, 'is_needed_breadcrumb' ) );
-		$is_needed_webpage    = $this->validate_submit( filter_input( INPUT_POST, 'is_needed_webpage' ) );
+		$is_needed_breadcrumb = $this->validate_submit( \filter_input( INPUT_POST, 'is_needed_breadcrumb' ) );
+		$is_needed_webpage    = $this->validate_submit( \filter_input( INPUT_POST, 'is_needed_webpage' ) );
 
 		$this->option->set( 'is_needed_breadcrumb', $is_needed_breadcrumb );
 		$this->option->set( 'is_needed_webpage', $is_needed_webpage );
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
+		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Schema implements Integration {
 	 */
 	private function validate_submit( $value ) {
 		$value = (string) $value;
-		if ( in_array( $value, [ 'none', 'show', 'hide' ], true ) ) {
+		if ( \in_array( $value, [ 'none', 'show', 'hide' ], true ) ) {
 			return $value;
 		}
 		return 'none';
@@ -139,8 +139,8 @@ class Schema implements Integration {
 		$source = WPSEO_Utils::get_home_url();
 		$target = 'https://example.com';
 
-		if ( $source[ ( strlen( $source ) - 1 ) ] === '/' ) {
-			$source = substr( $source, 0, -1 );
+		if ( $source[ ( \strlen( $source ) - 1 ) ] === '/' ) {
+			$source = \substr( $source, 0, -1 );
 		}
 
 		return $this->array_value_str_replace( $source, $target, $data );
@@ -174,14 +174,14 @@ class Schema implements Integration {
 	 * @return array The array with needle replaced by replacement in strings.
 	 */
 	private function array_value_str_replace( $needle, $replacement, $array ) {
-		if ( is_array( $array ) ) {
+		if ( \is_array( $array ) ) {
 			foreach ( $array as $key => $value ) {
-				if ( is_array( $value ) ) {
+				if ( \is_array( $value ) ) {
 					$array[ $key ] = $this->array_value_str_replace( $needle, $replacement, $array[ $key ] );
 				}
 				else {
-					if ( strpos( $value, $needle ) !== false ) {
-						$array[ $key ] = str_replace( $needle, $replacement, $value );
+					if ( \strpos( $value, $needle ) !== false ) {
+						$array[ $key ] = \str_replace( $needle, $replacement, $value );
 					}
 				}
 			}

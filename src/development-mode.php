@@ -34,10 +34,10 @@ class Development_Mode implements Integration {
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'enable_development_mode' ) ) {
-			add_filter( 'yoast_seo_development_mode', '__return_true' );
+			\add_filter( 'yoast_seo_development_mode', '__return_true' );
 		}
 
-		add_action( 'admin_post_yoast_seo_test_development_mode', [ $this, 'handle_submit' ] );
+		\add_action( 'admin_post_yoast_seo_test_development_mode', [ $this, 'handle_submit' ] );
 	}
 
 	/**
@@ -61,11 +61,11 @@ class Development_Mode implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
-		if ( check_admin_referer( 'yoast_seo_test_development_mode' ) !== false ) {
+		if ( \check_admin_referer( 'yoast_seo_test_development_mode' ) !== false ) {
 			$this->set_bool_option( 'enable_development_mode' );
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
+		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**

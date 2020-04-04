@@ -42,9 +42,9 @@ class Feature_Toggler implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_action( 'wpseo_enable_feature', [ $this, 'enable_features' ] );
+		\add_action( 'wpseo_enable_feature', [ $this, 'enable_features' ] );
 
-		add_action(
+		\add_action(
 			'admin_post_yoast_seo_feature_toggler',
 			[ $this, 'handle_submit' ]
 		);
@@ -76,14 +76,14 @@ class Feature_Toggler implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
-		if ( check_admin_referer( 'yoast_seo_feature_toggler' ) !== false ) {
+		if ( \check_admin_referer( 'yoast_seo_feature_toggler' ) !== false ) {
 			foreach ( $this->features as $feature => $label ) {
 				$key = 'feature_toggle_' . $feature;
 				$this->option->set( $key, isset( $_POST[ $key ] ) );
 			}
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
+		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
 	/**

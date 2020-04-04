@@ -34,9 +34,9 @@ class Admin_Debug_Info implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		add_filter( 'debug_bar_panels', [ $this, 'add_debug_panel' ] );
+		\add_filter( 'debug_bar_panels', [ $this, 'add_debug_panel' ] );
 
-		add_action(
+		\add_action(
 			'admin_post_yoast_seo_debug_settings',
 			[ $this, 'handle_submit' ]
 		);
@@ -50,7 +50,7 @@ class Admin_Debug_Info implements Integration {
 	 * @return \Admin_Bar_Panel[] Panels array.
 	 */
 	public function add_debug_panel( $panels ) {
-		if ( $this->option->get( 'show_options_debug' ) === true && defined( 'WPSEO_VERSION' ) ) {
+		if ( $this->option->get( 'show_options_debug' ) === true && \defined( 'WPSEO_VERSION' ) ) {
 			$panels[] = new Admin_Bar_Panel();
 		}
 		return $panels;
@@ -76,10 +76,10 @@ class Admin_Debug_Info implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
-		if ( check_admin_referer( 'yoast_seo_debug_settings' ) !== false ) {
+		if ( \check_admin_referer( 'yoast_seo_debug_settings' ) !== false ) {
 			$this->option->set( 'show_options_debug', isset( $_POST['show_options_debug'] ) );
 		}
 
-		wp_safe_redirect( self_admin_url( 'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
+		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 }
