@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
+use Yoast_WooCommerce_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
@@ -80,6 +81,6 @@ class WooCommerce_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return class_exists( '\Yoast_WooCommerce_SEO' ) ? \Yoast_WooCommerce_SEO::VERSION : 'not active';
+		return class_exists( Yoast_WooCommerce_SEO::class ) ? Yoast_WooCommerce_SEO::VERSION : 'not active';
 	}
 }

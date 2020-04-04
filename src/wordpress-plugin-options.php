@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use WPSEO_Options;
 use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
@@ -140,8 +141,8 @@ class WordPress_Plugin_Options {
 	 */
 	public function unhook_option_sanitization( $option_name ) {
 		// Unhook option sanitization, otherwise the version cannot be changed.
-		if ( class_exists( '\WPSEO_Options' ) ) {
-			$option_instance = \WPSEO_Options::get_option_instance( $option_name );
+		if ( class_exists( WPSEO_Options::class ) ) {
+			$option_instance = WPSEO_Options::get_option_instance( $option_name );
 			remove_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 	}
@@ -154,8 +155,8 @@ class WordPress_Plugin_Options {
 	 * @return void
 	 */
 	public function hook_option_sanitization( $option_name ) {
-		if ( class_exists( '\WPSEO_Options' ) ) {
-			$option_instance = \WPSEO_Options::get_option_instance( $option_name );
+		if ( class_exists( WPSEO_Options::class ) ) {
+			$option_instance = WPSEO_Options::get_option_instance( $option_name );
 			add_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 	}
