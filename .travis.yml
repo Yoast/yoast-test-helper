@@ -1,10 +1,10 @@
 language: php
 dist: trusty
-sudo: false
 
 branches:
   only:
     - master
+    - develop
     # Also build tags like 1.1.1 or 1.1 for deployment.
     - /(\d+\.)?(\d+\.)?(\*|\d+)/
 
@@ -53,9 +53,7 @@ before_install:
 install:
 - |
   if [[ "$PHPCS" == "1" ]]; then
-    if [[ $TRAVIS_PHP_VERSION == "5.6" ]]; then phpenv local 5.6.13; fi
     composer install --no-interaction
-    if [[ $TRAVIS_PHP_VERSION == "5.6" ]]; then phpenv local --unset; fi
   fi
 
 before_script:
@@ -84,7 +82,7 @@ script:
 - |
   if [[ "$PHPCS" == "1" ]]; then
     travis_fold start "PHP.code-style" && travis_time_start
-    vendor/bin/phpcs
+    composer check-cs
     travis_time_finish && travis_fold end "PHP.code-style"
   fi
 # Validate the composer.json file.
