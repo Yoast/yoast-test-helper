@@ -107,8 +107,7 @@ class WordPress_Plugin_Features implements Integration {
 
 		wp_safe_redirect(
 			self_admin_url(
-				'tools.php?page=' .
-				apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' )
+				'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' )
 			)
 		);
 	}

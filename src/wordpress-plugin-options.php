@@ -59,7 +59,7 @@ class WordPress_Plugin_Options {
 		$current_data[ time() ] = $data;
 
 		// Only keep the 10 latest entries.
-		$current_data = array_slice( $current_data, - 6, 6, true );
+		$current_data = array_slice( $current_data, -6, 6, true );
 
 		return update_option( $this->get_option_name( $plugin ), $current_data, false );
 	}
