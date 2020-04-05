@@ -37,7 +37,7 @@ class Plugin implements Integration {
 	 */
 	public function add_hooks() {
 		array_map(
-			function ( Integration $integration ) {
+			static function ( Integration $integration ) {
 				$integration->add_hooks();
 			},
 			$this->integrations

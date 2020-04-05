@@ -91,7 +91,7 @@ class Admin_Page implements Integration {
 		$this->masonry_script();
 
 		array_map(
-			function( $block ) {
+			static function( $block ) {
 				echo '<div class="wpseo_test_block">';
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $block();
