@@ -404,7 +404,7 @@ class Plugin_Toggler implements Integration {
 		}
 
 		$plugins = $this->plugin_groups[ $group ];
-		foreach ( $plugins as $plugin => $plugin_path ) {
+		foreach ( $plugins as $plugin_path ) {
 			if ( is_plugin_active( $plugin_path ) ) {
 				deactivate_plugins( plugin_basename( $plugin_path ), true );
 			}
