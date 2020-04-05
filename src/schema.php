@@ -10,14 +10,14 @@ class Schema implements Integration {
 	/**
 	 * Holds our option instance.
 	 *
-	 * @var Option
+	 * @var \Yoast\WP\Test_Helper\Option
 	 */
 	private $option;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param Option $option Our option array.
+	 * @param \Yoast\WP\Test_Helper\Option $option Our option array.
 	 */
 	public function __construct( Option $option ) {
 		$this->option = $option;
@@ -128,7 +128,7 @@ class Schema implements Integration {
 	 *
 	 * @param array $data Data to replace the domain in.
 	 *
-	 * @return array $data Data to replace the domain in.
+	 * @return array Data to replace the domain in.
 	 */
 	public function replace_domain( $data ) {
 		$source = \WPSEO_Utils::get_home_url();

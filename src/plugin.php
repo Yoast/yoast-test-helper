@@ -17,7 +17,7 @@ class Plugin implements Integration {
 	/**
 	 * List of integrations
 	 *
-	 * @var Integration[]
+	 * @var \Yoast\WP\Test_Helper\Integration[]
 	 */
 	protected $integrations = [];
 
@@ -47,7 +47,7 @@ class Plugin implements Integration {
 	/**
 	 * Adds the blocks to the admin page.
 	 *
-	 * @param Admin_Page $admin_page The current admin page.
+	 * @param \Yoast\WP\Test_Helper\Admin_Page $admin_page The current admin page.
 	 */
 	public function admin_page_blocks( Admin_Page $admin_page ) {
 		foreach ( $this->integrations as $integration ) {
@@ -93,7 +93,7 @@ class Plugin implements Integration {
 	/**
 	 * Retrieves all the plugins.
 	 *
-	 * @return array
+	 * @return object[]
 	 */
 	private function get_plugins() {
 		return [

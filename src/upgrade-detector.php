@@ -36,7 +36,7 @@ class Upgrade_Detector implements Integration {
 	}
 
 	/**
-	 * Adds a success notitifcation for an upgrade.
+	 * Adds a success notification for an upgrade.
 	 *
 	 * @param string $notification_text The notification text to show.
 	 *

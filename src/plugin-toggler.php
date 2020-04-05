@@ -24,14 +24,14 @@ class Plugin_Toggler implements Integration {
 	/**
 	 * Holds our option instance.
 	 *
-	 * @var Option
+	 * @var \Yoast\WP\Test_Helper\Option
 	 */
 	private $option;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param Option $option Our option array.
+	 * @param \Yoast\WP\Test_Helper\Option $option Our option array.
 	 */
 	public function __construct( Option $option ) {
 		$this->option = $option;
@@ -242,6 +242,7 @@ class Plugin_Toggler implements Integration {
 	 * Uses $this->grouped_name_filter regex to get the group.
 	 *
 	 * Example:
+	 * <code>
 	 * $this->grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
 	 * $plugin_groups = array(
 	 *   'Yoast SEO' => array(
@@ -251,6 +252,7 @@ class Plugin_Toggler implements Integration {
 	 *     'Yoast SEO Premium 8.4' => 'wordpress-seo-premium 8.4/wp-seo-premium.php',
 	 *   ),
 	 * );
+	 * </code>
 	 *
 	 * @return array The plugins grouped by the regex matches.
 	 */
@@ -282,7 +284,7 @@ class Plugin_Toggler implements Integration {
 	 * Example filter:
 	 * $grouped_name_filter = '/^(Yoast SEO)$|^(Yoast SEO)[^:]{1}/'
 	 *
-	 * @param string $plugin_name         The plugin name.
+	 * @param string $plugin_name The plugin name.
 	 *
 	 * @return string The group.
 	 */

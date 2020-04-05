@@ -10,14 +10,14 @@ class Domain_Dropdown implements Integration {
 	/**
 	 * Holds our option instance.
 	 *
-	 * @var Option
+	 * @var \Yoast\WP\Test_Helper\Option
 	 */
 	private $option;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param Option $option Our option array.
+	 * @param \Yoast\WP\Test_Helper\Option $option Our option array.
 	 */
 	public function __construct( Option $option ) {
 		$this->option = $option;
@@ -81,7 +81,7 @@ class Domain_Dropdown implements Integration {
 	 * If a testing domain is set, modify any request to myYoast to go to the testing domain.
 	 * Attached to the `requests-requests.before_request` filter.
 	 *
-	 * @param string $url URL of the request about to be made.
+	 * @param string $url     URL of the request about to be made.
 	 * @param array  $headers Headers of the request about to be made.
 	 * @return void
 	 */
@@ -108,8 +108,8 @@ class Domain_Dropdown implements Integration {
 	/**
 	 * Replace the domain of the url with the passed domain for my-yoast urls.
 	 *
-	 * @param string $domain Testing domain to take place in the request.
-	 * @param string $url URL of request about to be made.
+	 * @param string $domain  Testing domain to take place in the request.
+	 * @param string $url     URL of request about to be made.
 	 * @param array  $headers Headers of request about to be made.
 	 * @return array [ 'url' => new URL, 'host' => new Host ]
 	 */

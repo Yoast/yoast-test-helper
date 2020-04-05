@@ -10,7 +10,7 @@ class Admin_Page implements Integration {
 	/**
 	 * List of admin page blocks.
 	 *
-	 * @var array
+	 * @var callable[]
 	 */
 	protected $admin_page_blocks = [];
 
