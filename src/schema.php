@@ -135,7 +135,7 @@ class Schema implements Integration {
 		$target = 'https://example.com';
 
 		if ( $source[ ( strlen( $source ) - 1 ) ] === '/' ) {
-			$source = substr( $source, 0, - 1 );
+			$source = substr( $source, 0, -1 );
 		}
 
 		return $this->array_value_str_replace( $source, $target, $data );

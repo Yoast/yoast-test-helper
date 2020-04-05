@@ -195,15 +195,15 @@ class Plugin_Version_Control implements Integration {
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(
-					'Options from ' . gmdate( 'Y-m-d H:i:s', $timestamp ) .
-					' for ' . $plugin->get_name() . ' have <strong>not</strong> been restored.',
+					'Options from ' . gmdate( 'Y-m-d H:i:s', $timestamp )
+					. ' for ' . $plugin->get_name() . ' have <strong>not</strong> been restored.',
 					'error'
 				);
 
 				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
 					$notification = new Notification(
-						'Options from ' . gmdate( 'Y-m-d H:i:s', $timestamp ) .
-						' for ' . $plugin->get_name() . ' have been restored.',
+						'Options from ' . gmdate( 'Y-m-d H:i:s', $timestamp )
+						. ' for ' . $plugin->get_name() . ' have been restored.',
 						'success'
 					);
 				}
