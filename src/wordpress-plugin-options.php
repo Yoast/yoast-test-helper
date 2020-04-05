@@ -56,13 +56,13 @@ class WordPress_Plugin_Options {
 
 		$option_name = $this->get_option_name( $plugin );
 
-		$current_data           = (array) get_option( $option_name, [] );
-		$current_data[ time() ] = $data;
+		$current_data            = (array) \get_option( $option_name, [] );
+		$current_data[ \time() ] = $data;
 
 		// Only keep the 10 latest entries.
-		$current_data = array_slice( $current_data, -6, 6, true );
+		$current_data = \array_slice( $current_data, -6, 6, true );
 
-		return update_option( $this->get_option_name( $plugin ), $current_data, false );
+		return \update_option( $this->get_option_name( $plugin ), $current_data, false );
 	}
 
 	/**
@@ -99,7 +99,7 @@ class WordPress_Plugin_Options {
 			return [];
 		}
 
-		return maybe_unserialize( $result[0] );
+		return \maybe_unserialize( $result[0] );
 	}
 
 	/**
@@ -120,10 +120,10 @@ class WordPress_Plugin_Options {
 			$this->unhook_option_sanitization( $option_name );
 
 			if ( $option_value === [] ) {
-				delete_option( $option_name );
+				\delete_option( $option_name );
 			}
 			else {
-				update_option( $option_name, $option_value, false );
+				\update_option( $option_name, $option_value, false );
 			}
 
 			$this->hook_option_sanitization( $option_name );
@@ -141,9 +141,9 @@ class WordPress_Plugin_Options {
 	 */
 	public function unhook_option_sanitization( $option_name ) {
 		// Unhook option sanitization, otherwise the version cannot be changed.
-		if ( class_exists( WPSEO_Options::class ) ) {
+		if ( \class_exists( WPSEO_Options::class ) ) {
 			$option_instance = WPSEO_Options::get_option_instance( $option_name );
-			remove_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
+			\remove_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 	}
 
@@ -155,9 +155,9 @@ class WordPress_Plugin_Options {
 	 * @return void
 	 */
 	public function hook_option_sanitization( $option_name ) {
-		if ( class_exists( WPSEO_Options::class ) ) {
+		if ( \class_exists( WPSEO_Options::class ) ) {
 			$option_instance = WPSEO_Options::get_option_instance( $option_name );
-			add_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
+			\add_filter( 'sanitize_option_' . $option_name, [ $option_instance, 'validate' ] );
 		}
 	}
 

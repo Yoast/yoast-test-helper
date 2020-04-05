@@ -46,7 +46,7 @@ class Plugin implements Integration {
 	public function __construct() {
 		$this->load_integrations();
 
-		add_action( 'Yoast\WP\Test_Helper\notifications', [ $this, 'admin_page_blocks' ] );
+		\add_action( 'Yoast\WP\Test_Helper\notifications', [ $this, 'admin_page_blocks' ] );
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		array_map(
+		\array_map(
 			static function ( Integration $integration ) {
 				$integration->add_hooks();
 			},
@@ -70,7 +70,7 @@ class Plugin implements Integration {
 	 */
 	public function admin_page_blocks( Admin_Page $admin_page ) {
 		foreach ( $this->integrations as $integration ) {
-			if ( method_exists( $integration, 'get_controls' ) ) {
+			if ( \method_exists( $integration, 'get_controls' ) ) {
 				$admin_page->add_admin_page_block( [ $integration, 'get_controls' ] );
 			}
 		}

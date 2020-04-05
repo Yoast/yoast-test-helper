@@ -117,7 +117,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return defined( 'WPSEO_VERSION' ) ? WPSEO_VERSION : 'not active';
+		return \defined( 'WPSEO_VERSION' ) ? WPSEO_VERSION : 'not active';
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			$wpdb->prefix . 'usermeta',
 			[
 				'meta_key' => 'wp_yoast_notifications',
-				'user_id'  => get_current_user_id(),
+				'user_id'  => \get_current_user_id(),
 			]
 		);
 
@@ -174,7 +174,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return bool True if successful, false otherwise.
 	 */
 	private function reset_site_information() {
-		return delete_transient( 'wpseo_site_information' );
+		return \delete_transient( 'wpseo_site_information' );
 	}
 
 	/**
@@ -183,7 +183,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return bool True if successful, false otherwise.
 	 */
 	private function reset_tracking() {
-		return delete_option( 'wpseo_tracking_last_request' );
+		return \delete_option( 'wpseo_tracking_last_request' );
 	}
 
 	/**
@@ -192,7 +192,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return bool True if successful, false otherwise.
 	 */
 	private function reset_configuration_wizard() {
-		update_user_meta( get_current_user_id(), 'wpseo-dismiss-configuration-notice', 'no' );
+		\update_user_meta( \get_current_user_id(), 'wpseo-dismiss-configuration-notice', 'no' );
 
 		return WPSEO_Options::set( 'show_onboarding_notice', true );
 	}
@@ -212,7 +212,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		$wpdb->query( 'DROP TABLE ' . $wpdb->prefix . 'yoast_primary_term' );
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange
 
-		delete_option( 'yoast_migrations_premium' );
-		return delete_option( 'yoast_migrations_free' );
+		\delete_option( 'yoast_migrations_premium' );
+		return \delete_option( 'yoast_migrations_free' );
 	}
 }

@@ -18,10 +18,10 @@ class Form_Presenter {
 	 * @return string The HTML to render the form.
 	 */
 	public static function get_html( $title, $nonce_field, $fields, $submit = true ) {
-		$field   = esc_attr( $nonce_field );
-		$output  = '<h2>' . esc_html( $title ) . '</h2>';
-		$output .= '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="POST">';
-		$output .= str_replace( 'id="_wpnonce"', '', wp_nonce_field( $nonce_field, '_wpnonce', true, false ) );
+		$field   = \esc_attr( $nonce_field );
+		$output  = '<h2>' . \esc_html( $title ) . '</h2>';
+		$output .= '<form action="' . \esc_url( \admin_url( 'admin-post.php' ) ) . '" method="POST">';
+		$output .= \str_replace( 'id="_wpnonce"', '', \wp_nonce_field( $nonce_field, '_wpnonce', true, false ) );
 		$output .= '<input type="hidden" name="action" value="' . $field . '">';
 
 		$output .= $fields;
@@ -45,9 +45,9 @@ class Form_Presenter {
 	 * @return string The checkbox & label HTML.
 	 */
 	public static function create_checkbox( $option, $label, $checked = false ) {
-		$checked_html = checked( $checked, true, false );
-		$output       = sprintf( '<input type="checkbox" ' . $checked_html . ' name="%1$s" id="%1$s"/>', $option );
-		$output      .= sprintf( '<label for="%1$s">%2$s</label><br/>', $option, $label );
+		$checked_html = \checked( $checked, true, false );
+		$output       = \sprintf( '<input type="checkbox" ' . $checked_html . ' name="%1$s" id="%1$s"/>', $option );
+		$output      .= \sprintf( '<label for="%1$s">%2$s</label><br/>', $option, $label );
 
 		return $output;
 	}
@@ -63,11 +63,11 @@ class Form_Presenter {
 	 * @return string The select & label HTML.
 	 */
 	public static function create_select( $option, $label, $options, $selected = false ) {
-		$output  = sprintf( '<label for="%1$s">%2$s</label>', $option, $label );
-		$output .= sprintf( '<select name="%1$s" id="%1$s">', $option );
+		$output  = \sprintf( '<label for="%1$s">%2$s</label>', $option, $label );
+		$output .= \sprintf( '<select name="%1$s" id="%1$s">', $option );
 		foreach ( $options as $value => $option_label ) {
-			$selected_html = selected( $selected === $value, true, false );
-			$output       .= sprintf( '<option ' . $selected_html . ' value="%1$s">%2$s</option>', $value, $option_label );
+			$selected_html = \selected( $selected === $value, true, false );
+			$output       .= \sprintf( '<option ' . $selected_html . ' value="%1$s">%2$s</option>', $value, $option_label );
 		}
 		$output .= '</select><br/>';
 

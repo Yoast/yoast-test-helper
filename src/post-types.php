@@ -80,12 +80,12 @@ class Post_Types implements Integration {
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'enable_post_types' ) === true ) {
-			add_action( 'init', [ $this, 'register_post_types' ] );
+			\add_action( 'init', [ $this, 'register_post_types' ] );
 		}
 
-		add_action( 'admin_post_yoast_seo_test_post_types', [ $this, 'handle_submit' ] );
-		add_filter( 'gutenberg_can_edit_post_type', [ $this, 'disable_gutenberg' ], 10, 2 );
-		add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_gutenberg' ], 10, 2 );
+		\add_action( 'admin_post_yoast_seo_test_post_types', [ $this, 'handle_submit' ] );
+		\add_filter( 'gutenberg_can_edit_post_type', [ $this, 'disable_gutenberg' ], 10, 2 );
+		\add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_gutenberg' ], 10, 2 );
 	}
 
 	/**
@@ -113,8 +113,8 @@ class Post_Types implements Integration {
 	 * @return void
 	 */
 	public function register_post_types() {
-		register_post_type( 'book', $this->book_args );
-		register_post_type( 'movie', $this->movie_args );
+		\register_post_type( 'book', $this->book_args );
+		\register_post_type( 'movie', $this->movie_args );
 	}
 
 	/**
@@ -150,23 +150,23 @@ class Post_Types implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
-		if ( check_admin_referer( 'yoast_seo_test_post_types' ) !== false ) {
+		if ( \check_admin_referer( 'yoast_seo_test_post_types' ) !== false ) {
 			$this->set_bool_option( 'enable_post_types' );
 			$this->set_bool_option( 'enable_gutenberg_books' );
 			$this->set_bool_option( 'enable_gutenberg_videos' );
 		}
 
 		// If we've now enabled the post types, make sure they work.
-		if ( $this->option->get( 'enable_post_types' ) && ! post_type_exists( 'book' ) ) {
+		if ( $this->option->get( 'enable_post_types' ) && ! \post_type_exists( 'book' ) ) {
 			$this->register_post_types();
 
 			// Hook this to shutdown so we're certain all the required post types have been registered.
-			add_action( 'shutdown', [ $this, 'flush_rewrite_rules' ] );
+			\add_action( 'shutdown', [ $this, 'flush_rewrite_rules' ] );
 		}
 
-		wp_safe_redirect(
-			self_admin_url(
-				'tools.php?page=' . apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' )
+		\wp_safe_redirect(
+			\self_admin_url(
+				'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' )
 			)
 		);
 	}
