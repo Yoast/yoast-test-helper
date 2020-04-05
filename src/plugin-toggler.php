@@ -2,6 +2,11 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use WPSEO_Utils;
+use Yoast\WP\Test_Helper\Form_Presenter;
+use Yoast\WP\Test_Helper\Integration;
+use Yoast\WP\Test_Helper\Option;
+
 /**
  * Toggles between plugins.
  */
@@ -192,7 +197,7 @@ class Plugin_Toggler implements Integration {
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The util takes care of escaping.
-		echo \WPSEO_Utils::format_json_encode( $response );
+		echo WPSEO_Utils::format_json_encode( $response );
 		die();
 	}
 

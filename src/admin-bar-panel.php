@@ -2,10 +2,12 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Debug_Bar_Panel;
+
 /**
  * Class to manage registering and rendering the admin page in WordPress.
  */
-class Admin_Bar_Panel extends \Debug_Bar_Panel {
+class Admin_Bar_Panel extends Debug_Bar_Panel {
 
 	/**
 	 * Admin_Bar_Debug_Panel constructor.

@@ -2,6 +2,9 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Yoast\WP\Test_Helper\Form_Presenter;
+use Yoast\WP\Test_Helper\Integration;
+use Yoast\WP\Test_Helper\Notification;
 use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
