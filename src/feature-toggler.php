@@ -10,7 +10,7 @@ class Feature_Toggler implements Integration {
 	/**
 	 * The features to toggle.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $features = [
 		'improvedInternalLinking' => 'Improved internal linking',
@@ -85,9 +85,9 @@ class Feature_Toggler implements Integration {
 	/**
 	 * Enable a feature in the plugin.
 	 *
-	 * @param array $feature_array The array of enabled features.
+	 * @param string[] $feature_array The array of enabled features.
 	 *
-	 * @return array The modified array of enabled features.
+	 * @return string[] The modified array of enabled features.
 	 */
 	public function enable_features( $feature_array ) {
 		foreach ( $this->features as $feature => $label ) {

@@ -82,7 +82,7 @@ class WordPress_Plugin_Options {
 	 *
 	 * @param string $name Name of the option to retrieve.
 	 *
-	 * @return array|mixed Contents of the option.
+	 * @return mixed[] Contents of the option.
 	 */
 	protected function get_option( $name ) {
 		global $wpdb;

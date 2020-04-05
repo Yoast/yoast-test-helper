@@ -84,7 +84,7 @@ class Admin_Notifications implements Integration {
 	/**
 	 * Saves the notifications for the next page request.
 	 *
-	 * @param array $notifications Notifications to save.
+	 * @param \Yoast\WP\Test_Helper\Notification[] $notifications Notifications to save.
 	 *
 	 * @return void
 	 */

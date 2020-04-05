@@ -40,9 +40,9 @@ class Admin_Debug_Info implements Integration {
 	/**
 	 * Makes the debug info appear in a Debug Bar panel.
 	 *
-	 * @param array $panels Existing debug bar panels.
+	 * @param \Admin_Bar_Panel[] $panels Existing debug bar panels.
 	 *
-	 * @return array Panels array.
+	 * @return \Admin_Bar_Panel[] Panels array.
 	 */
 	public function add_debug_panel( $panels ) {
 		if ( $this->option->get( 'show_options_debug' ) === true && defined( 'WPSEO_VERSION' ) ) {

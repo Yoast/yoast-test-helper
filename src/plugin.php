@@ -93,7 +93,7 @@ class Plugin implements Integration {
 	/**
 	 * Retrieves all the plugins.
 	 *
-	 * @return array
+	 * @return object[]
 	 */
 	private function get_plugins() {
 		return [

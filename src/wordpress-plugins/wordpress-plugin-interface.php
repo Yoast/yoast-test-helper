@@ -45,7 +45,7 @@ interface WordPress_Plugin {
 	/**
 	 * Retrieves the list of features.
 	 *
-	 * @return array List of features.
+	 * @return string[] List of features.
 	 */
 	public function get_features();
 
