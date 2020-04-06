@@ -117,7 +117,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return \defined( 'WPSEO_VERSION' ) ? WPSEO_VERSION : 'not active';
+		return \defined( 'WPSEO_VERSION' ) ? \WPSEO_VERSION : 'not active';
 	}
 
 	/**

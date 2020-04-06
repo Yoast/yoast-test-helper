@@ -78,7 +78,7 @@ class Plugin_Toggler implements Integration {
 			! \function_exists( 'is_plugin_active' ) ||
 			! \function_exists( 'get_plugins' )
 		) {
-			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+			include_once \ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
 		// Apply filters to adapt the $this->grouped_name_filter property.
@@ -160,9 +160,9 @@ class Plugin_Toggler implements Integration {
 		// JS file.
 		\wp_enqueue_script(
 			'yoast-toggle-script',
-			\plugin_dir_url( YOAST_TEST_HELPER_FILE ) . 'assets/js/yoast-toggle.js',
+			\plugin_dir_url( \YOAST_TEST_HELPER_FILE ) . 'assets/js/yoast-toggle.js',
 			[],
-			YOAST_TEST_HELPER_VERSION,
+			\YOAST_TEST_HELPER_VERSION,
 			true
 		);
 	}
@@ -181,8 +181,8 @@ class Plugin_Toggler implements Integration {
 
 		// If nonce is valid.
 		if ( $this->verify_nonce() ) {
-			$group  = \filter_input( INPUT_GET, 'group' );
-			$plugin = \filter_input( INPUT_GET, 'plugin' );
+			$group  = \filter_input( \INPUT_GET, 'group' );
+			$plugin = \filter_input( \INPUT_GET, 'plugin' );
 
 			// First deactivate the current plugin.
 			$this->deactivate_plugin_group( $group );
@@ -320,7 +320,7 @@ class Plugin_Toggler implements Integration {
 
 		foreach ( $plugin_groups as $group => $plugins ) {
 			foreach ( $plugins as $plugin => $plugin_path ) {
-				$full_plugin_path = ABSPATH . 'wp-content/plugins/' . \plugin_basename( $plugin_path );
+				$full_plugin_path = \ABSPATH . 'wp-content/plugins/' . \plugin_basename( $plugin_path );
 
 				// Add the plugin to the group if it exists.
 				if ( \file_exists( $full_plugin_path ) ) {
@@ -425,7 +425,7 @@ class Plugin_Toggler implements Integration {
 	 */
 	private function verify_nonce() {
 		// Get the nonce value.
-		$ajax_nonce = \filter_input( INPUT_GET, 'ajax_nonce' );
+		$ajax_nonce = \filter_input( \INPUT_GET, 'ajax_nonce' );
 
 		// If nonce is valid return true.
 		if ( \wp_verify_nonce( $ajax_nonce, 'yoast-plugin-toggle' ) ) {

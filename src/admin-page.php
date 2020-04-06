@@ -45,9 +45,9 @@ class Admin_Page implements Integration {
 		// CSS file.
 		\wp_enqueue_style(
 			'yoast-test-admin-style',
-			\plugin_dir_url( YOAST_TEST_HELPER_FILE ) . 'assets/css/admin.css',
+			\plugin_dir_url( \YOAST_TEST_HELPER_FILE ) . 'assets/css/admin.css',
 			null,
-			YOAST_TEST_HELPER_VERSION
+			\YOAST_TEST_HELPER_VERSION
 		);
 		\wp_enqueue_script( 'masonry' );
 	}

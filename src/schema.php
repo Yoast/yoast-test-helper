@@ -104,8 +104,8 @@ class Schema implements Integration {
 			$this->option->set( 'replace_schema_domain', isset( $_POST['replace_schema_domain'] ) );
 		}
 
-		$is_needed_breadcrumb = $this->validate_submit( \filter_input( INPUT_POST, 'is_needed_breadcrumb' ) );
-		$is_needed_webpage    = $this->validate_submit( \filter_input( INPUT_POST, 'is_needed_webpage' ) );
+		$is_needed_breadcrumb = $this->validate_submit( \filter_input( \INPUT_POST, 'is_needed_breadcrumb' ) );
+		$is_needed_webpage    = $this->validate_submit( \filter_input( \INPUT_POST, 'is_needed_webpage' ) );
 
 		$this->option->set( 'is_needed_breadcrumb', $is_needed_breadcrumb );
 		$this->option->set( 'is_needed_webpage', $is_needed_webpage );
