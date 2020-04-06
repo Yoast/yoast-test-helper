@@ -1,43 +1,93 @@
 <?xml version="1.0"?>
-<ruleset name="Yoast Test Helper">
-    <description>Yoast Test Helper rules for PHP_CodeSniffer</description>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	name="Yoast Test Helper"
+	xsi:noNamespaceSchemaLocation="./vendor/squizlabs/php_codesniffer/phpcs.xsd">
 
-    <file>.</file>
+	<description>Yoast Test Helper rules for PHP_CodeSniffer</description>
 
-    <exclude-pattern>artifact/*</exclude-pattern>
+	<!--
+	#############################################################################
+	COMMAND LINE ARGUMENTS
+	https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml
+	#############################################################################
+	-->
 
-    <arg name="extensions" value="php"/>
-    <arg value="sp"/>
-    <arg name="basepath" value="./"/>
+	<file>.</file>
 
-    <rule ref="Yoast">
-        <properties>
-   			<!-- Provide the plugin specific prefixes for all naming related sniffs. -->
-   			<property name="prefixes" type="array">
-   				<element value="Yoast\WP\Test_Helper"/>
-   			</property>
-    	</properties>
-        <!-- We exclude this here because this is kind of the point of this plugin. -->
-        <exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
-        <exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching" />
-        <exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key" />
-    </rule>
+	<exclude-pattern>artifact/*</exclude-pattern>
 
-    <rule ref="Yoast.Files.FileName">
-        <properties>
-            <!-- Remove the following prefixes from the names of object structures. -->
-            <property name="oo_prefixes" type="array">
-                <element value="wpseo"/>
-    		</property>
-    	</properties>
-    </rule>
+	<!-- Only check PHP files. -->
+	<arg name="extensions" value="php"/>
 
-    <rule ref="Yoast.NamingConventions.NamespaceName">
-        <properties>
-            <!-- Treat the "src" directory as the project root for path to namespace translations. -->
-            <property name="src_directory" type="array">
-                <element value="src"/>
-            </property>
-        </properties>
-    </rule>
+	<!-- Show progress, show the error codes for each message (source). -->
+	<arg value="ps"/>
+
+	<!-- Strip the filepaths down to the relevant bit. -->
+	<arg name="basepath" value="./"/>
+
+	<!-- Check up to 8 files simultaneously. -->
+	<arg name="parallel" value="8"/>
+
+
+	<!--
+	#############################################################################
+	USE THE YoastCS RULESET
+	#############################################################################
+	-->
+
+	<rule ref="Yoast">
+		<properties>
+			<!-- Provide the plugin specific prefixes for all naming related sniffs. -->
+			<property name="prefixes" type="array">
+				<element value="Yoast\WP\Test_Helper"/>
+				<element value="yoast_test_helper"/>
+			</property>
+		</properties>
+
+		<!-- We exclude these here because this is kind of the point of this plugin. -->
+		<exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
+		<exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching" />
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key" />
+	</rule>
+
+
+	<!--
+	#############################################################################
+	SNIFF SPECIFIC CONFIGURATION
+	#############################################################################
+	-->
+
+	<!-- Verify that all gettext calls use the correct text domain. -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="yoast-test-helper"/>
+			</property>
+		</properties>
+	</rule>
+
+
+	<rule ref="Yoast.Files.FileName">
+		<properties>
+			<!-- Don't trigger on the main file as renaming it would deactivate the plugin. -->
+			<property name="excluded_files_strict_check" type="array">
+				<element value="yoast-test-helper.php"/>
+			</property>
+
+			<!-- Remove the following prefixes from the names of object structures. -->
+			<property name="oo_prefixes" type="array">
+				<element value="wpseo"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="Yoast.NamingConventions.NamespaceName">
+		<properties>
+			<!-- Treat the "src" directory as the project root for path to namespace translations. -->
+			<property name="src_directory" type="array">
+				<element value="src"/>
+			</property>
+		</properties>
+	</rule>
+
 </ruleset>

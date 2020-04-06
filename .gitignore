@@ -5,6 +5,8 @@ artifact.zip
 /artifact/
 yarn-error.log
 /.wordpress-svn
+.phpcs.xml
+phpcs.xml
 
 ############
 ## OSes
