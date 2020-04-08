@@ -94,10 +94,10 @@ class Admin_Page implements Integration {
 
 		\array_map(
 			static function( $block ) {
-			    $block_output = $block();
-			    if ( $block_output === '' ) {
-			        return;
-                }
+				$block_output = $block();
+				if ( $block_output === '' ) {
+					return;
+				}
 				echo '<div class="wpseo_test_block">';
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $block_output;
