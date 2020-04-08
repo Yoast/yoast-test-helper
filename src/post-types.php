@@ -14,7 +14,7 @@ class Post_Types implements Integration {
 	/**
 	 * Holds our option instance.
 	 *
-	 * @var \Yoast\WP\Test_Helper\Option
+	 * @var Option
 	 */
 	private $option;
 
@@ -67,7 +67,7 @@ class Post_Types implements Integration {
 	/**
 	 * Class constructor.
 	 *
-	 * @param \Yoast\WP\Test_Helper\Option $option Our option array.
+	 * @param Option $option Our option array.
 	 */
 	public function __construct( Option $option ) {
 		$this->option = $option;
