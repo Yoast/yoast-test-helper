@@ -35,6 +35,24 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.6 (under development) =
+
+Enhancements:
+
+* Removed the feature toggle for internal linking as it's no longer in use.
+* Changed the order of admin boxes to be more logical.
+
+Bugfixes:
+
+* Fix fatal error with debug panel.
+
+Under the hood:
+
+* If an integration returns an empty string for its form controls, don't output the admin block.
+* Several QA fixes and CS fixes.
+* Travis now builds for PRs.
+* Added a `.gitattributes` for more easy exporting.
+
 = 1.5 =
 
 Release Date: April 3rd, 2020
@@ -43,6 +61,7 @@ Enhancements:
 
 * Added a button to reset your database to pre-Indexables state. When running an indexables branch this causes all migrations to re-run and thus all tables to be created cleanly.
 * Added a button to reset the configuration wizard state.
+* Permalinks now reset after enabling custom post types.
 
 Bugfixes:
 
