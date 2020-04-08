@@ -24,6 +24,7 @@ use Yoast\WP\Test_Helper\WordPress_Plugins\Local_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\News_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Video_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\WooCommerce_SEO;
+use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Yoast_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Yoast_SEO_Premium;
 use Yoast\WP\Test_Helper\XML_Sitemaps;
@@ -93,26 +94,26 @@ class Plugin implements Integration {
 		$option = new Option();
 
 		$this->integrations[] = $plugin_version_control;
-		$this->integrations[] = new Development_Mode( $option );
+		$this->integrations[] = new Admin_Page();
 		$this->integrations[] = new Admin_Notifications();
 		$this->integrations[] = new Upgrade_Detector();
-		$this->integrations[] = new Admin_Page();
-		$this->integrations[] = new WordPress_Plugin_Features( $plugins );
-		$this->integrations[] = new Admin_Debug_Info( $option );
+		$this->integrations[] = new Development_Mode( $option );
 		$this->integrations[] = new Plugin_Toggler( $option );
+		$this->integrations[] = new WordPress_Plugin_Features( $plugins );
+		$this->integrations[] = new Schema( $option );
+		$this->integrations[] = new XML_Sitemaps( $option );
 		$this->integrations[] = new Feature_Toggler( $option );
 		$this->integrations[] = new Post_Types( $option );
 		$this->integrations[] = new Taxonomies( $option );
-		$this->integrations[] = new Schema( $option );
 		$this->integrations[] = new Domain_Dropdown( $option );
-		$this->integrations[] = new XML_Sitemaps( $option );
 		$this->integrations[] = new Inline_Script( $option );
+		$this->integrations[] = new Admin_Debug_Info( $option );
 	}
 
 	/**
 	 * Retrieves all the plugins.
 	 *
-	 * @return object[]
+	 * @return WordPress_Plugins\WordPress_Plugin[]
 	 */
 	private function get_plugins() {
 		return [
