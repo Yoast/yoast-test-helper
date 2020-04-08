@@ -3,9 +3,6 @@
 namespace Yoast\WP\Test_Helper;
 
 use WPSEO_Utils;
-use Yoast\WP\Test_Helper\Form_Presenter;
-use Yoast\WP\Test_Helper\Integration;
-use Yoast\WP\Test_Helper\Option;
 
 /**
  * Class to manage registering and rendering the admin page in WordPress.

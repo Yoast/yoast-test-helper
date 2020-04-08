@@ -2,9 +2,6 @@
 
 namespace Yoast\WP\Test_Helper;
 
-use Yoast\WP\Test_Helper\Integration;
-use Yoast\WP\Test_Helper\Notification;
-
 /**
  * Upgrade detector, spawns a notification if an upgrade is being run.
  */

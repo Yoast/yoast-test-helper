@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\Test_Helper;
 
-use Yoast\WP\Test_Helper\Integration;
-
 /**
  * Class to manage registering and rendering the admin page in WordPress.
  */
