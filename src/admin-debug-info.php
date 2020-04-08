@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Debug_Bar_Panel;
 use Yoast\WP\Test_Helper\Admin_Bar_Panel;
 use Yoast\WP\Test_Helper\Form_Presenter;
 use Yoast\WP\Test_Helper\Integration;
@@ -15,14 +16,14 @@ class Admin_Debug_Info implements Integration {
 	/**
 	 * Holds our option instance.
 	 *
-	 * @var \Yoast\WP\Test_Helper\Option
+	 * @var Option
 	 */
 	private $option;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param \Yoast\WP\Test_Helper\Option $option Our option array.
+	 * @param Option $option Our option array.
 	 */
 	public function __construct( Option $option ) {
 		$this->option = $option;
@@ -45,9 +46,9 @@ class Admin_Debug_Info implements Integration {
 	/**
 	 * Makes the debug info appear in a Debug Bar panel.
 	 *
-	 * @param \Debug_Bar_Panel[] $panels Existing debug bar panels.
+	 * @param Debug_Bar_Panel[] $panels Existing debug bar panels.
 	 *
-	 * @return \Debug_Bar_Panel[] Panels array.
+	 * @return Debug_Bar_Panel[] Panels array.
 	 */
 	public function add_debug_panel( $panels ) {
 		if ( $this->option->get( 'show_options_debug' ) === true && \defined( 'WPSEO_VERSION' ) ) {

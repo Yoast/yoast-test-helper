@@ -13,7 +13,7 @@ class WordPress_Plugin_Options {
 	/**
 	 * Saves the options for a specific plugin.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin The plugin to save options of.
+	 * @param WordPress_Plugin $plugin The plugin to save options of.
 	 *
 	 * @return bool True if options were saved.
 	 */
@@ -44,8 +44,8 @@ class WordPress_Plugin_Options {
 	/**
 	 * Stores the data of a specific plugin.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin Plugin to store data of.
-	 * @param array                                                    $data   Data to store.
+	 * @param WordPress_Plugin $plugin Plugin to store data of.
+	 * @param array            $data   Data to store.
 	 *
 	 * @return bool True if stored.
 	 */
@@ -68,7 +68,7 @@ class WordPress_Plugin_Options {
 	/**
 	 * Retrieves saved options for a specific plugin.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin Plugin to retrieve options of.
+	 * @param WordPress_Plugin $plugin Plugin to retrieve options of.
 	 *
 	 * @return array Stored data.
 	 */
@@ -105,8 +105,8 @@ class WordPress_Plugin_Options {
 	/**
 	 * Restores options of a specific plugin.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin    Plugin to restore options of.
-	 * @param int                                                      $timestamp Specific save point to restore.
+	 * @param WordPress_Plugin $plugin    Plugin to restore options of.
+	 * @param int              $timestamp Specific save point to restore.
 	 *
 	 * @return bool True on succes.
 	 */
@@ -164,7 +164,7 @@ class WordPress_Plugin_Options {
 	/**
 	 * Returns the option name which stores the option data of a specific plugin.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin The plugin.
+	 * @param WordPress_Plugin $plugin The plugin.
 	 *
 	 * @return string The option name the data should be stored in.
 	 */

@@ -13,7 +13,7 @@ class Admin_Notifications implements Integration {
 	/**
 	 * List of notifications.
 	 *
-	 * @var \Yoast\WP\Test_Helper\Notification[]
+	 * @var Notification[]
 	 */
 	protected $notifications;
 
@@ -30,7 +30,7 @@ class Admin_Notifications implements Integration {
 	/**
 	 * Adds a notification to the stack.
 	 *
-	 * @param \Yoast\WP\Test_Helper\Notification $notification Notification to add.
+	 * @param Notification $notification Notification to add.
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class Admin_Notifications implements Integration {
 	/**
 	 * Retrieves the list of notifications.
 	 *
-	 * @return \Yoast\WP\Test_Helper\Notification[] List of notifications.
+	 * @return Notification[] List of notifications.
 	 */
 	protected function get_notifications() {
 		$saved = \get_user_meta( \get_current_user_id(), $this->get_option_name(), true );
@@ -87,7 +87,7 @@ class Admin_Notifications implements Integration {
 	/**
 	 * Saves the notifications for the next page request.
 	 *
-	 * @param \Yoast\WP\Test_Helper\Notification[] $notifications Notifications to save.
+	 * @param Notification[] $notifications Notifications to save.
 	 *
 	 * @return void
 	 */
