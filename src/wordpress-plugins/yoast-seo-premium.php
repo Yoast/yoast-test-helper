@@ -3,7 +3,6 @@
 namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 use WPSEO_Premium;
-use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
  * Class to represent Local SEO.
