@@ -18,7 +18,7 @@ module.exports = function ( grunt ) {
 				return this.grunt + "config/";
 			},
 			grunt: "grunt/",
-			svnCheckoutDir:  "/.wordpress-svn",
+			svnCheckoutDir:  ".wordpress-svn",
 		},
 		pkg,
 	};

@@ -14,6 +14,8 @@ about: Release a new version of Yoast Test Helper.
 * [ ] Make the tag, e.g. `git tag -a 1.1.0 -m "1.1.0"`.
 * [ ] Push the tag: `git push --tags`.
 * [ ] Run `grunt artifact` - this will create `yoast-test-helper.zip`.
+* [ ] Test the zip locally.
+* [ ] Run `grunt wp_deploy:master` to release the plugin to WordPress.org.
 * [ ] [Create a GitHub release](https://github.com/Yoast/yoast-test-helper/releases), paste the changelog to the notes and attach the zip.
 * [ ] [Create a new milestone](https://github.com/Yoast/yoast-test-helper/milestones/new) for the next release.
 * [ ] Merge `master` back to `develop`.
