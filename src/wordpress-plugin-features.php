@@ -2,9 +2,6 @@
 
 namespace Yoast\WP\Test_Helper;
 
-use Yoast\WP\Test_Helper\Form_Presenter;
-use Yoast\WP\Test_Helper\Integration;
-use Yoast\WP\Test_Helper\Notification;
 use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
@@ -15,14 +12,14 @@ class WordPress_Plugin_Features implements Integration {
 	/**
 	 * Plugins to use.
 	 *
-	 * @var \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin[]
+	 * @var WordPress_Plugin[]
 	 */
 	protected $plugins;
 
 	/**
 	 * WordPress_Plugin_Features constructor.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin[] $plugins Plugins to use.
+	 * @param WordPress_Plugin[] $plugins Plugins to use.
 	 */
 	public function __construct( $plugins ) {
 		$this->plugins = $plugins;
@@ -56,7 +53,7 @@ class WordPress_Plugin_Features implements Integration {
 	/**
 	 * Retrieves the plugin features of a specific plugin.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin Plugin to retrieve the features of.
+	 * @param WordPress_Plugin $plugin Plugin to retrieve the features of.
 	 *
 	 * @return string Combined plugin features.
 	 */
@@ -118,7 +115,7 @@ class WordPress_Plugin_Features implements Integration {
 	/**
 	 * Detects if a feature must be reset for a specific plugin.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin Plugin to reset a feature of.
+	 * @param WordPress_Plugin $plugin Plugin to reset a feature of.
 	 *
 	 * @return void
 	 */

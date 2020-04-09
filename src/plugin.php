@@ -2,24 +2,6 @@
 
 namespace Yoast\WP\Test_Helper;
 
-use Yoast\WP\Test_Helper\Admin_Debug_Info;
-use Yoast\WP\Test_Helper\Admin_Notifications;
-use Yoast\WP\Test_Helper\Admin_Page;
-use Yoast\WP\Test_Helper\Development_Mode;
-use Yoast\WP\Test_Helper\Domain_Dropdown;
-use Yoast\WP\Test_Helper\Feature_Toggler;
-use Yoast\WP\Test_Helper\Inline_Script;
-use Yoast\WP\Test_Helper\Integration;
-use Yoast\WP\Test_Helper\Option;
-use Yoast\WP\Test_Helper\Post_Types;
-use Yoast\WP\Test_Helper\Plugin_Toggler;
-use Yoast\WP\Test_Helper\Plugin_Version_Control;
-use Yoast\WP\Test_Helper\Schema;
-use Yoast\WP\Test_Helper\Taxonomies;
-use Yoast\WP\Test_Helper\Upgrade_Detector;
-use Yoast\WP\Test_Helper\WordPress_Plugin_Features;
-use Yoast\WP\Test_Helper\WordPress_Plugin_Options;
-use Yoast\WP\Test_Helper\WordPress_Plugin_Version;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Local_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\News_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Video_SEO;
@@ -27,7 +9,6 @@ use Yoast\WP\Test_Helper\WordPress_Plugins\WooCommerce_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Yoast_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Yoast_SEO_Premium;
-use Yoast\WP\Test_Helper\XML_Sitemaps;
 
 /**
  * Bootstrap for the entire plugin.
@@ -37,7 +18,7 @@ class Plugin implements Integration {
 	/**
 	 * List of integrations
 	 *
-	 * @var \Yoast\WP\Test_Helper\Integration[]
+	 * @var Integration[]
 	 */
 	protected $integrations = [];
 
@@ -67,7 +48,7 @@ class Plugin implements Integration {
 	/**
 	 * Adds the blocks to the admin page.
 	 *
-	 * @param \Yoast\WP\Test_Helper\Admin_Page $admin_page The current admin page.
+	 * @param Admin_Page $admin_page The current admin page.
 	 */
 	public function admin_page_blocks( Admin_Page $admin_page ) {
 		foreach ( $this->integrations as $integration ) {

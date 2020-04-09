@@ -2,10 +2,6 @@
 
 namespace Yoast\WP\Test_Helper;
 
-use Yoast\WP\Test_Helper\Form_Presenter;
-use Yoast\WP\Test_Helper\Integration;
-use Yoast\WP\Test_Helper\Option;
-
 /**
  * Sends myYoast requests to a chosen testing domain.
  */
@@ -14,14 +10,14 @@ class Domain_Dropdown implements Integration {
 	/**
 	 * Holds our option instance.
 	 *
-	 * @var \Yoast\WP\Test_Helper\Option
+	 * @var Option
 	 */
 	private $option;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param \Yoast\WP\Test_Helper\Option $option Our option array.
+	 * @param Option $option Our option array.
 	 */
 	public function __construct( Option $option ) {
 		$this->option = $option;

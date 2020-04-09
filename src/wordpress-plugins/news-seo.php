@@ -3,7 +3,6 @@
 namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 use WPSEO_News;
-use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
  * Class to represent News SEO.

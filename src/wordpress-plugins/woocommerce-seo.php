@@ -3,7 +3,6 @@
 namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 use Yoast_WooCommerce_SEO;
-use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
  * Class to represent WooCommerce SEO.

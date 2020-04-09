@@ -13,7 +13,7 @@ class WordPress_Plugin_Version {
 	/**
 	 * Retrieves the version of a specific plugin.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin Plugin to retrieve the version of.
+	 * @param WordPress_Plugin $plugin Plugin to retrieve the version of.
 	 *
 	 * @return string The version.
 	 */
@@ -29,8 +29,8 @@ class WordPress_Plugin_Version {
 	/**
 	 * Stores a plugin version.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin  Plugin to store the version of.
-	 * @param string                                                   $version The version to store.
+	 * @param WordPress_Plugin $plugin  Plugin to store the version of.
+	 * @param string           $version The version to store.
 	 *
 	 * @return bool True on succes.
 	 */

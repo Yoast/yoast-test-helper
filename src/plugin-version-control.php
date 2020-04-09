@@ -2,11 +2,6 @@
 
 namespace Yoast\WP\Test_Helper;
 
-use Yoast\WP\Test_Helper\Form_Presenter;
-use Yoast\WP\Test_Helper\Integration;
-use Yoast\WP\Test_Helper\Notification;
-use Yoast\WP\Test_Helper\WordPress_Plugin_Options;
-use Yoast\WP\Test_Helper\WordPress_Plugin_Version;
 use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 
 /**
@@ -17,30 +12,30 @@ class Plugin_Version_Control implements Integration {
 	/**
 	 * The plugin version instance to use.
 	 *
-	 * @var \Yoast\WP\Test_Helper\WordPress_Plugin_Version
+	 * @var WordPress_Plugin_Version
 	 */
 	protected $plugin_version;
 
 	/**
 	 * The plugin options to use.
 	 *
-	 * @var \Yoast\WP\Test_Helper\WordPress_Plugin_Options
+	 * @var WordPress_Plugin_Options
 	 */
 	protected $plugin_options;
 
 	/**
 	 * The list of plugins to use.
 	 *
-	 * @var \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin[]
+	 * @var WordPress_Plugin[]
 	 */
 	protected $plugins;
 
 	/**
 	 * WordPress_Plugin_Version_Control constructor.
 	 *
-	 * @param array                                          $plugins        Plugins to use.
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugin_Version $plugin_version Plugin version to use.
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugin_Options $plugin_options Plugin options to use.
+	 * @param array                    $plugins        Plugins to use.
+	 * @param WordPress_Plugin_Version $plugin_version Plugin version to use.
+	 * @param WordPress_Plugin_Options $plugin_options Plugin options to use.
 	 */
 	public function __construct(
 		array $plugins,
@@ -103,8 +98,8 @@ class Plugin_Version_Control implements Integration {
 	/**
 	 * Updates the plugin version.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin  Plugin to update a version of.
-	 * @param string                                                   $version Version to update.
+	 * @param WordPress_Plugin $plugin  Plugin to update a version of.
+	 * @param string           $version Version to update.
 	 */
 	protected function update_plugin_version( WordPress_Plugin $plugin, $version ) {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
@@ -125,7 +120,7 @@ class Plugin_Version_Control implements Integration {
 	/**
 	 * Retrieves a plugin option.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin Plugin to retrieve the option of.
+	 * @param WordPress_Plugin $plugin Plugin to retrieve the option of.
 	 *
 	 * @return string The plugin option.
 	 */
@@ -143,7 +138,7 @@ class Plugin_Version_Control implements Integration {
 	/**
 	 * Retrieves the plugin stored options history.
 	 *
-	 * @param \Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin $plugin Plugin to retrieve the history of.
+	 * @param WordPress_Plugin $plugin Plugin to retrieve the history of.
 	 *
 	 * @return string The plugin option history.
 	 */
