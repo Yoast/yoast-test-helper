@@ -1,6 +1,6 @@
 {
   "name": "yoast-test-helper",
-  "version": "1.5",
+  "version": "1.6",
   "description": "A plugin to aid in testing and developing the Yoast SEO plugin and its extensions.",
   "repository": "https://github.com/Yoast/yoast-test-helper.git",
   "author": "Yoast",
@@ -19,6 +19,6 @@
   },
   "dependencies": {},
   "yoast": {
-    "pluginVersion": "1.5"
+    "pluginVersion": "1.6"
   }
 }
