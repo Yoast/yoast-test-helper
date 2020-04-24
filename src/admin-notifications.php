@@ -86,7 +86,7 @@ class Admin_Notifications implements Integration {
 	 * @return string The name of the option.
 	 */
 	protected function get_option_name() {
-		return 'yoast_version_control_notifications';
+		return 'yoast_test_helper_notifications';
 	}
 
 	/**
