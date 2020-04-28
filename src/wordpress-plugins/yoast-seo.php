@@ -197,7 +197,10 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	private function reset_configuration_wizard() {
 
-		return WPSEO_Options::set( 'show_onboarding_notice', true );
+		if ( WPSEO_Options::set( 'started_configuration_wizard', false ) && WPSEO_Options::set( 'show_onboarding_notice', true ) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
