@@ -12,7 +12,7 @@ jobs:
   fast_finish: true
   include:
     - php: 7.4
-      env: PHPLINT=1 PHPCS=1
+      env: PHPLINT=1 PHPCS=1 SECURITY=1
     - php: 5.6
       env: PHPLINT=1
     - stage: deploy
@@ -49,12 +49,14 @@ cache:
 
 before_install:
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
+- export SECURITYCHECK_DIR=/tmp/security-checker
 
 install:
 - |
   if [[ "$PHPCS" == "1" ]]; then
     composer install --no-interaction
   fi
+- if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://get.sensiolabs.org/security-checker.phar && chmod +x $SECURITYCHECK_DIR/security-checker.phar;fi
 
 before_script:
 - export -f travis_fold
@@ -88,3 +90,6 @@ script:
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
 - if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi
+
+# Check for known security vulnerabilities in the currently locked-in dependencies.
+- if [[ "$SECURITY" == "1" ]]; then php $SECURITYCHECK_DIR/security-checker.phar -n security:check $(pwd)/composer.lock;fi
