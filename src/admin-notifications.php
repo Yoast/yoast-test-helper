@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\Test_Helper;
 
-use Yoast\WP\Test_Helper\Notification;
-
 /**
  * Shows admin notifications on the proper page.
  */
@@ -52,7 +50,7 @@ class Admin_Notifications implements Integration {
 		}
 
 		foreach ( $notifications as $notification ) {
-			if ( ! is_a( $notification, Notification::class ) ) {
+			if ( ! \is_a( $notification, Notification::class ) ) {
 				continue;
 			}
 		}
