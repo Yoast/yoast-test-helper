@@ -94,7 +94,7 @@ class Plugin implements Integration {
 	/**
 	 * Retrieves all the plugins.
 	 *
-	 * @return WordPress_Plugins\WordPress_Plugin[]
+	 * @return WordPress_Plugin[]
 	 */
 	private function get_plugins() {
 		return [
