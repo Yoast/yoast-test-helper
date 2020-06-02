@@ -35,6 +35,13 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.7 =
+
+Enhancements:
+
+* Drops the table for prominent words (used by our internal linking functionality, among others) when you hit reset indexables.
+* Some minor code style fixes.
+
 = 1.6 =
 
 Enhancements:
