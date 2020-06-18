@@ -11,6 +11,7 @@ Gruntfile.js export-ignore
 package.json export-ignore
 phpcs.xml.dist export-ignore
 phpunit.xml.dist export-ignore
+/.cache export-ignore
 /.github export-ignore
 /deploy_keys export-ignore
 /grunt export-ignore
