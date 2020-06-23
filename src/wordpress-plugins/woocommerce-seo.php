@@ -42,7 +42,7 @@ class WooCommerce_SEO implements WordPress_Plugin {
 	 * @return string The version key.
 	 */
 	public function get_version_key() {
-		return 'dbversion';
+		return 'woo_dbversion';
 	}
 
 	/**
