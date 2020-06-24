@@ -40,7 +40,7 @@ class Video_SEO implements WordPress_Plugin {
 	 * @return string The version key.
 	 */
 	public function get_version_key() {
-		return 'dbversion';
+		return 'video_dbversion';
 	}
 
 	/**
