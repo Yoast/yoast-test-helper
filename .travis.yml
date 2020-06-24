@@ -54,7 +54,7 @@ before_install:
 
 install:
 - |
-  if [[ "$PHPCS" == "1" ]]; then
+  if [[ "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
     composer install --no-interaction
   fi
 - if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://get.sensiolabs.org/security-checker.phar && chmod +x $SECURITYCHECK_DIR/security-checker.phar;fi
@@ -77,9 +77,7 @@ script:
 # PHP Linting
 - |
   if [[ "$PHPLINT" == "1" ]]; then
-    travis_fold start "PHP.check" && travis_time_start
-    find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-    travis_time_finish && travis_fold end "PHP.check"
+    composer lint
   fi
 # PHP CS
 - |
