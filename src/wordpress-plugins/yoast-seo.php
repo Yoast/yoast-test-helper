@@ -204,7 +204,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	}
 
 	/**
-	 * Resets the indexables tables, basically deleting them.
+	 * Reset all indexables related tables, options and transients, forcing Yoast SEO to rebuild the tables from scratch and reindex all indexables.
 	 *
 	 * @return bool True if successful, false otherwise.
 	 */
@@ -223,6 +223,13 @@ class Yoast_SEO implements WordPress_Plugin {
 		WPSEO_Options::set( 'indexation_warning_hide_until', false );
 		WPSEO_Options::set( 'indexation_started', false );
 		WPSEO_Options::set( 'indexables_indexation_completed', false );
+
+		// Found in Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY.
+		\delete_transient( 'wpseo_total_unindexed_posts' );
+		// Found in Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY.
+		\delete_transient( 'wpseo_total_unindexed_post_type_archives' );
+		// Found in Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY.
+		\delete_transient( 'wpseo_total_unindexed_terms' );
 
 		\delete_option( 'yoast_migrations_premium' );
 		return \delete_option( 'yoast_migrations_free' );
