@@ -35,6 +35,16 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.8 =
+
+Enhancements:
+
+* Added resets for indexables related options when using the Yoast Test Helper to reset the indexables and migrations.
+
+Bugfixes:
+
+* Fixes the database versions keys the plugin checks for Video SEO and WooCommerce SEO as they've been changed in these plugins.
+
 = 1.7 =
 
 Enhancements:
