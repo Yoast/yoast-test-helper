@@ -40,6 +40,7 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 Enhancements:
 
 * Added resets for indexables related options when using the Yoast Test Helper to reset the indexables and migrations.
+* Added resets for prominent word related functionality when using the Yoast Test Helper to reset the prominent words calculation.
 
 Bugfixes:
 
