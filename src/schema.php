@@ -122,7 +122,7 @@ class Schema implements Integration {
 	}
 
 	/**
-	 * Make sure we only store data we know how to deal with.
+	 * Makes sure we only store data we know how to deal with.
 	 *
 	 * @param string $value The submitted value.
 	 *
@@ -180,7 +180,7 @@ class Schema implements Integration {
 	}
 
 	/**
-	 * Deep replace strings in array.
+	 * Deep replaces strings in array.
 	 *
 	 * @param string $needle      The needle to replace.
 	 * @param string $replacement The replacement.
