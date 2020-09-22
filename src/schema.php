@@ -34,7 +34,7 @@ class Schema implements Integration {
 		}
 
 		if ( $this->option->get( 'enable_structured_data_blocks' ) === true ) {
-			\add_filter( 'wpseo_debug_json_data', [ $this, 'enable_feature_flag' ] );
+			\add_filter( 'init', [ $this, 'enable_feature_flag' ] );
 		}
 
 		switch ( $this->option->get( 'is_needed_breadcrumb' ) ) {
