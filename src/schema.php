@@ -158,6 +158,10 @@ class Schema implements Integration {
 	 * Enables the feature flag for the structured data blocks.
 	 */
 	public function enable_feature_flag() {
+		if ( \defined( 'YOAST_SEO_SCHEMA_BLOCKS' ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
+			return;
+		}
+
 		\define( 'YOAST_SEO_SCHEMA_BLOCKS', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
 	}
 
