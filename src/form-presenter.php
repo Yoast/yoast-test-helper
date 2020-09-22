@@ -36,7 +36,7 @@ class Form_Presenter {
 	}
 
 	/**
-	 * Build a checkbox element.
+	 * Builds a checkbox element.
 	 *
 	 * @param string $option  The option to make a checkbox for.
 	 * @param string $label   The label for the checkbox.
@@ -53,7 +53,7 @@ class Form_Presenter {
 	}
 
 	/**
-	 * Build a select element.
+	 * Builds a select element.
 	 *
 	 * @param string   $option   The option to make a checkbox for.
 	 * @param string   $label    The label for the checkbox.

@@ -5,7 +5,7 @@ namespace Yoast\WP\Test_Helper;
 use WPSEO_Utils;
 
 /**
- * Class to manage registering and rendering the admin page in WordPress.
+ * Class to influence the Schema functionality of Yoast SEO (Premium).
  */
 class Schema implements Integration {
 
@@ -31,6 +31,10 @@ class Schema implements Integration {
 	public function add_hooks() {
 		if ( $this->option->get( 'replace_schema_domain' ) === true ) {
 			\add_filter( 'wpseo_debug_json_data', [ $this, 'replace_domain' ] );
+		}
+
+		if ( $this->option->get( 'enable_structured_data_blocks' ) === true ) {
+			\add_filter( 'init', [ $this, 'enable_feature_flag' ] );
 		}
 
 		switch ( $this->option->get( 'is_needed_breadcrumb' ) ) {
@@ -68,6 +72,12 @@ class Schema implements Integration {
 			$this->option->get( 'replace_schema_domain' )
 		);
 
+		$output .= Form_Presenter::create_checkbox(
+			'enable_structured_data_blocks',
+			'Enable the feature flag for the structured data blocks.',
+			$this->option->get( 'enable_structured_data_blocks' )
+		);
+
 		$select_options = [
 			'none' => 'Don\'t influence',
 			'show' => 'Always include',
@@ -99,6 +109,7 @@ class Schema implements Integration {
 	public function handle_submit() {
 		if ( \check_admin_referer( 'yoast_seo_test_schema' ) !== false ) {
 			$this->option->set( 'replace_schema_domain', isset( $_POST['replace_schema_domain'] ) );
+			$this->option->set( 'enable_structured_data_blocks', isset( $_POST['enable_structured_data_blocks'] ) );
 		}
 
 		$is_needed_breadcrumb = $this->validate_submit( \filter_input( \INPUT_POST, 'is_needed_breadcrumb' ) );
@@ -111,7 +122,7 @@ class Schema implements Integration {
 	}
 
 	/**
-	 * Make sure we only store data we know how to deal with.
+	 * Makes sure we only store data we know how to deal with.
 	 *
 	 * @param string $value The submitted value.
 	 *
@@ -144,6 +155,17 @@ class Schema implements Integration {
 	}
 
 	/**
+	 * Enables the feature flag for the structured data blocks.
+	 */
+	public function enable_feature_flag() {
+		if ( \defined( 'YOAST_SEO_SCHEMA_BLOCKS' ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
+			return;
+		}
+
+		\define( 'YOAST_SEO_SCHEMA_BLOCKS', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
+	}
+
+	/**
 	 * Returns the current breadcrumb option as boolean.
 	 *
 	 * @return bool
@@ -162,7 +184,7 @@ class Schema implements Integration {
 	}
 
 	/**
-	 * Deep replace strings in array.
+	 * Deep replaces strings in array.
 	 *
 	 * @param string $needle      The needle to replace.
 	 * @param string $replacement The replacement.
