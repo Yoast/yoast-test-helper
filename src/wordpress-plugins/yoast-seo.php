@@ -217,6 +217,8 @@ class Yoast_SEO implements WordPress_Plugin {
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_migrations' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_primary_term' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_prominent_words' );
+		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_seo_links' );
+
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 		WPSEO_Options::set( 'ignore_indexation_warning', false );
