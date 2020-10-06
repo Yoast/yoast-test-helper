@@ -226,6 +226,9 @@ class Yoast_SEO implements WordPress_Plugin {
 		WPSEO_Options::set( 'indexation_started', false );
 		WPSEO_Options::set( 'indexables_indexation_completed', false );
 
+		// Found in Indexing_Notification_Integration::NOTIFICATION_ID
+		\wp_clear_scheduled_hook( 'wpseo-reindex' );
+
 		// Found in Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY.
 		\delete_transient( 'wpseo_total_unindexed_posts' );
 		// Found in Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY.
