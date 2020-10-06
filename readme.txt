@@ -39,8 +39,8 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 Bugfixes:
 
-* Fixes a bug where the old links table is reset resulting in the link columns not being emptied.
-* Fixes a bug where the links could be attached to the wrong indexables when resetting the indexable tables and migrations.
+* Fixes a bug where the link columns could not be emptied due to an incorrect table name.
+* Fixes a bug where links could be attached to the wrong indexables when resetting the indexable tables and migrations.
 
 = 1.8 =
 
