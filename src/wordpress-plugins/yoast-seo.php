@@ -3,6 +3,7 @@
 namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 use WPSEO_Options;
+use Yoast_Notification_Center;
 
 /**
  * Class to represent Yoast SEO.
@@ -131,6 +132,8 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		delete_transient( 'wpseo_unindexed_post_link_count' );
 		delete_transient( 'wpseo_unindexed_term_link_count' );
+
+		$this->reset_indexing_notification( 'indexables-reset' );
 	}
 
 	/**
@@ -147,6 +150,8 @@ class Yoast_SEO implements WordPress_Plugin {
 		$wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . 'yoast_prominent_words' );
 		WPSEO_Options::set( 'prominent_words_indexation_completed', false );
 		\delete_transient( 'total_unindexed_prominent_words' );
+
+		$this->reset_indexing_notification( 'indexables-reset' );
 	}
 
 	/**
@@ -227,8 +232,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		WPSEO_Options::set( 'indexables_indexation_completed', false );
 		WPSEO_Options::set( 'indexing_first_time', true );
 
-		// Found in Indexing_Notification_Integration::NOTIFICATION_ID.
-		\wp_clear_scheduled_hook( 'wpseo-reindex' );
+		$this->reset_indexing_notification( 'indexables-reset' );
 
 		// Found in Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY.
 		\delete_transient( 'wpseo_total_unindexed_posts' );
@@ -239,5 +243,15 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		\delete_option( 'yoast_migrations_premium' );
 		return \delete_option( 'yoast_migrations_free' );
+	}
+
+	/**
+	 * Resets the indexing notification such that it is shown again.
+	 *
+	 * @param string $reason The indexing reason why the site needs to be reindexed.
+	 */
+	private function reset_indexing_notification( $reason ) {
+		WPSEO_Options::set( 'indexing_reason', $reason );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-reindex' );
 	}
 }
