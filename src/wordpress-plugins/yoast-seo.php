@@ -145,7 +145,7 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		$wpdb->query( 'UPDATE ' . $wpdb->prefix . 'yoast_indexable SET prominent_words_version = NULL' );
 		$wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . 'yoast_prominent_words' );
-		WPSEO_Options::set( 'prominent_words_indexation_completed', false );
+		WPSEO_Options::set( 'prominent_words_indexing_completed', false );
 		\delete_transient( 'total_unindexed_prominent_words' );
 	}
 
