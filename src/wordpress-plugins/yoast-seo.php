@@ -221,8 +221,8 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange
 
-		WPSEO_Options::set( 'indexation_started', false );
-		WPSEO_Options::set( 'indexables_indexation_completed', false );
+		WPSEO_Options::set( 'indexing_started', false );
+		WPSEO_Options::set( 'indexables_indexing_completed', false );
 		WPSEO_Options::set( 'indexing_first_time', true );
 
 		// Found in Indexing_Notification_Integration::NOTIFICATION_ID.
