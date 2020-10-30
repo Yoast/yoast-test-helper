@@ -6,7 +6,7 @@ namespace Yoast\WP\Test_Helper;
 /**
  * Adds a filter to change the alert based on the saved set indexing reason.
  */
-class Indexing_Reason implements Integration {
+class Indexing_Reason_Integration implements Integration {
 
 	/**
 	 * Registers the hook to set the indexing reason.
