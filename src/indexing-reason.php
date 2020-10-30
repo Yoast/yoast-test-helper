@@ -24,7 +24,7 @@ class Indexing_Reason implements Integration {
 	 * @return string The reason to show.
 	 */
 	public function set_indexing_alert( $alert, $reason  ) {
-		if ( $reason !== 'indexables-reset' ) {
+		if ( $reason !== 'indexables-reset-by-test-helper' ) {
 			return $alert;
 		}
 

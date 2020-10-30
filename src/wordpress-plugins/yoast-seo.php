@@ -134,7 +134,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		delete_transient( 'wpseo_unindexed_post_link_count' );
 		delete_transient( 'wpseo_unindexed_term_link_count' );
 
-		$this->reset_indexing_notification( 'indexables-reset' );
+		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 	}
 
 	/**
@@ -152,7 +152,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		WPSEO_Options::set( 'prominent_words_indexation_completed', false );
 		\delete_transient( 'total_unindexed_prominent_words' );
 
-		$this->reset_indexing_notification( 'indexables-reset' );
+		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 	}
 
 	/**
@@ -233,7 +233,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		WPSEO_Options::set( 'indexables_indexation_completed', false );
 		WPSEO_Options::set( 'indexing_first_time', true );
 
-		$this->reset_indexing_notification( 'indexables-reset' );
+		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 
 		// Found in Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY.
 		\delete_transient( 'wpseo_total_unindexed_posts' );
