@@ -48,7 +48,7 @@ class Development_Mode implements Integration {
 			$this->option->get( 'enable_development_mode' )
 		);
 
-		return Form_Presenter::get_html( 'Enable development mode', 'yoast_seo_test_development_mode', $fields );
+		return Form_Presenter::get_html( __( 'Enable development mode', 'yoast-test-helper' ), 'yoast_seo_test_development_mode', $fields );
 	}
 
 	/**

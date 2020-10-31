@@ -68,37 +68,37 @@ class Schema implements Integration {
 	public function get_controls() {
 		$output = Form_Presenter::create_checkbox(
 			'replace_schema_domain',
-			'Replace .test domain name with example.com in Schema output.',
+			__( 'Replace .test domain name with example.com in Schema output.', 'yoast-test-helper' ),
 			$this->option->get( 'replace_schema_domain' )
 		);
 
 		$output .= Form_Presenter::create_checkbox(
 			'enable_structured_data_blocks',
-			'Enable the feature flag for the structured data blocks.',
+			__( 'Enable the feature flag for the structured data blocks.', 'yoast-test-helper' ),
 			$this->option->get( 'enable_structured_data_blocks' )
 		);
 
 		$select_options = [
-			'none' => 'Don\'t influence',
-			'show' => 'Always include',
-			'hide' => 'Never include',
+			'none' => __( 'Don\'t influence', 'yoast-test-helper' ),
+			'show' => __( 'Always include', 'yoast-test-helper' ),
+			'hide' => __( 'Never include', 'yoast-test-helper' ),
 		];
 
 		$output .= Form_Presenter::create_select(
 			'is_needed_breadcrumb',
-			'Influence the Breadcrumb Graph piece: ',
+			__( 'Influence the Breadcrumb Graph piece: ', 'yoast-test-helper' ),
 			$select_options,
 			$this->option->get( 'is_needed_breadcrumb' )
 		);
 
 		$output .= Form_Presenter::create_select(
 			'is_needed_webpage',
-			'Influence the WebPage Graph piece: ',
+			__( 'Influence the WebPage Graph piece: ', 'yoast-test-helper' ),
 			$select_options,
 			$this->option->get( 'is_needed_webpage' )
 		);
 
-		return Form_Presenter::get_html( 'Schema', 'yoast_seo_test_schema', $output );
+		return Form_Presenter::get_html( __( 'Schema', 'yoast-test-helper' ), 'yoast_seo_test_schema', $output );
 	}
 
 	/**

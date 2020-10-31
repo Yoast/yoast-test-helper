@@ -15,51 +15,6 @@ class Taxonomies implements Integration {
 	private $option;
 
 	/**
-	 * Arguments to use when registering category like taxonomies.
-	 *
-	 * @var array
-	 */
-	private $category_args = [
-		'label'        => 'Categories',
-		'labels'       => [
-			'name'          => 'Categories',
-			'singular_name' => 'Category',
-		],
-		'rewrite'      => [
-			'slug' => '',
-		],
-		'hierarchical' => true,
-		'public'       => true,
-		'show_in_rest' => true,
-	];
-
-	/**
-	 * Arguments to use when registering the genre taxonomy.
-	 *
-	 * @var array
-	 */
-	private $genre_args = [
-		'label'        => 'Genres',
-		'labels'       => [
-			'name'          => 'Genres',
-			'singular_name' => 'Genre',
-			'search_items'  => 'Search Genres',
-			'all_items'     => 'All Genres',
-			'edit_item'     => 'Edit Genre',
-			'update_item'   => 'Update Genre',
-			'add_new_item'  => 'Add New Genre',
-			'new_item_name' => 'New Genre Name',
-			'menu_name'     => 'Genre',
-		],
-		'rewrite'      => [
-			'slug' => '',
-		],
-		'hierarchical' => false,
-		'public'       => true,
-		'show_in_rest' => true,
-	];
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param Option $option Our option array.
@@ -82,25 +37,64 @@ class Taxonomies implements Integration {
 	 */
 	public function register_taxonomies() {
 		// Taxonomies for books.
-		\register_taxonomy( 'book-category', [ 'book' ], $this->set_slug( $this->category_args, 'yoast-test-book-category' ) );
-		\register_taxonomy( 'book-genre', [ 'book' ], $this->set_slug( $this->genre_args, 'yoast-test-book-genre' ) );
+		\register_taxonomy( 'book-category', [ 'book' ], $this->get_category_args( 'yoast-test-book-category' ) );
+		\register_taxonomy( 'book-genre', [ 'book' ], $this->get_genre_args( 'yoast-test-book-genre' ) );
 
 		// Taxonomies for movies.
-		\register_taxonomy( 'movie-category', [ 'movie' ], $this->set_slug( $this->category_args, 'yoast-test-movie-category' ) );
-		\register_taxonomy( 'movie-genre', [ 'movie' ], $this->set_slug( $this->genre_args, 'yoast-test-movie-genre' ) );
+		\register_taxonomy( 'movie-category', [ 'movie' ], $this->get_category_args( 'yoast-test-movie-category' ) );
+		\register_taxonomy( 'movie-genre', [ 'movie' ], $this->get_genre_args( 'yoast-test-movie-genre' ) );
 	}
 
 	/**
-	 * Sets the slug for a taxonomy.
+	 * Get arguments to use when registering category like taxonomies.
 	 *
-	 * @param array  $taxonomy The taxonomy arguments.
-	 * @param string $slug     The slug to set.
+	 * @param string $slug The slug to set for the taxonomy.
 	 *
-	 * @return array Taxonomy parameters.
+	 * @return array Arguments to use when registering category like taxonomies.
 	 */
-	private function set_slug( $taxonomy, $slug ) {
-		$taxonomy['rewrite']['slug'] = $slug;
+	private function get_category_args( $slug ) {
+		return [
+			'label'        => __( 'Categories', 'yoast-test-helper' ),
+			'labels'       => [
+				'name'          => __( 'Categories', 'yoast-test-helper' ),
+				'singular_name' => __( 'Category', 'yoast-test-helper' ),
+			],
+			'rewrite'      => [
+				'slug' => $slug,
+			],
+			'hierarchical' => true,
+			'public'       => true,
+			'show_in_rest' => true,
+		];
+	}
 
-		return $taxonomy;
+	/**
+	 * Get arguments to use when registering the genre taxonomy.
+	 *
+	 * @param string $slug The slug to set for the taxonomy.
+	 *
+	 * @return array Arguments to use when registering the genre taxonomy.
+	 */
+	private function get_genre_args( $slug ) {
+		return [
+			'label'        => __( 'Genres', 'yoast-test-helper' ),
+			'labels'       => [
+				'name'          => __( 'Genres', 'yoast-test-helper' ),
+				'singular_name' => __( 'Genre', 'yoast-test-helper' ),
+				'search_items'  => __( 'Search Genres', 'yoast-test-helper' ),
+				'all_items'     => __( 'All Genres', 'yoast-test-helper' ),
+				'edit_item'     => __( 'Edit Genre', 'yoast-test-helper' ),
+				'update_item'   => __( 'Update Genre', 'yoast-test-helper' ),
+				'add_new_item'  => __( 'Add New Genre', 'yoast-test-helper' ),
+				'new_item_name' => __( 'New Genre Name', 'yoast-test-helper' ),
+				'menu_name'     => __( 'Genre', 'yoast-test-helper' ),
+			],
+			'rewrite'      => [
+				'slug' => $slug,
+			],
+			'hierarchical' => false,
+			'public'       => true,
+			'show_in_rest' => true,
+		];
 	}
 }

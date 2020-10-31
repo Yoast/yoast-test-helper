@@ -58,16 +58,16 @@ class Inline_Script implements Integration {
 			$this->option->get( 'add_inline_script' )
 		) . '<br/>';
 
-		$output .= '<label for="inline_script_handle">After script: </label>';
+		$output .= '<label for="inline_script_handle">'. __( 'After script', 'yoast-test-helper' ) . ': </label>';
 		$output .= $this->select_script( $this->option->get( 'inline_script_handle' ) );
 		$output .= '<br><br>';
 
 		$value = $this->option->get( 'inline_script' );
 
-		$output .= '<label for="inline_script">Script (do not include <code>&lt;script&gt;</code> tags):</label><br/>';
+		$output .= '<label for="inline_script">' . __( 'Script (do not include <code>&lt;script&gt;</code> tags)', 'yoast-test-helper' ) . ':</label><br/>';
 		$output .= '<textarea style="width: 100%; min-height: 300px; font-family: monospace;" name="inline_script" id="inline_script">' . \esc_html( $value ) . '</textarea><br/>';
 
-		return Form_Presenter::get_html( 'Inline script', 'yoast_seo_test_inline_script', $output );
+		return Form_Presenter::get_html( __( 'Inline script', 'yoast-test-helper' ), 'yoast_seo_test_inline_script', $output );
 	}
 
 	/**

@@ -65,10 +65,10 @@ class Plugin_Version_Control implements Integration {
 
 		$output  = '<table>';
 		$output .= '<thead><tr>';
-		$output .= '<th style="text-align:left;">Plugin</th>';
-		$output .= '<th style="text-align:left;">DB Version</th>';
-		$output .= '<th style="text-align:left;">Real</th>';
-		$output .= '<th style="text-align:left;">Saved options</th>';
+		$output .= '<th style="text-align:left;">'. __( 'Plugin', 'yoast-test-helper' ) . '</th>';
+		$output .= '<th style="text-align:left;">' . __( 'DB Version', 'yoast-test-helper' ) . '</th>';
+		$output .= '<th style="text-align:left;">' . __( 'Real', 'yoast-test-helper' ) . '</th>';
+		$output .= '<th style="text-align:left;">' . __( 'Saved options', 'yoast-test-helper' ) . '</th>';
 		$output .= '</tr></thead>';
 
 		foreach ( $this->plugins as $plugin ) {
@@ -76,7 +76,7 @@ class Plugin_Version_Control implements Integration {
 		}
 		$output .= '</table>';
 
-		return Form_Presenter::get_html( 'Plugin options & database versions', 'yoast_version_control', $output );
+		return Form_Presenter::get_html( __( 'Plugin options & database versions', 'yoast-test-helper' ), 'yoast_version_control', $output );
 	}
 
 	/**
@@ -195,15 +195,23 @@ class Plugin_Version_Control implements Integration {
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(
-					'Options from ' . \gmdate( 'Y-m-d H:i:s', $timestamp )
-					. ' for ' . $plugin->get_name() . ' have <strong>not</strong> been restored.',
+					sprintf(
+						// translators: %1$s expands to date, %2$s to plugin name.
+						__( 'Options from %1$s for %2$s have <strong>not</strong> been restored.', 'yoast-test-helper' ),
+						\gmdate( 'Y-m-d H:i:s', $timestamp ),
+						$plugin->get_name()
+					),
 					'error'
 				);
 
 				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
 					$notification = new Notification(
-						'Options from ' . \gmdate( 'Y-m-d H:i:s', $timestamp )
-						. ' for ' . $plugin->get_name() . ' have been restored.',
+						sprintf(
+							// translators: %1$s expands to date, %2$s to plugin name.
+							__( 'Options from %1$s for %2$s have been restored.', 'yoast-test-helper' ),
+							\gmdate( 'Y-m-d H:i:s', $timestamp ),
+							$plugin->get_name()
+						),
 						'success'
 					);
 				}
