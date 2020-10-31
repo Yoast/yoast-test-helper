@@ -3,10 +3,10 @@
 # Create a zipped artifact from a fresh build
 'artifact':
   - 'clean:artifact'
-  - 'shell:composerInstallProduction'
+  - 'shell:composer-install-production'
   - 'copy:artifact'
   - 'compress:artifact'
-  - 'shell:composerInstall'
+  - 'shell:composer-install-dev'
 
 'deploy:trunk':
   - 'update-version'

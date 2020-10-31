@@ -1,9 +1,9 @@
-const path = require( "path" );
-const loadGruntConfig = require( "load-grunt-config" );
+var path = require( "path" );
+var loadGruntConfig = require( "load-grunt-config" );
+var timeGrunt = require( "time-grunt" );
 
 module.exports = function ( grunt ) {
-	require( "jit-grunt" )( grunt );
-	require( "time-grunt" )( grunt );
+	timeGrunt( grunt );
 
 	const pkg = grunt.file.readJSON( "package.json" );
 	const pluginVersion = pkg.yoast.pluginVersion;
@@ -13,6 +13,7 @@ module.exports = function ( grunt ) {
 		pluginVersion: pluginVersion,
 		pluginSlug: "yoast-test-helper",
 		pluginMainFile: "yoast-test-helper.php",
+		pluginVersionConstant: "YOAST_TEST_HELPER_VERSION",
 		paths: {
 			get config() {
 				return this.grunt + "config/";
