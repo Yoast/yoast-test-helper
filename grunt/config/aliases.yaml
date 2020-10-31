@@ -4,9 +4,14 @@
 'artifact':
   - 'clean:artifact'
   - 'shell:composer-install-production'
+  - 'build'
   - 'copy:artifact'
   - 'compress:artifact'
   - 'shell:composer-install-dev'
+
+'build':
+  - 'build:i18n'
+  - 'build:images'
 
 'deploy:trunk':
   - 'update-version'
