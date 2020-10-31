@@ -58,7 +58,7 @@ class Inline_Script implements Integration {
 			$this->option->get( 'add_inline_script' )
 		) . '<br/>';
 
-		$output .= '<label for="inline_script_handle">'. __( 'After script', 'yoast-test-helper' ) . ': </label>';
+		$output .= '<label for="inline_script_handle">' . __( 'After script', 'yoast-test-helper' ) . ': </label>';
 		$output .= $this->select_script( $this->option->get( 'inline_script_handle' ) );
 		$output .= '<br><br>';
 

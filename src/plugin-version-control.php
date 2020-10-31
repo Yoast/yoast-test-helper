@@ -65,7 +65,7 @@ class Plugin_Version_Control implements Integration {
 
 		$output  = '<table>';
 		$output .= '<thead><tr>';
-		$output .= '<th style="text-align:left;">'. __( 'Plugin', 'yoast-test-helper' ) . '</th>';
+		$output .= '<th style="text-align:left;">' . __( 'Plugin', 'yoast-test-helper' ) . '</th>';
 		$output .= '<th style="text-align:left;">' . __( 'DB Version', 'yoast-test-helper' ) . '</th>';
 		$output .= '<th style="text-align:left;">' . __( 'Real', 'yoast-test-helper' ) . '</th>';
 		$output .= '<th style="text-align:left;">' . __( 'Saved options', 'yoast-test-helper' ) . '</th>';
