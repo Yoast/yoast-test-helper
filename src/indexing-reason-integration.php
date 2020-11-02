@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\Test_Helper;
 
-
 /**
  * Adds a filter to change the alert based on the saved set indexing reason.
  */
@@ -23,7 +22,7 @@ class Indexing_Reason_Integration implements Integration {
 	 *
 	 * @return string The reason to show.
 	 */
-	public function set_indexing_alert( $alert, $reason  ) {
+	public function set_indexing_alert( $alert, $reason ) {
 		if ( $reason !== 'indexables-reset-by-test-helper' ) {
 			return $alert;
 		}
