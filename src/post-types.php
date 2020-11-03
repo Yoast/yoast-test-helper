@@ -146,14 +146,14 @@ class Post_Types implements Integration {
 	 */
 	private function get_book_args() {
 		return [
-			'label'        => __( 'Books', 'yoast-test-helper' ),
+			'label'        => \__( 'Books', 'yoast-test-helper' ),
 			'labels'       => [
-				'name'          => __( 'Books', 'yoast-test-helper' ),
-				'singular_name' => __( 'Book', 'yoast-test-helper' ),
-				'add_new'       => __( 'Add New', 'yoast-test-helper' ),
-				'add_new_item'  => __( 'Add new book', 'yoast-test-helper' ),
+				'name'          => \__( 'Books', 'yoast-test-helper' ),
+				'singular_name' => \__( 'Book', 'yoast-test-helper' ),
+				'add_new'       => \__( 'Add New', 'yoast-test-helper' ),
+				'add_new_item'  => \__( 'Add new book', 'yoast-test-helper' ),
 			],
-			'description'  => __( 'Our books post type', 'yoast-test-helper' ),
+			'description'  => \__( 'Our books post type', 'yoast-test-helper' ),
 			'public'       => true,
 			'menu_icon'    => 'dashicons-book-alt',
 			'has_archive'  => 'my-books',
@@ -171,14 +171,14 @@ class Post_Types implements Integration {
 	 */
 	private function get_movie_args() {
 		return [
-			'label'        => __( 'Movies', 'yoast-test-helper' ),
+			'label'        => \__( 'Movies', 'yoast-test-helper' ),
 			'labels'       => [
-				'name'          => __( 'Movies', 'yoast-test-helper' ),
-				'singular_name' => __( 'Movie', 'yoast-test-helper' ),
-				'add_new'       => __( 'Add New', 'yoast-test-helper' ),
-				'add_new_item'  => __( 'Add new movie', 'yoast-test-helper' ),
+				'name'          => \__( 'Movies', 'yoast-test-helper' ),
+				'singular_name' => \__( 'Movie', 'yoast-test-helper' ),
+				'add_new'       => \__( 'Add New', 'yoast-test-helper' ),
+				'add_new_item'  => \__( 'Add new movie', 'yoast-test-helper' ),
 			],
-			'description'  => __( 'Our movies post type', 'yoast-test-helper' ),
+			'description'  => \__( 'Our movies post type', 'yoast-test-helper' ),
 			'public'       => true,
 			'menu_icon'    => 'dashicons-format-video',
 			'has_archive'  => true,

@@ -210,7 +210,7 @@ class Plugin_Toggler implements Integration {
 			$this->option->get( 'plugin_toggler' )
 		);
 
-		return Form_Presenter::get_html( __( 'Plugin toggler', 'yoast-test-helper' ), 'yoast_seo_plugin_toggler', $fields );
+		return Form_Presenter::get_html( \__( 'Plugin toggler', 'yoast-test-helper' ), 'yoast_seo_plugin_toggler', $fields );
 	}
 
 	/**

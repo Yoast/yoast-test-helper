@@ -27,7 +27,7 @@ class Form_Presenter {
 		$output .= $fields;
 
 		if ( $submit ) {
-			$output .= '<button id="' . $field . '_save" class="button" type="submit">' . __( 'Save', 'yoast-test-helper' ) . '</button>';
+			$output .= '<button id="' . $field . '_save" class="button" type="submit">' . \__( 'Save', 'yoast-test-helper' ) . '</button>';
 		}
 
 		$output .= '</form>';

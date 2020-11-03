@@ -54,10 +54,10 @@ class Taxonomies implements Integration {
 	 */
 	private function get_category_args( $slug ) {
 		return [
-			'label'        => __( 'Categories', 'yoast-test-helper' ),
+			'label'        => \__( 'Categories', 'yoast-test-helper' ),
 			'labels'       => [
-				'name'          => __( 'Categories', 'yoast-test-helper' ),
-				'singular_name' => __( 'Category', 'yoast-test-helper' ),
+				'name'          => \__( 'Categories', 'yoast-test-helper' ),
+				'singular_name' => \__( 'Category', 'yoast-test-helper' ),
 			],
 			'rewrite'      => [
 				'slug' => $slug,
@@ -77,17 +77,17 @@ class Taxonomies implements Integration {
 	 */
 	private function get_genre_args( $slug ) {
 		return [
-			'label'        => __( 'Genres', 'yoast-test-helper' ),
+			'label'        => \__( 'Genres', 'yoast-test-helper' ),
 			'labels'       => [
-				'name'          => __( 'Genres', 'yoast-test-helper' ),
-				'singular_name' => __( 'Genre', 'yoast-test-helper' ),
-				'search_items'  => __( 'Search Genres', 'yoast-test-helper' ),
-				'all_items'     => __( 'All Genres', 'yoast-test-helper' ),
-				'edit_item'     => __( 'Edit Genre', 'yoast-test-helper' ),
-				'update_item'   => __( 'Update Genre', 'yoast-test-helper' ),
-				'add_new_item'  => __( 'Add New Genre', 'yoast-test-helper' ),
-				'new_item_name' => __( 'New Genre Name', 'yoast-test-helper' ),
-				'menu_name'     => __( 'Genre', 'yoast-test-helper' ),
+				'name'          => \__( 'Genres', 'yoast-test-helper' ),
+				'singular_name' => \__( 'Genre', 'yoast-test-helper' ),
+				'search_items'  => \__( 'Search Genres', 'yoast-test-helper' ),
+				'all_items'     => \__( 'All Genres', 'yoast-test-helper' ),
+				'edit_item'     => \__( 'Edit Genre', 'yoast-test-helper' ),
+				'update_item'   => \__( 'Update Genre', 'yoast-test-helper' ),
+				'add_new_item'  => \__( 'Add New Genre', 'yoast-test-helper' ),
+				'new_item_name' => \__( 'New Genre Name', 'yoast-test-helper' ),
+				'menu_name'     => \__( 'Genre', 'yoast-test-helper' ),
 			],
 			'rewrite'      => [
 				'slug' => $slug,
