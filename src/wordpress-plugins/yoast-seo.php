@@ -149,7 +149,7 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		$wpdb->query( 'UPDATE ' . $wpdb->prefix . 'yoast_indexable SET prominent_words_version = NULL' );
 		$wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . 'yoast_prominent_words' );
-		WPSEO_Options::set( 'prominent_words_indexation_completed', false );
+		WPSEO_Options::set( 'prominent_words_indexing_completed', false );
 		\delete_transient( 'total_unindexed_prominent_words' );
 
 		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
@@ -227,10 +227,8 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange
 
-		WPSEO_Options::set( 'ignore_indexation_warning', false );
-		WPSEO_Options::set( 'indexation_warning_hide_until', false );
-		WPSEO_Options::set( 'indexation_started', false );
-		WPSEO_Options::set( 'indexables_indexation_completed', false );
+		WPSEO_Options::set( 'indexing_started', null );
+		WPSEO_Options::set( 'indexables_indexing_completed', false );
 		WPSEO_Options::set( 'indexing_first_time', true );
 
 		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
