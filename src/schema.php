@@ -79,9 +79,9 @@ class Schema implements Integration {
 		);
 
 		$select_options = [
-			'none' => \__( 'Don\'t influence', 'yoast-test-helper' ),
-			'show' => \__( 'Always include', 'yoast-test-helper' ),
-			'hide' => \__( 'Never include', 'yoast-test-helper' ),
+			'none' => \esc_html__( 'Don\'t influence', 'yoast-test-helper' ),
+			'show' => \esc_html__( 'Always include', 'yoast-test-helper' ),
+			'hide' => \esc_html__( 'Never include', 'yoast-test-helper' ),
 		];
 
 		$output .= Form_Presenter::create_select(

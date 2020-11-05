@@ -27,7 +27,7 @@ class Form_Presenter {
 		$output .= $fields;
 
 		if ( $submit ) {
-			$output .= '<button id="' . $field . '_save" class="button" type="submit">' . \__( 'Save', 'yoast-test-helper' ) . '</button>';
+			$output .= '<button id="' . $field . '_save" class="button" type="submit">' . \esc_html__( 'Save', 'yoast-test-helper' ) . '</button>';
 		}
 
 		$output .= '</form>';
@@ -47,7 +47,7 @@ class Form_Presenter {
 	public static function create_checkbox( $option, $label, $checked = false ) {
 		$checked_html = \checked( $checked, true, false );
 		$output       = \sprintf( '<input type="checkbox" ' . $checked_html . ' name="%1$s" id="%1$s"/>', $option );
-		$output      .= \sprintf( '<label for="%1$s">%2$s</label><br/>', $option, $label );
+		$output      .= \sprintf( '<label for="%1$s">%2$s</label><br/>', $option, \esc_html( $label ) );
 
 		return $output;
 	}
@@ -63,7 +63,7 @@ class Form_Presenter {
 	 * @return string The select & label HTML.
 	 */
 	public static function create_select( $option, $label, $options, $selected = false ) {
-		$output  = \sprintf( '<label for="%1$s">%2$s</label>', $option, $label );
+		$output  = \sprintf( '<label for="%1$s">%2$s</label>', $option, \esc_html( $label ) );
 		$output .= \sprintf( '<select name="%1$s" id="%1$s">', $option );
 		foreach ( $options as $value => $option_label ) {
 			$selected_html = \selected( $selected === $value, true, false );

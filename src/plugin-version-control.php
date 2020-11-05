@@ -223,7 +223,7 @@ class Plugin_Version_Control implements Integration {
 					$notification = new Notification(
 						\sprintf(
 							// translators: %1$s expands to date, %2$s to plugin name.
-							\__( 'Options from %1$s for %2$s have been restored.', 'yoast-test-helper' ),
+							\esc_html__( 'Options from %1$s for %2$s have been restored.', 'yoast-test-helper' ),
 							\gmdate( 'Y-m-d H:i:s', $timestamp ),
 							$plugin->get_name()
 						),
