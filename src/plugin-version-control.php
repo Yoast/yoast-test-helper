@@ -210,11 +210,13 @@ class Plugin_Version_Control implements Integration {
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(
-					sprintf(
-						// translators: %1$s expands to date, %2$s to plugin name.
-						__( 'Options from %1$s for %2$s have <strong>not</strong> been restored.', 'yoast-test-helper' ),
+					\sprintf(
+						// translators: %1$s expands to date, %2$s to plugin name, %3$s and %4$s to HTML strong tags.
+						\esc_html__( 'Options from %1$s for %2$s have %3$snot%4$s been restored.', 'yoast-test-helper' ),
 						\gmdate( 'Y-m-d H:i:s', $timestamp ),
-						$plugin->get_name()
+						$plugin->get_name(),
+						'<strong>',
+						'</strong>'
 					),
 					'error'
 				);
