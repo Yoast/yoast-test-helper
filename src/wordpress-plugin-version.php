@@ -32,7 +32,7 @@ class WordPress_Plugin_Version {
 	 * @param WordPress_Plugin $plugin  Plugin to store the version of.
 	 * @param string           $version The version to store.
 	 *
-	 * @return bool True on succes.
+	 * @return bool True on success.
 	 */
 	public function update_version( WordPress_Plugin $plugin, $version ) {
 		$option_name = $plugin->get_version_option_name();

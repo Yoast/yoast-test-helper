@@ -46,11 +46,11 @@ class Taxonomies implements Integration {
 	}
 
 	/**
-	 * Get arguments to use when registering category like taxonomies.
+	 * Get arguments to use when registering the category taxonomy.
 	 *
 	 * @param string $slug The slug to set for the taxonomy.
 	 *
-	 * @return array Arguments to use when registering category like taxonomies.
+	 * @return array Arguments to use when registering the category taxonomy.
 	 */
 	private function get_category_args( $slug ) {
 		return [

@@ -57,7 +57,7 @@ class Video_SEO implements WordPress_Plugin {
 	 *
 	 * @param string $feature Feature to reset.
 	 *
-	 * @return bool True on succes.
+	 * @return bool True on success.
 	 */
 	public function reset_feature( $feature ) {
 		return false;
