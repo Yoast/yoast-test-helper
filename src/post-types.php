@@ -75,23 +75,23 @@ class Post_Types implements Integration {
 	public function get_controls() {
 		$fields = Form_Presenter::create_checkbox(
 			'enable_post_types',
-			'Enable post types & taxonomies.',
+			\__( 'Enable post types & taxonomies.', 'yoast-test-helper' ),
 			$this->option->get( 'enable_post_types' )
 		);
 
 		$fields .= Form_Presenter::create_checkbox(
 			'enable_gutenberg_books',
-			'Enable block editor for Books.',
+			\__( 'Enable block editor for Books.', 'yoast-test-helper' ),
 			$this->option->get( 'enable_gutenberg_books' )
 		);
 
 		$fields .= Form_Presenter::create_checkbox(
 			'enable_gutenberg_videos',
-			'Enable block editor for Videos.',
+			\__( 'Enable block editor for Videos.', 'yoast-test-helper' ),
 			$this->option->get( 'enable_gutenberg_videos' )
 		);
 
-		return Form_Presenter::get_html( 'Post types & Taxonomies', 'yoast_seo_test_post_types', $fields );
+		return Form_Presenter::get_html( \__( 'Post types & Taxonomies', 'yoast-test-helper' ), 'yoast_seo_test_post_types', $fields );
 	}
 
 	/**

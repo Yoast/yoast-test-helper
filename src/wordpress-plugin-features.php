@@ -70,7 +70,7 @@ class WordPress_Plugin_Features implements Integration {
 			\array_map(
 				static function ( $name, $feature ) {
 					return \sprintf(
-						'<button id="%s" name="%s" type="submit" class="button secondary">Reset %s</button> ',
+						'<button id="%s" name="%s" type="submit" class="button secondary">' . \esc_html__( 'Reset', 'yoast-test-helper' ) . ' %s</button> ',
 						\esc_attr( $feature ) . '_button',
 						\esc_attr( $feature ),
 						\esc_html( $name )

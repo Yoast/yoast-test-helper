@@ -206,7 +206,7 @@ class Plugin_Toggler implements Integration {
 	public function get_controls() {
 		$fields = Form_Presenter::create_checkbox(
 			'plugin_toggler',
-			'Show plugin toggler.',
+			\__( 'Show plugin toggler.', 'yoast-test-helper' ),
 			$this->option->get( 'plugin_toggler' )
 		);
 

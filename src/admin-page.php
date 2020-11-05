@@ -57,8 +57,8 @@ class Admin_Page implements Integration {
 	 */
 	public function register_admin_menu() {
 		$menu_item = \add_management_page(
-			'Yoast Test',
-			'Yoast Test',
+			\esc_html__( 'Yoast Test', 'yoast-test-helper' ),
+			\esc_html__( 'Yoast Test', 'yoast-test-helper' ),
 			'manage_options',
 			\sanitize_key( $this->get_admin_page() ),
 			[ $this, 'show_admin_page' ]

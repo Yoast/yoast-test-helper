@@ -105,14 +105,29 @@ class Plugin_Version_Control implements Integration {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
 			\do_action(
 				'Yoast\WP\Test_Helper\notification',
-				new Notification( $plugin->get_name() . ' version was set to ' . $version, 'success' )
+				new Notification(
+					\sprintf(
+						// translators: %1$s expands to the plugin name, %2$s to the version.
+						\__( '%1$s version was set to %2$s.', 'yoast-test-helper' ),
+						$plugin->get_name(),
+						$version
+					),
+					'success'
+				)
 			);
 		}
 
 		if ( $this->plugin_options->save_options( $plugin ) ) {
 			\do_action(
 				'Yoast\WP\Test_Helper\notification',
-				new Notification( $plugin->get_name() . ' options were saved.', 'success' )
+				new Notification(
+					\sprintf(
+						// translators: %1$s expands to the plugin name.
+						\__( '%1$s options were saved.', 'yoast-test-helper' ),
+						$plugin->get_name()
+					),
+					'success'
+				)
 			);
 		}
 	}

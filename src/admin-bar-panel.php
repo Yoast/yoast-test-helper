@@ -22,7 +22,7 @@ class Admin_Bar_Panel extends Debug_Bar_Panel {
 	 * Renders the debug panel.
 	 */
 	public function render() {
-		echo '<h2>Debug Information</h2>';
+		echo '<h2>' . \esc_html__( 'Debug Information', 'yoast-test-helper' ) . '</h2>';
 		echo '<div class="clear"></div>';
 		echo '<ul>';
 		foreach ( WPSEO_Options::get_option_names() as $option ) {
