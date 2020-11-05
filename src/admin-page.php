@@ -83,7 +83,7 @@ class Admin_Page implements Integration {
 	 * @return void
 	 */
 	public function show_admin_page() {
-		echo '<h1>' . \esc_html__( 'Yoast Test Helper', 'yoast-test-helper' ) . '</h1>';
+		echo '<h1>', esc_html__( 'Yoast Test Helper', 'yoast-test-helper' ), '</h1>';
 
 		\do_action( 'Yoast\WP\Test_Helper\notifications', $this );
 
