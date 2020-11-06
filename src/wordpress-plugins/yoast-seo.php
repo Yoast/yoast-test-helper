@@ -69,13 +69,13 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	public function get_features() {
 		return [
-			'internal_link_count'         => 'Internal link counter',
-			'prominent_words_calculation' => 'Prominent words calculation',
-			'reset_configuration_wizard'  => 'Configuration wizard',
-			'reset_notifications'         => 'Notifications',
-			'reset_site_information'      => 'Site information',
-			'reset_tracking'              => 'Tracking',
-			'reset_indexables'            => 'Indexables tables & migrations',
+			'internal_link_count'         => \esc_html__( 'Internal link counter', 'yoast-test-helper' ),
+			'prominent_words_calculation' => \esc_html__( 'Prominent words calculation', 'yoast-test-helper' ),
+			'reset_configuration_wizard'  => \esc_html__( 'Configuration wizard', 'yoast-test-helper' ),
+			'reset_notifications'         => \esc_html__( 'Notifications', 'yoast-test-helper' ),
+			'reset_site_information'      => \esc_html__( 'Site information', 'yoast-test-helper' ),
+			'reset_tracking'              => \esc_html__( 'Tracking', 'yoast-test-helper' ),
+			'reset_indexables'            => \esc_html__( 'Indexables tables & migrations', 'yoast-test-helper' ),
 		];
 	}
 
