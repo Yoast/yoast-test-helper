@@ -80,6 +80,6 @@ class News_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return \class_exists( WPSEO_News::class ) ? WPSEO_News::VERSION : 'not active';
+		return \class_exists( WPSEO_News::class ) ? WPSEO_News::VERSION : \__( 'not active', 'yoast-test-helper' );
 	}
 }

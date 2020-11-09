@@ -80,6 +80,6 @@ class Yoast_SEO_Premium implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return \defined( 'WPSEO_Premium::PLUGIN_VERSION_NAME' ) ? WPSEO_Premium::PLUGIN_VERSION_NAME : 'not active';
+		return \defined( 'WPSEO_Premium::PLUGIN_VERSION_NAME' ) ? WPSEO_Premium::PLUGIN_VERSION_NAME : \__( 'not active', 'yoast-test-helper' );
 	}
 }
