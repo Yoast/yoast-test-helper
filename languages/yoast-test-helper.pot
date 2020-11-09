@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast Test Helper 1.9\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2020-11-06 12:23:55+00:00\n"
+"POT-Creation-Date: 2020-11-09 09:32:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,6 +26,10 @@ msgstr ""
 
 #: src/admin-bar-panel.php:25
 msgid "Debug Information"
+msgstr ""
+
+#: src/admin-bar-panel.php:33
+msgid "Option"
 msgstr ""
 
 #: src/admin-debug-info.php:66
@@ -286,6 +290,14 @@ msgstr ""
 #: src/wordpress-plugin-features.php:146
 #. translators: %1$s expands to the plugin name, %2$s to the feature name.
 msgid "%1$s feature %2$s has been reset."
+msgstr ""
+
+#: src/wordpress-plugins/local-seo.php:81 src/wordpress-plugins/news-seo.php:83
+#: src/wordpress-plugins/video-seo.php:81
+#: src/wordpress-plugins/woocommerce-seo.php:83
+#: src/wordpress-plugins/yoast-seo-premium.php:83
+#: src/wordpress-plugins/yoast-seo.php:119
+msgid "not active"
 msgstr ""
 
 #: src/wordpress-plugins/yoast-seo.php:72
