@@ -66,7 +66,7 @@ class XML_Sitemaps implements Integration {
 
 		$output  = Form_Presenter::create_checkbox(
 			'disable_xml_sitemap_cache',
-			\__( 'Disable the XML sitemaps cache.', 'yoast-test-helper' ),
+			\esc_html__( 'Disable the XML sitemaps cache.', 'yoast-test-helper' ),
 			$this->option->get( 'disable_xml_sitemap_cache' )
 		);
 		$output .= '<label for="xml_sitemap_entries">' . \esc_html__( 'Maximum entries per XML sitemap:', 'yoast-test-helper' ) . '</label>';

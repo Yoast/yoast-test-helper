@@ -44,7 +44,7 @@ class Development_Mode implements Integration {
 	public function get_controls() {
 		$fields = Form_Presenter::create_checkbox(
 			'enable_development_mode',
-			\__( 'Enable development mode.', 'yoast-test-helper' ),
+			\esc_html__( 'Enable development mode.', 'yoast-test-helper' ),
 			$this->option->get( 'enable_development_mode' )
 		);
 

@@ -61,7 +61,7 @@ class Feature_Toggler implements Integration {
 			$fields .= Form_Presenter::create_checkbox(
 				$key,
 				// translators: %s expands to the label.
-				\sprintf( \__( 'Enable %s', 'yoast-test-helper' ), $label ),
+				\sprintf( \esc_html__( 'Enable %s', 'yoast-test-helper' ), $label ),
 				$this->option->get( $key )
 			);
 		}

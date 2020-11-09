@@ -54,7 +54,7 @@ class Inline_Script implements Integration {
 	public function get_controls() {
 		$output = Form_Presenter::create_checkbox(
 			'add_inline_script',
-			\__( 'Add the inline script specified below after the script selected here.', 'yoast-test-helper' ),
+			\esc_html__( 'Add the inline script specified below after the script selected here.', 'yoast-test-helper' ),
 			$this->option->get( 'add_inline_script' )
 		) . '<br/>';
 

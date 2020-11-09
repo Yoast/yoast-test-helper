@@ -68,13 +68,13 @@ class Schema implements Integration {
 	public function get_controls() {
 		$output = Form_Presenter::create_checkbox(
 			'replace_schema_domain',
-			\__( 'Replace .test domain name with example.com in Schema output.', 'yoast-test-helper' ),
+			\esc_html__( 'Replace .test domain name with example.com in Schema output.', 'yoast-test-helper' ),
 			$this->option->get( 'replace_schema_domain' )
 		);
 
 		$output .= Form_Presenter::create_checkbox(
 			'enable_structured_data_blocks',
-			\__( 'Enable the feature flag for the structured data blocks.', 'yoast-test-helper' ),
+			\esc_html__( 'Enable the feature flag for the structured data blocks.', 'yoast-test-helper' ),
 			$this->option->get( 'enable_structured_data_blocks' )
 		);
 
@@ -86,14 +86,14 @@ class Schema implements Integration {
 
 		$output .= Form_Presenter::create_select(
 			'is_needed_breadcrumb',
-			\__( 'Influence the Breadcrumb Graph piece: ', 'yoast-test-helper' ),
+			\esc_html__( 'Influence the Breadcrumb Graph piece: ', 'yoast-test-helper' ),
 			$select_options,
 			$this->option->get( 'is_needed_breadcrumb' )
 		);
 
 		$output .= Form_Presenter::create_select(
 			'is_needed_webpage',
-			\__( 'Influence the WebPage Graph piece: ', 'yoast-test-helper' ),
+			\esc_html__( 'Influence the WebPage Graph piece: ', 'yoast-test-helper' ),
 			$select_options,
 			$this->option->get( 'is_needed_webpage' )
 		);
