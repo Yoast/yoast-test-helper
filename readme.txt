@@ -35,6 +35,19 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.10 =
+
+Release Date: xx.x
+
+Bugfixes:
+
+* Fixes a bug where the `Start SEO Data optimization` button was not shown after resetting the indexables tables and migrations.
+* Fixes a bug where no notification was shown to reindex your site when resetting the indexables tables and migrations, the prominent words table, and the internal link count.
+
+Other:
+
+* Makes the plugin translateable.
+
 = 1.9 =
 
 Release Date: October 6th, 2020
