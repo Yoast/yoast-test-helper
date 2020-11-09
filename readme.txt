@@ -37,12 +37,16 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 = 1.9 =
 
+Release Date: October 6th, 2020
+
 Bugfixes:
 
 * Fixes a bug where the link columns could not be emptied due to an incorrect table name.
 * Fixes a bug where links could be attached to the wrong indexables when resetting the indexable tables and migrations.
 
 = 1.8 =
+
+Release Date: July 8th, 2020
 
 Enhancements:
 
@@ -55,12 +59,16 @@ Bugfixes:
 
 = 1.7 =
 
+Release Date: June 2nd, 2020
+
 Enhancements:
 
 * Drops the table for prominent words (used by our internal linking functionality, among others) when you hit reset indexables.
 * Some minor code style fixes.
 
 = 1.6 =
+
+Release Date: April 9th, 2020
 
 Enhancements:
 
