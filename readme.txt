@@ -46,7 +46,7 @@ Bugfixes:
 
 Other:
 
-* Makes the plugin translateable.
+* Makes the plugin translatable.
 
 = 1.9 =
 
