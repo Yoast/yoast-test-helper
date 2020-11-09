@@ -1,21 +1,21 @@
 {
   "name": "yoast-test-helper",
-  "version": "1.9",
   "description": "A plugin to aid in testing and developing the Yoast SEO plugin and its extensions.",
+  "plugin": {
+    "glotpress": "https://translate.yoast.com",
+    "glotpress_path": "yoast-test-helper",
+    "textdomain": "yoast-test-helper"
+  },
+  "pot": {
+    "reportmsgidbugsto": "https://github.com/yoast/yoast-test-helper/issues",
+    "languageteam": "Yoast Translate <translations@yoast.com>",
+    "lasttranslator": "Yoast Translate Team <translations@yoast.com>"
+  },
   "repository": "https://github.com/Yoast/yoast-test-helper.git",
   "author": "Yoast",
   "license": "SEE LICENSE IN license.txt",
   "devDependencies": {
-    "grunt": "^1.0.2",
-    "grunt-contrib-clean": "^1.1.0",
-    "grunt-contrib-compress": "^1.5.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-shell": "^2.1.0",
-    "grunt-wp-deploy": "^1.2.1",
-    "grunt-yoast-tasks": "https://github.com/Yoast/plugin-grunt-tasks#1-Create-grunt-plugin-for-custom-tasks",
-    "jit-grunt": "^0.10.0",
-    "load-grunt-config": "^0.19.2",
-    "time-grunt": "^1.4.0"
+    "@yoast/grunt-plugin-tasks": "^1.7.2"
   },
   "dependencies": {},
   "yoast": {

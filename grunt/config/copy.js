@@ -9,7 +9,7 @@ module.exports = {
 					"assets/**",
 					"src/**",
 					"vendor/**",
-					"licence.txt",
+					"license.txt",
 					"README.md",
 					"readme.txt",
 					"yoast-test-helper.php",

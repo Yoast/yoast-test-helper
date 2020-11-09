@@ -108,7 +108,7 @@ class WordPress_Plugin_Options {
 	 * @param WordPress_Plugin $plugin    Plugin to restore options of.
 	 * @param int              $timestamp Specific save point to restore.
 	 *
-	 * @return bool True on succes.
+	 * @return bool True on success.
 	 */
 	public function restore_options( WordPress_Plugin $plugin, $timestamp ) {
 		$history = $this->get_saved_options( $plugin );

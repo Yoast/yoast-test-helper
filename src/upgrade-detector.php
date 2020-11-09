@@ -23,7 +23,7 @@ class Upgrade_Detector implements Integration {
 	 * @return void
 	 */
 	public function yoast_seo_upgrade_ran() {
-		$this->add_notification( 'The Yoast SEO upgrade routine was executed.' );
+		$this->add_notification( \esc_html__( 'The Yoast SEO upgrade routine was executed.', 'yoast-test-helper' ) );
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Upgrade_Detector implements Integration {
 	 * @return void
 	 */
 	public function yoast_seo_premium_upgrade_ran() {
-		$this->add_notification( 'Yoast SEO Premium updated its version number, which should mean the upgrade routine was executed.' );
+		$this->add_notification( \esc_html__( 'Yoast SEO Premium updated its version number, which should mean the upgrade routine was executed.', 'yoast-test-helper' ) );
 	}
 
 	/**

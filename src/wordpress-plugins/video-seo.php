@@ -57,7 +57,7 @@ class Video_SEO implements WordPress_Plugin {
 	 *
 	 * @param string $feature Feature to reset.
 	 *
-	 * @return bool True on succes.
+	 * @return bool True on success.
 	 */
 	public function reset_feature( $feature ) {
 		return false;
@@ -78,6 +78,6 @@ class Video_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return \defined( 'WPSEO_VIDEO_VERSION' ) ? \WPSEO_VIDEO_VERSION : 'not active';
+		return \defined( 'WPSEO_VIDEO_VERSION' ) ? \WPSEO_VIDEO_VERSION : \__( 'not active', 'yoast-test-helper' );
 	}
 }

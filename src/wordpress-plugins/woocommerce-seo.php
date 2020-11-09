@@ -59,7 +59,7 @@ class WooCommerce_SEO implements WordPress_Plugin {
 	 *
 	 * @param string $feature Feature to reset.
 	 *
-	 * @return bool True on succes.
+	 * @return bool True on success.
 	 */
 	public function reset_feature( $feature ) {
 		return false;
@@ -80,6 +80,6 @@ class WooCommerce_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return \class_exists( Yoast_WooCommerce_SEO::class ) ? Yoast_WooCommerce_SEO::VERSION : 'not active';
+		return \class_exists( Yoast_WooCommerce_SEO::class ) ? Yoast_WooCommerce_SEO::VERSION : \__( 'not active', 'yoast-test-helper' );
 	}
 }
