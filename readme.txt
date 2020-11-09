@@ -37,7 +37,7 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 = 1.10 =
 
-Release Date: xx.x
+Release Date: November 17th, 2020
 
 Bugfixes:
 
