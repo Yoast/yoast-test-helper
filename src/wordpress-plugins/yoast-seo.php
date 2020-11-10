@@ -130,8 +130,6 @@ class Yoast_SEO implements WordPress_Plugin {
 		global $wpdb;
 
 		$wpdb->query( 'UPDATE ' . $wpdb->prefix . 'yoast_indexable SET link_count = NULL, incoming_link_count = NULL' );
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange -- We know what we're doing. Really.
-		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_seo_links' );
 
 		\delete_transient( 'wpseo_unindexed_post_link_count' );
 		\delete_transient( 'wpseo_unindexed_term_link_count' );
@@ -230,6 +228,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_indexable_hierarchy' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_migrations' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_primary_term' );
+		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_seo_links' );
 
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange
 
