@@ -131,8 +131,8 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		$wpdb->query( 'UPDATE ' . $wpdb->prefix . 'yoast_indexable SET link_count = NULL, incoming_link_count = NULL' );
 
-		delete_transient( 'wpseo_unindexed_post_link_count' );
-		delete_transient( 'wpseo_unindexed_term_link_count' );
+		\delete_transient( 'wpseo_unindexed_post_link_count' );
+		\delete_transient( 'wpseo_unindexed_term_link_count' );
 
 		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 	}
