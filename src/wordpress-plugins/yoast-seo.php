@@ -130,6 +130,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		global $wpdb;
 
 		$wpdb->query( 'UPDATE ' . $wpdb->prefix . 'yoast_indexable SET link_count = NULL, incoming_link_count = NULL' );
+		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_seo_links' );
 
 		\delete_transient( 'wpseo_unindexed_post_link_count' );
 		\delete_transient( 'wpseo_unindexed_term_link_count' );
