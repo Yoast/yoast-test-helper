@@ -43,6 +43,7 @@ Bugfixes:
 
 * Fixes a bug where the `Start SEO Data optimization` button was not shown after resetting the indexables tables and migrations.
 * Fixes a bug where no notification was shown to reindex your site when resetting the indexables tables and migrations, the prominent words table, and the internal link count.
+* Fixes a bug where the `Reset indexables tables & migrations` functionality did not reset the internal link count transients.
 
 Other:
 
