@@ -3,7 +3,7 @@ Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
 Requires at least: 5.4
 Tested up to: 5.5
-Stable tag: 1.10-RC1
+Stable tag: 1.10-RC2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -43,6 +43,7 @@ Bugfixes:
 
 * Fixes a bug where the `Start SEO Data optimization` button was not shown after resetting the indexables tables and migrations.
 * Fixes a bug where no notification was shown to reindex your site when resetting the indexables tables and migrations, the prominent words table, and the internal link count.
+* Fixes a bug where the `Reset indexables tables & migrations` functionality did not reset the internal link count transients.
 
 Other:
 

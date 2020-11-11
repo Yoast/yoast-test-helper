@@ -131,8 +131,8 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		$wpdb->query( 'UPDATE ' . $wpdb->prefix . 'yoast_indexable SET link_count = NULL, incoming_link_count = NULL' );
 
-		delete_transient( 'wpseo_unindexed_post_link_count' );
-		delete_transient( 'wpseo_unindexed_term_link_count' );
+		\delete_transient( 'wpseo_unindexed_post_link_count' );
+		\delete_transient( 'wpseo_unindexed_term_link_count' );
 
 		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 	}
@@ -217,12 +217,17 @@ class Yoast_SEO implements WordPress_Plugin {
 	private function reset_indexables() {
 		global $wpdb;
 
+		// Reset the prominent words calculation.
+		$this->reset_prominent_words_calculation();
+
+		// Reset the internal link count.
+		$this->reset_internal_link_count();
+
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange -- We know what we're doing. Really.
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_indexable' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_indexable_hierarchy' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_migrations' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_primary_term' );
-		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_prominent_words' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_seo_links' );
 
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange
