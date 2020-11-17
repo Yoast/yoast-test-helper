@@ -59,7 +59,7 @@ class News_SEO implements WordPress_Plugin {
 	 *
 	 * @param string $feature Feature to reset.
 	 *
-	 * @return bool True on succes.
+	 * @return bool True on success.
 	 */
 	public function reset_feature( $feature ) {
 		return false;
@@ -80,6 +80,6 @@ class News_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return \class_exists( WPSEO_News::class ) ? WPSEO_News::VERSION : 'not active';
+		return \class_exists( WPSEO_News::class ) ? WPSEO_News::VERSION : \__( 'not active', 'yoast-test-helper' );
 	}
 }

@@ -3,6 +3,8 @@
 namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 use WPSEO_Options;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
+use Yoast_Notification_Center;
 
 /**
  * Class to represent Yoast SEO.
@@ -69,13 +71,13 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	public function get_features() {
 		return [
-			'internal_link_count'         => 'Internal link counter',
-			'prominent_words_calculation' => 'Prominent words calculation',
-			'reset_configuration_wizard'  => 'Configuration wizard',
-			'reset_notifications'         => 'Notifications',
-			'reset_site_information'      => 'Site information',
-			'reset_tracking'              => 'Tracking',
-			'reset_indexables'            => 'Indexables tables & migrations',
+			'internal_link_count'         => \esc_html__( 'Internal link counter', 'yoast-test-helper' ),
+			'prominent_words_calculation' => \esc_html__( 'Prominent words calculation', 'yoast-test-helper' ),
+			'reset_configuration_wizard'  => \esc_html__( 'Configuration wizard', 'yoast-test-helper' ),
+			'reset_notifications'         => \esc_html__( 'Notifications', 'yoast-test-helper' ),
+			'reset_site_information'      => \esc_html__( 'Site information', 'yoast-test-helper' ),
+			'reset_tracking'              => \esc_html__( 'Tracking', 'yoast-test-helper' ),
+			'reset_indexables'            => \esc_html__( 'Indexables tables & migrations', 'yoast-test-helper' ),
 		];
 	}
 
@@ -84,7 +86,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 *
 	 * @param string $feature Feature to reset.
 	 *
-	 * @return bool True on succes.
+	 * @return bool True on success.
 	 */
 	public function reset_feature( $feature ) {
 		switch ( $feature ) {
@@ -116,7 +118,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return string The current version of the plugin.
 	 */
 	public function get_version_constant() {
-		return \defined( 'WPSEO_VERSION' ) ? \WPSEO_VERSION : 'not active';
+		return \defined( 'WPSEO_VERSION' ) ? \WPSEO_VERSION : \__( 'not active', 'yoast-test-helper' );
 	}
 
 	/**
@@ -129,8 +131,10 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		$wpdb->query( 'UPDATE ' . $wpdb->prefix . 'yoast_indexable SET link_count = NULL, incoming_link_count = NULL' );
 
-		delete_transient( 'wpseo_unindexed_post_link_count' );
-		delete_transient( 'wpseo_unindexed_term_link_count' );
+		\delete_transient( 'wpseo_unindexed_post_link_count' );
+		\delete_transient( 'wpseo_unindexed_term_link_count' );
+
+		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 	}
 
 	/**
@@ -145,8 +149,10 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		$wpdb->query( 'UPDATE ' . $wpdb->prefix . 'yoast_indexable SET prominent_words_version = NULL' );
 		$wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . 'yoast_prominent_words' );
-		WPSEO_Options::set( 'prominent_words_indexation_completed', false );
+		WPSEO_Options::set( 'prominent_words_indexing_completed', false );
 		\delete_transient( 'total_unindexed_prominent_words' );
+
+		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 	}
 
 	/**
@@ -211,20 +217,26 @@ class Yoast_SEO implements WordPress_Plugin {
 	private function reset_indexables() {
 		global $wpdb;
 
+		// Reset the prominent words calculation.
+		$this->reset_prominent_words_calculation();
+
+		// Reset the internal link count.
+		$this->reset_internal_link_count();
+
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange -- We know what we're doing. Really.
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_indexable' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_indexable_hierarchy' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_migrations' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_primary_term' );
-		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_prominent_words' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'yoast_seo_links' );
 
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange
 
-		WPSEO_Options::set( 'ignore_indexation_warning', false );
-		WPSEO_Options::set( 'indexation_warning_hide_until', false );
-		WPSEO_Options::set( 'indexation_started', false );
-		WPSEO_Options::set( 'indexables_indexation_completed', false );
+		WPSEO_Options::set( 'indexing_started', null );
+		WPSEO_Options::set( 'indexables_indexing_completed', false );
+		WPSEO_Options::set( 'indexing_first_time', true );
+
+		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 
 		// Found in Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY.
 		\delete_transient( 'wpseo_total_unindexed_posts' );
@@ -235,5 +247,14 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		\delete_option( 'yoast_migrations_premium' );
 		return \delete_option( 'yoast_migrations_free' );
+	}
+
+	/**
+	 * Resets the indexing notification such that it is shown again.
+	 *
+	 * @param string $reason The indexing reason why the site needs to be reindexed.
+	 */
+	protected function reset_indexing_notification( $reason ) {
+		YoastSEO()->helpers->indexing->set_reason( $reason );
 	}
 }

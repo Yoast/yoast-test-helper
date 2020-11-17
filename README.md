@@ -16,9 +16,9 @@ This test helper plugin has several features:
 
 * Toggle between premium and free Yoast SEO versions easily.
 * Easily enable Yoast SEO development mode.
-* Saving and restoring Yoast SEO and Yoast SEO extension options, to test upgrade paths.
+* Save and restore Yoast SEO and Yoast SEO extension options, to test upgrade paths.
 * Add options debug info to Yoast SEO admin pages.
-* Reset the internal link counter, prominent words calculation and other features.
+* Reset the indexables, internal link counter, prominent words calculation and other features.
 * Add two post types (Books and Movies) with two taxonomies (Category and Genre) each and optionally disable the block editor for them.
 * Easily add an inline script after a selected script.
 * Replace your `.test` TLD with `example.com` in your Schema output, so you can easily copy paste to Google's Structured Data Testing Tool.

@@ -57,8 +57,8 @@ class Admin_Page implements Integration {
 	 */
 	public function register_admin_menu() {
 		$menu_item = \add_management_page(
-			'Yoast Test',
-			'Yoast Test',
+			\esc_html__( 'Yoast Test', 'yoast-test-helper' ),
+			\esc_html__( 'Yoast Test', 'yoast-test-helper' ),
 			'manage_options',
 			\sanitize_key( $this->get_admin_page() ),
 			[ $this, 'show_admin_page' ]
@@ -83,7 +83,7 @@ class Admin_Page implements Integration {
 	 * @return void
 	 */
 	public function show_admin_page() {
-		echo '<h1>Yoast Test Helper</h1>';
+		echo '<h1>', esc_html__( 'Yoast Test Helper', 'yoast-test-helper' ), '</h1>';
 
 		\do_action( 'Yoast\WP\Test_Helper\notifications', $this );
 

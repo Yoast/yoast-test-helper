@@ -60,12 +60,13 @@ class Feature_Toggler implements Integration {
 			$key     = 'feature_toggle_' . $feature;
 			$fields .= Form_Presenter::create_checkbox(
 				$key,
-				'Enable ' . $label,
+				// translators: %s expands to the label.
+				\sprintf( \esc_html__( 'Enable %s', 'yoast-test-helper' ), $label ),
 				$this->option->get( $key )
 			);
 		}
 
-		return Form_Presenter::get_html( 'Feature toggler', 'yoast_seo_feature_toggler', $fields );
+		return Form_Presenter::get_html( \__( 'Feature toggler', 'yoast-test-helper' ), 'yoast_seo_feature_toggler', $fields );
 	}
 
 	/**

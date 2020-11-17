@@ -15,52 +15,6 @@ class Post_Types implements Integration {
 	private $option;
 
 	/**
-	 * Arguments to use when registering the book post type.
-	 *
-	 * @var array
-	 */
-	private $book_args = [
-		'label'        => 'Books',
-		'labels'       => [
-			'name'          => 'Books',
-			'singular_name' => 'Book',
-			'add_new'       => 'Add New',
-			'add_new_item'  => 'Add new book',
-		],
-		'description'  => 'Our books post type',
-		'public'       => true,
-		'menu_icon'    => 'dashicons-book-alt',
-		'has_archive'  => 'my-books',
-		'rewrite'      => [
-			'slug' => 'yoast-test-books',
-		],
-		'show_in_rest' => true,
-	];
-
-	/**
-	 * Arguments to use when registering the movie post type.
-	 *
-	 * @var array
-	 */
-	private $movie_args = [
-		'label'        => 'Movies',
-		'labels'       => [
-			'name'          => 'Movies',
-			'singular_name' => 'Movie',
-			'add_new'       => 'Add New',
-			'add_new_item'  => 'Add new movie',
-		],
-		'description'  => 'Our movies post type',
-		'public'       => true,
-		'menu_icon'    => 'dashicons-format-video',
-		'has_archive'  => true,
-		'rewrite'      => [
-			'slug' => 'yoast-test-movies',
-		],
-		'show_in_rest' => true,
-	];
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param Option $option Our option array.
@@ -109,8 +63,8 @@ class Post_Types implements Integration {
 	 * @return void
 	 */
 	public function register_post_types() {
-		\register_post_type( 'book', $this->book_args );
-		\register_post_type( 'movie', $this->movie_args );
+		\register_post_type( 'book', $this->get_book_args() );
+		\register_post_type( 'movie', $this->get_movie_args() );
 	}
 
 	/**
@@ -121,23 +75,23 @@ class Post_Types implements Integration {
 	public function get_controls() {
 		$fields = Form_Presenter::create_checkbox(
 			'enable_post_types',
-			'Enable post types & taxonomies.',
+			\esc_html__( 'Enable post types & taxonomies.', 'yoast-test-helper' ),
 			$this->option->get( 'enable_post_types' )
 		);
 
 		$fields .= Form_Presenter::create_checkbox(
 			'enable_gutenberg_books',
-			'Enable block editor for Books.',
+			\esc_html__( 'Enable block editor for Books.', 'yoast-test-helper' ),
 			$this->option->get( 'enable_gutenberg_books' )
 		);
 
 		$fields .= Form_Presenter::create_checkbox(
 			'enable_gutenberg_videos',
-			'Enable block editor for Videos.',
+			\esc_html__( 'Enable block editor for Videos.', 'yoast-test-helper' ),
 			$this->option->get( 'enable_gutenberg_videos' )
 		);
 
-		return Form_Presenter::get_html( 'Post types & Taxonomies', 'yoast_seo_test_post_types', $fields );
+		return Form_Presenter::get_html( \__( 'Post types & Taxonomies', 'yoast-test-helper' ), 'yoast_seo_test_post_types', $fields );
 	}
 
 	/**
@@ -183,5 +137,55 @@ class Post_Types implements Integration {
 		// The nonce is checked in the handle_submit function.
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$this->option->set( $option, isset( $_POST[ $option ] ) );
+	}
+
+	/**
+	 * Return arguments to use when registering the book post type.
+	 *
+	 * @return array Arguments to use when registering the book post type.
+	 */
+	private function get_book_args() {
+		return [
+			'label'        => \__( 'Books', 'yoast-test-helper' ),
+			'labels'       => [
+				'name'          => \__( 'Books', 'yoast-test-helper' ),
+				'singular_name' => \__( 'Book', 'yoast-test-helper' ),
+				'add_new'       => \__( 'Add New', 'yoast-test-helper' ),
+				'add_new_item'  => \__( 'Add new book', 'yoast-test-helper' ),
+			],
+			'description'  => \__( 'Our books post type', 'yoast-test-helper' ),
+			'public'       => true,
+			'menu_icon'    => 'dashicons-book-alt',
+			'has_archive'  => 'my-books',
+			'rewrite'      => [
+				'slug' => 'yoast-test-books',
+			],
+			'show_in_rest' => true,
+		];
+	}
+
+	/**
+	 * Get arguments to use when registering the movie post type.
+	 *
+	 * @return array Arguments to use when registering the movie post type.
+	 */
+	private function get_movie_args() {
+		return [
+			'label'        => \__( 'Movies', 'yoast-test-helper' ),
+			'labels'       => [
+				'name'          => \__( 'Movies', 'yoast-test-helper' ),
+				'singular_name' => \__( 'Movie', 'yoast-test-helper' ),
+				'add_new'       => \__( 'Add New', 'yoast-test-helper' ),
+				'add_new_item'  => \__( 'Add new movie', 'yoast-test-helper' ),
+			],
+			'description'  => \__( 'Our movies post type', 'yoast-test-helper' ),
+			'public'       => true,
+			'menu_icon'    => 'dashicons-format-video',
+			'has_archive'  => true,
+			'rewrite'      => [
+				'slug' => 'yoast-test-movies',
+			],
+			'show_in_rest' => true,
+		];
 	}
 }

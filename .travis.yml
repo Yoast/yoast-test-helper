@@ -15,6 +15,8 @@ jobs:
       env: PHPLINT=1 PHPCS=1 SECURITY=1
     - php: 5.6
       env: PHPLINT=1
+    - php: "nightly"
+      env: PHPLINT=1
     - stage: deploy
       if: tag IS present
       before_deploy:
@@ -31,7 +33,6 @@ jobs:
         - eval $(ssh-agent -s)
         - ssh-add ./deploy_keys/travis_dist_id_rsa
 
-
        # If the commit was tagged, create an artifact and push it to the distribution github
       deploy:
         skip_cleanup: true
@@ -42,6 +43,10 @@ jobs:
           repo: $TRAVIS_REPO_SLUG
           all_branches: true
 
+  allow_failures:
+    # Allow failures for unstable builds.
+    - php: "nightly"
+
 cache:
   directories:
     - .cache
@@ -49,6 +54,7 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
+- composer self-update 1.10.16
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
 - export SECURITYCHECK_DIR=/tmp/security-checker
 

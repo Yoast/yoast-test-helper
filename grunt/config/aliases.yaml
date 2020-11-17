@@ -2,19 +2,16 @@
 ---
 # Create a zipped artifact from a fresh build
 'artifact':
-  - 'update-version'
   - 'clean:artifact'
-  - 'clean:artifact-zip'
-  - 'clean:vendor'
-  - 'shell:composerInstallProduction'
+  - 'shell:composer-install-production'
+  - 'build'
   - 'copy:artifact'
   - 'compress:artifact'
-  - 'shell:composerInstall'
+  - 'shell:composer-install-dev'
 
-# Create a zipped artifact from and do not keep the artifact folder
-'artifact:zip':
-  - 'artifact'
-  - 'clean:artifact'
+'build':
+  - 'build:i18n'
+  - 'build:images'
 
 'deploy:trunk':
   - 'update-version'

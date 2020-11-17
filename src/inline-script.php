@@ -54,20 +54,23 @@ class Inline_Script implements Integration {
 	public function get_controls() {
 		$output = Form_Presenter::create_checkbox(
 			'add_inline_script',
-			'Add the inline script specified below after the script selected here.',
+			\esc_html__( 'Add the inline script specified below after the script selected here.', 'yoast-test-helper' ),
 			$this->option->get( 'add_inline_script' )
 		) . '<br/>';
 
-		$output .= '<label for="inline_script_handle">After script: </label>';
+		$output .= '<label for="inline_script_handle">' . \__( 'After script', 'yoast-test-helper' ) . ': </label>';
 		$output .= $this->select_script( $this->option->get( 'inline_script_handle' ) );
 		$output .= '<br><br>';
 
 		$value = $this->option->get( 'inline_script' );
 
-		$output .= '<label for="inline_script">Script (do not include <code>&lt;script&gt;</code> tags):</label><br/>';
+		$output .= '<label for="inline_script">';
+		// translators: %1$s expands to the `script` tag.
+		$output .= \sprintf( \esc_html__( 'Script (do not include %1$s tags):', 'yoast-test-helper' ), '<code>&lt;script&gt;</code>' );
+		$output .= '</label><br/>';
 		$output .= '<textarea style="width: 100%; min-height: 300px; font-family: monospace;" name="inline_script" id="inline_script">' . \esc_html( $value ) . '</textarea><br/>';
 
-		return Form_Presenter::get_html( 'Inline script', 'yoast_seo_test_inline_script', $output );
+		return Form_Presenter::get_html( \__( 'Inline script', 'yoast-test-helper' ), 'yoast_seo_test_inline_script', $output );
 	}
 
 	/**

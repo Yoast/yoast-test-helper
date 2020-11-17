@@ -65,10 +65,10 @@ class Plugin_Version_Control implements Integration {
 
 		$output  = '<table>';
 		$output .= '<thead><tr>';
-		$output .= '<th style="text-align:left;">Plugin</th>';
-		$output .= '<th style="text-align:left;">DB Version</th>';
-		$output .= '<th style="text-align:left;">Real</th>';
-		$output .= '<th style="text-align:left;">Saved options</th>';
+		$output .= '<th style="text-align:left;">' . \__( 'Plugin', 'yoast-test-helper' ) . '</th>';
+		$output .= '<th style="text-align:left;">' . \__( 'DB Version', 'yoast-test-helper' ) . '</th>';
+		$output .= '<th style="text-align:left;">' . \__( 'Real', 'yoast-test-helper' ) . '</th>';
+		$output .= '<th style="text-align:left;">' . \__( 'Saved options', 'yoast-test-helper' ) . '</th>';
 		$output .= '</tr></thead>';
 
 		foreach ( $this->plugins as $plugin ) {
@@ -76,7 +76,7 @@ class Plugin_Version_Control implements Integration {
 		}
 		$output .= '</table>';
 
-		return Form_Presenter::get_html( 'Plugin options & database versions', 'yoast_version_control', $output );
+		return Form_Presenter::get_html( \__( 'Plugin options & database versions', 'yoast-test-helper' ), 'yoast_version_control', $output );
 	}
 
 	/**
@@ -105,14 +105,29 @@ class Plugin_Version_Control implements Integration {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
 			\do_action(
 				'Yoast\WP\Test_Helper\notification',
-				new Notification( $plugin->get_name() . ' version was set to ' . $version, 'success' )
+				new Notification(
+					\sprintf(
+						// translators: %1$s expands to the plugin name, %2$s to the version.
+						\__( '%1$s version was set to %2$s.', 'yoast-test-helper' ),
+						$plugin->get_name(),
+						$version
+					),
+					'success'
+				)
 			);
 		}
 
 		if ( $this->plugin_options->save_options( $plugin ) ) {
 			\do_action(
 				'Yoast\WP\Test_Helper\notification',
-				new Notification( $plugin->get_name() . ' options were saved.', 'success' )
+				new Notification(
+					\sprintf(
+						// translators: %1$s expands to the plugin name.
+						\__( '%1$s options were saved.', 'yoast-test-helper' ),
+						$plugin->get_name()
+					),
+					'success'
+				)
 			);
 		}
 	}
@@ -195,15 +210,25 @@ class Plugin_Version_Control implements Integration {
 			$timestamp = $_POST[ $plugin->get_identifier() . '-history' ];
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(
-					'Options from ' . \gmdate( 'Y-m-d H:i:s', $timestamp )
-					. ' for ' . $plugin->get_name() . ' have <strong>not</strong> been restored.',
+					\sprintf(
+						// translators: %1$s expands to date, %2$s to plugin name, %3$s and %4$s to HTML strong tags.
+						\esc_html__( 'Options from %1$s for %2$s have %3$snot%4$s been restored.', 'yoast-test-helper' ),
+						\gmdate( 'Y-m-d H:i:s', $timestamp ),
+						$plugin->get_name(),
+						'<strong>',
+						'</strong>'
+					),
 					'error'
 				);
 
 				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
 					$notification = new Notification(
-						'Options from ' . \gmdate( 'Y-m-d H:i:s', $timestamp )
-						. ' for ' . $plugin->get_name() . ' have been restored.',
+						\sprintf(
+							// translators: %1$s expands to date, %2$s to plugin name.
+							\esc_html__( 'Options from %1$s for %2$s have been restored.', 'yoast-test-helper' ),
+							\gmdate( 'Y-m-d H:i:s', $timestamp ),
+							$plugin->get_name()
+						),
 						'success'
 					);
 				}
