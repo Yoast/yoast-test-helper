@@ -114,7 +114,7 @@ class Admin_Page implements Integration {
 	private function masonry_script() {
 		?>
 		<script type="text/javascript">
-			jQuery( function() {
+			jQuery( window ).on( "load", function() {
 				var container = document.querySelector( "#yoast_masonry" );
 				new Masonry( container, {
 					itemSelector: ".wpseo_test_block",
