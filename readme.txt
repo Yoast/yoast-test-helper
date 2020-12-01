@@ -35,6 +35,14 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.11 =
+
+Release Date: December 2nd, 2020
+
+Bugfixes:
+
+* Fixes a bug where a deprecated jQuery function was used.
+
 = 1.10 =
 
 Release Date: November 17th, 2020
