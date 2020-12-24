@@ -30,7 +30,8 @@ class Support_Session implements Integration {
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'enable_support_session' ) ) {
-			\add_action( 'wp_print_scripts', [ $this, 'print_scripts' ] );
+			\add_action( 'wp_head', [ $this, 'print_scripts' ] );
+			\add_action( 'admin_head', [ $this, 'print_scripts' ] );
 		}
 
 		\add_action( 'admin_post_yoast_seo_test_support_session', [ $this, 'handle_submit' ] );
@@ -44,7 +45,9 @@ class Support_Session implements Integration {
 			$this->option->set( 'enable_support_session', false );
 			$this->option->set( 'support_session_user_id', false );
 			$this->option->set( 'support_session_start_time', false );
+			return;
 		}
+
 		$current_user = wp_get_current_user();
 		if ( $this->option->get( 'support_session_user_id' ) !== $current_user->ID ) {
 			return;
