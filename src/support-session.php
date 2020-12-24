@@ -81,7 +81,7 @@ Upscope('updateConnection', {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$fields = '<p><strong>' . \esc_html__( 'Please only check this box when asked to do so by one of the Yoast support agents.', 'yoast-test-helper' ) . '</strong></p>';
+		$fields  = '<p><strong>' . \esc_html__( 'Please only check this box when asked to do so by one of the Yoast support agents.', 'yoast-test-helper' ) . '</strong></p>';
 		$fields .= Form_Presenter::create_checkbox(
 			'enable_support_session',
 			\esc_html__( 'Enable support session.', 'yoast-test-helper' ),
@@ -91,10 +91,11 @@ Upscope('updateConnection', {
 		if ( $this->option->get( 'enable_support_session' ) ) {
 			$diff_minutes = $this->get_minutes_left();
 			$hours_left   = \floor( $diff_minutes / 60 );
-			$minutes_left = \str_pad( $diff_minutes % 60, 2, '0' );
+			$minutes_left = \str_pad( ( $diff_minutes % 60 ), 2, '0' );
 			$time_left    = $hours_left . ':' . $minutes_left;
+
 			// translators: %s is replaced by the number of hours and minuts left.
-			$fields       .= '<p><strong>' . \sprintf( \esc_html__( 'Time left: %s hours', 'yoast-test-helper' ), '</strong>' . $time_left ) . '</p>';
+			$fields .= '<p><strong>' . \sprintf( \esc_html__( 'Time left: %s hours', 'yoast-test-helper' ), '</strong>' . $time_left ) . '</p>';
 		}
 
 		return Form_Presenter::get_html( \__( 'Enable support session', 'yoast-test-helper' ), 'yoast_seo_test_support_session', $fields );
@@ -121,7 +122,7 @@ Upscope('updateConnection', {
 	 * @return float|int
 	 */
 	private function get_minutes_left() {
-		$diff = ( 4 * HOUR_IN_SECONDS ) - ( \time() - $this->option->get( 'support_session_start_time' ) );
-		return $diff / 60;
+		$diff = ( ( 4 * HOUR_IN_SECONDS ) - ( \time() - $this->option->get( 'support_session_start_time' ) ) );
+		return ( $diff / 60 );
 	}
 }
