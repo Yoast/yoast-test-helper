@@ -1,9 +1,9 @@
 === Yoast Test Helper ===
 Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
-Requires at least: 5.4
+Requires at least: 5.5
 Tested up to: 5.6
-Stable tag: 1.11
+Stable tag: 1.12
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,6 +17,7 @@ This plugin makes testing Yoast SEO, Yoast SEO add-ons and integrations and rese
 This test helper plugin has several features:
 
 * Toggle between premium and free Yoast SEO versions easily.
+* Easily start a co-browsing session with Yoast Support.
 * Easily enable Yoast SEO development mode.
 * Saving and restoring Yoast SEO and Yoast SEO extension options, to test upgrade paths.
 * Add options debug info to Yoast SEO admin pages.
@@ -34,6 +35,14 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 1. Screenshot of the Yoast test helper admin page.
 
 == Changelog ==
+
+= 1.12 =
+
+Release Date: December 24th, 2020
+
+Enhancements:
+
+* Adds an "enable support session" box to the top of the Yoast Test helper screen. Enabling the checkbox on that box will load a HelpScout beacon and a CoBrowse script on both front and backend of the site, for the current user only, for the duration of 4 hours. This allows the user to co-browse with a Yoast support agent. Please only enable this when instructed to do so by Yoast support.
 
 = 1.11 =
 
