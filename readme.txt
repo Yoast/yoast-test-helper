@@ -17,6 +17,7 @@ This plugin makes testing Yoast SEO, Yoast SEO add-ons and integrations and rese
 This test helper plugin has several features:
 
 * Toggle between premium and free Yoast SEO versions easily.
+* Easily start a co-browsing session with Yoast Support.
 * Easily enable Yoast SEO development mode.
 * Saving and restoring Yoast SEO and Yoast SEO extension options, to test upgrade paths.
 * Add options debug info to Yoast SEO admin pages.
