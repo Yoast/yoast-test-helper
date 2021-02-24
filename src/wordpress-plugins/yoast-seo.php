@@ -255,6 +255,6 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @param string $reason The indexing reason why the site needs to be reindexed.
 	 */
 	protected function reset_indexing_notification( $reason ) {
-		YoastSEO()->helpers->indexing->set_reason( $reason );
+		\YoastSEO()->helpers->indexing->set_reason( $reason );
 	}
 }

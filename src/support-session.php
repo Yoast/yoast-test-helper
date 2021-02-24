@@ -122,7 +122,7 @@ Upscope('updateConnection', {
 	 * @return float|int
 	 */
 	private function get_minutes_left() {
-		$diff = ( ( 4 * HOUR_IN_SECONDS ) - ( \time() - $this->option->get( 'support_session_start_time' ) ) );
+		$diff = ( ( 4 * \HOUR_IN_SECONDS ) - ( \time() - $this->option->get( 'support_session_start_time' ) ) );
 		return ( $diff / 60 );
 	}
 }
