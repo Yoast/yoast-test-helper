@@ -94,7 +94,7 @@ Upscope('updateConnection', {
 			$minutes_left = \str_pad( ( $diff_minutes % 60 ), 2, '0' );
 			$time_left    = $hours_left . ':' . $minutes_left;
 
-			// translators: %s is replaced by the number of hours and minuts left.
+			/* translators: %s is replaced by the number of hours and minuts left. */
 			$fields .= '<p><strong>' . \sprintf( \esc_html__( 'Time left: %s hours', 'yoast-test-helper' ), '</strong>' . $time_left ) . '</p>';
 		}
 
