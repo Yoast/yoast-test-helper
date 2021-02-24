@@ -57,7 +57,7 @@ class Admin_Notifications implements Integration {
 
 		echo '<div style="margin: 15px 0 15px -15px;">';
 		foreach ( $notifications as $notification ) {
-			echo '<div class="notice notice-' , \esc_attr( $notification->get_type() ) , '"><p>' , \wp_kses_post( $notification->get_message() ) , '</p></div>';
+			echo '<div class="notice notice-', \esc_attr( $notification->get_type() ), '"><p>', \wp_kses_post( $notification->get_message() ), '</p></div>';
 		}
 		echo '</div>';
 

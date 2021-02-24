@@ -3,8 +3,6 @@
 namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
 use WPSEO_Options;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
-use Yoast_Notification_Center;
 
 /**
  * Class to represent Yoast SEO.
@@ -255,6 +253,6 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @param string $reason The indexing reason why the site needs to be reindexed.
 	 */
 	protected function reset_indexing_notification( $reason ) {
-		YoastSEO()->helpers->indexing->set_reason( $reason );
+		\YoastSEO()->helpers->indexing->set_reason( $reason );
 	}
 }

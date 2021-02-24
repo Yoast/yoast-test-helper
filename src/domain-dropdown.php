@@ -122,7 +122,10 @@ class Domain_Dropdown implements Integration {
 			$url  = \str_replace( 'https://' . $url_host, $domain, $url );
 		}
 
-		return \compact( 'url', 'host' );
+		return [
+			'url'  => $url,
+			'host' => $host,
+		];
 	}
 }
 
