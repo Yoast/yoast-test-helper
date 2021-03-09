@@ -2,6 +2,10 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Yoast\WP\SEO\Conditionals\Feature_Flag_Conditional;
+use ReflectionClass;
+use ReflectionMethod;
+
 /**
  * Toggles the features on and off.
  */
@@ -12,7 +16,18 @@ class Feature_Toggler implements Integration {
 	 *
 	 * @var string[]
 	 */
-	private $features = [];
+	private $feature_flags = [];
+
+	public function get_feature_flags() {
+		foreach ( \get_declared_classes() as $class ) {
+			if ( is_subclass_of( $class, Feature_Flag_Conditional::class ) ) {
+				$feature_name = $class::get_feature_flag();
+				$feature_flag = \strtoupper( 'YOAST_SEO_' . $feature_name );
+				$this->feature_flags[ $feature_flag ] = $feature_name;
+			}
+		}
+		return $this->feature_flags;
+	}
 
 	/**
 	 * Holds our option instance.
@@ -50,13 +65,14 @@ class Feature_Toggler implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		if ( $this->features === [] ) {
+		$this->$features      = $this->get_feature_flags();
+		if ( $this->feature_flags === [] ) {
 			return '';
 		}
 
 		$fields = '';
 
-		foreach ( $this->features as $feature => $label ) {
+		foreach ( $this->feature_flags as $feature => $label ) {
 			$key     = 'feature_toggle_' . $feature;
 			$fields .= Form_Presenter::create_checkbox(
 				$key,
