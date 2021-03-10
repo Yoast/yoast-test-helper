@@ -30,7 +30,6 @@ class Feature_Toggler implements Integration {
 	 */
 	public function __construct( Option $option ) {
 		$this->option = $option;
-		add_action( 'init', [ $this, 'get_feature_flags' ] );
 	}
 
 	/**
@@ -39,12 +38,13 @@ class Feature_Toggler implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		\add_action( 'wpseo_enable_feature', [ $this, 'enable_features' ] );
-
 		\add_action(
 			'admin_post_yoast_seo_feature_toggler',
 			[ $this, 'handle_submit' ]
 		);
+
+		\add_action( 'plugins_loaded', [ $this, 'get_feature_flags' ] );
+		\add_filter( 'wpseo_enable_feature_flags', [ $this, 'enable_features' ] );
 	}
 
 	/**
@@ -106,17 +106,17 @@ class Feature_Toggler implements Integration {
 	/**
 	 * Enable a feature in the plugin.
 	 *
-	 * @param string[] $feature_array The array of enabled features.
+	 * @param string[] $enabled_feature_flags The array of enabled feature flags.
 	 *
-	 * @return string[] The modified array of enabled features.
+	 * @return string[] The modified array of enabled feature flags.
 	 */
-	public function enable_features( $feature_array ) {
-		foreach ( $this->features as $feature => $label ) {
+	public function enable_features( $enabled_feature_flags ) {
+		foreach ( $this->feature_flags as $feature => $label ) {
 			if ( $this->option->get( 'feature_toggle_' . $feature ) ) {
-				$feature_array[] = $feature;
+				$enabled_feature_flags[] = $label;
 			}
 		}
 
-		return $feature_array;
+		return $enabled_feature_flags;
 	}
 }
