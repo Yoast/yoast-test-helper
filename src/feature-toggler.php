@@ -18,11 +18,16 @@ class Feature_Toggler implements Integration {
 	 */
 	private $feature_flags = [];
 
+	/**
+	 * Loops all declared classes and checks for Subclasses of the Feature_Flag_Conditinonal class.
+	 *
+	 * @return array An array of the registered feature flag conditionals.
+	 */
 	public function get_feature_flags() {
 		foreach ( \get_declared_classes() as $class ) {
 			if ( is_subclass_of( $class, Feature_Flag_Conditional::class ) ) {
-				$feature_name = $class::get_feature_flag();
-				$feature_flag = \strtoupper( 'YOAST_SEO_' . $feature_name );
+				$feature_name                         = $class::get_feature_flag();
+				$feature_flag                         = \strtoupper( 'YOAST_SEO_' . $feature_name );
 				$this->feature_flags[ $feature_flag ] = $feature_name;
 			}
 		}
@@ -65,7 +70,7 @@ class Feature_Toggler implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$this->$features      = $this->get_feature_flags();
+		$this->$features = $this->get_feature_flags();
 		if ( $this->feature_flags === [] ) {
 			return '';
 		}
