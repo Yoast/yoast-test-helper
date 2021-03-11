@@ -10,7 +10,14 @@ use Yoast\WP\SEO\Conditionals\Feature_Flag_Conditional;
 class Feature_Toggler implements Integration {
 
 	/**
-	 * The features to toggle.
+	 * The JavaScript features to toggle.
+	 *
+	 * @var string[]
+	 */
+	private $features = [];
+
+	/**
+	 * The feature flags to toggle.
 	 *
 	 * @var string[]
 	 */
@@ -43,12 +50,14 @@ class Feature_Toggler implements Integration {
 			[ $this, 'handle_submit' ]
 		);
 
-		\add_action( 'plugins_loaded', [ $this, 'get_feature_flags' ] );
-		\add_filter( 'wpseo_enable_feature_flags', [ $this, 'enable_features' ] );
+		\add_filter( 'wpseo_enable_feature', [ $this, 'enable_js_features' ] );
+
+		\add_action( 'plugins_loaded', [ $this, 'get_feature_flags' ], \PHP_INT_MAX );
+		\add_filter( 'wpseo_enable_feature_flags', [ $this, 'enable_feature_flags' ] );
 	}
 
 	/**
-	 * Gets all feature flags names of the Feature_Flag_Conditinonal class subclasses.
+	 * Gets all feature flags of the Feature_Flag_Conditinonal class subclasses.
 	 *
 	 * @return void
 	 */
@@ -68,13 +77,15 @@ class Feature_Toggler implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		if ( $this->feature_flags === [] ) {
+		if ( $this->features === [] && $this->feature_flags === [] ) {
 			return '';
 		}
 
+		$all_features = array_merge( $this->features, $this->feature_flags );
+
 		$fields = '';
 
-		foreach ( $this->feature_flags as $feature => $label ) {
+		foreach ( $all_features as $feature => $label ) {
 			$key     = 'feature_toggle_' . $feature;
 			$fields .= Form_Presenter::create_checkbox(
 				$key,
@@ -93,8 +104,10 @@ class Feature_Toggler implements Integration {
 	 * @return void
 	 */
 	public function handle_submit() {
+		$all_features = array_merge( $this->features, $this->feature_flags );
+
 		if ( \check_admin_referer( 'yoast_seo_feature_toggler' ) !== false ) {
-			foreach ( $this->feature_flags as $feature => $label ) {
+			foreach ( $all_features as $feature => $label ) {
 				$key = 'feature_toggle_' . $feature;
 				$this->option->set( $key, isset( $_POST[ $key ] ) );
 			}
@@ -104,16 +117,33 @@ class Feature_Toggler implements Integration {
 	}
 
 	/**
-	 * Enable a feature in the plugin.
+	 * Enables JavaScript features in the plugin.
+	 *
+	 * @param string[] $feature_array The array of enabled JavaScript features.
+	 *
+	 * @return string[] The modified array of enabled JavaScript features.
+	 */
+	public function enable_js_features( $feature_array ) {
+		foreach ( $this->features as $feature => $label ) {
+			if ( $this->option->get( 'feature_toggle_' . $feature ) ) {
+				$feature_array[] = $feature;
+			}
+		}
+
+		return $feature_array;
+	}
+
+	/**
+	 * Enables feature flags in the plugin.
 	 *
 	 * @param string[] $enabled_feature_flags The array of enabled feature flags.
 	 *
 	 * @return string[] The modified array of enabled feature flags.
 	 */
-	public function enable_features( $enabled_feature_flags ) {
-		foreach ( $this->feature_flags as $feature => $label ) {
+	public function enable_feature_flags( $enabled_feature_flags ) {
+		foreach ( $this->feature_flags as $feature => $name ) {
 			if ( $this->option->get( 'feature_toggle_' . $feature ) ) {
-				$enabled_feature_flags[] = $label;
+				$enabled_feature_flags[] = $name;
 			}
 		}
 
