@@ -52,7 +52,7 @@ class Feature_Toggler implements Integration {
 
 		\add_filter( 'wpseo_enable_feature', [ $this, 'enable_js_features' ] );
 
-		\add_action( 'plugins_loaded', [ $this, 'get_feature_flags' ], \PHP_INT_MAX );
+		\add_action( 'init', [ $this, 'get_feature_flags' ], 9 );
 		\add_filter( 'wpseo_enable_feature_flags', [ $this, 'enable_feature_flags' ] );
 	}
 
