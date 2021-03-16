@@ -36,6 +36,14 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.13 =
+
+Release Date:
+
+Bugfixes:
+
+* Fixes a bug where all MyYoast requests would go to live my.yoast.com instead of the selected value of the domain dropdown.
+
 = 1.12 =
 
 Release Date: December 24th, 2020
