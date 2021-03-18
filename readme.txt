@@ -38,7 +38,7 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 = 1.13 =
 
-Release Date:
+Release Date: March 18th, 2021
 
 Bugfixes:
 
