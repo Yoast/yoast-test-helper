@@ -1,9 +1,9 @@
 === Yoast Test Helper ===
 Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
-Requires at least: 5.5
-Tested up to: 5.6
-Stable tag: 1.12
+Requires at least: 5.6
+Tested up to: 5.7
+Stable tag: 1.13
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,14 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 1. Screenshot of the Yoast test helper admin page.
 
 == Changelog ==
+
+= 1.13 =
+
+Release Date: March 18th, 2021
+
+Bugfixes:
+
+* Fixes a bug where all MyYoast requests would go to live my.yoast.com instead of the selected value of the domain dropdown.
 
 = 1.12 =
 

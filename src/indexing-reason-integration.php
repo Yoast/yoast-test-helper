@@ -27,7 +27,7 @@ class Indexing_Reason_Integration implements Integration {
 			return $alert;
 		}
 
-		return sprintf(
+		return \sprintf(
 			\esc_html( 'Because some of your SEO data was reset by the %1$s, your SEO data needs to be reprocessed.' ),
 			'Yoast Test Helper'
 		);

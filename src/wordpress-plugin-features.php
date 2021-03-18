@@ -131,7 +131,7 @@ class WordPress_Plugin_Features implements Integration {
 
 			$notification = new Notification(
 				\sprintf(
-					// translators: %1$s expands to the plugin name, %2$s to the feature name.
+					/* translators: %1$s expands to the plugin name, %2$s to the feature name. */
 					\esc_html__( '%1$s feature %2$s could not be reset.', 'yoast-test-helper' ),
 					$plugin->get_name(),
 					'<strong>' . $name . '</strong>'
@@ -142,7 +142,7 @@ class WordPress_Plugin_Features implements Integration {
 			if ( $plugin->reset_feature( $feature ) ) {
 				$notification = new Notification(
 					\sprintf(
-						// translators: %1$s expands to the plugin name, %2$s to the feature name.
+						/* translators: %1$s expands to the plugin name, %2$s to the feature name. */
 						\esc_html__( '%1$s feature %2$s has been reset.', 'yoast-test-helper' ),
 						$plugin->get_name(),
 						'<strong>' . $name . '</strong>'

@@ -62,7 +62,7 @@ class Admin_Debug_Info implements Integration {
 	public function get_controls() {
 		$fields = Form_Presenter::create_checkbox(
 			'show_options_debug',
-			// translators: %1$s and %2$s expand to link to debug bar.
+			/* translators: %1$s and %2$s expand to link to debug bar. */
 			\sprintf( \esc_html__( 'Add Yoast SEO panel to %1$sDebug Bar%2$s.', 'yoast-test-helper' ), '<a href="https://wordpress.org/plugins/debug-bar/">', '</a>' ),
 			$this->option->get( 'show_options_debug' )
 		);

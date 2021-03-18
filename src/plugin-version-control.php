@@ -107,7 +107,7 @@ class Plugin_Version_Control implements Integration {
 				'Yoast\WP\Test_Helper\notification',
 				new Notification(
 					\sprintf(
-						// translators: %1$s expands to the plugin name, %2$s to the version.
+						/* translators: %1$s expands to the plugin name, %2$s to the version. */
 						\__( '%1$s version was set to %2$s.', 'yoast-test-helper' ),
 						$plugin->get_name(),
 						$version
@@ -122,7 +122,7 @@ class Plugin_Version_Control implements Integration {
 				'Yoast\WP\Test_Helper\notification',
 				new Notification(
 					\sprintf(
-						// translators: %1$s expands to the plugin name.
+						/* translators: %1$s expands to the plugin name. */
 						\__( '%1$s options were saved.', 'yoast-test-helper' ),
 						$plugin->get_name()
 					),
@@ -211,7 +211,7 @@ class Plugin_Version_Control implements Integration {
 			if ( ! empty( $timestamp ) ) {
 				$notification = new Notification(
 					\sprintf(
-						// translators: %1$s expands to date, %2$s to plugin name, %3$s and %4$s to HTML strong tags.
+						/* translators: %1$s expands to date, %2$s to plugin name, %3$s and %4$s to HTML strong tags. */
 						\esc_html__( 'Options from %1$s for %2$s have %3$snot%4$s been restored.', 'yoast-test-helper' ),
 						\gmdate( 'Y-m-d H:i:s', $timestamp ),
 						$plugin->get_name(),
@@ -224,7 +224,7 @@ class Plugin_Version_Control implements Integration {
 				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
 					$notification = new Notification(
 						\sprintf(
-							// translators: %1$s expands to date, %2$s to plugin name.
+							/* translators: %1$s expands to date, %2$s to plugin name. */
 							\esc_html__( 'Options from %1$s for %2$s have been restored.', 'yoast-test-helper' ),
 							\gmdate( 'Y-m-d H:i:s', $timestamp ),
 							$plugin->get_name()
