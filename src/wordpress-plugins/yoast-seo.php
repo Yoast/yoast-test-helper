@@ -268,17 +268,20 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return void
 	 */
 	protected function reset_capabilities() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- We intentionally call this action.
 		\do_action( 'wpseo_register_roles' );
 		$role_manager = WPSEO_Role_Manager_Factory::get();
 		$role_manager->remove();
 		$role_manager->add();
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- We intentionally call this action.
 		\do_action( 'wpseo_register_capabilities' );
 		$capability_manager = WPSEO_Capability_Manager_Factory::get();
 		$capability_manager->remove();
 		$capability_manager->add();
 
 		if ( \defined( 'WPSEO_PREMIUM_VERSION' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- We intentionally call this action.
 			\do_action( 'wpseo_register_capabilities_premium' );
 			$premium_capability_manager = WPSEO_Capability_Manager_Factory::get( 'premium' );
 			$premium_capability_manager->remove();
