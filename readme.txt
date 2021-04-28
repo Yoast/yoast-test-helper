@@ -3,7 +3,7 @@ Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
 Requires at least: 5.6
 Tested up to: 5.7
-Stable tag: 1.13
+Stable tag: 1.14
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,14 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 1. Screenshot of the Yoast test helper admin page.
 
 == Changelog ==
+
+= 1.14 =
+
+Release Date: April 28th, 2021
+
+Enhancements:
+
+* Adds the option to reset SEO roles & capabilities.
 
 = 1.13 =
 
