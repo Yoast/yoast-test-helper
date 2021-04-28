@@ -25,6 +25,7 @@ This test helper plugin has several features:
 * Replace your `.test` TLD with `example.com` in your Schema output, so you can easily copy paste to Google's Structured Data Testing Tool.
 * Change the number of URLs shown in an XML Sitemap.
 * Easily change your MyYoast URL.
+* Easily reset SEO roles & capabilities.
 
 Installation
 ------------
