@@ -2,7 +2,9 @@
 
 namespace Yoast\WP\Test_Helper\WordPress_Plugins;
 
+use WPSEO_Capability_Manager_Factory;
 use WPSEO_Options;
+use WPSEO_Role_Manager_Factory;
 
 /**
  * Class to represent Yoast SEO.
@@ -76,6 +78,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'reset_site_information'      => \esc_html__( 'Site information', 'yoast-test-helper' ),
 			'reset_tracking'              => \esc_html__( 'Tracking', 'yoast-test-helper' ),
 			'reset_indexables'            => \esc_html__( 'Indexables tables & migrations', 'yoast-test-helper' ),
+			'reset_capabilities'          => \esc_html__( 'SEO roles & capabilities', 'yoast-test-helper' ),
 		];
 	}
 
@@ -105,6 +108,9 @@ class Yoast_SEO implements WordPress_Plugin {
 				return $this->reset_site_information();
 			case 'reset_tracking':
 				return $this->reset_tracking();
+			case 'reset_capabilities':
+				$this->reset_capabilities();
+				return true;
 		}
 
 		return false;
@@ -254,5 +260,32 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	protected function reset_indexing_notification( $reason ) {
 		\YoastSEO()->helpers->indexing->set_reason( $reason );
+	}
+
+	/**
+	 * Resets the SEO capabilities & roles.
+	 *
+	 * @return void
+	 */
+	protected function reset_capabilities() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- We intentionally call this action.
+		\do_action( 'wpseo_register_roles' );
+		$role_manager = WPSEO_Role_Manager_Factory::get();
+		$role_manager->remove();
+		$role_manager->add();
+
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- We intentionally call this action.
+		\do_action( 'wpseo_register_capabilities' );
+		$capability_manager = WPSEO_Capability_Manager_Factory::get();
+		$capability_manager->remove();
+		$capability_manager->add();
+
+		if ( \defined( 'WPSEO_PREMIUM_VERSION' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- We intentionally call this action.
+			\do_action( 'wpseo_register_capabilities_premium' );
+			$premium_capability_manager = WPSEO_Capability_Manager_Factory::get( 'premium' );
+			$premium_capability_manager->remove();
+			$premium_capability_manager->add();
+		}
 	}
 }
