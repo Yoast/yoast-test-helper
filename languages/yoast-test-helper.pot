@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast Test Helper 1.13\n"
+"Project-Id-Version: Yoast Test Helper 1.14\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2021-03-18 08:28:15+00:00\n"
+"POT-Creation-Date: 2021-04-28 11:42:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -321,36 +321,40 @@ msgstr ""
 #: src/wordpress-plugins/video-seo.php:81
 #: src/wordpress-plugins/woocommerce-seo.php:83
 #: src/wordpress-plugins/yoast-seo-premium.php:83
-#: src/wordpress-plugins/yoast-seo.php:119
+#: src/wordpress-plugins/yoast-seo.php:125
 msgid "not active"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:72
+#: src/wordpress-plugins/yoast-seo.php:74
 msgid "Internal link counter"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:73
+#: src/wordpress-plugins/yoast-seo.php:75
 msgid "Prominent words calculation"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:74
+#: src/wordpress-plugins/yoast-seo.php:76
 msgid "Configuration wizard"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:75
+#: src/wordpress-plugins/yoast-seo.php:77
 msgid "Notifications"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:76
+#: src/wordpress-plugins/yoast-seo.php:78
 msgid "Site information"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:77
+#: src/wordpress-plugins/yoast-seo.php:79
 msgid "Tracking"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:78
+#: src/wordpress-plugins/yoast-seo.php:80
 msgid "Indexables tables & migrations"
+msgstr ""
+
+#: src/wordpress-plugins/yoast-seo.php:81
+msgid "SEO roles & capabilities"
 msgstr ""
 
 #: src/xml-sitemaps.php:69
