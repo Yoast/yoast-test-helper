@@ -198,10 +198,8 @@ class Schema implements Integration {
 				if ( \is_array( $value ) ) {
 					$subject[ $key ] = $this->array_value_str_replace( $needle, $replacement, $subject[ $key ] );
 				}
-				else {
-					if ( \strpos( $value, $needle ) !== false ) {
-						$subject[ $key ] = \str_replace( $needle, $replacement, $value );
-					}
+				elseif ( \strpos( $value, $needle ) !== false ) {
+					$subject[ $key ] = \str_replace( $needle, $replacement, $value );
 				}
 			}
 		}
