@@ -184,28 +184,28 @@ class Schema implements Integration {
 	}
 
 	/**
-	 * Deep replaces strings in array.
+	 * Deep replaces strings in an array.
 	 *
 	 * @param string $needle      The needle to replace.
 	 * @param string $replacement The replacement.
-	 * @param array  $array       The array to replace in.
+	 * @param array  $subject     The array to replace in.
 	 *
 	 * @return array The array with needle replaced by replacement in strings.
 	 */
-	private function array_value_str_replace( $needle, $replacement, $array ) {
-		if ( \is_array( $array ) ) {
-			foreach ( $array as $key => $value ) {
+	private function array_value_str_replace( $needle, $replacement, $subject ) {
+		if ( \is_array( $subject ) ) {
+			foreach ( $subject as $key => $value ) {
 				if ( \is_array( $value ) ) {
-					$array[ $key ] = $this->array_value_str_replace( $needle, $replacement, $array[ $key ] );
+					$subject[ $key ] = $this->array_value_str_replace( $needle, $replacement, $subject[ $key ] );
 				}
 				else {
 					if ( \strpos( $value, $needle ) !== false ) {
-						$array[ $key ] = \str_replace( $needle, $replacement, $value );
+						$subject[ $key ] = \str_replace( $needle, $replacement, $value );
 					}
 				}
 			}
 		}
 
-		return $array;
+		return $subject;
 	}
 }
