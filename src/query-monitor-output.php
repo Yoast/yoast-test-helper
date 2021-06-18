@@ -1,15 +1,19 @@
 <?php
 
+namespace Yoast\WP\Test_Helper;
+
 /**
  * Class to output the Indexable info within Query Monitor.
  */
-class Yoast_QueryMonitor_Output extends QM_Output_Html {
+class Query_Monitor_Output extends QM_Output_Html {
+
 	/**
 	 * Yoast_QueryMonitor_Output constructor.
 	 *
 	 * Empty to overwrite the parent class constructor.
 	 */
 	public function __construct() {
+		// Intentionally left blank.
 	}
 
 	/**
@@ -84,17 +88,19 @@ class Yoast_QueryMonitor_Output extends QM_Output_Html {
 			'schema_page_type',
 			'schema_article_type',
 			'has_ancestors',
-			'estimated_reading_time_minutes'
+			'estimated_reading_time_minutes',
 		];
 		foreach ( $keys as $key ) {
 			echo '<tr>';
-			echo '<th scope="row">' . $key . '</th>';
+			echo '<th scope="row">' . esc_html( $key ) . '</th>';
 			$val = $model->__get( $key );
 			echo '<td><pre>';
 			if ( is_array( $val ) ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 				print_r( $val );
-			} else {
-				esc_html_e( $val );
+			}
+			else {
+				echo esc_html( $val );
 			}
 			echo '</pre></td>';
 

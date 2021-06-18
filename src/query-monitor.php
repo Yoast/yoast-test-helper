@@ -5,13 +5,13 @@ namespace Yoast\WP\Test_Helper;
 /**
  * Class to add a Yoast SEO tab to Query Monitor.
  */
-class Yoast_QueryMonitor_Extension implements Integration {
+class Query_Monitor implements Integration {
 
 	/**
 	 * Registers our menu item and output function.
 	 */
 	public function add_hooks() {
-		\add_filter( 'qm/output/panel_menus', array( $this, 'add_menu_panel' ), 80 );
+		\add_filter( 'qm/output/panel_menus', [ $this, 'add_menu_panel' ], 80 );
 		\add_filter( 'qm/outputter/html', [ $this, 'output' ], 12, 1 );
 	}
 
