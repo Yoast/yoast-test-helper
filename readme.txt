@@ -2,7 +2,7 @@
 Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
 Requires at least: 5.6
-Tested up to: 5.7
+Tested up to: 5.8
 Stable tag: 1.14
 Requires PHP: 5.6
 License: GPLv2 or later
