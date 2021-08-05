@@ -40,7 +40,7 @@ class Query_Monitor implements Integration {
 	 * @return array Array with output for each tab.
 	 */
 	public function output( array $output ) {
-		$output['yoast-seo'] = new \Yoast_QueryMonitor_Output();
+		$output['yoast-seo'] = new Query_Monitor_Output();
 
 		return $output;
 	}

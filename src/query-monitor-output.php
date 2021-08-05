@@ -5,7 +5,7 @@ namespace Yoast\WP\Test_Helper;
 /**
  * Class to output the Indexable info within Query Monitor.
  */
-class Query_Monitor_Output extends QM_Output_Html {
+class Query_Monitor_Output extends \QM_Output_Html {
 
 	/**
 	 * Yoast_QueryMonitor_Output constructor.
