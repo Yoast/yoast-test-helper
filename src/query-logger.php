@@ -18,7 +18,7 @@ class Query_Logger implements Integration {
         $max = $wpdb->get_var(
             '
             SELECT MAX(request)
-            FROM qlqueries
+            FROM wp_wpseo_query_log
             '
         );
         if ( $max === null ) {
@@ -37,7 +37,7 @@ class Query_Logger implements Integration {
         };
         $wpdb->query( $wpdb->prepare(
             '
-            DELETE FROM qlqueries
+            DELETE FROM wp_wpseo_query_log
             WHERE request < %d
             '
         , $max - 50 ) );
