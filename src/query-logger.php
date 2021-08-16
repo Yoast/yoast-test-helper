@@ -15,44 +15,60 @@ class Query_Logger implements Integration {
     public function store_queries() {
         $this->create_table();
         global $wpdb;
-        $max = $wpdb->get_var(
+        if( empty( $wpdb->queries ) ) {
+            return;
+        }
+        $wpdb->query( $wpdb->prepare(
             '
-            SELECT MAX(request)
-            FROM wp_wpseo_query_log
+            INSERT INTO wp_wpseo_query_log_requests(url)
+            VALUES (%s);
+            ',
+            $_SERVER['REQUEST_URI'],
+        ) );
+        $request_id = $wpdb->get_var(
+            '
+            SELECT LAST_INSERT_ID();
             '
         );
-        if ( $max === null ) {
-            $max = 0;
-        }
         foreach( $wpdb->queries as $q ) {
             $wpdb->query( $wpdb->prepare(
                 '
-                INSERT INTO wp_wpseo_query_log(request, query, time)
+                INSERT INTO wp_wpseo_query_log_queries(request_id, query, time)
                 VALUES (%d, %s, %s)
                 ',
-                $max + 1,
+                $request_id,
                 \trim( $q[ 0 ] ),
                 $q[ 1 ]
             ) );
         };
         $wpdb->query( $wpdb->prepare(
             '
-            DELETE FROM wp_wpseo_query_log
-            WHERE request < %d
+            DELETE FROM wp_wpseo_query_log_requests
+            WHERE id < %d
             '
-        , $max - 50 ) );
+        , $request_id - 50 ) );
     }
 
     private function create_table() {
         global $wpdb;
         $wpdb->query(
             '
-            CREATE TABLE IF NOT EXISTS `wp_wpseo_query_log` (
+            CREATE TABLE IF NOT EXISTS `wp_wpseo_query_log_requests` (
+                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                `url` longtext COLLATE utf8mb4_unicode_ci,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=175809 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            '
+        );
+        $wpdb->query(
+            '
+            CREATE TABLE IF NOT EXISTS `wp_wpseo_query_log_queries` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                 `query` longtext COLLATE utf8mb4_unicode_ci,
                 `time` double DEFAULT NULL,
-                `request` int(11) unsigned DEFAULT NULL,
-                PRIMARY KEY (`id`)
+                `request_id` int(11) unsigned,
+                PRIMARY KEY (`id`),
+                FOREIGN KEY (`request_id`) REFERENCES wp_wpseo_query_log_requests(`id`) ON DELETE CASCADE
             ) ENGINE=InnoDB AUTO_INCREMENT=175809 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
             '
         );
