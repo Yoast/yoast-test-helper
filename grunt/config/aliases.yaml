@@ -12,6 +12,10 @@
 'build':
   - 'build:i18n'
   - 'build:images'
+  - 'build:js'
+
+'build:js':
+  - 'shell:webpack'
 
 'deploy:trunk':
   - 'update-version'

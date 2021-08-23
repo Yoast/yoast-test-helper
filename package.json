@@ -15,7 +15,10 @@
   "author": "Yoast",
   "license": "SEE LICENSE IN license.txt",
   "devDependencies": {
-    "@yoast/grunt-plugin-tasks": "^1.7.2"
+    "@wordpress/scripts": "^18.0.0",
+    "@yoast/grunt-plugin-tasks": "2.1.2",
+    "cross-env": "^7.0.3",
+    "webpack": "^5.51.1"
   },
   "dependencies": {},
   "yoast": {

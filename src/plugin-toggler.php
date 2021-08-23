@@ -157,7 +157,7 @@ class Plugin_Toggler implements Integration {
 		// JS file.
 		\wp_enqueue_script(
 			'yoast-toggle-script',
-			\plugin_dir_url( \YOAST_TEST_HELPER_FILE ) . 'assets/js/yoast-toggle.js',
+			\plugin_dir_url( \YOAST_TEST_HELPER_FILE ) . 'assets/js/dist/yoast-toggle.js',
 			[],
 			\YOAST_TEST_HELPER_VERSION,
 			true

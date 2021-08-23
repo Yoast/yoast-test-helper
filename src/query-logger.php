@@ -10,6 +10,17 @@ class Query_Logger implements Integration {
 
     public function add_hooks() {
         add_action( 'shutdown', [ $this, 'store_queries' ] );
+        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+    }
+
+    public function enqueue_scripts() {
+        wp_enqueue_script(
+            'yoast-query-logger',
+            \plugin_dir_url( \YOAST_TEST_HELPER_FILE ) . 'assets/js/dist/query-logger.js',
+            [ "wp-element", "wp-polyfill" ],
+            \YOAST_TEST_HELPER_VERSION,
+            true
+        );
     }
 
     public function store_queries() {

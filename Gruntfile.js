@@ -8,8 +8,13 @@ module.exports = function ( grunt ) {
 	const pkg = grunt.file.readJSON( "package.json" );
 	const pluginVersion = pkg.yoast.pluginVersion;
 
+	/* Used to switch between development and release builds.
+	Switches based on the grunt command (which is the third 'argv', after node and grunt,  so index 2).*/
+	const developmentBuild = ! [ "create-rc", "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
+
 	// Define project configuration.
 	var project = {
+		developmentBuild,
 		pluginVersion: pluginVersion,
 		pluginSlug: "yoast-test-helper",
 		pluginMainFile: "yoast-test-helper.php",
@@ -18,6 +23,8 @@ module.exports = function ( grunt ) {
 			get config() {
 				return this.grunt + "config/";
 			},
+			js: "assets/js/src/",
+			jsDist: "assets/js/dist/",
 			grunt: "grunt/",
 			assets: "svn-assets/",
 			svnCheckoutDir:  ".wordpress-svn",
@@ -29,6 +36,9 @@ module.exports = function ( grunt ) {
 				"src/**/*.php",
 			],
 			artifact: "artifact",
+			js: [
+				"assets/js/*.js",
+			],
 		},
 		pkg,
 	};
