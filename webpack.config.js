@@ -6,14 +6,15 @@ module.exports = () => {
         ...defaultConfig,
         entry: {
             "yoast-toggle": "./assets/js/src/yoast-toggle.js",
-            "query-logger": "./assets/js/src/query-logger.js",
+            "query-logger": "./assets/js/src/query-logger/index.js",
         },
         output: {
             path: path.resolve(__dirname, 'assets/js/dist'),
             filename: '[name].js',
         },
         externals: {
-            "@wordpress/element": "wp.element",
+            ...defaultConfig.externals,
+            "styled-components": "yoast.styledComponents"
         },
     }
 }

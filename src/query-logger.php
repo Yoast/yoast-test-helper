@@ -17,7 +17,7 @@ class Query_Logger implements Integration {
         wp_enqueue_script(
             'yoast-query-logger',
             \plugin_dir_url( \YOAST_TEST_HELPER_FILE ) . 'assets/js/dist/query-logger.js',
-            [ "wp-element", "wp-polyfill" ],
+            [ "wp-element", "wp-polyfill", "wp-data", "yoast-seo-styled-components-package" ],
             \YOAST_TEST_HELPER_VERSION,
             true
         );
