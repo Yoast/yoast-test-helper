@@ -1,5 +1,5 @@
 import { render, Fragment, useCallback } from "@wordpress/element";
-import { useSelect, useDispatch, AsyncModeProvider, createRegistry, RegistryProvider } from "@wordpress/data";
+import { useSelect, useDispatch, AsyncModeProvider, dispatch } from "@wordpress/data";
 import styled from "styled-components";
 import "./store";
 
@@ -32,6 +32,14 @@ const Bar = styled.div`
         flex-grow: 1;
     }
 `;
+
+const adminBar = document.getElementById( "wp-admin-bar-yoast-query-logger" );
+if ( adminBar ) {
+    adminBar.querySelector( ".ab-item" ).onclick = ( e ) => {
+        e.preventDefault();
+        dispatch( "yoast/query-logger" ).toggleDrawer();
+    };
+}
 
 const Menu = () => {
     const { closeDrawer } = useDispatch( "yoast/query-logger" );

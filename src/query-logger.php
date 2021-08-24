@@ -11,6 +11,16 @@ class Query_Logger implements Integration {
     public function add_hooks() {
         add_action( 'shutdown', [ $this, 'store_queries' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+        add_action( 'admin_bar_menu', function( $admin_bar ) {
+            $admin_bar->add_menu( array(
+                'id'    => 'yoast-query-logger',
+                'title' => 'YQM',
+                'href'  => '#',
+                'meta'  => array(
+                    'title' => __('Yoast Query Monitor'),            
+                ),
+            ));
+        }, 100 );
     }
 
     public function enqueue_scripts() {
