@@ -35,6 +35,8 @@ define( 'YOAST_TEST_HELPER_FILE', __FILE__ );
 define( 'YOAST_TEST_HELPER_DIR', dirname( YOAST_TEST_HELPER_FILE ) );
 define( 'YOAST_TEST_HELPER_VERSION', '1.14' );
 
+require __DIR__ . '/qm-query.php';
+
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }

@@ -17,7 +17,7 @@ class Query_Logger implements Integration {
                 'title' => 'YQM',
                 'href'  => '#',
                 'meta'  => array(
-                    'title' => __('Yoast Query Monitor'),            
+                    'title' => __('Yoast Query Monitor', 'yoast-test-helper'),            
                 ),
             ));
         }, 100 );
@@ -54,12 +54,13 @@ class Query_Logger implements Integration {
         foreach( $wpdb->queries as $q ) {
             $wpdb->query( $wpdb->prepare(
                 '
-                INSERT INTO wp_wpseo_query_log_queries(request_id, query, time)
-                VALUES (%d, %s, %s)
+                INSERT INTO wp_wpseo_query_log_queries(request_id, query, time, trace)
+                VALUES (%d, %s, %s, %s)
                 ',
                 $request_id,
                 \trim( $q[ 0 ] ),
-                $q[ 1 ]
+                $q[ 1 ],
+                isset( $q[ 'trace' ] ) ? $q[ 'trace' ] : null
             ) );
         };
         $wpdb->query( $wpdb->prepare(
@@ -76,23 +77,23 @@ class Query_Logger implements Integration {
             '
             CREATE TABLE IF NOT EXISTS `wp_wpseo_query_log_requests` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                `url` longtext COLLATE utf8mb4_unicode_ci,
+                `url` longtext,
                 PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=175809 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            );
             '
         );
         $wpdb->query(
             '
             CREATE TABLE IF NOT EXISTS `wp_wpseo_query_log_queries` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                `query` longtext COLLATE utf8mb4_unicode_ci,
+                `query` longtext,
+                `trace` longtext,
                 `time` double DEFAULT NULL,
                 `request_id` int(11) unsigned,
                 PRIMARY KEY (`id`),
                 FOREIGN KEY (`request_id`) REFERENCES wp_wpseo_query_log_requests(`id`) ON DELETE CASCADE
-            ) ENGINE=InnoDB AUTO_INCREMENT=175809 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            );
             '
         );
     }
 }
-

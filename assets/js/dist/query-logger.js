@@ -205,6 +205,14 @@ const Bar = (styled_components__WEBPACK_IMPORTED_MODULE_2___default().div)`
         flex-grow: 1;
     }
 `;
+const adminBar = document.getElementById("wp-admin-bar-yoast-query-logger");
+
+if (adminBar) {
+  adminBar.querySelector(".ab-item").onclick = e => {
+    e.preventDefault();
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("yoast/query-logger").toggleDrawer();
+  };
+}
 
 const Menu = () => {
   const {

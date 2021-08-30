@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast Test Helper 1.14\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2021-08-23 13:53:00+00:00\n"
+"POT-Creation-Date: 2021-08-30 07:39:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -194,6 +194,10 @@ msgstr ""
 
 #: src/post-types.php:181
 msgid "Our movies post type"
+msgstr ""
+
+#: src/query-logger.php:20
+msgid "Yoast Query Monitor"
 msgstr ""
 
 #: src/schema.php:71
