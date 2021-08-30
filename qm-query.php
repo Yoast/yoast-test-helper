@@ -1,6 +1,6 @@
 <?php
 
-class QM_DB extends \wpdb {
+class Yoast_DB extends \wpdb {
     public $qm_php_vars = array(
         'max_execution_time'  => null,
         'memory_limit'        => null,
@@ -54,7 +54,7 @@ class QM_DB extends \wpdb {
             return $result;
         }
 
-        $this->queries[ $i ]['trace'] = $this->generate_stacktrace();
+        $this->queries[ $i ]['yoast_stacktrace'] = $this->generate_stacktrace();
 
         if ( ! isset( $this->queries[ $i ][3] ) ) {
             $this->queries[ $i ][3] = $this->time_start;
@@ -85,6 +85,7 @@ class QM_DB extends \wpdb {
         $e = new Exception();
         $trace = explode("\n", $e->getTraceAsString());
         array_shift($trace); // remove call to this method
+        array_shift($trace); // remove call to Yoast_DB::query
         array_pop($trace); // remove {main}
         $length = count($trace);
         $result = array();
@@ -98,4 +99,4 @@ class QM_DB extends \wpdb {
     }
 }
 
-$wpdb = new QM_DB( \DB_USER, \DB_PASSWORD, \DB_NAME, \DB_HOST );
+$wpdb = new Yoast_DB( \DB_USER, \DB_PASSWORD, \DB_NAME, \DB_HOST );

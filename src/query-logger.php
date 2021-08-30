@@ -60,7 +60,7 @@ class Query_Logger implements Integration {
                 $request_id,
                 \trim( $q[ 0 ] ),
                 $q[ 1 ],
-                isset( $q[ 'trace' ] ) ? $q[ 'trace' ] : null
+                isset( $q[ 'yoast_stacktrace' ] ) ? $q[ 'yoast_stacktrace' ] : null
             ) );
         };
         $wpdb->query( $wpdb->prepare(
