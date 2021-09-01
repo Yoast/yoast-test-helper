@@ -58,7 +58,7 @@ const Menu = () => {
 
 const QueryLogger = () => {
     const open = useSelect( select => {
-        return select( "yoast/query-logger").isDrawerOpen();
+        return select( "yoast/query-logger" ).isDrawerOpen();
     }, [] );
 
     return (

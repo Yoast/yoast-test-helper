@@ -1,7 +1,7 @@
 import { createReduxStore, register } from "@wordpress/data";
 
 const DEFAULT_STATE = {
-    showDrawer: true,
+    showDrawer: false,
 }
 
 const TOGGLE_DRAWER = "TOGGLE_DRAWER";
