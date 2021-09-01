@@ -13,7 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
 
 const DEFAULT_STATE = {
-  showDrawer: true
+  showDrawer: false
 };
 const TOGGLE_DRAWER = "TOGGLE_DRAWER";
 const CLOSE_DRAWER = "CLOSE_DRAWER";
