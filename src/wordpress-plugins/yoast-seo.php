@@ -216,7 +216,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	/**
 	 * Reset all indexables related tables, options and transients, forcing Yoast SEO to rebuild the tables from scratch and reindex all indexables.
 	 *
-	 * @return bool True if the `yoast_migrations_free` option was deleted successfully, false otherwise.
+	 * @return bool True if successful, false otherwise.
 	 */
 	private function reset_indexables() {
 		global $wpdb;
