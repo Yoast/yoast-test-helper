@@ -253,6 +253,7 @@ class Yoast_SEO implements WordPress_Plugin {
 		\delete_transient( 'wpseo_unindexed_post_link_count_limited' );
 		\delete_transient( 'wpseo_unindexed_term_link_count' );
 		\delete_transient( 'wpseo_unindexed_term_link_count_limited' );
+		\delete_transient( 'total_unindexed_prominent_words' );
 
 		\delete_option( 'yoast_migrations_premium' );
 		return \delete_option( 'yoast_migrations_free' );
