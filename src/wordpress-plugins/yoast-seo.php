@@ -216,7 +216,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	/**
 	 * Reset all indexables related tables, options and transients, forcing Yoast SEO to rebuild the tables from scratch and reindex all indexables.
 	 *
-	 * @return bool True if successful, false otherwise.
+	 * @return bool True if the `yoast_migrations_free` option was deleted successfully, false otherwise.
 	 */
 	private function reset_indexables() {
 		global $wpdb;
@@ -242,12 +242,17 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 
-		// Found in Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY.
+		// Delete the transients that hold the (limited) total unindexed counts.
 		\delete_transient( 'wpseo_total_unindexed_posts' );
-		// Found in Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY.
+		\delete_transient( 'wpseo_total_unindexed_posts_limited' );
 		\delete_transient( 'wpseo_total_unindexed_post_type_archives' );
-		// Found in Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY.
 		\delete_transient( 'wpseo_total_unindexed_terms' );
+		\delete_transient( 'wpseo_total_unindexed_terms_limited' );
+		\delete_transient( 'wpseo_total_unindexed_general_items' );
+		\delete_transient( 'wpseo_unindexed_post_link_count' );
+		\delete_transient( 'wpseo_unindexed_post_link_count_limited' );
+		\delete_transient( 'wpseo_unindexed_term_link_count' );
+		\delete_transient( 'wpseo_unindexed_term_link_count_limited' );
 
 		\delete_option( 'yoast_migrations_premium' );
 		return \delete_option( 'yoast_migrations_free' );
