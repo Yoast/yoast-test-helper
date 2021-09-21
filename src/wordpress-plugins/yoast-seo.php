@@ -242,12 +242,18 @@ class Yoast_SEO implements WordPress_Plugin {
 
 		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
 
-		// Found in Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY.
+		// Delete the transients that hold the (limited) total unindexed counts.
 		\delete_transient( 'wpseo_total_unindexed_posts' );
-		// Found in Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY.
+		\delete_transient( 'wpseo_total_unindexed_posts_limited' );
 		\delete_transient( 'wpseo_total_unindexed_post_type_archives' );
-		// Found in Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY.
 		\delete_transient( 'wpseo_total_unindexed_terms' );
+		\delete_transient( 'wpseo_total_unindexed_terms_limited' );
+		\delete_transient( 'wpseo_total_unindexed_general_items' );
+		\delete_transient( 'wpseo_unindexed_post_link_count' );
+		\delete_transient( 'wpseo_unindexed_post_link_count_limited' );
+		\delete_transient( 'wpseo_unindexed_term_link_count' );
+		\delete_transient( 'wpseo_unindexed_term_link_count_limited' );
+		\delete_transient( 'total_unindexed_prominent_words' );
 
 		\delete_option( 'yoast_migrations_premium' );
 		return \delete_option( 'yoast_migrations_free' );
