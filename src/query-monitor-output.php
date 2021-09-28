@@ -2,10 +2,12 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use QM_Output_Html;
+
 /**
  * Class to output the Indexable info within Query Monitor.
  */
-class Query_Monitor_Output extends \QM_Output_Html {
+class Query_Monitor_Output extends QM_Output_Html {
 
 	/**
 	 * Yoast_QueryMonitor_Output constructor.
@@ -34,7 +36,7 @@ class Query_Monitor_Output extends \QM_Output_Html {
 		echo '<section>';
 		echo '<h3>Indexable</h3>';
 
-		$model = YoastSEO()->meta->for_current_page()->model;
+		$model = \YoastSEO()->meta->for_current_page()->model;
 
 		echo '<table>';
 		echo '<tbody>';
@@ -92,15 +94,15 @@ class Query_Monitor_Output extends \QM_Output_Html {
 		];
 		foreach ( $keys as $key ) {
 			echo '<tr>';
-			echo '<th scope="row">' . esc_html( $key ) . '</th>';
+			echo '<th scope="row">' . \esc_html( $key ) . '</th>';
 			$val = $model->__get( $key );
 			echo '<td><pre>';
-			if ( is_array( $val ) ) {
+			if ( \is_array( $val ) ) {
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-				print_r( $val );
+				\print_r( $val );
 			}
 			else {
-				echo esc_html( $val );
+				echo \esc_html( $val );
 			}
 			echo '</pre></td>';
 
