@@ -12,7 +12,7 @@ jobs:
   fast_finish: true
   include:
     - php: 7.4
-      env: PHPLINT=1 SECURITY=1
+      env: PHPLINT=1
     - php: 5.6
       env: PHPLINT=1
     - php: 8.0
@@ -50,14 +50,12 @@ cache:
 
 before_install:
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
-- export SECURITYCHECK_DIR=/tmp/security-checker
 
 install:
 - |
   if [[ "$PHPLINT" == "1" ]]; then
     composer install --no-interaction
   fi
-- if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://github.com/fabpot/local-php-security-checker/releases/download/v1.2.0/local-php-security-checker_1.2.0_linux_amd64 && chmod +x $SECURITYCHECK_DIR/local-php-security-checker_1.2.0_linux_amd64;fi
 
 before_script:
 - export -f travis_fold
@@ -79,6 +77,3 @@ script:
   if [[ "$PHPLINT" == "1" ]]; then
     composer lint
   fi
-
-# Check for known security vulnerabilities in the currently locked-in dependencies.
-- if [[ "$SECURITY" == "1" ]]; then $SECURITYCHECK_DIR/local-php-security-checker_1.2.0_linux_amd64 --path=$(pwd)/composer.lock;fi
