@@ -11,12 +11,6 @@ branches:
 jobs:
   fast_finish: true
   include:
-    - php: 7.4
-      env: PHPLINT=1
-    - php: 5.6
-      env: PHPLINT=1
-    - php: 8.0
-      env: PHPLINT=1
     - stage: deploy
       if: tag IS present
       before_deploy:
@@ -43,20 +37,6 @@ jobs:
           repo: $TRAVIS_REPO_SLUG
           all_branches: true
 
-cache:
-  directories:
-    - vendor
-    - $HOME/.composer/cache
-
-before_install:
-- if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
-
-install:
-- |
-  if [[ "$PHPLINT" == "1" ]]; then
-    composer install --no-interaction
-  fi
-
 before_script:
 - export -f travis_fold
 - export -f travis_time_start
@@ -70,10 +50,3 @@ before_script:
 - svn --version
 - locale -a
 - echo "repo $TRAVIS_REPO_SLUG commit $TRAVIS_COMMIT containing tag $TRAVIS_TAG"
-
-script:
-# PHP Linting
-- |
-  if [[ "$PHPLINT" == "1" ]]; then
-    composer lint
-  fi

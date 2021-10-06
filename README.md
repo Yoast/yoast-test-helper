@@ -2,7 +2,7 @@ Yoast Test Helper
 =================
 
 [![CS](https://github.com/Yoast/yoast-test-helper/actions/workflows/cs.yml/badge.svg)](https://github.com/Yoast/yoast-test-helper/actions/workflows/cs.yml)
-[![Build Status](https://api.travis-ci.org/Yoast/yoast-test-helper.svg?branch=master)](https://travis-ci.org/Yoast/wordpress-seo)
+[![Lint](https://github.com/Yoast/yoast-test-helper/actions/workflows/lint.yml/badge.svg)](https://github.com/Yoast/yoast-test-helper/actions/workflows/lint.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 Purpose of this plugin
