@@ -12,7 +12,7 @@ jobs:
   fast_finish: true
   include:
     - php: 7.4
-      env: PHPLINT=1 PHPCS=1 SECURITY=1
+      env: PHPLINT=1 SECURITY=1
     - php: 5.6
       env: PHPLINT=1
     - php: 8.0
@@ -45,7 +45,6 @@ jobs:
 
 cache:
   directories:
-    - .cache
     - vendor
     - $HOME/.composer/cache
 
@@ -55,7 +54,7 @@ before_install:
 
 install:
 - |
-  if [[ "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
+  if [[ "$PHPLINT" == "1" ]]; then
     composer install --no-interaction
   fi
 - if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://github.com/fabpot/local-php-security-checker/releases/download/v1.2.0/local-php-security-checker_1.2.0_linux_amd64 && chmod +x $SECURITYCHECK_DIR/local-php-security-checker_1.2.0_linux_amd64;fi
@@ -80,16 +79,6 @@ script:
   if [[ "$PHPLINT" == "1" ]]; then
     composer lint
   fi
-# PHP CS
-- |
-  if [[ "$PHPCS" == "1" ]]; then
-    travis_fold start "PHP.code-style" && travis_time_start
-    composer check-cs
-    travis_time_finish && travis_fold end "PHP.code-style"
-  fi
-# Validate the composer.json file.
-# @link https://getcomposer.org/doc/03-cli.md#validate
-- if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi
 
 # Check for known security vulnerabilities in the currently locked-in dependencies.
 - if [[ "$SECURITY" == "1" ]]; then $SECURITYCHECK_DIR/local-php-security-checker_1.2.0_linux_amd64 --path=$(pwd)/composer.lock;fi
