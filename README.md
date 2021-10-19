@@ -26,6 +26,7 @@ This test helper plugin has several features:
 * Change the number of URLs shown in an XML Sitemap.
 * Easily change your MyYoast URL.
 * Easily reset SEO roles & capabilities.
+* Easily find indexable data in Query Monitor output (requires Query Monitor).
 
 Installation
 ------------

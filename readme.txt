@@ -36,6 +36,18 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.15 =
+
+Release date October 19th, 2021
+
+Enhancements:
+
+* Add Indexable data to Query Monitor.
+
+Bugfix:
+
+* Fixes a bug where not all the transients that hold unindexed counts were deleted when users hit the "Reset Indexables & Migrations" button.
+
 = 1.14 =
 
 Release Date: April 28th, 2021
