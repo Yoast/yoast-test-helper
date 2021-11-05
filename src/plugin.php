@@ -90,6 +90,7 @@ class Plugin implements Integration {
 		$this->integrations[] = new Domain_Dropdown( $option );
 		$this->integrations[] = new Inline_Script( $option );
 		$this->integrations[] = new Admin_Debug_Info( $option );
+		$this->integrations[] = new Debug_Comments( $option );
 		$this->integrations[] = new Indexing_Reason_Integration();
 		$this->integrations[] = new Query_Monitor();
 	}
