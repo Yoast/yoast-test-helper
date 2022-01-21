@@ -97,8 +97,8 @@ class Downgrader implements Integration {
 			throw new Exception( __( 'An invalid version number was passed.', 'yoast-test-helper' ) );
 		}
 
-		if ( version_compare( $target_version, '16.0', '<' ) ) {
-			throw new Exception( __( 'Downgrading to below 16.0 is not supported', 'yoast-test-helper' ) );
+		if ( version_compare( $target_version, '14.1', '<' ) ) {
+			throw new Exception( __( 'Downgrading to below 14.1 is not supported', 'yoast-test-helper' ) );
 		}
 
 		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
