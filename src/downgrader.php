@@ -127,7 +127,7 @@ class Downgrader implements Integration {
 				$migrations_to_downgrade[] = $version;
 			}
 		}
-		// Migrations should be downgrades from last to first.
+		// Migrations should be downgraded from last to first.
 		\sort( $migrations_to_downgrade, \SORT_STRING );
 		$migrations_to_downgrade = \array_reverse( $migrations_to_downgrade );
 
