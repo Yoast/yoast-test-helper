@@ -82,6 +82,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'reset_free_installation_success'    => \esc_html__( 'Free installation success page', 'yoast-test-helper' ),
 			'reset_premium_installation_success' => \esc_html__( 'Premium installation success page', 'yoast-test-helper' ),
 			'reset_first_time_configuration'     => \esc_html__( 'First time configuration', 'yoast-test-helper' ),
+			'reset_premium_workouts'             => \esc_html__( 'Premium workouts', 'yoast-test-helper' ),
 		];
 	}
 
@@ -122,6 +123,9 @@ class Yoast_SEO implements WordPress_Plugin {
 				return true;
 			case 'reset_first_time_configuration':
 				$this->reset_first_time_configuration();
+				return true;
+			case 'reset_premium_workouts':
+				$this->reset_premium_workouts();
 				return true;
 		}
 
@@ -334,5 +338,14 @@ class Yoast_SEO implements WordPress_Plugin {
 		$workouts_data                  = WPSEO_Options::get( 'workouts_data' );
 		$workouts_data['configuration'] = [ 'finishedSteps' => [] ];
 		WPSEO_Options::set( 'workouts_data', $workouts_data );
+	}
+
+	/**
+	 * Resets the Premium workouts.
+	 *
+	 * @return void
+	 */
+	protected function reset_premium_workouts() {
+		WPSEO_Options::set( 'workouts', [ 'cornerstone' => [ 'finishedSteps' => [] ] ] );
 	}
 }
