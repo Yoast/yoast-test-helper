@@ -4,11 +4,11 @@ namespace Yoast\WP\Test_Helper;
 
 use Automatic_Upgrader_Skin;
 use Exception;
+use WP_Upgrader;
+use WPSEO_Options;
 use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Loader;
-use WP_Upgrader;
-use WPSEO_Options;
 use ZipArchive;
 
 /**
@@ -33,12 +33,12 @@ class Downgrader implements Integration {
 	public function get_controls() {
 		$option = 'target_version';
 
-		$output  = \sprintf( '<label for="%1$s">%2$s</label>', $option, __( 'Downgrade to version: ', 'yoast-test-helper' ) );
+		$output  = \sprintf( '<label for="%1$s">%2$s</label>', $option, \__( 'Downgrade to version: ', 'yoast-test-helper' ) );
 		$output .= \sprintf( '<input name="%1$s" id="%1$s" type="text"></input><br />', $option );
 
 		$title = \sprintf(
-			// translators: %1$s is Yoast SEO.
-			__( 'Downgrade %1$s', 'yoast-test-helper' ),
+			/* translators: %1$s is Yoast SEO. */
+			\__( 'Downgrade %1$s', 'yoast-test-helper' ),
 			'Yoast SEO'
 		);
 
@@ -58,15 +58,15 @@ class Downgrader implements Integration {
 			return;
 		}
 
-		$target_version = filter_var( \wp_unslash( $_POST['target_version'] ) );
+		$target_version = \filter_var( \wp_unslash( $_POST['target_version'] ) );
 		try {
 			$this->downgrade( $target_version );
 			\do_action(
 				'Yoast\WP\Test_Helper\notification',
 				new Notification(
 					\sprintf(
-						// translators: %1$s is Yoast SEO, %2$s is the version number it was downgraded to.
-						__( '%1$s has been succesfully downgraded to version %2$s.', 'yoast-test-helper' ),
+						/* translators: %1$s is Yoast SEO, %2$s is the version number it was downgraded to. */
+						\__( '%1$s has been succesfully downgraded to version %2$s.', 'yoast-test-helper' ),
 						'Yoast SEO',
 						$target_version
 					),
@@ -88,27 +88,27 @@ class Downgrader implements Integration {
 	 *
 	 * @param string $target_version The version to downgrade to.
 	 *
-	 * @throws Exception If the downgrade fails.
-	 *
 	 * @return void
+	 *
+	 * @throws Exception If the downgrade fails.
 	 */
 	protected function downgrade( $target_version ) {
-		if ( ! preg_match( '/^\d+\.\d+$/', $target_version ) ) {
-			throw new Exception( __( 'An invalid version number was passed.', 'yoast-test-helper' ) );
+		if ( ! \preg_match( '/^\d+\.\d+$/', $target_version ) ) {
+			throw new Exception( \__( 'An invalid version number was passed.', 'yoast-test-helper' ) );
 		}
 
-		if ( version_compare( $target_version, '14.1', '<' ) ) {
-			throw new Exception( __( 'Downgrading to below 14.1 is not supported', 'yoast-test-helper' ) );
+		if ( \version_compare( $target_version, '14.1', '<' ) ) {
+			throw new Exception( \__( 'Downgrading to below 14.1 is not supported', 'yoast-test-helper' ) );
 		}
 
-		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		require_once \ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 		$upgrader = new WP_Upgrader( new Automatic_Upgrader_Skin() );
 		$upgrader->fs_connect();
 
 		$downloaded_archive = $upgrader->download_package( "https://downloads.wordpress.org/plugin/wordpress-seo.$target_version.zip" );
 
-		if ( is_wp_error( $downloaded_archive ) ) {
-			throw new Exception( __( 'The requested version could not be downloaded', 'yoast-test-helper' ) );
+		if ( \is_wp_error( $downloaded_archive ) ) {
+			throw new Exception( \__( 'The requested version could not be downloaded', 'yoast-test-helper' ) );
 		}
 
 		// Open the downloaded archive.
@@ -120,7 +120,7 @@ class Downgrader implements Integration {
 		// Find all migrations that are not in the downgraded archive.
 		$migrations_to_downgrade = [];
 		foreach ( $all_migration_files as $migration_file ) {
-			$migration_file = str_replace( \WPSEO_PATH, '', $migration_file );
+			$migration_file = \str_replace( \WPSEO_PATH, '', $migration_file );
 			if ( ! $zip->getFromName( 'wordpress-seo/' . $migration_file ) ) {
 				$basename                  = \basename( $migration_file, '.php' );
 				$version                   = \explode( '_', $basename )[0];
@@ -137,7 +137,7 @@ class Downgrader implements Integration {
 		$migrations       = $loader->get_migrations( 'free' );
 
 		if ( ! $migration_status->lock_migration( 'free' ) ) {
-			throw new Exception( __( 'A migration is already in progress. Please try again later.', 'yoast-test-helper' ) );
+			throw new Exception( \__( 'A migration is already in progress. Please try again later.', 'yoast-test-helper' ) );
 		}
 
 		// Downgrade all migrations.
@@ -154,8 +154,8 @@ class Downgrader implements Integration {
 
 				throw new Exception(
 					\sprintf(
-						// translators: %1$s is the class name of the migration that failed, %2$s is the message given by the failure.
-						__( 'Migration %1$s failed with the message: %2$s', 'yoast-test-helper' ),
+						/* translators: %1$s is the class name of the migration that failed, %2$s is the message given by the failure. */
+						\__( 'Migration %1$s failed with the message: %2$s', 'yoast-test-helper' ),
 						$class,
 						$e->getMessage()
 					),
@@ -166,14 +166,14 @@ class Downgrader implements Integration {
 		}
 
 		$working_dir = $upgrader->unpack_package( $downloaded_archive, true );
-		if ( is_wp_error( $working_dir ) ) {
-			throw new Exception( __( 'Could not unpack the requested version.', 'yoast-test-helper' ) );
+		if ( \is_wp_error( $working_dir ) ) {
+			throw new Exception( \__( 'Could not unpack the requested version.', 'yoast-test-helper' ) );
 		}
 
 		$result = $upgrader->install_package(
 			[
 				'source'            => $working_dir,
-				'destination'       => WP_PLUGIN_DIR,
+				'destination'       => \WP_PLUGIN_DIR,
 				'clear_destination' => true,
 				'clear_working'     => true,
 				'hook_extra'        => [
@@ -182,8 +182,8 @@ class Downgrader implements Integration {
 				],
 			]
 		);
-		if ( is_wp_error( $result ) ) {
-			throw new Exception( __( 'Could not install the requested version.', 'yoast-test-helper' ) );
+		if ( \is_wp_error( $result ) ) {
+			throw new Exception( \__( 'Could not install the requested version.', 'yoast-test-helper' ) );
 		}
 		WPSEO_Options::set( 'version', $target_version );
 	}
