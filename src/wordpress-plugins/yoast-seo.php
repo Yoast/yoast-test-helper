@@ -84,6 +84,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'reset_first_time_configuration'     => \esc_html__( 'First time configuration', 'yoast-test-helper' ),
 			'reset_premium_workouts'             => \esc_html__( 'Premium workouts', 'yoast-test-helper' ),
 			'reset_options'                      => \esc_html__( 'Options', 'yoast-test-helper' ),
+			'reset_cornerstone_flags'            => \esc_html__( 'Cornerstone flags', 'yoast-test-helper' ),
 		];
 	}
 
@@ -130,6 +131,9 @@ class Yoast_SEO implements WordPress_Plugin {
 				return true;
 			case 'reset_options':
 				$this->reset_options();
+				return true;
+			case 'reset_cornerstone_flags':
+				$this->reset_cornerstone_flags();
 				return true;
 		}
 
@@ -360,5 +364,15 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	protected function reset_options() {
 		WPSEO_Options::reset();
+	}
+
+	/**
+	 * Resets the cornerstone flags set for posts.
+	 *
+	 * @return void
+	 */
+	protected function reset_cornerstone_flags() {
+		global $wpdb;
+		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . 'postmeta WHERE meta_key = "_yoast_wpseo_is_cornerstone"' );
 	}
 }
