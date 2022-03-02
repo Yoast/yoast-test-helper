@@ -81,8 +81,8 @@ class Yoast_SEO implements WordPress_Plugin {
 			'reset_capabilities'                 => \esc_html__( 'SEO roles & capabilities', 'yoast-test-helper' ),
 			'reset_free_installation_success'    => \esc_html__( 'Free installation success page', 'yoast-test-helper' ),
 			'reset_premium_installation_success' => \esc_html__( 'Premium installation success page', 'yoast-test-helper' ),
-			'reset_first_time_configuration'     => \esc_html__( 'First time configuration', 'yoast-test-helper' ),
-			'reset_premium_workouts'             => \esc_html__( 'Premium workouts', 'yoast-test-helper' ),
+			'reset_first_time_configuration'     => \esc_html__( 'First time configuration progress', 'yoast-test-helper' ),
+			'reset_premium_workouts'             => \esc_html__( 'Premium workouts progress', 'yoast-test-helper' ),
 			'reset_options'                      => \esc_html__( 'Options', 'yoast-test-helper' ),
 			'reset_cornerstone_flags'            => \esc_html__( 'Cornerstone flags', 'yoast-test-helper' ),
 		];
