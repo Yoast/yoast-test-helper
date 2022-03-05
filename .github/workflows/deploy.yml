@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install PHP
         uses: shivammathur/setup-php@v2
@@ -107,7 +107,7 @@ jobs:
       # Retention is normally 90 days, but this artifact is only for review
       # and use in the next step, so no need to keep it for more than a day.
       - name: Upload the artifact folder
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ success() }}
         with:
           name: deploy-artifact
@@ -139,7 +139,7 @@ jobs:
           fi
 
       - name: Checkout Yoast Dist repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: ${{ env.DIST_ORG }}/${{ github.event.repository.name }}
           ref: ${{ env.DIST_DEFAULT_BRANCH }}
@@ -168,7 +168,7 @@ jobs:
 
       # The artifact will be unpacked into the root directory of the repository.
       - name: Download and unpack the prepared artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: deploy-artifact
 
