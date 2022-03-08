@@ -35,9 +35,27 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.16 =
+
+Release date: March 22nd, 2022
+
+Enhancements:
+
+* Adds a new tool to safely downgrade Yoast SEO, including reverting all run migrations and resetting the version number.
+
+Other:
+
+* Removes the Support Session feature.
+* Introduces buttons to reset the options and the cornerstone flags.
+* Introduces buttons to reset the first-time configuration and the premium workouts.
+* Adds buttons to reset the Free and Premium installation success screens, such that on reactivating the plugins, the corresponding installation success screen is shown again.
+* Set minimum WordPress version to 5.8 and tested up to version to 5.9.
+* Widen PHP version constraints.
+
+
 = 1.15 =
 
-Release date October 19th, 2021
+Release date: October 19th, 2021
 
 Enhancements:
 
