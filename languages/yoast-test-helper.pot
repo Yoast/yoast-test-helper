@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast Test Helper 1.15\n"
+"Project-Id-Version: Yoast Test Helper 1.16-RC1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2022-03-07 08:28:02+00:00\n"
+"POT-Creation-Date: 2022-03-08 14:32:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -271,31 +271,6 @@ msgstr ""
 
 #: src/schema.php:101
 msgid "Schema"
-msgstr ""
-
-#: src/support-session.php:84
-msgid ""
-"Please only check this box when asked to do so by one of the Yoast support "
-"agents."
-msgstr ""
-
-#: src/support-session.php:87
-msgid "Enable support session."
-msgstr ""
-
-#: src/support-session.php:90
-msgid ""
-"For safety & performance reasons, this feature will automatically disable "
-"itself after 4 hours."
-msgstr ""
-
-#: src/support-session.php:98
-#. translators: %s is replaced by the number of hours and minuts left.
-msgid "Time left: %s hours"
-msgstr ""
-
-#: src/support-session.php:101
-msgid "Enable support session"
 msgstr ""
 
 #: src/taxonomies.php:57 src/taxonomies.php:59
