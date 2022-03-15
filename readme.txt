@@ -41,7 +41,7 @@ Release date: March 22nd, 2022
 
 Enhancements:
 
-* Adds a new tool to safely downgrade Yoast SEO, including reverting all run migrations and resetting the version number.
+* Adds a new tool to safely downgrade Yoast SEO, including reverting all run migrations and resetting the version number. The tool currently works only for the free version of the plugin, without Premium enabled.
 
 Other:
 
