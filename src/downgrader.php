@@ -185,6 +185,14 @@ class Downgrader implements Integration {
 		if ( \is_wp_error( $result ) ) {
 			throw new Exception( \__( 'Could not install the requested version.', 'yoast-test-helper' ) );
 		}
+
+		$downgrade_version = function( $option ) use ( $target_version ) {
+			$option['version'] = \sanitize_text_field( $target_version );
+			return $option;
+		};
+
+		\add_filter( 'sanitize_option_wpseo', $downgrade_version, 20 );
 		WPSEO_Options::set( 'version', $target_version );
+		\remove_filter( 'sanitize_option_wpseo', $downgrade_version );
 	}
 }
