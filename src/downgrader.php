@@ -164,6 +164,7 @@ class Downgrader implements Integration {
 				);
 			}
 		}
+		$migration_status->set_success( 'free', $target_version );
 
 		$working_dir = $upgrader->unpack_package( $downloaded_archive, true );
 		if ( \is_wp_error( $working_dir ) ) {
