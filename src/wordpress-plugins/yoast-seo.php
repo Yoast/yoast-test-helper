@@ -71,14 +71,20 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	public function get_features() {
 		return [
-			'internal_link_count'         => \esc_html__( 'Internal link counter', 'yoast-test-helper' ),
-			'prominent_words_calculation' => \esc_html__( 'Prominent words calculation', 'yoast-test-helper' ),
-			'reset_configuration_wizard'  => \esc_html__( 'Configuration wizard', 'yoast-test-helper' ),
-			'reset_notifications'         => \esc_html__( 'Notifications', 'yoast-test-helper' ),
-			'reset_site_information'      => \esc_html__( 'Site information', 'yoast-test-helper' ),
-			'reset_tracking'              => \esc_html__( 'Tracking', 'yoast-test-helper' ),
-			'reset_indexables'            => \esc_html__( 'Indexables tables & migrations', 'yoast-test-helper' ),
-			'reset_capabilities'          => \esc_html__( 'SEO roles & capabilities', 'yoast-test-helper' ),
+			'internal_link_count'                => \esc_html__( 'Internal link counter', 'yoast-test-helper' ),
+			'prominent_words_calculation'        => \esc_html__( 'Prominent words calculation', 'yoast-test-helper' ),
+			'reset_configuration_wizard'         => \esc_html__( 'Configuration wizard', 'yoast-test-helper' ),
+			'reset_notifications'                => \esc_html__( 'Notifications', 'yoast-test-helper' ),
+			'reset_site_information'             => \esc_html__( 'Site information', 'yoast-test-helper' ),
+			'reset_tracking'                     => \esc_html__( 'Tracking', 'yoast-test-helper' ),
+			'reset_indexables'                   => \esc_html__( 'Indexables tables & migrations', 'yoast-test-helper' ),
+			'reset_capabilities'                 => \esc_html__( 'SEO roles & capabilities', 'yoast-test-helper' ),
+			'reset_free_installation_success'    => \esc_html__( 'Free installation success page', 'yoast-test-helper' ),
+			'reset_premium_installation_success' => \esc_html__( 'Premium installation success page', 'yoast-test-helper' ),
+			'reset_first_time_configuration'     => \esc_html__( 'First time configuration progress', 'yoast-test-helper' ),
+			'reset_premium_workouts'             => \esc_html__( 'Premium workouts progress', 'yoast-test-helper' ),
+			'reset_options'                      => \esc_html__( 'Options', 'yoast-test-helper' ),
+			'reset_cornerstone_flags'            => \esc_html__( 'Cornerstone flags', 'yoast-test-helper' ),
 		];
 	}
 
@@ -110,6 +116,24 @@ class Yoast_SEO implements WordPress_Plugin {
 				return $this->reset_tracking();
 			case 'reset_capabilities':
 				$this->reset_capabilities();
+				return true;
+			case 'reset_free_installation_success':
+				$this->reset_free_installation_success_page();
+				return true;
+			case 'reset_premium_installation_success':
+				$this->reset_premium_installation_success_page();
+				return true;
+			case 'reset_first_time_configuration':
+				$this->reset_first_time_configuration();
+				return true;
+			case 'reset_premium_workouts':
+				$this->reset_premium_workouts();
+				return true;
+			case 'reset_options':
+				$this->reset_options();
+				return true;
+			case 'reset_cornerstone_flags':
+				$this->reset_cornerstone_flags();
 				return true;
 		}
 
@@ -293,5 +317,62 @@ class Yoast_SEO implements WordPress_Plugin {
 			$premium_capability_manager->remove();
 			$premium_capability_manager->add();
 		}
+	}
+
+	/**
+	 * Resets the Free installation success page timestamp such that on reactivation the user is redirected again.
+	 *
+	 * @return void
+	 */
+	protected function reset_free_installation_success_page() {
+		WPSEO_Options::set( 'activation_redirect_timestamp_free', '0' );
+	}
+
+	/**
+	 * Resets the Premium installation success page timestamp such that on reactivation the user is redirected again.
+	 *
+	 * @return void
+	 */
+	protected function reset_premium_installation_success_page() {
+		WPSEO_Options::set( 'activation_redirect_timestamp', '0' );
+	}
+
+	/**
+	 * Resets the First-time configuration.
+	 *
+	 * @return void
+	 */
+	protected function reset_first_time_configuration() {
+		$workouts_data                  = WPSEO_Options::get( 'workouts_data' );
+		$workouts_data['configuration'] = [ 'finishedSteps' => [] ];
+		WPSEO_Options::set( 'workouts_data', $workouts_data );
+	}
+
+	/**
+	 * Resets the Premium workouts.
+	 *
+	 * @return void
+	 */
+	protected function reset_premium_workouts() {
+		WPSEO_Options::set( 'workouts', [ 'cornerstone' => [ 'finishedSteps' => [] ] ] );
+	}
+
+	/**
+	 * Resets the option to the defaults as if the plugin were installed the first time.
+	 *
+	 * @return void
+	 */
+	protected function reset_options() {
+		WPSEO_Options::reset();
+	}
+
+	/**
+	 * Resets the cornerstone flags set for posts.
+	 *
+	 * @return void
+	 */
+	protected function reset_cornerstone_flags() {
+		global $wpdb;
+		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . 'postmeta WHERE meta_key = "_yoast_wpseo_is_cornerstone"' );
 	}
 }

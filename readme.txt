@@ -1,9 +1,9 @@
 === Yoast Test Helper ===
 Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
-Requires at least: 5.6
-Tested up to: 5.8
-Stable tag: 1.15
+Requires at least: 5.8
+Tested up to: 5.9
+Stable tag: 1.16
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,7 +17,6 @@ This plugin makes testing Yoast SEO, Yoast SEO add-ons and integrations and rese
 This test helper plugin has several features:
 
 * Toggle between premium and free Yoast SEO versions easily.
-* Easily start a co-browsing session with Yoast Support.
 * Easily enable Yoast SEO development mode.
 * Saving and restoring Yoast SEO and Yoast SEO extension options, to test upgrade paths.
 * Add options debug info to Yoast SEO admin pages.
@@ -36,9 +35,27 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.16 =
+
+Release date: April 19th, 2022
+
+Enhancements:
+
+* Adds a new tool to safely downgrade Yoast SEO, including reverting all run migrations and resetting the version number. The tool currently works only for the free version of the plugin, without Premium enabled.
+
+Other:
+
+* Removes the Support Session feature.
+* Introduces buttons to reset the options and the cornerstone flags.
+* Introduces buttons to reset the first-time configuration and the premium workouts.
+* Adds buttons to reset the Free and Premium installation success screens, such that on reactivating the plugins, the corresponding installation success screen is shown again.
+* Set minimum WordPress version to 5.8 and tested up to version to 5.9.
+* Widen PHP version constraints.
+
+
 = 1.15 =
 
-Release date October 19th, 2021
+Release date: October 19th, 2021
 
 Enhancements:
 

@@ -1,7 +1,8 @@
 Yoast Test Helper
 =================
 
-[![Build Status](https://api.travis-ci.org/Yoast/yoast-test-helper.svg?branch=master)](https://travis-ci.org/Yoast/wordpress-seo)
+[![CS](https://github.com/Yoast/yoast-test-helper/actions/workflows/cs.yml/badge.svg)](https://github.com/Yoast/yoast-test-helper/actions/workflows/cs.yml)
+[![Lint](https://github.com/Yoast/yoast-test-helper/actions/workflows/lint.yml/badge.svg)](https://github.com/Yoast/yoast-test-helper/actions/workflows/lint.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 Purpose of this plugin
@@ -15,7 +16,6 @@ Features
 This test helper plugin has several features:
 
 * Toggle between premium and free Yoast SEO versions easily.
-* Easily start a co-browsing session with Yoast Support.  
 * Easily enable Yoast SEO development mode.
 * Save and restore Yoast SEO and Yoast SEO extension options, to test upgrade paths.
 * Add options debug info to Yoast SEO admin pages.

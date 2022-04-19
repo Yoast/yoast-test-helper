@@ -76,7 +76,6 @@ class Plugin implements Integration {
 
 		$this->integrations[] = $plugin_version_control;
 		$this->integrations[] = new Admin_Page();
-		$this->integrations[] = new Support_Session( $option );
 		$this->integrations[] = new Admin_Notifications();
 		$this->integrations[] = new Upgrade_Detector();
 		$this->integrations[] = new Development_Mode( $option );
@@ -92,6 +91,7 @@ class Plugin implements Integration {
 		$this->integrations[] = new Admin_Debug_Info( $option );
 		$this->integrations[] = new Indexing_Reason_Integration();
 		$this->integrations[] = new Query_Monitor();
+		$this->integrations[] = new Downgrader();
 	}
 
 	/**
