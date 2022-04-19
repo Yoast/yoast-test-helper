@@ -37,7 +37,7 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 = 1.16 =
 
-Release date: March 22nd, 2022
+Release date: April 19th, 2022
 
 Enhancements:
 
