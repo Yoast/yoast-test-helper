@@ -3,7 +3,7 @@ Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
 Requires at least: 5.8
 Tested up to: 5.9
-Stable tag: 1.15
+Stable tag: 1.16
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -37,7 +37,7 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 = 1.16 =
 
-Release date: March 22nd, 2022
+Release date: April 19th, 2022
 
 Enhancements:
 
