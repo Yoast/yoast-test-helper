@@ -343,9 +343,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return void
 	 */
 	protected function reset_first_time_configuration() {
-		$workouts_data                  = WPSEO_Options::get( 'workouts_data' );
-		$workouts_data['configuration'] = [ 'finishedSteps' => [] ];
-		WPSEO_Options::set( 'workouts_data', $workouts_data );
+		WPSEO_Options::set( 'configuration_finished_steps', [] );
 	}
 
 	/**
