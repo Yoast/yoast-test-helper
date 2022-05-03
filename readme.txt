@@ -35,6 +35,14 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.17 =
+
+Release date: May 17th, 2022
+
+Other:
+
+* Various compatibility updates.
+
 = 1.16 =
 
 Release date: April 19th, 2022
