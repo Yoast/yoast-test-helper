@@ -73,7 +73,6 @@ class Yoast_SEO implements WordPress_Plugin {
 		return [
 			'internal_link_count'                => \esc_html__( 'Internal link counter', 'yoast-test-helper' ),
 			'prominent_words_calculation'        => \esc_html__( 'Prominent words calculation', 'yoast-test-helper' ),
-			'reset_configuration_wizard'         => \esc_html__( 'Configuration wizard', 'yoast-test-helper' ),
 			'reset_notifications'                => \esc_html__( 'Notifications', 'yoast-test-helper' ),
 			'reset_site_information'             => \esc_html__( 'Site information', 'yoast-test-helper' ),
 			'reset_tracking'                     => \esc_html__( 'Tracking', 'yoast-test-helper' ),
@@ -103,8 +102,6 @@ class Yoast_SEO implements WordPress_Plugin {
 			case 'prominent_words_calculation':
 				$this->reset_prominent_words_calculation();
 				return true;
-			case 'reset_configuration_wizard':
-				return $this->reset_configuration_wizard();
 			case 'reset_indexables':
 				return $this->reset_indexables();
 			case 'reset_notifications':
@@ -225,16 +222,6 @@ class Yoast_SEO implements WordPress_Plugin {
 	 */
 	private function reset_tracking() {
 		return \delete_option( 'wpseo_tracking_last_request' );
-	}
-
-	/**
-	 * Resets the configuration wizard to its initial state.
-	 *
-	 * @return bool True if successful, false otherwise.
-	 */
-	private function reset_configuration_wizard() {
-
-		return WPSEO_Options::set( 'show_onboarding_notice', true );
 	}
 
 	/**
