@@ -39,9 +39,13 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 Release date: May 17th, 2022
 
+Enhancements:
+
+* Improves compatibility with the First-time configuration released with Yoast SEO 18.9.
+
 Other:
 
-* Various compatibility updates.
+* Removes the obsolete Reset Configuration Wizard button.
 
 = 1.16 =
 
