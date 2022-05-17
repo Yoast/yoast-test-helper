@@ -45,7 +45,7 @@ Enhancements:
 
 Other:
 
-* Removes the obsolete Reset Configuration Wizard button.
+* Removes the obsolete `Reset Configuration Wizard` button.
 
 = 1.16 =
 
