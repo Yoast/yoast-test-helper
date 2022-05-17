@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast Test Helper 1.16\n"
+"Project-Id-Version: Yoast Test Helper 1.17\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2022-04-19 11:53:15+00:00\n"
+"POT-Creation-Date: 2022-05-17 08:32:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -341,7 +341,7 @@ msgstr ""
 #: src/wordpress-plugins/video-seo.php:81
 #: src/wordpress-plugins/woocommerce-seo.php:83
 #: src/wordpress-plugins/yoast-seo-premium.php:83
-#: src/wordpress-plugins/yoast-seo.php:149
+#: src/wordpress-plugins/yoast-seo.php:146
 msgid "not active"
 msgstr ""
 
@@ -354,50 +354,46 @@ msgid "Prominent words calculation"
 msgstr ""
 
 #: src/wordpress-plugins/yoast-seo.php:76
-msgid "Configuration wizard"
-msgstr ""
-
-#: src/wordpress-plugins/yoast-seo.php:77
 msgid "Notifications"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:78
+#: src/wordpress-plugins/yoast-seo.php:77
 msgid "Site information"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:79
+#: src/wordpress-plugins/yoast-seo.php:78
 msgid "Tracking"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:80
+#: src/wordpress-plugins/yoast-seo.php:79
 msgid "Indexables tables & migrations"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:81
+#: src/wordpress-plugins/yoast-seo.php:80
 msgid "SEO roles & capabilities"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:82
+#: src/wordpress-plugins/yoast-seo.php:81
 msgid "Free installation success page"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:83
+#: src/wordpress-plugins/yoast-seo.php:82
 msgid "Premium installation success page"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:84
+#: src/wordpress-plugins/yoast-seo.php:83
 msgid "First time configuration progress"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:85
+#: src/wordpress-plugins/yoast-seo.php:84
 msgid "Premium workouts progress"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:86
+#: src/wordpress-plugins/yoast-seo.php:85
 msgid "Options"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:87
+#: src/wordpress-plugins/yoast-seo.php:86
 msgid "Cornerstone flags"
 msgstr ""
 
