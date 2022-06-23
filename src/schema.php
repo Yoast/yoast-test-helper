@@ -85,7 +85,8 @@ class Schema implements Integration {
 
 		\header( 'Content-Type: application/ld+json' );
 		\header( 'Link: <' . $url . '>; rel="canonical"' );
-		echo \wp_json_encode( \YoastSEO()->meta->for_current_page()->schema, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This is our self generated Schema, no need for escaping.
+		echo WPSEO_Utils::format_json_encode( \YoastSEO()->meta->for_current_page()->schema );
 		exit;
 	}
 
@@ -103,6 +104,7 @@ class Schema implements Integration {
 
 		$output .= Form_Presenter::create_checkbox(
 			'enable_schema_endpoint',
+			// translators: %s is replaced by `<code>/schema/</code>`.
 			sprintf( \esc_html__( 'Enable the %s endpoint for every URL.', 'yoast-test-helper' ), '<code>/schema/</code>' ),
 			$this->option->get( 'enable_schema_endpoint' )
 		);
