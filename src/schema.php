@@ -37,6 +37,11 @@ class Schema implements Integration {
 			\add_filter( 'init', [ $this, 'enable_feature_flag' ] );
 		}
 
+		if ( $this->option->get( 'enable_schema_endpoint' ) === true ) {
+			\add_action( 'template_redirect', [ $this, 'send_json_ld' ] );
+			\add_action( 'init', [ $this, 'init_rewrite' ] );
+		}
+
 		switch ( $this->option->get( 'is_needed_breadcrumb' ) ) {
 			case 'show':
 			case 'hide':
@@ -61,6 +66,30 @@ class Schema implements Integration {
 	}
 
 	/**
+	 * Registers the schema endpoint if needed.
+	 */
+	public function init_rewrite() {
+		\add_rewrite_endpoint( 'schema', EP_ALL );
+	}
+
+	/**
+	 * Send the Yoast SEO Schema.
+	 */
+	public function send_json_ld() {
+		global $wp_query;
+
+		$url = \YoastSEO()->meta->for_current_page()->canonical;
+		if ( empty( $url ) || ! isset( $wp_query->query_vars['schema'] ) ) {
+			return;
+		}
+
+		\header( 'Content-Type: application/ld+json' );
+		\header( 'Link: <' . $url . '>; rel="canonical"' );
+		echo \wp_json_encode( \YoastSEO()->meta->for_current_page()->schema, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) );
+		exit;
+	}
+
+	/**
 	 * Retrieves the controls.
 	 *
 	 * @return string The HTML to use to render the controls.
@@ -70,6 +99,12 @@ class Schema implements Integration {
 			'replace_schema_domain',
 			\esc_html__( 'Replace .test domain name with example.com in Schema output.', 'yoast-test-helper' ),
 			$this->option->get( 'replace_schema_domain' )
+		);
+
+		$output .= Form_Presenter::create_checkbox(
+			'enable_schema_endpoint',
+			sprintf( \esc_html__( 'Enable the %s endpoint for every URL.', 'yoast-test-helper' ), '<code>/schema/</code>' ),
+			$this->option->get( 'enable_schema_endpoint' )
 		);
 
 		$output .= Form_Presenter::create_checkbox(
@@ -109,6 +144,7 @@ class Schema implements Integration {
 	public function handle_submit() {
 		if ( \check_admin_referer( 'yoast_seo_test_schema' ) !== false ) {
 			$this->option->set( 'replace_schema_domain', isset( $_POST['replace_schema_domain'] ) );
+			$this->option->set( 'enable_schema_endpoint', isset( $_POST['enable_schema_endpoint'] ) );
 			$this->option->set( 'enable_structured_data_blocks', isset( $_POST['enable_structured_data_blocks'] ) );
 		}
 
