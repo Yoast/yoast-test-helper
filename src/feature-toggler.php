@@ -28,6 +28,8 @@ class Feature_Toggler implements Integration {
 	 */
 	public function __construct( Option $option ) {
 		$this->option = $option;
+
+		$this->features = [ 'NEW_SETTINGS_UI' => \__( 'the new user interface for settings', 'yoast-test-helper' ) ];
 	}
 
 	/**
