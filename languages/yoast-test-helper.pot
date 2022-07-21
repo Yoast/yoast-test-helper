@@ -3,37 +3,26 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Yoast Test Helper 1.17\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yoast-test-helper\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
+"POT-Creation-Date: 2022-05-17 08:32:33+00:00\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-21T08:41:22+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
-"X-Domain: yoast-test-helper\n"
-
-#. Plugin Name of the plugin
-#: src/admin-page.php:86
-msgid "Yoast Test Helper"
-msgstr ""
-
-#. Plugin URI of the plugin
-msgid "https://github.com/yoast/yoast-test-helper"
-msgstr ""
-
-#. Description of the plugin
-msgid "Utility to provide testing features for Yoast plugins."
-msgstr ""
-
-#. Author of the plugin
-msgid "Team Yoast"
-msgstr ""
-
-#. Author URI of the plugin
-msgid "https://yoa.st/1uk"
-msgstr ""
+"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Yoast Translate Team <translations@yoast.com>\n"
+"Language-Team: Yoast Translate <translations@yoast.com>\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
 
 #: src/admin-bar-panel.php:25
 msgid "Debug Information"
@@ -43,8 +32,8 @@ msgstr ""
 msgid "Option"
 msgstr ""
 
-#. translators: %1$s and %2$s expand to link to debug bar.
 #: src/admin-debug-info.php:66
+#. translators: %1$s and %2$s expand to link to debug bar.
 msgid "Add Yoast SEO panel to %1$sDebug Bar%2$s."
 msgstr ""
 
@@ -52,9 +41,12 @@ msgstr ""
 msgid "Debug Bar integration"
 msgstr ""
 
-#: src/admin-page.php:60
-#: src/admin-page.php:61
+#: src/admin-page.php:60 src/admin-page.php:61
 msgid "Yoast Test"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Yoast Test Helper"
 msgstr ""
 
 #: src/development-mode.php:47
@@ -77,13 +69,14 @@ msgstr ""
 msgid "Downgrade to version: "
 msgstr ""
 
-#. translators: %1$s is Yoast SEO.
 #: src/downgrader.php:41
+#. translators: %1$s is Yoast SEO.
 msgid "Downgrade %1$s"
 msgstr ""
 
-#. translators: %1$s is Yoast SEO, %2$s is the version number it was downgraded to.
 #: src/downgrader.php:69
+#. translators: %1$s is Yoast SEO, %2$s is the version number it was downgraded
+#. to.
 msgid "%1$s has been succesfully downgraded to version %2$s."
 msgstr ""
 
@@ -103,8 +96,9 @@ msgstr ""
 msgid "A migration is already in progress. Please try again later."
 msgstr ""
 
-#. translators: %1$s is the class name of the migration that failed, %2$s is the message given by the failure.
 #: src/downgrader.php:158
+#. translators: %1$s is the class name of the migration that failed, %2$s is
+#. the message given by the failure.
 msgid "Migration %1$s failed with the message: %2$s"
 msgstr ""
 
@@ -116,8 +110,8 @@ msgstr ""
 msgid "Could not install the requested version."
 msgstr ""
 
-#. translators: %s expands to the label.
 #: src/feature-toggler.php:64
+#. translators: %s expands to the label.
 msgid "Enable %s"
 msgstr ""
 
@@ -137,8 +131,8 @@ msgstr ""
 msgid "After script"
 msgstr ""
 
-#. translators: %1$s expands to the `script` tag.
 #: src/inline-script.php:69
+#. translators: %1$s expands to the `script` tag.
 msgid "Script (do not include %1$s tags):"
 msgstr ""
 
@@ -174,23 +168,24 @@ msgstr ""
 msgid "Plugin options & database versions"
 msgstr ""
 
-#. translators: %1$s expands to the plugin name, %2$s to the version.
 #: src/plugin-version-control.php:111
+#. translators: %1$s expands to the plugin name, %2$s to the version.
 msgid "%1$s version was set to %2$s."
 msgstr ""
 
-#. translators: %1$s expands to the plugin name.
 #: src/plugin-version-control.php:126
+#. translators: %1$s expands to the plugin name.
 msgid "%1$s options were saved."
 msgstr ""
 
-#. translators: %1$s expands to date, %2$s to plugin name, %3$s and %4$s to HTML strong tags.
 #: src/plugin-version-control.php:215
+#. translators: %1$s expands to date, %2$s to plugin name, %3$s and %4$s to
+#. HTML strong tags.
 msgid "Options from %1$s for %2$s have %3$snot%4$s been restored."
 msgstr ""
 
-#. translators: %1$s expands to date, %2$s to plugin name.
 #: src/plugin-version-control.php:228
+#. translators: %1$s expands to date, %2$s to plugin name.
 msgid "Options from %1$s for %2$s have been restored."
 msgstr ""
 
@@ -210,8 +205,7 @@ msgstr ""
 msgid "Post types & Taxonomies"
 msgstr ""
 
-#: src/post-types.php:149
-#: src/post-types.php:151
+#: src/post-types.php:149 src/post-types.php:151
 msgid "Books"
 msgstr ""
 
@@ -219,8 +213,7 @@ msgstr ""
 msgid "Book"
 msgstr ""
 
-#: src/post-types.php:153
-#: src/post-types.php:178
+#: src/post-types.php:153 src/post-types.php:178
 msgid "Add New"
 msgstr ""
 
@@ -232,8 +225,7 @@ msgstr ""
 msgid "Our books post type"
 msgstr ""
 
-#: src/post-types.php:174
-#: src/post-types.php:176
+#: src/post-types.php:174 src/post-types.php:176
 msgid "Movies"
 msgstr ""
 
@@ -281,8 +273,7 @@ msgstr ""
 msgid "Schema"
 msgstr ""
 
-#: src/taxonomies.php:57
-#: src/taxonomies.php:59
+#: src/taxonomies.php:57 src/taxonomies.php:59
 msgid "Categories"
 msgstr ""
 
@@ -290,13 +281,11 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
-#: src/taxonomies.php:80
-#: src/taxonomies.php:82
+#: src/taxonomies.php:80 src/taxonomies.php:82
 msgid "Genres"
 msgstr ""
 
-#: src/taxonomies.php:83
-#: src/taxonomies.php:90
+#: src/taxonomies.php:83 src/taxonomies.php:90
 msgid "Genre"
 msgstr ""
 
@@ -329,29 +318,30 @@ msgid "The Yoast SEO upgrade routine was executed."
 msgstr ""
 
 #: src/upgrade-detector.php:35
-msgid "Yoast SEO Premium updated its version number, which should mean the upgrade routine was executed."
+msgid ""
+"Yoast SEO Premium updated its version number, which should mean the upgrade "
+"routine was executed."
 msgstr ""
 
 #: src/wordpress-plugin-features.php:73
 msgid "Reset"
 msgstr ""
 
-#. translators: %1$s expands to the plugin name, %2$s to the feature name.
 #: src/wordpress-plugin-features.php:135
+#. translators: %1$s expands to the plugin name, %2$s to the feature name.
 msgid "%1$s feature %2$s could not be reset."
 msgstr ""
 
-#. translators: %1$s expands to the plugin name, %2$s to the feature name.
 #: src/wordpress-plugin-features.php:146
+#. translators: %1$s expands to the plugin name, %2$s to the feature name.
 msgid "%1$s feature %2$s has been reset."
 msgstr ""
 
-#: src/wordpress-plugins/local-seo.php:81
-#: src/wordpress-plugins/news-seo.php:83
+#: src/wordpress-plugins/local-seo.php:81 src/wordpress-plugins/news-seo.php:83
 #: src/wordpress-plugins/video-seo.php:81
 #: src/wordpress-plugins/woocommerce-seo.php:83
 #: src/wordpress-plugins/yoast-seo-premium.php:83
-#: src/wordpress-plugins/yoast-seo.php:150
+#: src/wordpress-plugins/yoast-seo.php:146
 msgid "not active"
 msgstr ""
 
@@ -407,10 +397,6 @@ msgstr ""
 msgid "Cornerstone flags"
 msgstr ""
 
-#: src/wordpress-plugins/yoast-seo.php:87
-msgid "Ignored indexables"
-msgstr ""
-
 #: src/xml-sitemaps.php:69
 msgid "Disable the XML sitemaps cache."
 msgstr ""
@@ -421,4 +407,20 @@ msgstr ""
 
 #: src/xml-sitemaps.php:75
 msgid "XML Sitemaps"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/yoast/yoast-test-helper"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Utility to provide testing features for Yoast plugins."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Team Yoast"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://yoa.st/1uk"
 msgstr ""
