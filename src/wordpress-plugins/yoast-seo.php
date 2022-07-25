@@ -371,9 +371,9 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return void
 	 */
 	protected function reset_ignored_indexables() {
-		WPSEO_Options::set( 'least_readability_score_ignore_list', [] );
+		WPSEO_Options::set( 'least_readability_ignore_list', [] );
 		WPSEO_Options::set( 'least_seo_score_ignore_list', [] );
-		WPSEO_Options::set( 'least_linked_ignore_list', [] );
 		WPSEO_Options::set( 'most_linked_ignore_list', [] );
+		WPSEO_Options::set( 'least_linked_ignore_list', [] );
 	}
 }
