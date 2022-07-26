@@ -34,7 +34,7 @@ class Schema implements Integration {
 		}
 
 		if ( $this->option->get( 'enable_structured_data_blocks' ) === true ) {
-			\add_filter( 'init', [ $this, 'enable_feature_flag' ] );
+			\add_action( 'init', [ $this, 'enable_feature_flag' ] );
 		}
 
 		if ( $this->option->get( 'enable_schema_endpoint' ) === true ) {
@@ -69,7 +69,7 @@ class Schema implements Integration {
 	 * Registers the schema endpoint if needed.
 	 */
 	public function init_rewrite() {
-		\add_rewrite_endpoint( 'schema', EP_ALL );
+		\add_rewrite_endpoint( 'schema', \EP_ALL );
 	}
 
 	/**
@@ -104,8 +104,8 @@ class Schema implements Integration {
 
 		$output .= Form_Presenter::create_checkbox(
 			'enable_schema_endpoint',
-			// translators: %s is replaced by `<code>/schema/</code>`.
-			sprintf( \esc_html__( 'Enable the %s endpoint for every URL.', 'yoast-test-helper' ), '<code>/schema/</code>' ),
+			/* translators: %s is replaced by `<code>/schema/</code>` */
+			\sprintf( \esc_html__( 'Enable the %s endpoint for every URL.', 'yoast-test-helper' ), '<code>/schema/</code>' ),
 			$this->option->get( 'enable_schema_endpoint' )
 		);
 
