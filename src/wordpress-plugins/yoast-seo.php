@@ -84,6 +84,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'reset_premium_workouts'             => \esc_html__( 'Premium workouts progress', 'yoast-test-helper' ),
 			'reset_options'                      => \esc_html__( 'Options', 'yoast-test-helper' ),
 			'reset_cornerstone_flags'            => \esc_html__( 'Cornerstone flags', 'yoast-test-helper' ),
+			'reset_ignored_indexables'           => \esc_html__( 'Ignored indexables', 'yoast-test-helper' ),
 		];
 	}
 
@@ -131,6 +132,9 @@ class Yoast_SEO implements WordPress_Plugin {
 				return true;
 			case 'reset_cornerstone_flags':
 				$this->reset_cornerstone_flags();
+				return true;
+			case 'reset_ignored_indexables':
+				$this->reset_ignored_indexables();
 				return true;
 		}
 
@@ -359,5 +363,17 @@ class Yoast_SEO implements WordPress_Plugin {
 	protected function reset_cornerstone_flags() {
 		global $wpdb;
 		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . 'postmeta WHERE meta_key = "_yoast_wpseo_is_cornerstone"' );
+	}
+
+	/**
+	 * Resets all ignored indexables.
+	 *
+	 * @return void
+	 */
+	protected function reset_ignored_indexables() {
+		WPSEO_Options::set( 'least_readability_ignore_list', [] );
+		WPSEO_Options::set( 'least_seo_score_ignore_list', [] );
+		WPSEO_Options::set( 'most_linked_ignore_list', [] );
+		WPSEO_Options::set( 'least_linked_ignore_list', [] );
 	}
 }
