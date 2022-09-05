@@ -83,6 +83,7 @@ class Plugin implements Integration {
 		$this->integrations[] = new WordPress_Plugin_Features( $plugins );
 		$this->integrations[] = new Schema( $option );
 		$this->integrations[] = new XML_Sitemaps( $option );
+		$this->integrations[] = new Indexables_Page( $option );
 		$this->integrations[] = new Feature_Toggler( $option );
 		$this->integrations[] = new Post_Types( $option );
 		$this->integrations[] = new Taxonomies( $option );
