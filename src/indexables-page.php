@@ -90,7 +90,7 @@ class Indexables_Page implements Integration {
 		}
 
 		$output .= '<label for="indexables_analyzed_posts_threshold">' . \esc_html__( 'The minimum threshold for the amount of analyzed posts:', 'yoast-test-helper' ) . '</label>';
-		$output .= '<input type="text" size="5" value="' . $value . '" placeholder="' . $placeholder_analyzed_thresholds . '" name="indexables_analyzed_posts_threshold" id="indexables_analyzed_posts_threshold"/><span>%</span><br/>';
+		$output .= '<input type="number" step=".01" size="5" min=0 max=100 value="' . $value . '" placeholder="' . $placeholder_analyzed_thresholds . '" name="indexables_analyzed_posts_threshold" id="indexables_analyzed_posts_threshold"/><span>%</span><br/>';
 
 
 		return Form_Presenter::get_html( \__( 'Integration page thresholds', 'yoast-test-helper' ), 'yoast_seo_test_indexables_page', $output );
