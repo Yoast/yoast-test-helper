@@ -74,9 +74,9 @@ class Indexables_Page implements Integration {
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WPSEO hook.
 		$placeholder_thresholds = \apply_filters( 'wpseo_posts_threshold', Indexables_Page_Helper::POSTS_THRESHOLD );
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WPSEO hook.
-		$placeholder_analyzed_thresholds = \apply_filters( 'wpseo_analyzed_posts_threshold', Indexables_Page_Helper::ANALYSED_POSTS_THRESHOLD );
-
-		$value = '';
+		$placeholder_analyzed_thresholds  = \apply_filters( 'wpseo_analyzed_posts_threshold', Indexables_Page_Helper::ANALYSED_POSTS_THRESHOLD );
+		$placeholder_analyzed_thresholds *= 100;
+		$value                            = '';
 		if ( $this->option->get( 'indexables_posts_threshold' ) > 0 ) {
 			$value = $this->option->get( 'indexables_posts_threshold' );
 		}
@@ -86,11 +86,11 @@ class Indexables_Page implements Integration {
 
 		$value = '';
 		if ( $this->option->get( 'indexables_analyzed_posts_threshold' ) > 0 ) {
-			$value = $this->option->get( 'indexables_analyzed_posts_threshold' );
+			$value = ( $this->option->get( 'indexables_analyzed_posts_threshold' ) * 100 );
 		}
 
 		$output .= '<label for="indexables_analyzed_posts_threshold">' . \esc_html__( 'The minimum threshold for the amount of analyzed posts:', 'yoast-test-helper' ) . '</label>';
-		$output .= '<input type="number" step=".01" size="5" min=0 max=100 value="' . $value . '" placeholder="' . $placeholder_analyzed_thresholds . '" name="indexables_analyzed_posts_threshold" id="indexables_analyzed_posts_threshold"/><span>%</span><br/>';
+		$output .= '<input type="number" size="5" min=1 max=100 value="' . $value . '" placeholder="' . $placeholder_analyzed_thresholds . '" name="indexables_analyzed_posts_threshold" id="indexables_analyzed_posts_threshold"/><span>%</span><br/>';
 
 
 		return Form_Presenter::get_html( \__( 'Integration page thresholds', 'yoast-test-helper' ), 'yoast_seo_test_indexables_page', $output );
@@ -105,18 +105,16 @@ class Indexables_Page implements Integration {
 		if ( \check_admin_referer( 'yoast_seo_test_indexables_page' ) !== false ) {
 			$indexables_posts_threshold = null;
 			if ( isset( $_POST['indexables_posts_threshold'] ) ) {
-				$indexables_posts_threshold = \filter_input( \INPUT_POST, 'indexables_posts_threshold', \FILTER_SANITIZE_NUMBER_INT );
+				$indexables_posts_threshold = \sanitize_text_field( wp_unslash( $_POST['indexables_posts_threshold'] ) );
 			}
 			$this->option->set( 'indexables_posts_threshold', $indexables_posts_threshold );
 
 			$indexables_analyzed_posts_threshold = null;
 
-			if ( isset( $_POST['indexables_analyzed_posts_threshold'] ) ) {
-				$analyzed_threshold_post             = \filter_input( \INPUT_POST, 'indexables_analyzed_posts_threshold', \FILTER_SANITIZE_STRING );
-				$indexables_analyzed_posts_threshold = \str_replace( ',', '.', $analyzed_threshold_post );
-				$indexables_analyzed_posts_threshold = \filter_var( $indexables_analyzed_posts_threshold, \FILTER_SANITIZE_NUMBER_FLOAT, \FILTER_FLAG_ALLOW_FRACTION );
+			if ( isset( $_POST['indexables_analyzed_posts_threshold'] ) && $_POST['indexables_analyzed_posts_threshold'] > 0 && $_POST['indexables_analyzed_posts_threshold'] <= 100 ) {
+				$indexables_analyzed_posts_threshold = \sanitize_text_field( wp_unslash( $_POST['indexables_analyzed_posts_threshold'] ) );
 			}
-			$this->option->set( 'indexables_analyzed_posts_threshold', $indexables_analyzed_posts_threshold );
+			$this->option->set( 'indexables_analyzed_posts_threshold', ( $indexables_analyzed_posts_threshold / 100 ) );
 		}
 
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
