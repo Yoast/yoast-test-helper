@@ -105,14 +105,14 @@ class Indexables_Page implements Integration {
 		if ( \check_admin_referer( 'yoast_seo_test_indexables_page' ) !== false ) {
 			$indexables_posts_threshold = null;
 			if ( isset( $_POST['indexables_posts_threshold'] ) ) {
-				$indexables_posts_threshold = \sanitize_text_field( wp_unslash( $_POST['indexables_posts_threshold'] ) );
+				$indexables_posts_threshold = \sanitize_text_field( \wp_unslash( $_POST['indexables_posts_threshold'] ) );
 			}
 			$this->option->set( 'indexables_posts_threshold', $indexables_posts_threshold );
 
 			$indexables_analyzed_posts_threshold = null;
 
 			if ( isset( $_POST['indexables_analyzed_posts_threshold'] ) && $_POST['indexables_analyzed_posts_threshold'] > 0 && $_POST['indexables_analyzed_posts_threshold'] <= 100 ) {
-				$indexables_analyzed_posts_threshold = \sanitize_text_field( wp_unslash( $_POST['indexables_analyzed_posts_threshold'] ) );
+				$indexables_analyzed_posts_threshold = \sanitize_text_field( \wp_unslash( $_POST['indexables_analyzed_posts_threshold'] ) );
 			}
 			$this->option->set( 'indexables_analyzed_posts_threshold', ( $indexables_analyzed_posts_threshold / 100 ) );
 		}
