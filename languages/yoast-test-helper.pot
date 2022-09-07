@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast Test Helper 1.17\n"
+"Project-Id-Version: Yoast Test Helper 1.18\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2022-05-17 08:32:33+00:00\n"
+"POT-Creation-Date: 2022-09-07 10:23:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -121,6 +121,18 @@ msgstr ""
 
 #: src/form-presenter.php:30
 msgid "Save"
+msgstr ""
+
+#: src/indexables-page.php:84
+msgid "Minimum threshold for the amount of posts needed:"
+msgstr ""
+
+#: src/indexables-page.php:92
+msgid "The minimum threshold for the amount of analyzed posts:"
+msgstr ""
+
+#: src/indexables-page.php:96
+msgid "Integration page thresholds"
 msgstr ""
 
 #: src/inline-script.php:57
@@ -241,35 +253,40 @@ msgstr ""
 msgid "Our movies post type"
 msgstr ""
 
-#: src/schema.php:71
+#: src/schema.php:101
 msgid "Replace .test domain name with example.com in Schema output."
 msgstr ""
 
-#: src/schema.php:77
+#: src/schema.php:108
+#. translators: %s is replaced by `<code>/schema/</code>`
+msgid "Enable the %s endpoint for every URL."
+msgstr ""
+
+#: src/schema.php:114
 msgid "Enable the feature flag for the structured data blocks."
 msgstr ""
 
-#: src/schema.php:82
+#: src/schema.php:119
 msgid "Don't influence"
 msgstr ""
 
-#: src/schema.php:83
+#: src/schema.php:120
 msgid "Always include"
 msgstr ""
 
-#: src/schema.php:84
+#: src/schema.php:121
 msgid "Never include"
 msgstr ""
 
-#: src/schema.php:89
+#: src/schema.php:126
 msgid "Influence the Breadcrumb Graph piece: "
 msgstr ""
 
-#: src/schema.php:96
+#: src/schema.php:133
 msgid "Influence the WebPage Graph piece: "
 msgstr ""
 
-#: src/schema.php:101
+#: src/schema.php:138
 msgid "Schema"
 msgstr ""
 
@@ -341,7 +358,7 @@ msgstr ""
 #: src/wordpress-plugins/video-seo.php:81
 #: src/wordpress-plugins/woocommerce-seo.php:83
 #: src/wordpress-plugins/yoast-seo-premium.php:83
-#: src/wordpress-plugins/yoast-seo.php:146
+#: src/wordpress-plugins/yoast-seo.php:150
 msgid "not active"
 msgstr ""
 
@@ -395,6 +412,10 @@ msgstr ""
 
 #: src/wordpress-plugins/yoast-seo.php:86
 msgid "Cornerstone flags"
+msgstr ""
+
+#: src/wordpress-plugins/yoast-seo.php:87
+msgid "Ignored indexables"
 msgstr ""
 
 #: src/xml-sitemaps.php:69
