@@ -35,6 +35,21 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 == Changelog ==
 
+= 1.18 =
+
+Release date: September 20th, 2022
+
+Enhancements:
+
+* Adds a schema endpoint to any URL. Suffix the URL with /schema/ and you'll get only the Schema for that URL, pretty printed.
+* Adds option to overwrite the default thresholds of the indexables page.
+
+Other:
+
+* Sets minimum WordPress version to 5.9 and tested up to 6.0.
+* Add reset button for indexable ignore lists.
+
+
 = 1.17 =
 
 Release date: May 17th, 2022
