@@ -93,7 +93,7 @@ class Indexables_Page implements Integration {
 		$output .= '<input type="number" size="5" min=1 max=100 value="' . $value . '" placeholder="' . $placeholder_analyzed_thresholds . '" name="indexables_analyzed_posts_threshold" id="indexables_analyzed_posts_threshold"/><span>%</span><br/>';
 
 
-		return Form_Presenter::get_html( \__( 'Integration page thresholds', 'yoast-test-helper' ), 'yoast_seo_test_indexables_page', $output );
+		return Form_Presenter::get_html( \__( 'Indexables overview thresholds', 'yoast-test-helper' ), 'yoast_seo_test_indexables_page', $output );
 	}
 
 	/**
