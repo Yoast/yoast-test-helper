@@ -41,7 +41,7 @@ Release date: September 20th, 2022
 
 Enhancements:
 
-* Adds a schema endpoint to any URL. Suffix the URL with /schema/ and you'll get only the Schema for that URL, pretty printed.
+* Adds a schema endpoint to any URL. Suffix the URL with /schema/ and you’ll get only the Schema for that URL, improving readability.
 * Adds option to overwrite the default thresholds of the indexables page.
 
 Other:
