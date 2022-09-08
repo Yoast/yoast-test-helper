@@ -62,7 +62,6 @@ class Feature_Toggler implements Integration {
 
 		$fields .= Form_Presenter::create_checkbox(
 			'enable_new_ui',
-			/* translators: %s expands to the label. */
 			\sprintf( \__( 'Enable the new Settings UI', 'yoast-test-helper' ) ),
 			$this->option->get( 'enable_new_ui' )
 		);
