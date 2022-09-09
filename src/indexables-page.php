@@ -71,7 +71,7 @@ class Indexables_Page implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		if ( ! $this->option->get( 'enable_indexables_overview' ) ) {
+		if ( ! \defined( 'YOAST_SEO_INDEXABLES_PAGE' ) || YOAST_SEO_INDEXABLES_PAGE !== true ) {
 			return '';
 		}
 
