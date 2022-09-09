@@ -42,6 +42,10 @@ class Feature_Toggler implements Integration {
 			'admin_post_yoast_seo_feature_toggler',
 			[ $this, 'handle_submit' ]
 		);
+
+		if ( $this->option->get( 'enable_new_ui' ) === true ) {
+			\add_action( 'init', [ $this, 'enable_new_ui_feature_flag' ], 1 );
+		}
 	}
 
 	/**
@@ -50,11 +54,13 @@ class Feature_Toggler implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		if ( $this->features === [] ) {
-			return '';
-		}
-
 		$fields = '';
+
+		$fields .= Form_Presenter::create_checkbox(
+			'enable_new_ui',
+			\sprintf( \__( 'Enable the new Settings UI', 'yoast-test-helper' ) ),
+			$this->option->get( 'enable_new_ui' )
+		);
 
 		foreach ( $this->features as $feature => $label ) {
 			$key     = 'feature_toggle_' . $feature;
@@ -82,6 +88,8 @@ class Feature_Toggler implements Integration {
 			}
 		}
 
+		$this->option->set( 'enable_new_ui', isset( $_POST['enable_new_ui'] ) );
+
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
 
@@ -100,5 +108,16 @@ class Feature_Toggler implements Integration {
 		}
 
 		return $feature_array;
+	}
+
+	/**
+	 * Enables the feature flag for the new settings UI.
+	 */
+	public function enable_new_ui_feature_flag() {
+		if ( \defined( 'YOAST_SEO_NEW_SETTINGS_UI' ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
+			return;
+		}
+
+		\define( 'YOAST_SEO_NEW_SETTINGS_UI', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
 	}
 }
