@@ -43,6 +43,8 @@ Enhancements:
 
 * Adds a schema endpoint to any URL. Suffix the URL with /schema/ and you’ll get only the Schema for that URL, improving readability.
 * Adds option to overwrite the default thresholds of the indexables page.
+* Adds a feature toggle to enable the new settings UI.
+* Adds a feature toggle to enable the indexables overview.
 
 Other:
 
