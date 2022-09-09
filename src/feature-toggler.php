@@ -44,11 +44,7 @@ class Feature_Toggler implements Integration {
 		);
 
 		if ( $this->option->get( 'enable_new_ui' ) === true ) {
-			if ( \defined( 'YOAST_SEO_NEW_SETTINGS_UI' ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
-				return;
-			}
-
-			\define( 'YOAST_SEO_NEW_SETTINGS_UI', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
+			\add_action( 'init', [ $this, 'enable_new_ui_feature_flag' ], 1 );
 		}
 	}
 
@@ -112,5 +108,16 @@ class Feature_Toggler implements Integration {
 		}
 
 		return $feature_array;
+	}
+
+	/**
+	 * Enables the feature flag for the new settings UI.
+	 */
+	public function enable_new_ui_feature_flag() {
+		if ( \defined( 'YOAST_SEO_NEW_SETTINGS_UI' ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
+			return;
+		}
+
+		\define( 'YOAST_SEO_NEW_SETTINGS_UI', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
 	}
 }
