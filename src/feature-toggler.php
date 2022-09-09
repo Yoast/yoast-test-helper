@@ -46,6 +46,10 @@ class Feature_Toggler implements Integration {
 		if ( $this->option->get( 'enable_new_ui' ) === true ) {
 			\add_action( 'init', [ $this, 'enable_new_ui_feature_flag' ], 1 );
 		}
+
+		if ( $this->option->get( 'enable_indexables_overview' ) === true ) {
+			\add_action( 'init', [ $this, 'enable_indexables_overview_feature_flag' ], 1 );
+		}
 	}
 
 	/**
@@ -60,6 +64,12 @@ class Feature_Toggler implements Integration {
 			'enable_new_ui',
 			\sprintf( \__( 'Enable the new Settings UI', 'yoast-test-helper' ) ),
 			$this->option->get( 'enable_new_ui' )
+		);
+
+		$fields .= Form_Presenter::create_checkbox(
+			'enable_indexables_overview',
+			\sprintf( \__( 'Enable the Indexables overview', 'yoast-test-helper' ) ),
+			$this->option->get( 'enable_indexables_overview' )
 		);
 
 		foreach ( $this->features as $feature => $label ) {
@@ -89,6 +99,7 @@ class Feature_Toggler implements Integration {
 		}
 
 		$this->option->set( 'enable_new_ui', isset( $_POST['enable_new_ui'] ) );
+		$this->option->set( 'enable_indexables_overview', isset( $_POST['enable_indexables_overview'] ) );
 
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}
@@ -119,5 +130,16 @@ class Feature_Toggler implements Integration {
 		}
 
 		\define( 'YOAST_SEO_NEW_SETTINGS_UI', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
+	}
+
+	/**
+	 * Enables the feature flag for the Indexables overview.
+	 */
+	public function enable_indexables_overview_feature_flag() {
+		if ( \defined( 'YOAST_SEO_INDEXABLES_PAGE' ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
+			return;
+		}
+
+		\define( 'YOAST_SEO_INDEXABLES_PAGE', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- The prefix matches that of Yoast SEO, where this flag belongs.
 	}
 }

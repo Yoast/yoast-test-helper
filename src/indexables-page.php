@@ -71,6 +71,10 @@ class Indexables_Page implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
+		if ( ! \defined( 'YOAST_SEO_INDEXABLES_PAGE' ) || YOAST_SEO_INDEXABLES_PAGE !== true ) {
+			return '';
+		}
+
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WPSEO hook.
 		$placeholder_thresholds = \apply_filters( 'wpseo_posts_threshold', Indexables_Page_Helper::POSTS_THRESHOLD );
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WPSEO hook.
