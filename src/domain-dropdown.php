@@ -71,7 +71,8 @@ class Domain_Dropdown implements Integration {
 	 */
 	public function handle_submit() {
 		if ( \check_admin_referer( 'yoast_seo_domain_dropdown' ) !== false ) {
-			$this->option->set( 'myyoast_test_domain', \filter_input( \INPUT_POST, 'myyoast_test_domain', \FILTER_SANITIZE_STRING ) );
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
+			$this->option->set( 'myyoast_test_domain', \filter_input( \INPUT_POST, 'myyoast_test_domain', @\FILTER_SANITIZE_STRING ) );
 		}
 
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
