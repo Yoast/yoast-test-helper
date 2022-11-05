@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Local_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\News_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Video_SEO;
@@ -9,7 +10,6 @@ use Yoast\WP\Test_Helper\WordPress_Plugins\WooCommerce_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\WordPress_Plugin;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Yoast_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Yoast_SEO_Premium;
-use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 
 /**
  * Bootstrap for the entire plugin.
