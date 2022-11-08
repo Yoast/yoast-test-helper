@@ -118,6 +118,10 @@ class Domain_Dropdown implements Integration {
 		$url_host = \wp_parse_url( $url, \PHP_URL_HOST );
 		$new_host = \wp_parse_url( $domain, \PHP_URL_HOST );
 
+        if ( $new_host === false || \is_null( $new_host ) ) {
+            $new_host = '';
+        }
+
 		if ( $url_host === 'my.yoast.com' ) {
 			$host = isset( $headers['Host'] ) ? $headers['Host'] : $new_host;
 			$url  = \str_replace( 'https://' . $url_host, $domain, $url );
