@@ -50,6 +50,10 @@ class Feature_Toggler implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
+		if ( $this->features === [] ) {
+			return '';
+		}
+		
 		$fields = '';
 
 		foreach ( $this->features as $feature => $label ) {
