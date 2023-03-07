@@ -1,14 +1,14 @@
-# Copyright (C) 2022 Team Yoast
+# Copyright (C) 2023 Team Yoast
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
 "Project-Id-Version: Yoast Test Helper 1.18-RC2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2022-09-09 14:28:03+00:00\n"
+"POT-Creation-Date: 2023-03-07 14:10:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Yoast Translate Team <translations@yoast.com>\n"
 "Language-Team: Yoast Translate <translations@yoast.com>\n"
 "Language: en\n"
@@ -111,36 +111,16 @@ msgid "Could not install the requested version."
 msgstr ""
 
 #: src/feature-toggler.php:65
-msgid "Enable the new Settings UI"
-msgstr ""
-
-#: src/feature-toggler.php:71
-msgid "Enable the Indexables overview"
-msgstr ""
-
-#: src/feature-toggler.php:80
 #. translators: %s expands to the label.
 msgid "Enable %s"
 msgstr ""
 
-#: src/feature-toggler.php:85
+#: src/feature-toggler.php:70
 msgid "Feature toggler"
 msgstr ""
 
 #: src/form-presenter.php:30
 msgid "Save"
-msgstr ""
-
-#: src/indexables-page.php:88
-msgid "Minimum threshold for the amount of posts needed:"
-msgstr ""
-
-#: src/indexables-page.php:96
-msgid "The minimum threshold for the amount of analyzed posts:"
-msgstr ""
-
-#: src/indexables-page.php:100
-msgid "Indexables overview thresholds"
 msgstr ""
 
 #: src/inline-script.php:57
