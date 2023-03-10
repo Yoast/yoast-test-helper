@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\Test_Helper;
 
-use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Local_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\News_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Video_SEO;
@@ -84,9 +83,6 @@ class Plugin implements Integration {
 		$this->integrations[] = new WordPress_Plugin_Features( $plugins );
 		$this->integrations[] = new Schema( $option );
 		$this->integrations[] = new XML_Sitemaps( $option );
-		if ( \class_exists( Indexables_Page_Helper::class ) ) {
-			$this->integrations[] = new Indexables_Page( $option );
-		}
 		$this->integrations[] = new Feature_Toggler( $option );
 		$this->integrations[] = new Post_Types( $option );
 		$this->integrations[] = new Taxonomies( $option );
