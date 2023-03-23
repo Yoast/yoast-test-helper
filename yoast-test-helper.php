@@ -12,7 +12,7 @@
  * Plugin URI:  https://github.com/yoast/yoast-test-helper
  * Description: Utility to provide testing features for Yoast plugins.
  * Author:      Team Yoast
- * Author URI:  https://yoa.st/1uk
+ * Author URI:  https://yoa.st/team-yoast-test-helper
  * Text Domain: yoast-test-helper
  * Domain Path: /languages/
  * License:     GPL v3
