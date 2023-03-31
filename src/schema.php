@@ -74,13 +74,16 @@ class Schema implements Integration {
 	public function send_json_ld() {
 		global $wp_query;
 
-		$url = \YoastSEO()->meta->for_current_page()->canonical;
-		if ( empty( $url ) || ! isset( $wp_query->query_vars['schema'] ) ) {
+		if ( ! isset( $wp_query->query_vars['schema'] ) ) {
 			return;
 		}
 
 		\header( 'Content-Type: application/ld+json' );
-		\header( 'Link: <' . $url . '>; rel="canonical"' );
+		$url = \YoastSEO()->meta->for_current_page()->canonical;
+		if ( ! empty( $url ) ) {
+			\header( 'Link: <' . $url . '>; rel="canonical"' );
+		}
+
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This is our self generated Schema, no need for escaping.
 		echo WPSEO_Utils::format_json_encode( \YoastSEO()->meta->for_current_page()->schema );
 		exit;
