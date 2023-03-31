@@ -41,16 +41,14 @@ Release date: September 20th, 2022
 
 Enhancements:
 
-* Adds a schema endpoint to any URL. Suffix the URL with /schema/ and you’ll get only the Schema for that URL, improving readability.
-* Adds option to overwrite the default thresholds of the indexables page.
-* Adds a feature toggle to enable the new settings UI.
-* Adds a feature toggle to enable the indexables overview.
+* Adds a `schema` endpoint to any URL. Suffix the URL with `/schema/` and you'll get only the Schema for that URL, pretty printed.
 
 Other:
 
-* Sets minimum WordPress version to 5.9 and tested up to 6.0.
-* Add reset button for indexable ignore lists.
-
+* Removes the checkbox to enable the feature flag for the structured data blocks.
+* Sets the WordPress tested up to version to 6.2.
+* Sets minimum WordPress version to 6.0.
+* Drops compatibility with PHP 5.6, 7.0 and 7.1.
 
 = 1.17 =
 
