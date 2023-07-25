@@ -17,3 +17,5 @@ phpcs.xml
 [Dd]esktop.ini
 *.DS_store
 .DS_store?
+
+.vscode/
