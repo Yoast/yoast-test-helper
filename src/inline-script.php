@@ -74,7 +74,7 @@ class Inline_Script implements Integration {
 	}
 
 	/**
-	 * Handles the form submit.
+	 * Handles the form submit for adding inline script.
 	 *
 	 * @return void
 	 */
