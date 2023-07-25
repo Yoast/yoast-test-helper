@@ -58,7 +58,8 @@ class Downgrader implements Integration {
 			return;
 		}
 
-		$target_version = \filter_var( \wp_unslash( $_POST['target_version'] ) );
+		$target_version = ( isset( $_POST['target_version'] ) ) ? \sanitize_text_field( \wp_unslash( $_POST['target_version'] ) ) : null;
+
 		try {
 			$this->downgrade( $target_version );
 			\do_action(
