@@ -71,7 +71,7 @@ class Domain_Dropdown implements Integration {
 	 */
 	public function handle_submit() {
 
-		if ( ! \check_admin_referer( 'yoast_seo_domain_dropdown' ) &&  !isset( $_POST['myyoast_test_domain'] ) ) {
+		if ( ! \check_admin_referer( 'yoast_seo_domain_dropdown' ) && ! isset( $_POST['myyoast_test_domain'] ) ) {
 			return;
 		}
 
