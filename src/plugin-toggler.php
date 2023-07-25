@@ -178,8 +178,10 @@ class Plugin_Toggler implements Integration {
 
 		// If nonce is valid.
 		if ( $this->verify_nonce() ) {
-			$group  = \filter_input( \INPUT_GET, 'group' );
-			$plugin = \filter_input( \INPUT_GET, 'plugin' );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The nonce is verified above.
+			$group = ( isset( $_GET['group'] ) ) ? \sanitize_text_field( \wp_unslash( $_GET['group'] ) ) : null;
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The nonce is verified above.
+			$plugin = ( isset( $_GET['plugin'] ) ) ? \sanitize_text_field( \wp_unslash( $_GET['plugin'] ) ) : null;
 
 			// First deactivate the current plugin.
 			$this->deactivate_plugin_group( $group );
@@ -422,7 +424,7 @@ class Plugin_Toggler implements Integration {
 	 */
 	private function verify_nonce() {
 		// Get the nonce value.
-		$ajax_nonce = \filter_input( \INPUT_GET, 'ajax_nonce' );
+		$ajax_nonce = isset( $_GET['ajax_nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['ajax_nonce'] ) ) : null;
 
 		// If nonce is valid return true.
 		if ( \wp_verify_nonce( $ajax_nonce, 'yoast-plugin-toggle' ) ) {
