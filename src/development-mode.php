@@ -32,6 +32,9 @@ class Development_Mode implements Integration {
 		if ( $this->option->get( 'enable_development_mode' ) ) {
 			\add_filter( 'yoast_seo_development_mode', '__return_true' );
 		}
+		if ( $this->option->get( 'use_ai_staging_api' ) ) {
+			\add_filter( 'Yoast\WP\SEO\ai_api_url', [ $this, 'use_ai_staging_api' ] );
+		}
 
 		\add_action( 'admin_post_yoast_seo_test_development_mode', [ $this, 'handle_submit' ] );
 	}
@@ -48,7 +51,13 @@ class Development_Mode implements Integration {
 			$this->option->get( 'enable_development_mode' )
 		);
 
-		return Form_Presenter::get_html( \__( 'Enable development mode', 'yoast-test-helper' ), 'yoast_seo_test_development_mode', $fields );
+		$fields .= Form_Presenter::create_checkbox(
+			'use_ai_staging_api',
+			\esc_html__( 'Switch to AI staging API', 'yoast-test-helper' ),
+			$this->option->get( 'use_ai_staging_api' )
+		);
+
+		return Form_Presenter::get_html( \__( 'Development settings', 'yoast-test-helper' ), 'yoast_seo_test_development_mode', $fields );
 	}
 
 	/**
@@ -59,9 +68,19 @@ class Development_Mode implements Integration {
 	public function handle_submit() {
 		if ( \check_admin_referer( 'yoast_seo_test_development_mode' ) !== false ) {
 			$this->set_bool_option( 'enable_development_mode' );
+			$this->set_bool_option( 'use_ai_staging_api' );
 		}
 
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
+	}
+
+	/**
+	 * Uses the AI staging API.
+	 *
+	 * @return string
+	 */
+	public function use_ai_staging_api() {
+		return 'https://ai-staging.yoa.st/api/v1';
 	}
 
 	/**
