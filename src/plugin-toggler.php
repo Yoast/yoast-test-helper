@@ -177,11 +177,13 @@ class Plugin_Toggler implements Integration {
 		$response = [];
 
 		// If nonce is valid.
-		if ( $this->verify_nonce() ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The nonce is verified in a different method.
+		if ( $this->verify_nonce() && isset( $_GET['group'] ) && is_string( $_GET['group'] && isset( $_GET['plugin'] ) && is_string( $_GET['plugin'] ) ) ) {
+
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The nonce is verified above.
-			$group = ( isset( $_GET['group'] ) ) ? \sanitize_text_field( \wp_unslash( $_GET['group'] ) ) : null;
+			$group = \sanitize_text_field( \wp_unslash( $_GET['group'] ) );
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The nonce is verified above.
-			$plugin = ( isset( $_GET['plugin'] ) ) ? \sanitize_text_field( \wp_unslash( $_GET['plugin'] ) ) : null;
+			$plugin = \sanitize_text_field( \wp_unslash( $_GET['plugin'] ) );
 
 			// First deactivate the current plugin.
 			$this->deactivate_plugin_group( $group );
