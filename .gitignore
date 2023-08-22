@@ -1,6 +1,7 @@
 /vendor/
 /node_modules/
 .idea/
+.vscode/
 artifact.zip
 /artifact/
 yarn-error.log
@@ -17,5 +18,3 @@ phpcs.xml
 [Dd]esktop.ini
 *.DS_store
 .DS_store?
-
-.vscode/
