@@ -178,7 +178,7 @@ class Plugin_Toggler implements Integration {
 
 		// If nonce is valid.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The nonce is verified in a different method.
-		if ( $this->verify_nonce() && isset( $_GET['group'] ) && is_string( $_GET['group'] && isset( $_GET['plugin'] ) && is_string( $_GET['plugin'] ) ) ) {
+		if ( $this->verify_nonce() && isset( $_GET['group'] ) && \is_string( $_GET['group'] && isset( $_GET['plugin'] ) && \is_string( $_GET['plugin'] ) ) ) {
 
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The nonce is verified above.
 			$group = \sanitize_text_field( \wp_unslash( $_GET['group'] ) );
