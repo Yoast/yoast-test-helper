@@ -82,7 +82,7 @@ class Inline_Script implements Integration {
 		if ( \check_admin_referer( 'yoast_seo_test_inline_script' ) !== false ) {
 			$this->option->set( 'add_inline_script', isset( $_POST['add_inline_script'] ) );
 
-			if ( isset( $_POST['inline_script_handle'] ) && is_string( $_POST['inline_script_handle'] ) ) {
+			if ( isset( $_POST['inline_script_handle'] ) && \is_string( $_POST['inline_script_handle'] ) ) {
 				$inline_script_handle = \sanitize_text_field( \wp_unslash( $_POST['inline_script_handle'] ) );
 				$this->option->set( 'inline_script_handle', $inline_script_handle );
 			}
