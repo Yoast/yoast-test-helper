@@ -54,11 +54,12 @@ class Downgrader implements Integration {
 		if ( ! \check_admin_referer( 'yoast_rollback_control' ) ) {
 			return;
 		}
-		if ( ! isset( $_POST['target_version'] ) ) {
+		if ( ! isset( $_POST['target_version'] ) || ! \is_string( $_POST['target_version'] ) ) {
 			return;
 		}
 
-		$target_version = \filter_var( \wp_unslash( $_POST['target_version'] ) );
+		$target_version = \sanitize_text_field( \wp_unslash( $_POST['target_version'] ) );
+
 		try {
 			$this->downgrade( $target_version );
 			\do_action(

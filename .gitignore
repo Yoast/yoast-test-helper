@@ -1,6 +1,7 @@
 /vendor/
 /node_modules/
 .idea/
+.vscode/
 artifact.zip
 /artifact/
 yarn-error.log
