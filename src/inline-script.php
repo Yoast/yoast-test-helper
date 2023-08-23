@@ -86,7 +86,7 @@ class Inline_Script implements Integration {
 				$inline_script_handle = \sanitize_text_field( \wp_unslash( $_POST['inline_script_handle'] ) );
 				$this->option->set( 'inline_script_handle', $inline_script_handle );
 			}
-			if ( isset( $_POST['inline_script'] ) && is_string( $_POST['inline_script'] ) ) {
+			if ( isset( $_POST['inline_script'] ) && \is_string( $_POST['inline_script'] ) ) {
 				$inline_script = \sanitize_text_field( \wp_unslash( $_POST['inline_script'] ) );
 				$this->option->set( 'inline_script', $inline_script );
 			}
