@@ -85,7 +85,7 @@ class XML_Sitemaps implements Integration {
 			$this->option->set( 'disable_xml_sitemap_cache', isset( $_POST['disable_xml_sitemap_cache'] ) );
 			$xml_sitemap_entries = null;
 			if ( isset( $_POST['xml_sitemap_entries'] ) ) {
-				$xml_sitemap_entries = \filter_input( \INPUT_POST, 'xml_sitemap_entries', \FILTER_SANITIZE_NUMBER_INT );
+				$xml_sitemap_entries = \intval( \wp_unslash( $_POST['xml_sitemap_entries'] ) );
 			}
 			$this->option->set( 'xml_sitemap_entries', $xml_sitemap_entries );
 		}

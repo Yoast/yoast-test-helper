@@ -142,11 +142,17 @@ class Schema implements Integration {
 			$this->option->set( 'enable_schema_endpoint', isset( $_POST['enable_schema_endpoint'] ) );
 		}
 
-		$is_needed_breadcrumb = $this->validate_submit( \filter_input( \INPUT_POST, 'is_needed_breadcrumb' ) );
-		$is_needed_webpage    = $this->validate_submit( \filter_input( \INPUT_POST, 'is_needed_webpage' ) );
+		if ( isset( $_POST['is_needed_breadcrumb'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- validation is done in validate_submit.
+			$validated_is_needed_breadcrumb = $this->validate_submit( $_POST['is_needed_breadcrumb'] );
+			$this->option->set( 'is_needed_breadcrumb', $validated_is_needed_breadcrumb );
+		}
 
-		$this->option->set( 'is_needed_breadcrumb', $is_needed_breadcrumb );
-		$this->option->set( 'is_needed_webpage', $is_needed_webpage );
+		if ( isset( $_POST['is_needed_webpage'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- validation is done in validate_submit.
+			$validated_is_needed_webpage = $this->validate_submit( $_POST['is_needed_webpage'] );
+			$this->option->set( 'is_needed_webpage', $validated_is_needed_webpage );
+		}
 
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
 	}

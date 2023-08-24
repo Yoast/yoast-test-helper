@@ -74,17 +74,22 @@ class Inline_Script implements Integration {
 	}
 
 	/**
-	 * Handles the form submit.
+	 * Handles the form submit for adding inline script.
 	 *
 	 * @return void
 	 */
 	public function handle_submit() {
 		if ( \check_admin_referer( 'yoast_seo_test_inline_script' ) !== false ) {
 			$this->option->set( 'add_inline_script', isset( $_POST['add_inline_script'] ) );
-			// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- These deprecations will be addressed later.
-			$this->option->set( 'inline_script_handle', \filter_input( \INPUT_POST, 'inline_script_handle', @\FILTER_SANITIZE_STRING ) );
-			$this->option->set( 'inline_script', \filter_input( \INPUT_POST, 'inline_script', @\FILTER_SANITIZE_STRING ) );
-			// phpcs:enable
+
+			if ( isset( $_POST['inline_script_handle'] ) && \is_string( $_POST['inline_script_handle'] ) ) {
+				$inline_script_handle = \sanitize_text_field( \wp_unslash( $_POST['inline_script_handle'] ) );
+				$this->option->set( 'inline_script_handle', $inline_script_handle );
+			}
+			if ( isset( $_POST['inline_script'] ) && \is_string( $_POST['inline_script'] ) ) {
+				$inline_script = \sanitize_text_field( \wp_unslash( $_POST['inline_script'] ) );
+				$this->option->set( 'inline_script', $inline_script );
+			}
 		}
 
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
