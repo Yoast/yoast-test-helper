@@ -16,7 +16,7 @@
  * Text Domain: yoast-test-helper
  * Domain Path: /languages/
  * License:     GPL v3
- * Requires at least: 6.1
+ * Requires at least: 6.2
  * Requires PHP: 7.2.5
  *
  * This program is free software: you can redistribute it and/or modify
