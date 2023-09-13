@@ -3,7 +3,7 @@ Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
 Requires at least: 6.2
 Tested up to: 6.3
-Stable tag: 1.17
+Stable tag: 1.18-RC4
 Requires PHP: 7.2.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -41,12 +41,17 @@ Release date: September 20th, 2022
 Enhancements:
 
 * Adds a `schema` endpoint to any URL. Suffix the URL with `/schema/` and you'll get only the Schema for that URL, pretty printed.
+* Adds a checkbox to use the AI staging API.
+
+Bugfixes:
+
+* Fixes a bug where the DB version for Local SEO would not be updated correctly.
 
 Other:
 
 * Removes the checkbox to enable the feature flag for the structured data blocks.
-* Sets the WordPress tested up to version to 6.2.
-* Sets minimum WordPress version to 6.0.
+* Sets the WordPress tested up to version to 6.3.
+* Sets minimum WordPress version to 6.2.
 * Drops compatibility with PHP 5.6, 7.0 and 7.1.
 
 = 1.17 =
