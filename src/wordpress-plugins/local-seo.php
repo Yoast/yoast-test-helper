@@ -40,7 +40,7 @@ class Local_SEO implements WordPress_Plugin {
 	 * @return string The version key.
 	 */
 	public function get_version_key() {
-		return 'version';
+		return 'local_version';
 	}
 
 	/**
