@@ -3,7 +3,7 @@ Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
 Requires at least: 6.2
 Tested up to: 6.3
-Stable tag: 1.18-RC4
+Stable tag: 1.18-RC5
 Requires PHP: 7.2.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,7 +45,7 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes a bug where the DB version for Local SEO would not be updated correctly.
+* Fixes a bug where the DB versions for Local SEO and News SEO would not be updated correctly.
 
 Other:
 
