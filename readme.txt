@@ -45,7 +45,7 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes a bug where the DB version for Local SEO would not be updated correctly.
+* Fixes a bug where the DB versions for Local SEO and News SEO would not be updated correctly.
 
 Other:
 
