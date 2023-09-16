@@ -54,7 +54,6 @@ class Feature_Toggler implements Integration {
 			return '';
 		}
 
-
 		$fields = '';
 
 		foreach ( $this->features as $feature => $label ) {

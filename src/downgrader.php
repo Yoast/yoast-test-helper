@@ -188,7 +188,7 @@ class Downgrader implements Integration {
 			throw new Exception( \__( 'Could not install the requested version.', 'yoast-test-helper' ) );
 		}
 
-		$downgrade_version = static function( $option ) use ( $target_version ) {
+		$downgrade_version = static function ( $option ) use ( $target_version ) {
 			$option['version'] = \sanitize_text_field( $target_version );
 			return $option;
 		};
