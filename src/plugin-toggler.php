@@ -431,6 +431,8 @@ class Plugin_Toggler implements Integration {
 		if ( isset( $_GET['ajax_nonce'] ) && \wp_verify_nonce( $_GET['ajax_nonce'], 'yoast-plugin-toggle' ) ) {
 			return true;
 		}
+
+		return false;
 	}
 
 	/**
