@@ -394,7 +394,7 @@ class Plugin_Toggler implements Integration {
 		}
 
 		$plugin_path = $this->plugin_groups[ $group ][ $plugin ];
-		\activate_plugin( \plugin_basename( $plugin_path ), null, false, true );
+		\activate_plugin( \plugin_basename( $plugin_path ), '', false, true );
 	}
 
 	/**
