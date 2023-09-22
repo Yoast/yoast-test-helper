@@ -146,7 +146,7 @@ class Post_Types implements Integration {
 	/**
 	 * Return arguments to use when registering the book post type.
 	 *
-	 * @return array Arguments to use when registering the book post type.
+	 * @return array<string, string|bool|array<string, string>> Arguments to use when registering the book post type.
 	 */
 	private function get_book_args() {
 		return [
@@ -171,7 +171,7 @@ class Post_Types implements Integration {
 	/**
 	 * Get arguments to use when registering the movie post type.
 	 *
-	 * @return array Arguments to use when registering the movie post type.
+	 * @return array<string, string|bool|array<string, string>> Arguments to use when registering the movie post type.
 	 */
 	private function get_movie_args() {
 		return [

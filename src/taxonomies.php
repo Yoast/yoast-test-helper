@@ -54,7 +54,7 @@ class Taxonomies implements Integration {
 	 *
 	 * @param string $slug The slug to set for the taxonomy.
 	 *
-	 * @return array Arguments to use when registering the category taxonomy.
+	 * @return array<string, string|bool|array<string, string>> Arguments to use when registering the category taxonomy.
 	 */
 	private function get_category_args( $slug ) {
 		return [
@@ -77,7 +77,7 @@ class Taxonomies implements Integration {
 	 *
 	 * @param string $slug The slug to set for the taxonomy.
 	 *
-	 * @return array Arguments to use when registering the genre taxonomy.
+	 * @return array<string, string|bool|array<string, string>> Arguments to use when registering the genre taxonomy.
 	 */
 	private function get_genre_args( $slug ) {
 		return [
