@@ -25,6 +25,8 @@ class Taxonomies implements Integration {
 
 	/**
 	 * Register the needed hooks.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'enable_post_types' ) === true ) {
@@ -34,6 +36,8 @@ class Taxonomies implements Integration {
 
 	/**
 	 * Registers our post types.
+	 *
+	 * @return void
 	 */
 	public function register_taxonomies() {
 		// Taxonomies for books.

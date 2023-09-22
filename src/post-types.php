@@ -123,6 +123,8 @@ class Post_Types implements Integration {
 
 	/**
 	 * Flushes the rewrite rules on the required action.
+	 *
+	 * @return void
 	 */
 	public function flush_rewrite_rules() {
 		\flush_rewrite_rules();
@@ -132,6 +134,8 @@ class Post_Types implements Integration {
 	 * Sets a boolean option based on a POST parameter.
 	 *
 	 * @param string $option The option to check and set.
+	 *
+	 * @return void
 	 */
 	private function set_bool_option( $option ) {
 		// The nonce is checked in the handle_submit function.

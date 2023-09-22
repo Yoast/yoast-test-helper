@@ -63,6 +63,8 @@ class Schema implements Integration {
 
 	/**
 	 * Registers the schema endpoint if needed.
+	 *
+	 * @return void
 	 */
 	public function init_rewrite() {
 		\add_rewrite_endpoint( 'schema', \EP_ALL );
@@ -70,6 +72,8 @@ class Schema implements Integration {
 
 	/**
 	 * Send the Yoast SEO Schema.
+	 *
+	 * @return void
 	 */
 	public function send_json_ld() {
 		global $wp_query;

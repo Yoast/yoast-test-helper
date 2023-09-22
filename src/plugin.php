@@ -49,6 +49,8 @@ class Plugin implements Integration {
 	 * Adds the blocks to the admin page.
 	 *
 	 * @param Admin_Page $admin_page The current admin page.
+	 *
+	 * @return void
 	 */
 	public function admin_page_blocks( Admin_Page $admin_page ) {
 		foreach ( $this->integrations as $integration ) {

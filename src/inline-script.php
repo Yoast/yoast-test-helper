@@ -35,6 +35,8 @@ class Inline_Script implements Integration {
 
 	/**
 	 * Add an inline script after the specified script.
+	 *
+	 * @return void
 	 */
 	public function add_inline_script() {
 		if ( $this->option->get( 'add_inline_script' ) !== true ) {
