@@ -38,5 +38,10 @@
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
 		]
+	},
+	"scripts-descriptions": {
+		"lint": "Check the PHP files for parse errors.",
+		"check-cs": "Check the PHP files for code style violations and best practices.",
+		"fix-cs": "Auto-fix code style violations in the PHP files."
 	}
 }
