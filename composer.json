@@ -1,46 +1,47 @@
 {
-  "name": "yoast/test-helper",
-  "type": "wordpress-plugin",
-  "description": "Yoast plugin testing helper",
-  "license": "GPL-2.0-or-later",
-  "authors": [
-    {
-      "name": "Team Yoast",
-      "email": "support@yoast.com"
-    }
-  ],
-  "autoload": {
-    "classmap": [
-      "src/"
-    ]
-  },
-  "config": {
-    "platform": {
-      "php": "7.2.5"
-    },
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    }
-  },
-  "require": {
-    "php": "^7.2.5 || ^8.0"
-  },
-  "require-dev": {
-    "yoast/yoastcs": "^2.3.1"
-  },
-  "scripts": {
-    "lint": [
-      "@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
-    ],
-    "config-yoastcs": [
-      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
-      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set default_standard Yoast"
-    ],
-    "check-cs": [
-      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
-    ],
-    "fix-cs": [
-      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
-    ]
-  }
+	"name": "yoast/test-helper",
+	"description": "Yoast plugin testing helper",
+	"license": "GPL-2.0-or-later",
+	"type": "wordpress-plugin",
+	"authors": [
+		{
+			"name": "Team Yoast",
+			"email": "support@yoast.com"
+		}
+	],
+	"require": {
+		"php": "^7.2.5 || ^8.0"
+	},
+	"require-dev": {
+		"yoast/yoastcs": "^2.3.1"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "7.2.5"
+		}
+	},
+	"scripts": {
+		"lint": [
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
+		],
+		"check-cs": [
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
+		],
+		"fix-cs": [
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
+		]
+	},
+	"scripts-descriptions": {
+		"lint": "Check the PHP files for parse errors.",
+		"check-cs": "Check the PHP files for code style violations and best practices.",
+		"fix-cs": "Auto-fix code style violations in the PHP files."
+	}
 }
