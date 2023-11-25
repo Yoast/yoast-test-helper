@@ -36,7 +36,7 @@ class Feature_Toggler implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		\add_action( 'wpseo_enable_feature', [ $this, 'enable_features' ] );
+		\add_filter( 'wpseo_enable_feature', [ $this, 'enable_features' ] );
 
 		\add_action(
 			'admin_post_yoast_seo_feature_toggler',

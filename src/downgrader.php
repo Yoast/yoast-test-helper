@@ -151,7 +151,7 @@ class Downgrader implements Integration {
 				$adapter->remove_version( $version );
 				$adapter->commit_transaction();
 			} catch ( Exception $e ) {
-				$this->adapter->rollback_transaction();
+				$adapter->rollback_transaction();
 
 				throw new Exception(
 					\sprintf(
