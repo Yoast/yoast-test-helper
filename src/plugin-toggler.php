@@ -394,7 +394,7 @@ class Plugin_Toggler implements Integration {
 		}
 
 		$plugin_path = $this->plugin_groups[ $group ][ $plugin ];
-		\activate_plugin( \plugin_basename( $plugin_path ), null, false, true );
+		\activate_plugin( \plugin_basename( $plugin_path ), '', false, true );
 	}
 
 	/**
@@ -431,6 +431,8 @@ class Plugin_Toggler implements Integration {
 		if ( isset( $_GET['ajax_nonce'] ) && \wp_verify_nonce( $_GET['ajax_nonce'], 'yoast-plugin-toggle' ) ) {
 			return true;
 		}
+
+		return false;
 	}
 
 	/**

@@ -20,7 +20,7 @@ class Admin_Notifications implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		\add_action( 'Yoast\WP\Test_Helper\notification', [ $this, 'add_notification' ], 10, 2 );
+		\add_action( 'Yoast\WP\Test_Helper\notification', [ $this, 'add_notification' ] );
 		\add_action( 'Yoast\WP\Test_Helper\notifications', [ $this, 'display_notifications' ] );
 	}
 
