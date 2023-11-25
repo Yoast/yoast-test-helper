@@ -46,11 +46,12 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where the DB versions for Local SEO and News SEO would not be updated correctly.
+* Fixes some small bugs that could result in PHP notices/warnings/errors.
 
 Other:
 
 * Removes the checkbox to enable the feature flag for the structured data blocks.
-* Sets the WordPress tested up to version to 6.3.
+* Sets the WordPress tested up to version to 6.4.
 * Sets minimum WordPress version to 6.2.
 * Drops compatibility with PHP 5.6, 7.0 and 7.1.
 
