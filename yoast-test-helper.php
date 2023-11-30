@@ -33,6 +33,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Yoast\WP\Test_Helper\Plugin;
+
 define( 'YOAST_TEST_HELPER_FILE', __FILE__ );
 define( 'YOAST_TEST_HELPER_DIR', dirname( YOAST_TEST_HELPER_FILE ) );
 define( 'YOAST_TEST_HELPER_VERSION', '1.18-RC6' );
@@ -41,5 +43,5 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }
 
-$yoast_test_helper = new Yoast\WP\Test_Helper\Plugin();
+$yoast_test_helper = new Plugin();
 $yoast_test_helper->add_hooks();
