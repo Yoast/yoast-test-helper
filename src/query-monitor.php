@@ -20,7 +20,7 @@ class Query_Monitor implements Integration {
 	 *
 	 * @param array $menu Array of menu items.
 	 *
-	 * @return array Array of menu items.
+	 * @return array<string, string> Array of menu items.
 	 */
 	public function add_menu_panel( array $menu ) {
 		$menu['yoast-seo'] = [

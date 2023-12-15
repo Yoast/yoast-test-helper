@@ -88,6 +88,7 @@ class Domain_Dropdown implements Integration {
 	 *
 	 * @param string $url     URL of the request about to be made.
 	 * @param array  $headers Headers of the request about to be made.
+	 *
 	 * @return void
 	 */
 	public function modify_myyoast_request( &$url, &$headers ) {
@@ -116,7 +117,8 @@ class Domain_Dropdown implements Integration {
 	 * @param string $domain  Testing domain to take place in the request.
 	 * @param string $url     URL of request about to be made.
 	 * @param array  $headers Headers of request about to be made.
-	 * @return array [ 'url' => new URL, 'host' => new Host ]
+	 *
+	 * @return array<string, string> Format: [ 'url' => new URL, 'host' => new Host ]
 	 */
 	private function replace_domain( $domain, $url, $headers ) {
 		$host     = '';

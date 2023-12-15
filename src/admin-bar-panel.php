@@ -20,6 +20,8 @@ class Admin_Bar_Panel extends Debug_Bar_Panel {
 
 	/**
 	 * Renders the debug panel.
+	 *
+	 * @return void
 	 */
 	public function render() {
 		echo '<h2>', \esc_html__( 'Debug Information', 'yoast-test-helper' ), '</h2>';

@@ -100,6 +100,8 @@ class Plugin_Version_Control implements Integration {
 	 *
 	 * @param WordPress_Plugin $plugin  Plugin to update a version of.
 	 * @param string           $version Version to update.
+	 *
+	 * @return void
 	 */
 	protected function update_plugin_version( WordPress_Plugin $plugin, $version ) {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {

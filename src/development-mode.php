@@ -87,6 +87,8 @@ class Development_Mode implements Integration {
 	 * Sets a boolean option based on a POST parameter.
 	 *
 	 * @param string $option The option to check and set.
+	 *
+	 * @return void
 	 */
 	private function set_bool_option( $option ) {
 		// The nonce is checked in the handle_submit function.

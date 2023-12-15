@@ -274,6 +274,8 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * Resets the indexing notification such that it is shown again.
 	 *
 	 * @param string $reason The indexing reason why the site needs to be reindexed.
+	 *
+	 * @return void
 	 */
 	protected function reset_indexing_notification( $reason ) {
 		\YoastSEO()->helpers->indexing->set_reason( $reason );
