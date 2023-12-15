@@ -3,7 +3,7 @@
  * Yoast Test Helper plugin.
  *
  * @package   Yoast\WP\Test_Helper
- * @copyright Copyright (C) 2017-2020, Yoast BV - support@yoast.com
+ * @copyright Copyright (C) 2017-2024, Yoast BV - support@yoast.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  *
  * @wordpress-plugin
@@ -16,7 +16,7 @@
  * Text Domain: yoast-test-helper
  * Domain Path: /languages/
  * License:     GPL v3
- * Requires at least: 6.2
+ * Requires at least: 6.3
  * Requires PHP: 7.2.5
  *
  * This program is free software: you can redistribute it and/or modify
