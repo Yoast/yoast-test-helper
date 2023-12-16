@@ -19,7 +19,7 @@
 		"ext-zip": "*"
 	},
 	"require-dev": {
-		"yoast/yoastcs": "^2.3.1"
+		"yoast/yoastcs": "^3.0"
 	},
 	"autoload": {
 		"classmap": [
