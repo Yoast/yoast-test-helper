@@ -90,19 +90,25 @@ class Admin_Page implements Integration {
 		echo '<div id="yoast_masonry">';
 		$this->masonry_script();
 
-		\array_map(
-			static function( $block ) {
-				$block_output = $block();
-				if ( $block_output === '' ) {
-					return;
-				}
-				echo '<div class="wpseo_test_block">';
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $block_output;
-				echo '</div>';
-			},
-			$this->admin_page_blocks
-		);
+		\array_map( [ $this, 'display_block_output' ], $this->admin_page_blocks );
+		echo '</div>';
+	}
+
+	/**
+	 * Display an admin page block.
+	 *
+	 * @param callable $block Admin page block.
+	 *
+	 * @return void
+	 */
+	private function display_block_output( $block ) {
+		$block_output = $block();
+		if ( $block_output === '' ) {
+			return;
+		}
+		echo '<div class="wpseo_test_block">';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $block_output;
 		echo '</div>';
 	}
 
