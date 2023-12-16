@@ -27,6 +27,8 @@ class Schema implements Integration {
 
 	/**
 	 * Adds the required hooks for this class.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'replace_schema_domain' ) === true ) {

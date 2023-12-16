@@ -9,6 +9,8 @@ class Indexing_Reason_Integration implements Integration {
 
 	/**
 	 * Registers the hook to set the indexing reason.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
 		\add_filter( 'wpseo_indexables_indexation_alert', [ $this, 'set_indexing_alert' ], 10, 2 );

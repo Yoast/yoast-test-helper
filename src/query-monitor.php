@@ -9,6 +9,8 @@ class Query_Monitor implements Integration {
 
 	/**
 	 * Registers our menu item and output function.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
 		\add_filter( 'qm/output/panel_menus', [ $this, 'add_menu_panel' ], 80 );

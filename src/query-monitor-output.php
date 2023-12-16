@@ -29,6 +29,8 @@ class Query_Monitor_Output extends QM_Output_Html {
 
 	/**
 	 * Renders the Query Monitor output integration.
+	 *
+	 * @return void
 	 */
 	public function output() {
 		$this->before_non_tabular_output( 'qm-yoast-seo', $this->name() );
