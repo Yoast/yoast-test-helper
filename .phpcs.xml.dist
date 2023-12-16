@@ -8,7 +8,7 @@
 	<!--
 	#############################################################################
 	COMMAND LINE ARGUMENTS
-	https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml
+	https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki/Annotated-ruleset.xml
 	#############################################################################
 	-->
 
@@ -91,6 +91,19 @@
 				<element value="src"/>
 			</property>
 		</properties>
+	</rule>
+
+
+	<!--
+	#############################################################################
+	SELECTIVE EXCLUSIONS
+	Exclude specific files for specific sniffs and/or exclude sub-groups in sniffs.
+	#############################################################################
+	-->
+
+	<!-- These all implement an interface with a required parameter. Can't be helped. -->
+	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable">
+		<exclude-pattern>/src/wordpress-plugins/(?:(?:local|news|video|woocommerce)-seo|yoast-seo-premium)\.php$</exclude-pattern>
 	</rule>
 
 </ruleset>

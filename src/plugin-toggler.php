@@ -427,7 +427,7 @@ class Plugin_Toggler implements Integration {
 	private function verify_nonce() {
 
 		// If nonce is valid return true.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- The nonce does not need sanitization.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- The nonce does not need sanitization.
 		if ( isset( $_GET['ajax_nonce'] ) && \wp_verify_nonce( $_GET['ajax_nonce'], 'yoast-plugin-toggle' ) ) {
 			return true;
 		}
