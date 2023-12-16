@@ -140,4 +140,3 @@ class Domain_Dropdown implements Integration {
 		];
 	}
 }
-
