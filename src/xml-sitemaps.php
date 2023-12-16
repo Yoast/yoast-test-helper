@@ -25,6 +25,8 @@ class XML_Sitemaps implements Integration {
 
 	/**
 	 * Adds the required hooks for this class.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'disable_xml_sitemap_cache' ) === true ) {
