@@ -130,7 +130,7 @@ class Domain_Dropdown implements Integration {
 		}
 
 		if ( $url_host === 'my.yoast.com' ) {
-			$host = isset( $headers['Host'] ) ? $headers['Host'] : $new_host;
+			$host = ( $headers['Host'] ?? $new_host );
 			$url  = \str_replace( 'https://' . $url_host, $domain, $url );
 		}
 

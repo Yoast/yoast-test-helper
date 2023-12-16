@@ -39,7 +39,7 @@ class Option {
 	 * @return mixed|null The content of the retrieved key.
 	 */
 	public function get( $key ) {
-		return isset( $this->options[ $key ] ) ? $this->options[ $key ] : null;
+		return ( $this->options[ $key ] ?? null );
 	}
 
 	/**
