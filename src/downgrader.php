@@ -95,11 +95,11 @@ class Downgrader implements Integration {
 	 */
 	protected function downgrade( $target_version ) {
 		if ( ! \preg_match( '/^\d+\.\d+$/', $target_version ) ) {
-			throw new Exception( \__( 'An invalid version number was passed.', 'yoast-test-helper' ) );
+			throw new Exception( \esc_html__( 'An invalid version number was passed.', 'yoast-test-helper' ) );
 		}
 
 		if ( \version_compare( $target_version, '14.1', '<' ) ) {
-			throw new Exception( \__( 'Downgrading to below 14.1 is not supported', 'yoast-test-helper' ) );
+			throw new Exception( \esc_html__( 'Downgrading to below 14.1 is not supported', 'yoast-test-helper' ) );
 		}
 
 		require_once \ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -109,7 +109,7 @@ class Downgrader implements Integration {
 		$downloaded_archive = $upgrader->download_package( "https://downloads.wordpress.org/plugin/wordpress-seo.$target_version.zip" );
 
 		if ( \is_wp_error( $downloaded_archive ) ) {
-			throw new Exception( \__( 'The requested version could not be downloaded', 'yoast-test-helper' ) );
+			throw new Exception( \esc_html__( 'The requested version could not be downloaded', 'yoast-test-helper' ) );
 		}
 
 		// Open the downloaded archive.
@@ -138,7 +138,7 @@ class Downgrader implements Integration {
 		$migrations       = $loader->get_migrations( 'free' );
 
 		if ( ! $migration_status->lock_migration( 'free' ) ) {
-			throw new Exception( \__( 'A migration is already in progress. Please try again later.', 'yoast-test-helper' ) );
+			throw new Exception( \esc_html__( 'A migration is already in progress. Please try again later.', 'yoast-test-helper' ) );
 		}
 
 		// Downgrade all migrations.
@@ -154,14 +154,16 @@ class Downgrader implements Integration {
 				$adapter->rollback_transaction();
 
 				throw new Exception(
-					\sprintf(
-						/* translators: %1$s is the class name of the migration that failed, %2$s is the message given by the failure. */
-						\__( 'Migration %1$s failed with the message: %2$s', 'yoast-test-helper' ),
-						$class,
-						$e->getMessage()
+					\esc_html(
+						\sprintf(
+							/* translators: %1$s is the class name of the migration that failed, %2$s is the message given by the failure. */
+							\__( 'Migration %1$s failed with the message: %2$s', 'yoast-test-helper' ),
+							$class,
+							$e->getMessage()
+						)
 					),
 					0,
-					$e
+					$e // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception object.
 				);
 			}
 		}
@@ -169,7 +171,7 @@ class Downgrader implements Integration {
 
 		$working_dir = $upgrader->unpack_package( $downloaded_archive, true );
 		if ( \is_wp_error( $working_dir ) ) {
-			throw new Exception( \__( 'Could not unpack the requested version.', 'yoast-test-helper' ) );
+			throw new Exception( \esc_html__( 'Could not unpack the requested version.', 'yoast-test-helper' ) );
 		}
 
 		$result = $upgrader->install_package(
@@ -185,7 +187,7 @@ class Downgrader implements Integration {
 			]
 		);
 		if ( \is_wp_error( $result ) ) {
-			throw new Exception( \__( 'Could not install the requested version.', 'yoast-test-helper' ) );
+			throw new Exception( \esc_html__( 'Could not install the requested version.', 'yoast-test-helper' ) );
 		}
 
 		$downgrade_version = static function( $option ) use ( $target_version ) {
