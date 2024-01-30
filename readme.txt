@@ -54,6 +54,7 @@ Other:
 * Sets the WordPress tested up to version to 6.4.
 * Sets minimum WordPress version to 6.3.
 * Drops compatibility with PHP 5.6, 7.0 and 7.1.
+* Improves translation handling for post types registration and indexation reset. Props to @alexclassroom.
 
 = 1.17 =
 
