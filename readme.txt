@@ -40,7 +40,7 @@ Release date: January 30th, 2024
 
 Enhancements:
 
-* Adds a `schema` endpoint to any URL. Suffix the URL with `/schema/` and you'll get only the Schema for that URL, pretty printed.
+* Adds a `schema` endpoint to any URL. Suffix the URL with `/schema/` or `?schema` and you'll get only the Schema for that URL, pretty printed.
 * Adds a checkbox to use the AI staging API.
 
 Bugfixes:
