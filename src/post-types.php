@@ -154,7 +154,7 @@ class Post_Types implements Integration {
 			'labels'       => [
 				'name'          => \__( 'Books', 'yoast-test-helper' ),
 				'singular_name' => \__( 'Book', 'yoast-test-helper' ),
-				'add_new'       => \__( 'Add New', 'yoast-test-helper' ),
+				'add_new'       => \_x( 'Add New', 'Book', 'yoast-test-helper' ),
 				'add_new_item'  => \__( 'Add new book', 'yoast-test-helper' ),
 			],
 			'description'  => \__( 'Our books post type', 'yoast-test-helper' ),
@@ -179,7 +179,7 @@ class Post_Types implements Integration {
 			'labels'       => [
 				'name'          => \__( 'Movies', 'yoast-test-helper' ),
 				'singular_name' => \__( 'Movie', 'yoast-test-helper' ),
-				'add_new'       => \__( 'Add New', 'yoast-test-helper' ),
+				'add_new'       => \_x( 'Add New', 'Movie', 'yoast-test-helper' ),
 				'add_new_item'  => \__( 'Add new movie', 'yoast-test-helper' ),
 			],
 			'description'  => \__( 'Our movies post type', 'yoast-test-helper' ),

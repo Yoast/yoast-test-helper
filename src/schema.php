@@ -101,26 +101,13 @@ class Schema implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$output = Form_Presenter::create_checkbox(
-			'replace_schema_domain',
-			\esc_html__( 'Replace .test domain name with example.com in Schema output.', 'yoast-test-helper' ),
-			$this->option->get( 'replace_schema_domain' )
-		);
-
-		$output .= Form_Presenter::create_checkbox(
-			'enable_schema_endpoint',
-			/* translators: %s is replaced by `<code>/schema/</code>` */
-			\sprintf( \esc_html__( 'Enable the %s endpoint for every URL.', 'yoast-test-helper' ), '<code>/schema/</code>' ),
-			$this->option->get( 'enable_schema_endpoint' )
-		);
-
 		$select_options = [
 			'none' => \esc_html__( 'Don\'t influence', 'yoast-test-helper' ),
 			'show' => \esc_html__( 'Always include', 'yoast-test-helper' ),
 			'hide' => \esc_html__( 'Never include', 'yoast-test-helper' ),
 		];
 
-		$output .= Form_Presenter::create_select(
+		$output = Form_Presenter::create_select(
 			'is_needed_breadcrumb',
 			\esc_html__( 'Influence the Breadcrumb Graph piece: ', 'yoast-test-helper' ),
 			$select_options,
@@ -132,6 +119,23 @@ class Schema implements Integration {
 			\esc_html__( 'Influence the WebPage Graph piece: ', 'yoast-test-helper' ),
 			$select_options,
 			$this->option->get( 'is_needed_webpage' )
+		);
+
+		$output .= Form_Presenter::create_checkbox(
+			'replace_schema_domain',
+			\esc_html__( 'Replace .test domain name with example.com in Schema output.', 'yoast-test-helper' ),
+			$this->option->get( 'replace_schema_domain' )
+		);
+
+		$output .= Form_Presenter::create_checkbox(
+			'enable_schema_endpoint',
+			\sprintf(
+				/* translators: %1$ss is replaced by `<code>/schema/</code>`, %2$s is replaced by `<code>?schema</code>`. */
+				\esc_html__( 'Enable the Schema endpoint for every URL: suffix the URL with %1$s or %2$s to get the Schema for that URL, pretty printed.', 'yoast-test-helper' ),
+				'<code>/schema/</code>',
+				'<code>?schema</code>'
+			),
+			$this->option->get( 'enable_schema_endpoint' )
 		);
 
 		return Form_Presenter::get_html( \__( 'Schema', 'yoast-test-helper' ), 'yoast_seo_test_schema', $output );
