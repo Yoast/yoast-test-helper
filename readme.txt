@@ -36,7 +36,7 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 
 = 1.18 =
 
-Release date: January 30th, 2024
+Release date: February 1st, 2024
 
 Enhancements:
 
