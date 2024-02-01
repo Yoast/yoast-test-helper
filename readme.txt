@@ -41,7 +41,6 @@ Release date: February 1st, 2024
 Enhancements:
 
 * Adds a `schema` endpoint to any URL. Suffix the URL with `/schema/` or `?schema` and you'll get only the Schema for that URL, pretty printed.
-* Adds a checkbox to use the AI staging API.
 
 Bugfixes:
 
@@ -50,6 +49,7 @@ Bugfixes:
 
 Other:
 
+* Adds a checkbox to use the AI staging API.
 * Removes the checkbox to enable the feature flag for the structured data blocks.
 * Sets the WordPress tested up to version to 6.4.
 * Sets minimum WordPress version to 6.3.
