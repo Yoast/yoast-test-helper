@@ -1,7 +1,7 @@
 === Yoast Test Helper ===
 Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
-Requires at least: 6.4
+Requires at least: 6.5
 Tested up to: 6.6
 Stable tag: 1.18
 Requires PHP: 7.2.5
