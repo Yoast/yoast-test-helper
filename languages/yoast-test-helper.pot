@@ -1,14 +1,14 @@
-# Copyright (C) 2024 Team Yoast
+# Copyright (C) 2025 Team Yoast
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
 "Project-Id-Version: Yoast Test Helper 1.18\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2024-02-01 12:10:29+00:00\n"
+"POT-Creation-Date: 2025-04-23 09:29:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Yoast Translate Team <translations@yoast.com>\n"
 "Language-Team: Yoast Translate <translations@yoast.com>\n"
 "Language: en\n"
@@ -24,11 +24,11 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: src/admin-bar-panel.php:25
+#: src/admin-bar-panel.php:27
 msgid "Debug Information"
 msgstr ""
 
-#: src/admin-bar-panel.php:33
+#: src/admin-bar-panel.php:35
 msgid "Option"
 msgstr ""
 
@@ -100,26 +100,26 @@ msgstr ""
 msgid "A migration is already in progress. Please try again later."
 msgstr ""
 
-#: src/downgrader.php:159
+#: src/downgrader.php:160
 #. translators: %1$s is the class name of the migration that failed, %2$s is
 #. the message given by the failure.
 msgid "Migration %1$s failed with the message: %2$s"
 msgstr ""
 
-#: src/downgrader.php:172
+#: src/downgrader.php:174
 msgid "Could not unpack the requested version."
 msgstr ""
 
-#: src/downgrader.php:188
+#: src/downgrader.php:190
 msgid "Could not install the requested version."
 msgstr ""
 
-#: src/feature-toggler.php:65
+#: src/feature-toggler.php:64
 #. translators: %s expands to the label.
 msgid "Enable %s"
 msgstr ""
 
-#: src/feature-toggler.php:70
+#: src/feature-toggler.php:69
 msgid "Feature toggler"
 msgstr ""
 
@@ -127,27 +127,27 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: src/indexing-reason-integration.php:32
+#: src/indexing-reason-integration.php:34
 #. translators: %1$s: Yoast Test Helper
 msgid ""
 "Because some of your SEO data was reset by the %1$s, your SEO data needs to "
 "be reprocessed."
 msgstr ""
 
-#: src/inline-script.php:57
+#: src/inline-script.php:59
 msgid "Add the inline script specified below after the script selected here."
 msgstr ""
 
-#: src/inline-script.php:61
+#: src/inline-script.php:63
 msgid "After script"
 msgstr ""
 
-#: src/inline-script.php:69
+#: src/inline-script.php:71
 #. translators: %1$s expands to the `script` tag.
 msgid "Script (do not include %1$s tags):"
 msgstr ""
 
-#: src/inline-script.php:73
+#: src/inline-script.php:75
 msgid "Inline script"
 msgstr ""
 
@@ -179,23 +179,23 @@ msgstr ""
 msgid "Plugin options & database versions"
 msgstr ""
 
-#: src/plugin-version-control.php:111
+#: src/plugin-version-control.php:113
 #. translators: %1$s expands to the plugin name, %2$s to the version.
 msgid "%1$s version was set to %2$s."
 msgstr ""
 
-#: src/plugin-version-control.php:126
+#: src/plugin-version-control.php:128
 #. translators: %1$s expands to the plugin name.
 msgid "%1$s options were saved."
 msgstr ""
 
-#: src/plugin-version-control.php:215
+#: src/plugin-version-control.php:217
 #. translators: %1$s expands to date, %2$s to plugin name, %3$s and %4$s to
 #. HTML strong tags.
 msgid "Options from %1$s for %2$s have %3$snot%4$s been restored."
 msgstr ""
 
-#: src/plugin-version-control.php:228
+#: src/plugin-version-control.php:230
 #. translators: %1$s expands to date, %2$s to plugin name.
 msgid "Options from %1$s for %2$s have been restored."
 msgstr ""
@@ -216,63 +216,63 @@ msgstr ""
 msgid "Post types & Taxonomies"
 msgstr ""
 
-#: src/post-types.php:149 src/post-types.php:151
+#: src/post-types.php:153 src/post-types.php:155
 msgid "Books"
 msgstr ""
 
-#: src/post-types.php:152
+#: src/post-types.php:156
 msgid "Book"
 msgstr ""
 
-#: src/post-types.php:154
+#: src/post-types.php:158
 msgid "Add new book"
 msgstr ""
 
-#: src/post-types.php:156
+#: src/post-types.php:160
 msgid "Our books post type"
 msgstr ""
 
-#: src/post-types.php:174 src/post-types.php:176
+#: src/post-types.php:178 src/post-types.php:180
 msgid "Movies"
 msgstr ""
 
-#: src/post-types.php:177
+#: src/post-types.php:181
 msgid "Movie"
 msgstr ""
 
-#: src/post-types.php:179
+#: src/post-types.php:183
 msgid "Add new movie"
 msgstr ""
 
-#: src/post-types.php:181
+#: src/post-types.php:185
 msgid "Our movies post type"
 msgstr ""
 
-#: src/schema.php:99
+#: src/schema.php:105
 msgid "Don't influence"
 msgstr ""
 
-#: src/schema.php:100
+#: src/schema.php:106
 msgid "Always include"
 msgstr ""
 
-#: src/schema.php:101
+#: src/schema.php:107
 msgid "Never include"
 msgstr ""
 
-#: src/schema.php:106
+#: src/schema.php:112
 msgid "Influence the Breadcrumb Graph piece: "
 msgstr ""
 
-#: src/schema.php:113
+#: src/schema.php:119
 msgid "Influence the WebPage Graph piece: "
 msgstr ""
 
-#: src/schema.php:120
+#: src/schema.php:126
 msgid "Replace .test domain name with example.com in Schema output."
 msgstr ""
 
-#: src/schema.php:128
+#: src/schema.php:134
 #. translators: %1$ss is replaced by `<code>/schema/</code>`, %2$s is replaced
 #. by `<code>?schema</code>`.
 msgid ""
@@ -280,47 +280,47 @@ msgid ""
 "to get the Schema for that URL, pretty printed."
 msgstr ""
 
-#: src/schema.php:135
+#: src/schema.php:141
 msgid "Schema"
 msgstr ""
 
-#: src/taxonomies.php:57 src/taxonomies.php:59
+#: src/taxonomies.php:61 src/taxonomies.php:63
 msgid "Categories"
 msgstr ""
 
-#: src/taxonomies.php:60
+#: src/taxonomies.php:64
 msgid "Category"
 msgstr ""
 
-#: src/taxonomies.php:80 src/taxonomies.php:82
+#: src/taxonomies.php:84 src/taxonomies.php:86
 msgid "Genres"
 msgstr ""
 
-#: src/taxonomies.php:83 src/taxonomies.php:90
+#: src/taxonomies.php:87 src/taxonomies.php:94
 msgid "Genre"
 msgstr ""
 
-#: src/taxonomies.php:84
+#: src/taxonomies.php:88
 msgid "Search Genres"
 msgstr ""
 
-#: src/taxonomies.php:85
+#: src/taxonomies.php:89
 msgid "All Genres"
 msgstr ""
 
-#: src/taxonomies.php:86
+#: src/taxonomies.php:90
 msgid "Edit Genre"
 msgstr ""
 
-#: src/taxonomies.php:87
+#: src/taxonomies.php:91
 msgid "Update Genre"
 msgstr ""
 
-#: src/taxonomies.php:88
+#: src/taxonomies.php:92
 msgid "Add New Genre"
 msgstr ""
 
-#: src/taxonomies.php:89
+#: src/taxonomies.php:93
 msgid "New Genre Name"
 msgstr ""
 
@@ -408,15 +408,15 @@ msgstr ""
 msgid "Cornerstone flags"
 msgstr ""
 
-#: src/xml-sitemaps.php:69
+#: src/xml-sitemaps.php:71
 msgid "Disable the XML sitemaps cache."
 msgstr ""
 
-#: src/xml-sitemaps.php:72
+#: src/xml-sitemaps.php:74
 msgid "Maximum entries per XML sitemap:"
 msgstr ""
 
-#: src/xml-sitemaps.php:75
+#: src/xml-sitemaps.php:77
 msgid "XML Sitemaps"
 msgstr ""
 
@@ -436,12 +436,12 @@ msgstr ""
 msgid "https://yoa.st/team-yoast-test-helper"
 msgstr ""
 
-#: src/post-types.php:153
+#: src/post-types.php:157
 msgctxt "Book"
 msgid "Add New"
 msgstr ""
 
-#: src/post-types.php:178
+#: src/post-types.php:182
 msgctxt "Movie"
 msgid "Add New"
 msgstr ""
