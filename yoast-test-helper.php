@@ -17,7 +17,7 @@
  * Domain Path: /languages/
  * License:     GPL v3
  * Requires at least: 6.6
- * Requires PHP: 7.2.5
+ * Requires PHP: 7.4
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
