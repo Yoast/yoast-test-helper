@@ -84,6 +84,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			'reset_premium_workouts'             => \esc_html__( 'Premium workouts progress', 'yoast-test-helper' ),
 			'reset_options'                      => \esc_html__( 'Options', 'yoast-test-helper' ),
 			'reset_cornerstone_flags'            => \esc_html__( 'Cornerstone flags', 'yoast-test-helper' ),
+			'toggle_site_kit_feature'            => \esc_html__( 'Toggle Site Kit feature flag', 'yoast-test-helper' ),
 		];
 	}
 
@@ -132,6 +133,9 @@ class Yoast_SEO implements WordPress_Plugin {
 			case 'reset_cornerstone_flags':
 				$this->reset_cornerstone_flags();
 				return true;
+			case 'toggle_site_kit_feature':
+				$this->toggle_site_kit_feature();
+				return true;
 		}
 
 		return false;
@@ -160,6 +164,15 @@ class Yoast_SEO implements WordPress_Plugin {
 		\delete_transient( 'wpseo_unindexed_term_link_count' );
 
 		$this->reset_indexing_notification( 'indexables-reset-by-test-helper' );
+	}
+
+	/**
+	 * Toggles the Site Kit feature flag.
+	 *
+	 * @return void
+	 */
+	private function toggle_site_kit_feature() {
+		WPSEO_Options::set( 'google_site_kit_feature_enabled', ! WPSEO_Options::get( 'google_site_kit_feature_enabled' ) );
 	}
 
 	/**
