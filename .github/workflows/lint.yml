@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         # Lint against the highest/lowest supported versions of each PHP major.
-        php_version: ['7.4', '8.0', '8.2', '8.4']
+        php_version: ['7.4', '8.0', '8.2', '8.5']
 
     name: "Lint: PHP ${{ matrix.php_version }}"
 
