@@ -39,7 +39,7 @@ class Downgrader implements Integration {
 		$title = \sprintf(
 			/* translators: %1$s is Yoast SEO. */
 			\__( 'Downgrade %1$s', 'yoast-test-helper' ),
-			'Yoast SEO'
+			'Yoast SEO',
 		);
 
 		return Form_Presenter::get_html( $title, 'yoast_rollback_control', $output );
@@ -69,15 +69,15 @@ class Downgrader implements Integration {
 						/* translators: %1$s is Yoast SEO, %2$s is the version number it was downgraded to. */
 						\__( '%1$s has been succesfully downgraded to version %2$s.', 'yoast-test-helper' ),
 						'Yoast SEO',
-						$target_version
+						$target_version,
 					),
-					'success'
-				)
+					'success',
+				),
 			);
 		} catch ( Exception $e ) {
 			\do_action(
 				'Yoast\WP\Test_Helper\notification',
-				new Notification( $e->getMessage(), 'error' )
+				new Notification( $e->getMessage(), 'error' ),
 			);
 		}
 
@@ -159,11 +159,11 @@ class Downgrader implements Integration {
 							/* translators: %1$s is the class name of the migration that failed, %2$s is the message given by the failure. */
 							\__( 'Migration %1$s failed with the message: %2$s', 'yoast-test-helper' ),
 							$class,
-							$e->getMessage()
-						)
+							$e->getMessage(),
+						),
 					),
 					0,
-					$e // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception object.
+					$e, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception object.
 				);
 			}
 		}
@@ -184,7 +184,7 @@ class Downgrader implements Integration {
 					'type'   => 'plugin',
 					'action' => 'install',
 				],
-			]
+			],
 		);
 		if ( \is_wp_error( $result ) ) {
 			throw new Exception( \esc_html__( 'Could not install the requested version.', 'yoast-test-helper' ) );

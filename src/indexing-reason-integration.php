@@ -32,7 +32,7 @@ class Indexing_Reason_Integration implements Integration {
 		return \sprintf(
 			/* translators: %1$s: Yoast Test Helper */
 			\esc_html__( 'Because some of your SEO data was reset by the %1$s, your SEO data needs to be reprocessed.', 'yoast-test-helper' ),
-			'Yoast Test Helper'
+			'Yoast Test Helper',
 		);
 	}
 }

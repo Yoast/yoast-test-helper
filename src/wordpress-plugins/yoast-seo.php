@@ -207,7 +207,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			[
 				'meta_key' => 'wp_yoast_notifications',
 				'user_id'  => \get_current_user_id(),
-			]
+			],
 		);
 
 		// Delete all muted notification settings.

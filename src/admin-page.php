@@ -45,7 +45,7 @@ class Admin_Page implements Integration {
 			'yoast-test-admin-style',
 			\plugin_dir_url( \YOAST_TEST_HELPER_FILE ) . 'assets/css/admin.css',
 			[],
-			\YOAST_TEST_HELPER_VERSION
+			\YOAST_TEST_HELPER_VERSION,
 		);
 		\wp_enqueue_script( 'masonry' );
 	}
@@ -61,7 +61,7 @@ class Admin_Page implements Integration {
 			\esc_html__( 'Yoast Test', 'yoast-test-helper' ),
 			'manage_options',
 			\sanitize_key( $this->get_admin_page() ),
-			[ $this, 'show_admin_page' ]
+			[ $this, 'show_admin_page' ],
 		);
 		\add_action( 'admin_print_styles-' . $menu_item, [ $this, 'add_assets' ] );
 	}
