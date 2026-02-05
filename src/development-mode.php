@@ -48,13 +48,13 @@ class Development_Mode implements Integration {
 		$fields = Form_Presenter::create_checkbox(
 			'enable_development_mode',
 			\esc_html__( 'Enable development mode.', 'yoast-test-helper' ),
-			$this->option->get( 'enable_development_mode' )
+			$this->option->get( 'enable_development_mode' ),
 		);
 
 		$fields .= Form_Presenter::create_checkbox(
 			'use_ai_staging_api',
 			\esc_html__( 'Switch to AI staging API', 'yoast-test-helper' ),
-			$this->option->get( 'use_ai_staging_api' )
+			$this->option->get( 'use_ai_staging_api' ),
 		);
 
 		return Form_Presenter::get_html( \__( 'Development settings', 'yoast-test-helper' ), 'yoast_seo_test_development_mode', $fields );

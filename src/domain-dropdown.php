@@ -58,7 +58,7 @@ class Domain_Dropdown implements Integration {
 			'myyoast_test_domain',
 			\esc_html__( 'Set the myYoast testing domain to: ', 'yoast-test-helper' ),
 			$select_options,
-			$this->option->get( 'myyoast_test_domain' )
+			$this->option->get( 'myyoast_test_domain' ),
 		);
 
 		return Form_Presenter::get_html( \__( 'Domain Dropdown', 'yoast-test-helper' ), 'yoast_seo_domain_dropdown', $output );

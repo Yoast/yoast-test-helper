@@ -44,7 +44,7 @@ class Inline_Script implements Integration {
 		}
 		\wp_add_inline_script(
 			$this->option->get( 'inline_script_handle' ),
-			$this->option->get( 'inline_script' )
+			$this->option->get( 'inline_script' ),
 		);
 	}
 
@@ -57,7 +57,7 @@ class Inline_Script implements Integration {
 		$output = Form_Presenter::create_checkbox(
 			'add_inline_script',
 			\esc_html__( 'Add the inline script specified below after the script selected here.', 'yoast-test-helper' ),
-			$this->option->get( 'add_inline_script' )
+			$this->option->get( 'add_inline_script' ),
 		) . '<br/>';
 
 		$output .= '<label for="inline_script_handle">' . \__( 'After script', 'yoast-test-helper' ) . ': </label>';

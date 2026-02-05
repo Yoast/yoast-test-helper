@@ -112,10 +112,10 @@ class Plugin_Version_Control implements Integration {
 						/* translators: %1$s expands to the plugin name, %2$s to the version. */
 						\__( '%1$s version was set to %2$s.', 'yoast-test-helper' ),
 						$plugin->get_name(),
-						$version
+						$version,
 					),
-					'success'
-				)
+					'success',
+				),
 			);
 		}
 
@@ -126,10 +126,10 @@ class Plugin_Version_Control implements Integration {
 					\sprintf(
 						/* translators: %1$s expands to the plugin name. */
 						\__( '%1$s options were saved.', 'yoast-test-helper' ),
-						$plugin->get_name()
+						$plugin->get_name(),
 					),
-					'success'
-				)
+					'success',
+				),
 			);
 		}
 	}
@@ -148,7 +148,7 @@ class Plugin_Version_Control implements Integration {
 			\esc_attr( $plugin->get_identifier() ),
 			\esc_attr( $this->plugin_version->get_version( $plugin ) ),
 			\esc_html( $plugin->get_version_constant() ),
-			$this->get_option_history_select( $plugin )
+			$this->get_option_history_select( $plugin ),
 		);
 	}
 
@@ -186,13 +186,13 @@ class Plugin_Version_Control implements Integration {
 							'<option value="%s">(%s) %s</option>',
 							\esc_attr( $timestamp ),
 							\esc_html( $version ),
-							\esc_html( \gmdate( 'Y-m-d H:i:s', $timestamp ) )
+							\esc_html( \gmdate( 'Y-m-d H:i:s', $timestamp ) ),
 						);
 					},
 					\array_keys( $history ),
-					$history
-				)
-			)
+					$history,
+				),
+			),
 		);
 	}
 
@@ -218,9 +218,9 @@ class Plugin_Version_Control implements Integration {
 						\gmdate( 'Y-m-d H:i:s', $timestamp ),
 						$plugin->get_name(),
 						'<strong>',
-						'</strong>'
+						'</strong>',
 					),
-					'error'
+					'error',
 				);
 
 				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
@@ -229,9 +229,9 @@ class Plugin_Version_Control implements Integration {
 							/* translators: %1$s expands to date, %2$s to plugin name. */
 							\esc_html__( 'Options from %1$s for %2$s have been restored.', 'yoast-test-helper' ),
 							\gmdate( 'Y-m-d H:i:s', $timestamp ),
-							$plugin->get_name()
+							$plugin->get_name(),
 						),
-						'success'
+						'success',
 					);
 				}
 

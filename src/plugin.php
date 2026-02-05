@@ -41,7 +41,7 @@ class Plugin implements Integration {
 			static function ( Integration $integration ) {
 				$integration->add_hooks();
 			},
-			$this->integrations
+			$this->integrations,
 		);
 	}
 
@@ -71,7 +71,7 @@ class Plugin implements Integration {
 		$plugin_version_control = new Plugin_Version_Control(
 			$plugins,
 			new WordPress_Plugin_Version(),
-			new WordPress_Plugin_Options()
+			new WordPress_Plugin_Options(),
 		);
 
 		$option = new Option();

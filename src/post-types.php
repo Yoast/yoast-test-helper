@@ -76,19 +76,19 @@ class Post_Types implements Integration {
 		$fields = Form_Presenter::create_checkbox(
 			'enable_post_types',
 			\esc_html__( 'Enable post types & taxonomies.', 'yoast-test-helper' ),
-			$this->option->get( 'enable_post_types' )
+			$this->option->get( 'enable_post_types' ),
 		);
 
 		$fields .= Form_Presenter::create_checkbox(
 			'enable_gutenberg_books',
 			\esc_html__( 'Enable block editor for Books.', 'yoast-test-helper' ),
-			$this->option->get( 'enable_gutenberg_books' )
+			$this->option->get( 'enable_gutenberg_books' ),
 		);
 
 		$fields .= Form_Presenter::create_checkbox(
 			'enable_gutenberg_videos',
 			\esc_html__( 'Enable block editor for Videos.', 'yoast-test-helper' ),
-			$this->option->get( 'enable_gutenberg_videos' )
+			$this->option->get( 'enable_gutenberg_videos' ),
 		);
 
 		return Form_Presenter::get_html( \__( 'Post types & Taxonomies', 'yoast-test-helper' ), 'yoast_seo_test_post_types', $fields );
@@ -116,8 +116,8 @@ class Post_Types implements Integration {
 
 		\wp_safe_redirect(
 			\self_admin_url(
-				'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' )
-			)
+				'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ),
+			),
 		);
 	}
 
