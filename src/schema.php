@@ -92,7 +92,7 @@ class Schema implements Integration {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This is our self generated Schema, no need for escaping.
 		echo WPSEO_Utils::format_json_encode( \YoastSEO()->meta->for_current_page()->schema );
-		exit;
+		exit();
 	}
 
 	/**
