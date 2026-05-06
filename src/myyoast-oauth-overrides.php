@@ -163,9 +163,12 @@ class MyYoast_OAuth_Overrides implements Integration {
 			$fields .= '<p><em>' . \esc_html__( 'No overrides apply on production — Yoast SEO ships with valid baked-in credentials. Switch the Domain Dropdown to a non-production environment to configure credentials here.', 'yoast-test-helper' ) . '</em></p>';
 		}
 
-		$fields         .= \sprintf(
-			'<label for="myyoast_oauth_pat">%1$s</label> <input type="password" size="40" id="myyoast_oauth_pat" name="myyoast_oauth_pat" value="" autocomplete="off" placeholder="myp_••••••••"/><br/>',
+		$stored_pat = isset( $credentials['pat'] ) ? (string) $credentials['pat'] : '';
+		$pat_value  = ( $stored_pat === '' ) ? '' : $this->mask_pat( $stored_pat );
+		$fields    .= \sprintf(
+			'<label for="myyoast_oauth_pat">%1$s</label> <input type="text" size="40" id="myyoast_oauth_pat" name="myyoast_oauth_pat" value="%2$s" autocomplete="off" placeholder="myp_••••••••"/><br/>',
 			\esc_html__( 'MyYoast PAT for this environment:', 'yoast-test-helper' ),
+			\esc_attr( $pat_value ),
 		);
 
 		$output = Form_Presenter::get_html(
@@ -302,10 +305,10 @@ This wipes the local OAuth client state for the active issuer:
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce is verified above.
 		if ( isset( $_POST['myyoast_oauth_pat'] ) && \is_string( $_POST['myyoast_oauth_pat'] ) ) {
-			$pat    = \trim( \sanitize_text_field( \wp_unslash( $_POST['myyoast_oauth_pat'] ) ) );
-			$issuer = $this->get_active_issuer();
-			if ( $pat !== '' && ! $this->is_production( $issuer ) ) {
-				$this->store_credential_field( $issuer, 'pat', $pat );
+			$submitted = \trim( \sanitize_text_field( \wp_unslash( $_POST['myyoast_oauth_pat'] ) ) );
+			$issuer    = $this->get_active_issuer();
+			if ( $submitted !== '' && ! $this->is_production( $issuer ) && ! $this->is_masked_existing_pat( $issuer, $submitted ) ) {
+				$this->store_credential_field( $issuer, 'pat', $submitted );
 			}
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
@@ -566,6 +569,57 @@ This wipes the local OAuth client state for the active issuer:
 		$credentials = $this->get_active_credentials();
 
 		return ! empty( $credentials['pat'] );
+	}
+
+	/**
+	 * Builds the masked display form of a PAT: the public prefix (everything up
+	 * through the second underscore) followed by 8 asterisks. MyYoast surfaces
+	 * the same public prefix in its UI, so the developer can match what they
+	 * see here against the PAT in their MyYoast account.
+	 *
+	 * Falls back to a generic mask when the PAT doesn't follow the expected
+	 * `<prefix>_<id>_<secret>` format.
+	 *
+	 * @param string $pat The full PAT.
+	 *
+	 * @return string The masked representation.
+	 */
+	private function mask_pat( $pat ) {
+		$first = \strpos( $pat, '_' );
+		if ( $first === false ) {
+			return \str_repeat( '*', 8 );
+		}
+
+		$second = \strpos( $pat, '_', ( $first + 1 ) );
+		if ( $second === false ) {
+			return \str_repeat( '*', 8 );
+		}
+
+		return \substr( $pat, 0, ( $second + 1 ) ) . \str_repeat( '*', 8 );
+	}
+
+	/**
+	 * Returns whether the submitted PAT value is the masked representation of
+	 * the PAT already stored for the given issuer — i.e. the user did not edit
+	 * the prefilled field and we should not overwrite the stored value.
+	 *
+	 * @param string $issuer    The issuer URL.
+	 * @param string $submitted The PAT value as submitted from the form.
+	 *
+	 * @return bool True when the submission matches the masked stored PAT.
+	 */
+	private function is_masked_existing_pat( $issuer, $submitted ) {
+		$store = $this->option->get( 'myyoast_oauth_credentials' );
+		if ( ! \is_array( $store ) || ! isset( $store[ $issuer ] ) || ! \is_array( $store[ $issuer ] ) ) {
+			return false;
+		}
+
+		$stored = isset( $store[ $issuer ]['pat'] ) ? (string) $store[ $issuer ]['pat'] : '';
+		if ( $stored === '' ) {
+			return false;
+		}
+
+		return $submitted === $this->mask_pat( $stored );
 	}
 
 	/**
