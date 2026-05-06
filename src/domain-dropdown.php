@@ -115,7 +115,7 @@ class Domain_Dropdown implements Integration {
 		}
 
 		$select_options                        = self::PREDEFINED_DOMAINS;
-		$select_options[ self::DOMAIN_CUSTOM ] = \__( 'Custom URL…', 'yoast-test-helper' );
+		$select_options[ self::DOMAIN_CUSTOM ] = \esc_html__( 'Custom URL…', 'yoast-test-helper' );
 
 		$output = Form_Presenter::create_select(
 			'myyoast_test_domain',
@@ -154,7 +154,7 @@ class Domain_Dropdown implements Integration {
 		}
 
 		if ( isset( $_POST['myyoast_test_custom_domain'] ) && \is_string( $_POST['myyoast_test_custom_domain'] ) ) {
-			$custom = \esc_url_raw( \wp_unslash( $_POST['myyoast_test_custom_domain'] ) );
+			$custom = $this->normalize_custom_domain( \esc_url_raw( \wp_unslash( $_POST['myyoast_test_custom_domain'] ) ) );
 			$this->option->set( 'myyoast_test_custom_domain', $custom );
 		}
 
@@ -217,6 +217,36 @@ class Domain_Dropdown implements Integration {
 			'url'  => $url,
 			'host' => $host,
 		];
+	}
+
+	/**
+	 * Normalizes a custom domain to scheme + host (+ optional port). Strips any
+	 * path, query, fragment, and trailing slash so the value can safely be used
+	 * as both the URL-rewrite base and the OAuth issuer key without producing
+	 * double-paths or split per-issuer credential records.
+	 *
+	 * Returns an empty string when the input doesn't parse to scheme + host.
+	 *
+	 * @param string $url The raw user input (already passed through esc_url_raw).
+	 *
+	 * @return string The normalized origin, or an empty string when invalid.
+	 */
+	private function normalize_custom_domain( $url ) {
+		if ( $url === '' ) {
+			return '';
+		}
+
+		$parts = \wp_parse_url( $url );
+		if ( ! \is_array( $parts ) || empty( $parts['scheme'] ) || empty( $parts['host'] ) ) {
+			return '';
+		}
+
+		$origin = $parts['scheme'] . '://' . $parts['host'];
+		if ( isset( $parts['port'] ) ) {
+			$origin .= ':' . $parts['port'];
+		}
+
+		return $origin;
 	}
 
 	/**
