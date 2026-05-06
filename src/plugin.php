@@ -88,9 +88,10 @@ class Plugin implements Integration {
 		$this->integrations[] = new Feature_Toggler( $option );
 		$this->integrations[] = new Post_Types( $option );
 		$this->integrations[] = new Taxonomies( $option );
-		$this->integrations[] = new Domain_Dropdown( $option );
+		$domain_dropdown      = new Domain_Dropdown( $option );
+		$this->integrations[] = $domain_dropdown;
 		$this->integrations[] = new Inline_Script( $option );
-		$this->integrations[] = new MyYoast_OAuth_Overrides( $option );
+		$this->integrations[] = new MyYoast_OAuth_Overrides( $option, $domain_dropdown );
 		$this->integrations[] = new Admin_Debug_Info( $option );
 		$this->integrations[] = new Indexing_Reason_Integration();
 		$this->integrations[] = new Query_Monitor();

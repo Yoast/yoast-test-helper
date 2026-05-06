@@ -6,10 +6,11 @@ use WP_Error;
 use WPSEO_Utils;
 
 /**
- * Lets a developer point the Yoast SEO MyYoast OAuth client at a non-production
- * issuer (staging, local) by overriding the `wpseo_myyoast_issuer_url`,
- * `wpseo_myyoast_software_statement`, and `wpseo_myyoast_initial_access_token`
- * filters.
+ * Configures the Yoast SEO MyYoast OAuth client for the active environment.
+ *
+ * The active environment is owned by {@see Domain_Dropdown}; this integration
+ * just configures the OAuth credentials (PAT, software statement, initial
+ * access token) that go with whichever environment that dropdown is set to.
  *
  * Instead of taking a raw software statement and initial access token by hand,
  * the developer enters a MyYoast Personal Access Token (PAT) for the chosen
@@ -18,8 +19,11 @@ use WPSEO_Utils;
  * `update-myyoast-credentials` Grunt task uses at artifact-build time).
  *
  * PATs and credential pairs are persisted per issuer URL so a developer can
- * keep credentials for multiple environments side-by-side and switch without
- * re-pasting.
+ * keep credentials for multiple environments side-by-side and switch by
+ * changing the Domain Dropdown.
+ *
+ * The three `wpseo_myyoast_*` filters fire iff the active environment is
+ * non-production AND credentials are stored for it.
  */
 class MyYoast_OAuth_Overrides implements Integration {
 
@@ -56,28 +60,6 @@ class MyYoast_OAuth_Overrides implements Integration {
 	];
 
 	/**
-	 * Sentinel value selected from the issuer dropdown to mean "use the custom URL".
-	 *
-	 * @var string
-	 */
-	private const ISSUER_CUSTOM = 'custom';
-
-	/**
-	 * Predefined issuer URLs, mirroring the Domain_Dropdown set.
-	 *
-	 * @var array<string, string>
-	 */
-	private const PREDEFINED_ISSUERS = [
-		'https://my.yoast.com'                  => 'live',
-		'https://staging.yoast.com'             => 'staging',
-		'https://staging-plugins.yoast.com'     => 'staging-plugins',
-		'https://staging-platform.yoast.com'    => 'staging-platform',
-		'https://staging-4-my.yoast.com'        => 'staging-4',
-		'https://staging-5-my.yoast.com'        => 'staging-5',
-		'http://my.yoast.test'                  => 'local',
-	];
-
-	/**
 	 * Holds our option instance.
 	 *
 	 * @var Option
@@ -85,12 +67,21 @@ class MyYoast_OAuth_Overrides implements Integration {
 	private $option;
 
 	/**
+	 * Source of truth for the active MyYoast environment.
+	 *
+	 * @var Domain_Dropdown
+	 */
+	private $domain_dropdown;
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param Option $option Our option array.
+	 * @param Option          $option          Our option array.
+	 * @param Domain_Dropdown $domain_dropdown The card that owns the active-environment selection.
 	 */
-	public function __construct( Option $option ) {
-		$this->option = $option;
+	public function __construct( Option $option, Domain_Dropdown $domain_dropdown ) {
+		$this->option          = $option;
+		$this->domain_dropdown = $domain_dropdown;
 	}
 
 	/**
@@ -99,7 +90,7 @@ class MyYoast_OAuth_Overrides implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		if ( $this->option->get( 'myyoast_oauth_overrides_enabled' ) ) {
+		if ( $this->should_apply_overrides() ) {
 			\add_filter( 'wpseo_myyoast_issuer_url', [ $this, 'filter_issuer_url' ] );
 			\add_filter( 'wpseo_myyoast_software_statement', [ $this, 'filter_software_statement' ] );
 			\add_filter( 'wpseo_myyoast_initial_access_token', [ $this, 'filter_initial_access_token' ] );
@@ -113,17 +104,10 @@ class MyYoast_OAuth_Overrides implements Integration {
 	/**
 	 * Filters the MyYoast issuer URL.
 	 *
-	 * @param string $value The default issuer URL.
-	 *
-	 * @return string The active issuer URL when one is configured, the original value otherwise.
+	 * @return string The active environment URL.
 	 */
-	public function filter_issuer_url( $value ) {
-		$issuer = $this->get_active_issuer();
-		if ( $issuer === '' ) {
-			return $value;
-		}
-
-		return $issuer;
+	public function filter_issuer_url() {
+		return $this->get_active_issuer();
 	}
 
 	/**
@@ -164,44 +148,24 @@ class MyYoast_OAuth_Overrides implements Integration {
 	 * @return string The HTML to use to render the controls.
 	 */
 	public function get_controls() {
-		$enabled       = (bool) $this->option->get( 'myyoast_oauth_overrides_enabled' );
 		$active_issuer = $this->get_active_issuer();
-		$is_predefined = ( $active_issuer !== '' && isset( self::PREDEFINED_ISSUERS[ $active_issuer ] ) );
-		$selected      = ( $is_predefined ) ? $active_issuer : '';
-		$custom_issuer = ( $active_issuer !== '' && ! $is_predefined ) ? $active_issuer : '';
+		$is_production = $this->is_production( $active_issuer );
 		$has_pat       = $this->has_active_pat();
 		$credentials   = $this->get_active_credentials();
 
-		$fields = Form_Presenter::create_checkbox(
-			'myyoast_oauth_overrides_enabled',
-			\esc_html__( 'Override the MyYoast OAuth issuer, software statement and initial access token.', 'yoast-test-helper' ),
-			$enabled,
-		);
+		$fields = '<p>' . \sprintf(
+			/* translators: %s expands to the active issuer URL. */
+			\esc_html__( 'Configures the OAuth credentials for the environment selected in the Domain Dropdown card: %s.', 'yoast-test-helper' ),
+			'<code>' . \esc_html( $active_issuer ) . '</code>',
+		) . '</p>';
 
-		$select_options                        = self::PREDEFINED_ISSUERS;
-		$select_options['']                    = \__( '— pick an issuer —', 'yoast-test-helper' );
-		$select_options[ self::ISSUER_CUSTOM ] = \__( 'Custom URL…', 'yoast-test-helper' );
+		if ( $is_production ) {
+			$fields .= '<p><em>' . \esc_html__( 'No overrides apply on production — Yoast SEO ships with valid baked-in credentials. Switch the Domain Dropdown to a non-production environment to configure credentials here.', 'yoast-test-helper' ) . '</em></p>';
+		}
 
-		$dropdown_value = ( $custom_issuer !== '' ) ? self::ISSUER_CUSTOM : $selected;
-		$fields        .= Form_Presenter::create_select(
-			'myyoast_oauth_issuer',
-			\esc_html__( 'Issuer:', 'yoast-test-helper' ),
-			$select_options,
-			$dropdown_value,
-		);
-
-		$custom_row_hidden = ( $dropdown_value === self::ISSUER_CUSTOM ) ? '' : ' hidden';
-		$fields           .= \sprintf(
-			'<div id="myyoast_oauth_custom_issuer_row"%1$s><label for="myyoast_oauth_custom_issuer">%2$s</label> <input type="url" size="30" id="myyoast_oauth_custom_issuer" name="myyoast_oauth_custom_issuer" value="%3$s" placeholder="https://my.yoast.test"/><br/></div>',
-			$custom_row_hidden,
-			\esc_html__( 'Custom issuer URL:', 'yoast-test-helper' ),
-			\esc_attr( $custom_issuer ),
-		);
-
-		$fields .= \sprintf(
-			'<label for="myyoast_oauth_pat">%1$s</label> <input type="password" size="40" id="myyoast_oauth_pat" name="myyoast_oauth_pat" value="" autocomplete="off" placeholder="myp_••••••••"/> <em>%2$s</em><br/>',
-			\esc_html__( 'MyYoast PAT:', 'yoast-test-helper' ),
-			\esc_html__( '(blank = keep stored value)', 'yoast-test-helper' ),
+		$fields         .= \sprintf(
+			'<label for="myyoast_oauth_pat">%1$s</label> <input type="password" size="40" id="myyoast_oauth_pat" name="myyoast_oauth_pat" value="" autocomplete="off" placeholder="myp_••••••••"/><br/>',
+			\esc_html__( 'MyYoast PAT for this environment:', 'yoast-test-helper' ),
 		);
 
 		$output = Form_Presenter::get_html(
@@ -217,10 +181,10 @@ class MyYoast_OAuth_Overrides implements Integration {
 		$output .= $this->render_action_form(
 			'yoast_test_myyoast_oauth_fetch',
 			\esc_html__( 'Fetch credentials', 'yoast-test-helper' ),
-			( $active_issuer === '' || ! $has_pat ),
+			( $is_production || ! $has_pat ),
 			false,
 		);
-		$output .= '<p><em>' . \esc_html__( 'Each environment requires its own credentials. Switch the issuer above to generate or fetch a new set.', 'yoast-test-helper' ) . '</em></p>';
+		$output .= '</div>';
 
 		$clear_prompt = \__(
 			'Clear all MyYoast OAuth state?
@@ -235,10 +199,7 @@ This wipes the local OAuth client state for the active issuer:
 			'yoast-test-helper',
 		);
 
-		$output .= '</div>';
-
 		$output .= '<hr/>';
-
 		$output .= $this->render_action_form(
 			'yoast_test_myyoast_oauth_clear_client',
 			\esc_html__( 'Clear OAuth state', 'yoast-test-helper' ),
@@ -247,35 +208,7 @@ This wipes the local OAuth client state for the active issuer:
 			$clear_prompt,
 		);
 
-		$output .= $this->render_custom_issuer_toggle_script();
-
 		return $output;
-	}
-
-	/**
-	 * Inline script that toggles the custom issuer URL row based on the dropdown value.
-	 * The claims dialog opens/closes declaratively via `command`/`commandfor`; the clear
-	 * confirmation uses a plain `window.confirm()` on form submit (see render_action_form).
-	 *
-	 * @return string The script tag HTML.
-	 */
-	private function render_custom_issuer_toggle_script() {
-		return <<<'HTML'
-<script>
-( function() {
-	const select = document.getElementById( "myyoast_oauth_issuer" );
-	const row    = document.getElementById( "myyoast_oauth_custom_issuer_row" );
-	if ( ! select || ! row ) {
-		return;
-	}
-	var sync = function() {
-		row.toggleAttribute( "hidden", select.value !== "custom" );
-	};
-	select.addEventListener( "change", sync );
-	sync();
-} )();
-</script>
-HTML;
 	}
 
 	/**
@@ -318,11 +251,10 @@ HTML;
 	 * @return string The HTML.
 	 */
 	private function render_status( $active_issuer, array $credentials ) {
-		$issuer_label      = ( $active_issuer === '' ) ? \esc_html__( '(none configured)', 'yoast-test-helper' ) : \esc_html( $active_issuer );
 		$has_credentials   = ( ! empty( $credentials['software_statement'] ) && ! empty( $credentials['initial_access_token'] ) );
 		$credentials_label = ( $has_credentials ) ? \esc_html__( 'yes', 'yoast-test-helper' ) : \esc_html__( 'no', 'yoast-test-helper' );
 
-		$output  = '<p><strong>' . \esc_html__( 'Active issuer:', 'yoast-test-helper' ) . '</strong> ' . $issuer_label . '<br/>';
+		$output  = '<p><strong>' . \esc_html__( 'Active issuer:', 'yoast-test-helper' ) . '</strong> ' . \esc_html( $active_issuer ) . '<br/>';
 		$output .= '<strong>' . \esc_html__( 'Stored credentials:', 'yoast-test-helper' ) . '</strong> ' . $credentials_label . '</p>';
 
 		if ( ! $has_credentials ) {
@@ -357,7 +289,7 @@ HTML;
 	}
 
 	/**
-	 * Handles the settings form submit.
+	 * Handles the settings form submit. Stores the PAT for the active environment.
 	 *
 	 * @return void
 	 */
@@ -368,28 +300,15 @@ HTML;
 			return;
 		}
 
-		$this->option->set( 'myyoast_oauth_overrides_enabled', isset( $_POST['myyoast_oauth_overrides_enabled'] ) );
-
-		$selected = '';
-		if ( isset( $_POST['myyoast_oauth_issuer'] ) && \is_string( $_POST['myyoast_oauth_issuer'] ) ) {
-			$selected = \sanitize_text_field( \wp_unslash( $_POST['myyoast_oauth_issuer'] ) );
-		}
-
-		$custom = '';
-		if ( isset( $_POST['myyoast_oauth_custom_issuer'] ) && \is_string( $_POST['myyoast_oauth_custom_issuer'] ) ) {
-			$custom = \esc_url_raw( \wp_unslash( $_POST['myyoast_oauth_custom_issuer'] ) );
-		}
-
-		$issuer = $this->resolve_issuer( $selected, $custom );
-		$this->option->set( 'myyoast_oauth_active_issuer', $issuer );
-		$this->option->set( 'myyoast_oauth_custom_issuer', $custom );
-
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce is verified above.
 		if ( isset( $_POST['myyoast_oauth_pat'] ) && \is_string( $_POST['myyoast_oauth_pat'] ) ) {
-			$pat = \trim( \sanitize_text_field( \wp_unslash( $_POST['myyoast_oauth_pat'] ) ) );
-			if ( $pat !== '' && $issuer !== '' ) {
+			$pat    = \trim( \sanitize_text_field( \wp_unslash( $_POST['myyoast_oauth_pat'] ) ) );
+			$issuer = $this->get_active_issuer();
+			if ( $pat !== '' && ! $this->is_production( $issuer ) ) {
 				$this->store_credential_field( $issuer, 'pat', $pat );
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		$this->redirect();
 	}
@@ -407,8 +326,8 @@ HTML;
 		}
 
 		$issuer = $this->get_active_issuer();
-		if ( $issuer === '' ) {
-			$this->add_notification( \__( 'Pick an issuer and save before fetching credentials.', 'yoast-test-helper' ), 'error' );
+		if ( $this->is_production( $issuer ) ) {
+			$this->add_notification( \__( 'The Domain Dropdown is on production. Switch to a staging or local environment before fetching credentials.', 'yoast-test-helper' ), 'error' );
 			$this->redirect();
 
 			return;
@@ -417,7 +336,7 @@ HTML;
 		$credentials = $this->get_active_credentials();
 		$pat         = isset( $credentials['pat'] ) ? (string) $credentials['pat'] : '';
 		if ( $pat === '' ) {
-			$this->add_notification( \__( 'No PAT stored for the active issuer. Paste one in the settings form and save first.', 'yoast-test-helper' ), 'error' );
+			$this->add_notification( \__( 'No PAT stored for the active environment. Paste one in the settings form and save first.', 'yoast-test-helper' ), 'error' );
 			$this->redirect();
 
 			return;
@@ -584,14 +503,42 @@ HTML;
 	}
 
 	/**
-	 * Returns the active issuer URL from option storage.
+	 * Returns the active issuer URL — i.e. the environment selected in Domain_Dropdown.
 	 *
-	 * @return string The active issuer URL, or '' when none is configured.
+	 * @return string The active issuer URL.
 	 */
 	private function get_active_issuer() {
-		$value = $this->option->get( 'myyoast_oauth_active_issuer' );
+		return $this->domain_dropdown->get_active_domain();
+	}
 
-		return \is_string( $value ) ? $value : '';
+	/**
+	 * Returns whether the given issuer is the production default. When true, the
+	 * OAuth filters do not fire — production credentials baked into Yoast SEO are
+	 * already correct.
+	 *
+	 * @param string $issuer The issuer URL.
+	 *
+	 * @return bool True when the issuer is the production default.
+	 */
+	private function is_production( $issuer ) {
+		return $issuer === Domain_Dropdown::DEFAULT_DOMAIN;
+	}
+
+	/**
+	 * Returns whether the OAuth filters should be registered: only when the active
+	 * environment is non-production AND credentials are stored for it.
+	 *
+	 * @return bool True when overrides should apply.
+	 */
+	private function should_apply_overrides() {
+		$issuer = $this->get_active_issuer();
+		if ( $this->is_production( $issuer ) ) {
+			return false;
+		}
+
+		$credentials = $this->get_active_credentials();
+
+		return ( ! empty( $credentials['software_statement'] ) && ! empty( $credentials['initial_access_token'] ) );
 	}
 
 	/**
@@ -601,9 +548,6 @@ HTML;
 	 */
 	private function get_active_credentials() {
 		$issuer = $this->get_active_issuer();
-		if ( $issuer === '' ) {
-			return [];
-		}
 
 		$store = $this->option->get( 'myyoast_oauth_credentials' );
 		if ( ! \is_array( $store ) || ! isset( $store[ $issuer ] ) || ! \is_array( $store[ $issuer ] ) ) {
@@ -644,26 +588,6 @@ HTML;
 		$store[ $issuer ] = $record;
 
 		$this->option->set( 'myyoast_oauth_credentials', $store );
-	}
-
-	/**
-	 * Resolves the effective issuer URL from the submitted dropdown + custom values.
-	 *
-	 * @param string $selected The dropdown value (predefined URL, '', or 'custom').
-	 * @param string $custom   The custom URL value.
-	 *
-	 * @return string The effective issuer URL, or '' when nothing was selected.
-	 */
-	private function resolve_issuer( $selected, $custom ) {
-		if ( $selected === self::ISSUER_CUSTOM ) {
-			return $custom;
-		}
-
-		if ( isset( self::PREDEFINED_ISSUERS[ $selected ] ) ) {
-			return $selected;
-		}
-
-		return '';
 	}
 
 	/**

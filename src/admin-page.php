@@ -122,10 +122,21 @@ class Admin_Page implements Integration {
 		<script type="text/javascript">
 			jQuery( window ).on( "load", function() {
 				var container = document.querySelector( "#yoast_masonry" );
-				new Masonry( container, {
+				var masonry   = new Masonry( container, {
 					itemSelector: ".wpseo_test_block",
 					columnWidth: ".wpseo_test_block"
 				} );
+
+				// Re-flow the masonry layout whenever any tile's content size changes,
+				// so integrations that show/hide rows don't need to know about masonry.
+				if ( typeof ResizeObserver === "function" ) {
+					var observer = new ResizeObserver( function() {
+						masonry.layout();
+					} );
+					Array.prototype.forEach.call( container.children, function( tile ) {
+						observer.observe( tile );
+					} );
+				}
 			} );
 		</script>
 		<?php
