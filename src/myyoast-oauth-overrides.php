@@ -104,9 +104,11 @@ class MyYoast_OAuth_Overrides implements Integration {
 	/**
 	 * Filters the MyYoast issuer URL.
 	 *
+	 * @param string $value The default issuer URL. Ignored — the active environment always wins.
+	 *
 	 * @return string The active environment URL.
 	 */
-	public function filter_issuer_url() {
+	public function filter_issuer_url( $value ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Filter signature requires the parameter; the active environment always wins.
 		return $this->get_active_issuer();
 	}
 
@@ -228,7 +230,7 @@ This wipes the local OAuth client state for the active issuer:
 	private function render_action_form( $action, $label, $disabled, $is_link, $confirm_message = '' ) {
 		$attrs       = ( $disabled ) ? ' disabled="disabled"' : '';
 		$button_attr = ( $is_link ) ? 'class="button-link button-link-delete"' : 'class="button"';
-		$onsubmit    = ( $confirm_message === '' ) ? '' : ' onsubmit="return confirm(' . \esc_attr( WPSEO_Utils::format_json_encode( $confirm_message ) ) . ')"';
+		$onsubmit    = ( $confirm_message === '' ) ? '' : ' onsubmit="' . \esc_attr( 'return confirm("' . \esc_js( $confirm_message ) . '")' ) . '"';
 
 		$output  = '<form action="' . \esc_url( \admin_url( 'admin-post.php' ) ) . '" method="POST"' . $onsubmit . '>';
 		$output .= \str_replace( 'id="_wpnonce"', '', \wp_nonce_field( $action, '_wpnonce', true, false ) );
@@ -351,7 +353,7 @@ This wipes the local OAuth client state for the active issuer:
 				\sprintf(
 					/* translators: %s expands to the WordPress error message. */
 					\esc_html__( 'Could not reach the credentials endpoint: %s', 'yoast-test-helper' ),
-					$response->get_error_message(),
+					\esc_html( $response->get_error_message() ),
 				),
 				'error',
 			);
@@ -663,5 +665,6 @@ This wipes the local OAuth client state for the active issuer:
 	 */
 	private function redirect() {
 		\wp_safe_redirect( \self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ) );
+		exit();
 	}
 }
