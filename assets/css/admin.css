@@ -68,6 +68,18 @@ div.wpseo_test_block button.button:hover {
     border-bottom-color: rgba(0, 0, 0, 0.2);
 }
 
+div.wpseo_test_block button.button:disabled,
+div.wpseo_test_block button.button[disabled],
+div.wpseo_test_block button.button:disabled:hover,
+div.wpseo_test_block button.button[disabled]:hover {
+    background-color: #dcdcde;
+    color: #50575e;
+    text-shadow: none;
+    box-shadow: none;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    cursor: not-allowed;
+}
+
 div.wpseo_test_block button.button.secondary:hover {
     background-color: darkgray;
     color: black;
