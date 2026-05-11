@@ -33,13 +33,13 @@ class Domain_Dropdown implements Integration {
 	 * @var array<string, string>
 	 */
 	private const PREDEFINED_DOMAINS = [
-		self::DEFAULT_DOMAIN                 => 'live',
-		'https://staging.yoast.com'          => 'staging',
-		'https://staging-plugins.yoast.com'  => 'staging-plugins',
-		'https://staging-platform.yoast.com' => 'staging-platform',
-		'https://staging-4-my.yoast.com'     => 'staging-4',
-		'https://staging-5-my.yoast.com'     => 'staging-5',
-		'http://my.yoast.test'               => 'local',
+		self::DEFAULT_DOMAIN                    => 'live',
+		'https://staging-my.yoast.com'          => 'staging',
+		'https://staging-plugins-my.yoast.com'  => 'staging-plugins',
+		'https://staging-platform-my.yoast.com' => 'staging-platform',
+		'https://staging-4-my.yoast.com'        => 'staging-4',
+		'https://staging-5-my.yoast.com'        => 'staging-5',
+		'http://my.yoast.test'                  => 'local',
 	];
 
 	/**
