@@ -5,7 +5,9 @@ name: Release RC
 #
 # Triggered manually with `version`. Auto-detects the next RC iteration by
 # scanning existing `${version}-RC<n>` tags. Cuts (or re-uses) a
-# release/x.y branch from develop, bumps the package version to x.y-RCn while
+# release/x.y branch from develop, regenerates the readme.txt changelog
+# section from merged PRs since the previous release tag (unless
+# `skip-changelog-regen` is true), bumps the package version to x.y-RCn while
 # preserving the readme.txt `Stable tag:` (so the wordpress.org listing keeps
 # pointing at the last stable release), rebuilds i18n, tags x.y-RCn on the
 # release branch, and creates a GitHub *pre-release* with the artifact zip
@@ -20,6 +22,11 @@ on:
         description: 'Target version (e.g., 1.19)'
         required: true
         type: string
+      skip-changelog-regen:
+        description: 'Skip the automatic changelog regeneration step (preserves any hand-edits on the release branch).'
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: ${{ github.workflow }}-${{ inputs.version }}
@@ -71,12 +78,34 @@ jobs:
             git checkout -b "${RELEASE_BRANCH}"
           fi
 
+      - name: Configure git
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          git config user.name 'GitHub Action'
+          git config user.email "$ACTOR@users.noreply.github.com"
+
+      - name: Regenerate changelog from merged PRs
+        if: ${{ inputs.skip-changelog-regen != true }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          bash .github/scripts/generate-changelog.sh
+          if git diff --quiet -- readme.txt; then
+            echo "No changelog changes."
+          else
+            git add readme.txt
+            git commit -m "Update changelog for ${VERSION}"
+            git push origin "${RELEASE_BRANCH}"
+          fi
+
       - name: Verify changelog section exists
         env:
           VERSION: ${{ inputs.version }}
         run: |
           if ! grep -qF "= ${VERSION} =" readme.txt; then
-            echo "::error::No '= ${VERSION} =' section found in readme.txt. Run the 'Generate Changelog' workflow first and merge it into develop."
+            echo "::error::No '= ${VERSION} =' section found in readme.txt. Either label the relevant PRs with a 'changelog:' label so they can be picked up, or run 'Generate Changelog' first."
             exit 1
           fi
 
@@ -131,13 +160,6 @@ jobs:
 
       - name: "Grunt: build i18n"
         run: grunt build:i18n
-
-      - name: Configure git
-        env:
-          ACTOR: ${{ github.actor }}
-        run: |
-          git config user.name 'GitHub Action'
-          git config user.email "$ACTOR@users.noreply.github.com"
 
       - name: Commit and push release branch
         run: |
