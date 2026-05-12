@@ -79,8 +79,8 @@ echo "Generating changelog for version $VERSION since tag $PREVIOUS_TAG (release
 PR_NUMBERS=$(git log --grep='Merge pull request' "$PREVIOUS_TAG..HEAD" --oneline | grep -oP '#\K[0-9]+' || true)
 
 if [ -z "$PR_NUMBERS" ]; then
-	echo "::warning::No merged PRs found since $PREVIOUS_TAG"
-	exit 0
+	echo "::error::No merged PRs found since $PREVIOUS_TAG; refusing to write an empty changelog section. If this is intentional, edit readme.txt manually."
+	exit 1
 fi
 
 ENHANCEMENTS=""
@@ -101,8 +101,11 @@ for PR_NUM in $PR_NUMBERS; do
 
 	BODY=$(echo "$PR_JSON" | jq -r '.body // ""')
 
+	# Strip HTML comments first so the PR template's instructional `* changelog: …` bullets
+	# (which live inside <!-- ... -->) are not picked up as changelog entries.
 	# Capture bullet lines between the "Changelog Entry" anchor and the next markdown heading.
-	ENTRIES=$(echo "$BODY" | sed -n '/[Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
+	ENTRIES=$(echo "$BODY" | awk 'BEGIN{c=0} /<!--/{c=1} !c{print} /-->/{c=0}' \
+		| sed -n '/[Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
 
 	if [ -z "$ENTRIES" ]; then
 		echo "  No changelog entry found"

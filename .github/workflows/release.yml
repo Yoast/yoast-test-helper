@@ -50,6 +50,20 @@ jobs:
       issues: write
 
     steps:
+      - name: Validate inputs
+        env:
+          VERSION: ${{ inputs.version }}
+          NEXT_INPUT: ${{ inputs.next-version }}
+        run: |
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "::error::Invalid version '$VERSION'. Expected formats: 1.19 or 1.19.1."
+            exit 1
+          fi
+          if [ -n "$NEXT_INPUT" ] && ! [[ "$NEXT_INPUT" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "::error::Invalid next-version '$NEXT_INPUT'. Expected formats: 1.20 or 1.19.1."
+            exit 1
+          fi
+
       - name: Resolve next version
         id: next
         env:
@@ -99,7 +113,7 @@ jobs:
           package-manager-cache: false
 
       - name: Yarn install
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: "Grunt: set package version"
         env:
@@ -136,8 +150,14 @@ jobs:
           VERSION: ${{ inputs.version }}
         run: |
           git fetch origin main
-          git checkout main
-          git merge --no-ff develop -m "Release ${VERSION}"
+          # Create/reset local `main` from origin/main — a fresh actions/checkout only set up
+          # the `develop` branch locally, so a plain `git checkout main` would fail.
+          git checkout -B main origin/main
+          if ! git merge --no-ff --no-edit develop -m "Release ${VERSION}"; then
+            git merge --abort || true
+            echo "::error::Merge of develop into main failed. Resolve conflicts on main and re-run."
+            exit 1
+          fi
           git push origin main
 
       - name: Tag the release
@@ -164,7 +184,7 @@ jobs:
           cat release-notes.md
 
       - name: Deploy to wordpress.org SVN
-        uses: 10up/action-wordpress-plugin-deploy@stable
+        uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2 # v2.3.0
         env:
           SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
@@ -222,8 +242,12 @@ jobs:
       - name: Merge main back into develop
         run: |
           git fetch origin develop
-          git checkout develop
-          git merge --no-ff main -m "Merge main back into develop"
+          git checkout -B develop origin/develop
+          if ! git merge --no-ff --no-edit main -m "Merge main back into develop"; then
+            git merge --abort || true
+            echo "::error::Merge of main into develop failed. Resolve conflicts and re-run."
+            exit 1
+          fi
           git push origin develop
 
       - name: Write Slack announcement to job summary

@@ -54,6 +54,15 @@ jobs:
       RELEASE_BRANCH: "release/${{ inputs.version }}"
 
     steps:
+      - name: Validate inputs
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "::error::Invalid version '$VERSION'. Expected formats: 1.19 or 1.19.1."
+            exit 1
+          fi
+
       - name: Checkout develop
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -80,7 +89,13 @@ jobs:
             echo "Re-using existing release branch ${RELEASE_BRANCH}."
             git checkout -B "${RELEASE_BRANCH}" "origin/${RELEASE_BRANCH}"
             # Merge any new commits from develop so subsequent RCs include them.
-            git merge --no-ff origin/develop -m "Merge develop into ${RELEASE_BRANCH}" || true
+            # If this conflicts, abort and fail loudly — the human releaser needs to resolve it
+            # on the release branch before the workflow can proceed.
+            if ! git merge --no-ff --no-edit origin/develop -m "Merge develop into ${RELEASE_BRANCH}"; then
+              git merge --abort || true
+              echo "::error::Merge of develop into ${RELEASE_BRANCH} failed. Resolve conflicts on the release branch and re-run."
+              exit 1
+            fi
           else
             echo "Creating release branch ${RELEASE_BRANCH} from develop."
             git checkout -b "${RELEASE_BRANCH}"
@@ -149,7 +164,7 @@ jobs:
           package-manager-cache: false
 
       - name: Yarn install
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: "Grunt: set package version to RC"
         run: grunt set-version -new-version="${RC_VERSION}"
@@ -262,7 +277,8 @@ jobs:
             LABEL=$(echo "$PR_JSON" | jq -r '[.labels[].name] | map(select(startswith("changelog:"))) | first // empty' | sed 's/^changelog: //')
             TITLE=$(echo "$PR_JSON" | jq -r '.title // ""')
             BODY=$(echo "$PR_JSON" | jq -r '.body // ""')
-            ENTRIES=$(echo "$BODY" | sed -n '/[Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
+            # Strip HTML comments so PR-template guidance bullets aren't captured.
+            ENTRIES=$(echo "$BODY" | awk 'BEGIN{c=0} /<!--/{c=1} !c{print} /-->/{c=0}' | sed -n '/[Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
             if [ -z "$ENTRIES" ]; then
               ENTRIES="* ${TITLE}"
             fi
