@@ -11,8 +11,11 @@ name: Release RC
 # preserving the readme.txt `Stable tag:` (so the wordpress.org listing keeps
 # pointing at the last stable release), rebuilds i18n, tags x.y-RCn on the
 # release branch, and creates a GitHub *pre-release* with the artifact zip
-# attached. Does NOT deploy to wordpress.org SVN. Finally merges the release
-# branch back into develop so the version bump and i18n changes land there too.
+# attached. Optionally deploys the build to the wordpress.org SVN trunk
+# (opt-in via `deploy-to-svn-trunk`) so translators can pick up new strings;
+# the Stable tag is preserved at the last stable release so users do NOT see
+# the RC. Finally merges the release branch back into develop so the version
+# bump and i18n changes land there too.
 ##############################################################################
 
 on:
@@ -24,6 +27,11 @@ on:
         type: string
       skip-changelog-regen:
         description: 'Skip the automatic changelog regeneration step (preserves any hand-edits on the release branch).'
+        required: false
+        default: false
+        type: boolean
+      deploy-to-svn-trunk:
+        description: 'Push the build to wordpress.org SVN trunk so translators can pick up new strings. Stable tag stays on the last stable release.'
         required: false
         default: false
         type: boolean
@@ -178,6 +186,17 @@ jobs:
 
       - name: "Grunt: build artifact"
         run: grunt artifact
+
+      - name: Deploy RC to wordpress.org SVN trunk
+        if: ${{ inputs.deploy-to-svn-trunk == true }}
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
+          SLUG: yoast-test-helper
+          VERSION: ${{ env.RC_VERSION }}
+          BUILD_DIR: ./artifact
+          ASSETS_DIR: svn-assets
 
       - name: Rename artifact zip
         id: zip
