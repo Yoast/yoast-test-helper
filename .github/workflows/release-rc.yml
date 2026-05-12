@@ -177,10 +177,21 @@ jobs:
             exit 0
           fi
 
+          # Pick up the planned release date from the readme.txt section; fall back to today.
+          RELEASE_DATE=$(awk -v v="= ${VERSION} =" '
+            $0 == v { flag = 1; next }
+            flag && /^Release date:/ { sub(/^Release date: */, ""); print; exit }
+          ' readme.txt)
+          if [ -z "$RELEASE_DATE" ]; then
+            RELEASE_DATE=$(date +%Y-%m-%d)
+          fi
+
+          PR_BASE_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull"
+
           {
-            echo "## ${RC_VERSION}"
+            echo "## ${VERSION}"
             echo ""
-            echo "Compared to \`${PREVIOUS_TAG}\`."
+            echo "Release date: ${RELEASE_DATE}"
             echo ""
           } > qa-changelog.md
 
@@ -195,8 +206,8 @@ jobs:
             if [ -z "$ENTRIES" ]; then
               ENTRIES="* ${TITLE}"
             fi
-            # Append (#PR) to each bullet for QA traceability.
-            ENTRIES=$(echo "$ENTRIES" | sed "s|\$| (#${PR_NUM})|")
+            # Append a markdown PR link to each bullet for QA traceability.
+            ENTRIES=$(echo "$ENTRIES" | sed "s|\$| [#${PR_NUM}](${PR_BASE_URL}/${PR_NUM})|")
             ENTRIES="$ENTRIES"$'\n'
             case "$LABEL" in
               enhancement)       ENH+="$ENTRIES" ;;
@@ -210,25 +221,25 @@ jobs:
 
           {
             if [ -n "$ENH" ]; then
-              echo "### Enhancements"
+              echo "### Enhancements:"
               echo ""
               echo -n "$ENH" | sed '/^$/d'
               echo ""
             fi
             if [ -n "$BUG" ]; then
-              echo "### Bugfixes"
+              echo "### Bugfixes:"
               echo ""
               echo -n "$BUG" | sed '/^$/d'
               echo ""
             fi
             if [ -n "$OTH" ]; then
-              echo "### Other"
+              echo "### Other:"
               echo ""
               echo -n "$OTH" | sed '/^$/d'
               echo ""
             fi
             if [ -n "$NUF" ]; then
-              echo "### Non-user-facing"
+              echo "### Non user facing:"
               echo ""
               echo -n "$NUF" | sed '/^$/d'
               echo ""
