@@ -1,4 +1,15 @@
-## Summary
+## Changelog Entry
+
+<!--
+Apply exactly one `changelog:` label to this PR:
+* `changelog: enhancement` – new feature or improvement.
+* `changelog: bugfix` – fixes a bug.
+* `changelog: other` – anything user-facing that isn't an enhancement or bugfix.
+* `changelog: non-user-facing` – internal, infra, tests, deps; excluded from the changelog.
+
+The bullet(s) below are picked up by the automated changelog generator.
+Keep them user-facing and end each with a full stop.
+-->
 
 This PR can be summarized in the following changelog entry:
 
