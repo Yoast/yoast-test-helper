@@ -49,6 +49,7 @@ jobs:
 
     permissions:
       contents: write
+      pull-requests: read
 
     env:
       RELEASE_BRANCH: "release/${{ inputs.version }}"
@@ -340,8 +341,14 @@ jobs:
       - name: Merge release branch back into develop
         run: |
           git fetch origin develop
-          git checkout develop
-          git merge --no-ff "origin/${RELEASE_BRANCH}" -m "Merge ${RELEASE_BRANCH} (${RC_VERSION}) back into develop"
+          # Reset the local develop to origin so we merge into the current upstream tip,
+          # not whatever the workflow checked out at the start of the run.
+          git checkout -B develop origin/develop
+          if ! git merge --no-ff --no-edit "origin/${RELEASE_BRANCH}" -m "Merge ${RELEASE_BRANCH} (${RC_VERSION}) back into develop"; then
+            git merge --abort || true
+            echo "::error::Merge of ${RELEASE_BRANCH} into develop failed. Resolve conflicts and re-run."
+            exit 1
+          fi
           git push origin develop
 
       - name: Write #test announcement to job summary
