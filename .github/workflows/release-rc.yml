@@ -189,14 +189,33 @@ jobs:
 
       - name: Deploy RC to wordpress.org SVN trunk
         if: ${{ inputs.deploy-to-svn-trunk == true }}
-        uses: 10up/action-wordpress-plugin-deploy@stable
         env:
           SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
-          SLUG: yoast-test-helper
-          VERSION: ${{ env.RC_VERSION }}
-          BUILD_DIR: ./artifact
-          ASSETS_DIR: svn-assets
+          SVN_URL: https://plugins.svn.wordpress.org/yoast-test-helper
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y subversion >/dev/null
+
+          SVN_DIR="${RUNNER_TEMP}/svn"
+          svn checkout --depth=empty --non-interactive --no-auth-cache \
+            --username "$SVN_USERNAME" --password "$SVN_PASSWORD" \
+            "$SVN_URL" "$SVN_DIR"
+          svn update --set-depth=infinity --non-interactive --no-auth-cache \
+            --username "$SVN_USERNAME" --password "$SVN_PASSWORD" \
+            "$SVN_DIR/trunk" "$SVN_DIR/assets"
+
+          rsync -a --delete --exclude=.svn ./artifact/   "$SVN_DIR/trunk/"
+          rsync -a --delete --exclude=.svn ./svn-assets/ "$SVN_DIR/assets/"
+
+          pushd "$SVN_DIR" >/dev/null
+            # Stage newly-added files and removed files for SVN.
+            svn status trunk assets | awk '$1=="?" { sub(/^\?[[:space:]]+/, ""); print }' | xargs -r -d '\n' svn add --parents --force
+            svn status trunk assets | awk '$1=="!" { sub(/^\![[:space:]]+/, ""); print }' | xargs -r -d '\n' svn rm
+            svn commit --non-interactive --no-auth-cache \
+              --username "$SVN_USERNAME" --password "$SVN_PASSWORD" \
+              -m "RC ${RC_VERSION}: update trunk for translation strings"
+          popd >/dev/null
 
       - name: Rename artifact zip
         id: zip
