@@ -207,7 +207,7 @@ jobs:
               ENTRIES="* ${TITLE}"
             fi
             # Append a markdown PR link to each bullet for QA traceability.
-            ENTRIES=$(echo "$ENTRIES" | sed "s|\$| [#${PR_NUM}](${PR_BASE_URL}/${PR_NUM})|")
+            ENTRIES=$(printf '%s\n' "$ENTRIES" | awk -v suffix=" [#${PR_NUM}](${PR_BASE_URL}/${PR_NUM})" 'NF { print $0 suffix }')
             ENTRIES="$ENTRIES"$'\n'
             case "$LABEL" in
               enhancement)       ENH+="$ENTRIES" ;;
