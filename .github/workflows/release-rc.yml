@@ -3,7 +3,8 @@ name: Release RC
 ##############################################################################
 # Release-candidate workflow for yoast-test-helper.
 #
-# Triggered manually with `version` and `rc-number`. Cuts (or re-uses) a
+# Triggered manually with `version`. Auto-detects the next RC iteration by
+# scanning existing `${version}-RC<n>` tags. Cuts (or re-uses) a
 # release/x.y branch from develop, bumps the package version to x.y-RCn while
 # preserving the readme.txt `Stable tag:` (so the wordpress.org listing keeps
 # pointing at the last stable release), rebuilds i18n, tags x.y-RCn on the
@@ -19,11 +20,6 @@ on:
         description: 'Target version (e.g., 1.19)'
         required: true
         type: string
-      rc-number:
-        description: 'RC iteration number (e.g., 1 for RC1)'
-        required: true
-        default: '1'
-        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ inputs.version }}
@@ -31,7 +27,7 @@ concurrency:
 
 jobs:
   release-rc:
-    name: "RC ${{ inputs.version }}-RC${{ inputs.rc-number }}"
+    name: "RC for ${{ inputs.version }}"
     runs-on: ubuntu-latest
 
     if: github.repository_owner == 'Yoast'
@@ -40,7 +36,6 @@ jobs:
       contents: write
 
     env:
-      RC_VERSION: "${{ inputs.version }}-RC${{ inputs.rc-number }}"
       RELEASE_BRANCH: "release/${{ inputs.version }}"
 
     steps:
@@ -50,6 +45,18 @@ jobs:
           ref: develop
           fetch-depth: 0
           persist-credentials: true
+
+      - name: Determine next RC number
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          # Find the highest existing ${VERSION}-RC<n> tag and pick the next number.
+          git fetch --tags origin
+          LAST=$(git tag --list "${VERSION}-RC*" | grep -oE '[0-9]+$' | sort -n | tail -1 || true)
+          NEXT=$(( ${LAST:-0} + 1 ))
+          RC_VERSION="${VERSION}-RC${NEXT}"
+          echo "RC_VERSION=${RC_VERSION}" >> "$GITHUB_ENV"
+          echo "Previous RC: ${LAST:-none}. Next RC: ${RC_VERSION}"
 
       - name: Create or check out release branch
         run: |
