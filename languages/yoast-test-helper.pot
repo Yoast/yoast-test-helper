@@ -1,14 +1,14 @@
-# Copyright (C) 2025 Team Yoast
+# Copyright (C) 2026 Team Yoast
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast Test Helper 1.18\n"
+"Project-Id-Version: Yoast Test Helper 1.19\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2025-04-23 09:29:11+00:00\n"
+"POT-Creation-Date: 2026-05-12 12:56:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Yoast Translate Team <translations@yoast.com>\n"
 "Language-Team: Yoast Translate <translations@yoast.com>\n"
 "Language: en\n"
@@ -61,11 +61,19 @@ msgstr ""
 msgid "Development settings"
 msgstr ""
 
-#: src/domain-dropdown.php:59
-msgid "Set the myYoast testing domain to: "
+#: src/domain-dropdown.php:118
+msgid "Custom URL…"
 msgstr ""
 
-#: src/domain-dropdown.php:64
+#: src/domain-dropdown.php:122
+msgid "Set the MyYoast testing domain to: "
+msgstr ""
+
+#: src/domain-dropdown.php:132
+msgid "Custom MyYoast URL:"
+msgstr ""
+
+#: src/domain-dropdown.php:138
 msgid "Domain Dropdown"
 msgstr ""
 
@@ -149,6 +157,227 @@ msgstr ""
 
 #: src/inline-script.php:75
 msgid "Inline script"
+msgstr ""
+
+#: src/logger-integration.php:105
+msgid "Database table"
+msgstr ""
+
+#: src/logger-integration.php:106
+msgid "File on disk"
+msgstr ""
+
+#: src/logger-integration.php:116
+msgid "Enable the Yoast SEO logger."
+msgstr ""
+
+#: src/logger-integration.php:121
+msgid "Minimum level captured: "
+msgstr ""
+
+#: src/logger-integration.php:127
+msgid "Storage backend: "
+msgstr ""
+
+#: src/logger-integration.php:134
+msgid "File path (absolute, only used for the file backend): "
+msgstr ""
+
+#: src/logger-integration.php:138
+msgid "Warning:"
+msgstr ""
+
+#: src/logger-integration.php:139
+msgid ""
+"Pick a path that is not web-accessible. Anything under wp-content/uploads/ "
+"is served publicly on most hosts and will leak whatever Yoast SEO logs."
+msgstr ""
+
+#: src/logger-integration.php:144
+msgid "Logger"
+msgstr ""
+
+#: src/logger-integration.php:245
+msgid "Cleared all captured logs."
+msgstr ""
+
+#: src/logger-integration.php:308
+msgid "Logger file path must be absolute."
+msgstr ""
+
+#: src/logger-integration.php:313
+msgid "Logger file path may not contain \"..\" segments."
+msgstr ""
+
+#: src/logger-integration.php:328
+msgid ""
+"Logger file path may not be inside wp-content/ or the uploads directory; "
+"those locations are typically web-accessible."
+msgstr ""
+
+#: src/logger-integration.php:335 src/logger-integration.php:339
+msgid "Logger file path is not writable."
+msgstr ""
+
+#: src/logger-integration.php:360
+msgid "Recent logs"
+msgstr ""
+
+#: src/logger-integration.php:366
+msgid "View captured logs"
+msgstr ""
+
+#: src/logger-integration.php:373
+msgid "Delete all captured logs"
+msgstr ""
+
+#: src/logger-integration.php:396
+#. translators: %d: viewer cap; the actual count is at least this many.
+msgid "%d+ logs captured. Showing the most recent ones."
+msgstr ""
+
+#: src/logger-integration.php:403
+#. translators: %d: number of captured logs.
+msgid "%d log captured."
+msgid_plural "%d logs captured."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/logger-integration.php:421
+msgid "Yoast SEO logs"
+msgstr ""
+
+#: src/logger-integration.php:423 src/myyoast-oauth-overrides.php:288
+msgid "Close"
+msgstr ""
+
+#: src/logger-integration.php:430
+msgid "Time (UTC)"
+msgstr ""
+
+#: src/logger-integration.php:431
+msgid "Level"
+msgstr ""
+
+#: src/logger-integration.php:432
+msgid "Message"
+msgstr ""
+
+#: src/logger-integration.php:433
+msgid "Context"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:160
+#. translators: %s expands to the active issuer URL.
+msgid ""
+"Configures the OAuth credentials for the environment selected in the Domain "
+"Dropdown card: %s."
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:165
+msgid ""
+"No overrides apply on production — Yoast SEO ships with valid baked-in "
+"credentials. Switch the Domain Dropdown to a non-production environment to "
+"configure credentials here."
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:172
+msgid "MyYoast PAT for this environment:"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:177
+msgid "MyYoast OAuth overrides"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:188
+msgid "Fetch credentials"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:194
+msgid ""
+"Clear all MyYoast OAuth state?\n"
+"\n"
+"This wipes the local OAuth client state for the active issuer:\n"
+"\n"
+"• The plugin will deregister with MyYoast (best-effort), then forget the "
+"registered client.\n"
+"• All site-level and user-level access tokens will be deleted. Every "
+"WordPress user that connected to MyYoast must sign in again.\n"
+"• Both key pairs (registration JWT signing + DPoP) will be rotated.\n"
+"• OIDC discovery, JWKS and DPoP nonce caches will be cleared.\n"
+"• PATs stored in the test helper itself are kept."
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:210
+msgid "Clear OAuth state"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:260
+msgid "yes"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:260
+msgid "no"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:262
+msgid "Active issuer:"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:263
+msgid "Stored credentials:"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:283
+msgid "View decoded software statement claims"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:287
+msgid "Decoded software statement claims"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:335
+msgid ""
+"The Domain Dropdown is on production. Switch to a staging or local "
+"environment before fetching credentials."
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:344
+msgid ""
+"No PAT stored for the active environment. Paste one in the settings form "
+"and save first."
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:355
+#. translators: %s expands to the WordPress error message.
+msgid "Could not reach the credentials endpoint: %s"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:370
+#. translators: 1: HTTP status code, 2: response body.
+msgid "Credentials endpoint returned HTTP %1$d. Body: %2$s"
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:384
+msgid "Credentials endpoint returned a response that is not valid JSON."
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:400
+msgid ""
+"Credentials endpoint response is missing softwareStatement or "
+"initialAccessToken."
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:413
+#. translators: %s expands to the issuer URL.
+msgid "Stored a fresh software statement and initial access token for %s."
+msgstr ""
+
+#: src/myyoast-oauth-overrides.php:436
+msgid ""
+"Fired wpseo_myyoast_clear_client_state. Local OAuth state in Yoast SEO has "
+"been wiped (if Yoast SEO is active and the MyYoast connection feature flag "
+"is on)."
 msgstr ""
 
 #: src/plugin-toggler.php:213
@@ -352,7 +581,7 @@ msgstr ""
 #: src/wordpress-plugins/video-seo.php:81
 #: src/wordpress-plugins/woocommerce-seo.php:83
 #: src/wordpress-plugins/yoast-seo-premium.php:83
-#: src/wordpress-plugins/yoast-seo.php:146
+#: src/wordpress-plugins/yoast-seo.php:150
 msgid "not active"
 msgstr ""
 
@@ -406,6 +635,10 @@ msgstr ""
 
 #: src/wordpress-plugins/yoast-seo.php:86
 msgid "Cornerstone flags"
+msgstr ""
+
+#: src/wordpress-plugins/yoast-seo.php:87
+msgid "Toggle Site Kit feature flag"
 msgstr ""
 
 #: src/xml-sitemaps.php:71
