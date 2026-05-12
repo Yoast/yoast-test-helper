@@ -90,7 +90,7 @@ div.wpseo_test_block td {
     padding: 2px 3px;
 }
 
-div.wpseo_test_block button.button[type=submit]{
+div.wpseo_test_block button.button[type=submit] {
     margin-top: 12px !important;
 }
 
@@ -106,9 +106,13 @@ div.wpseo_test_block input[type=checkbox] {
     margin: 5px 10px 5px 0;
 }
 
-div.wpseo_test_block input[type=number]{
+div.wpseo_test_block input[type=number] {
     width: 80px;
     margin: 5px 0 5px 10px;
+}
+
+div.wpseo_test_block input[type=text] {
+    margin: 10px 0;
 }
 
 div.wpseo_test_block textarea {

@@ -53,6 +53,28 @@ class Form_Presenter {
 	}
 
 	/**
+	 * Builds a text input element.
+	 *
+	 * @param string $option      The option to make a text input for.
+	 * @param string $label       The label for the input.
+	 * @param string $value       The current value.
+	 * @param string $placeholder The placeholder text.
+	 *
+	 * @return string The input & label HTML.
+	 */
+	public static function create_text_input( $option, $label, $value = '', $placeholder = '' ) {
+		$output  = \sprintf( '<label for="%1$s">%2$s</label>', \esc_attr( $option ), \esc_html( $label ) );
+		$output .= \sprintf(
+			'<input type="text" name="%1$s" id="%1$s" value="%2$s" placeholder="%3$s" class="regular-text"/><br/>',
+			\esc_attr( $option ),
+			\esc_attr( $value ),
+			\esc_attr( $placeholder ),
+		);
+
+		return $output;
+	}
+
+	/**
 	 * Builds a select element.
 	 *
 	 * @param string   $option   The option to make a checkbox for.
