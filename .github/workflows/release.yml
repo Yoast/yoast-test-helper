@@ -73,10 +73,16 @@ jobs:
           if [ -n "$NEXT_INPUT" ]; then
             NEXT="$NEXT_INPUT"
           else
-            # Default: bump the minor segment (1.19 -> 1.20).
+            # Default: for a patch release (1.19.1) bump the patch segment (-> 1.19.2);
+            # for a minor release (1.19) bump the minor segment (-> 1.20).
             MAJOR=$(echo "$VERSION" | cut -d. -f1)
             MINOR=$(echo "$VERSION" | cut -d. -f2)
-            NEXT="${MAJOR}.$((MINOR + 1))"
+            PATCH=$(echo "$VERSION" | cut -d. -f3)
+            if [ -n "$PATCH" ]; then
+              NEXT="${MAJOR}.${MINOR}.$((PATCH + 1))"
+            else
+              NEXT="${MAJOR}.$((MINOR + 1))"
+            fi
           fi
           echo "next=$NEXT" >> "$GITHUB_OUTPUT"
           echo "Resolved next version: $NEXT"
@@ -197,10 +203,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ inputs.version }}
         run: |
+          # No --target: the tag pushed in the previous step is the source of truth.
+          # Passing --target main would silently create the release at main's tip
+          # if the tag step were ever skipped or rolled back partway.
           gh release create "${VERSION}" \
             --title "${VERSION}" \
             --notes-file release-notes.md \
-            --target main \
             artifact.zip
 
       - name: Rename release asset

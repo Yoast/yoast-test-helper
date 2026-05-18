@@ -339,6 +339,10 @@ jobs:
             "${ZIP}"
 
       - name: Merge release branch back into develop
+        # Note: this merges the RC commits — including the `Bump version number to x.y-RCn`
+        # commit — back into develop. As a result `develop`'s package.json carries the
+        # `x.y-RCn` version until the final `Release` workflow overwrites it with `x.y`.
+        # This matches the manual release procedure and the duplicate-post convention.
         run: |
           git fetch origin develop
           # Reset the local develop to origin so we merge into the current upstream tip,
