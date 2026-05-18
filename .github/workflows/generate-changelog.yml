@@ -1,0 +1,75 @@
+name: Generate Changelog
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.19)'
+        required: true
+        type: string
+      previous-tag:
+        description: 'Previous tag to compare from (defaults to latest release tag, excluding RC/beta)'
+        required: false
+        type: string
+      release-date:
+        description: 'Release date in YYYY-MM-DD format (defaults to today for patches, next Tuesday ~2 weeks out for minor/major)'
+        required: false
+        type: string
+
+# Ensure only one changelog generation runs at a time per branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate-changelog:
+    name: "Generate changelog and open PR"
+    runs-on: ubuntu-latest
+
+    # Don't run on forks.
+    if: github.repository_owner == 'Yoast'
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Generate changelog
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+          PREVIOUS_TAG: ${{ inputs.previous-tag }}
+          RELEASE_DATE: ${{ inputs.release-date }}
+        run: bash .github/scripts/generate-changelog.sh
+
+      - name: Show readme.txt changelog section
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          awk -v v="= ${VERSION} =" '
+            $0 == v { flag = 1 }
+            flag { print }
+            flag && /^= [0-9]/ && $0 != v { exit }
+          ' readme.txt
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
+        with:
+          commit-message: "chore: generate changelog for ${{ inputs.version }}"
+          title: "Generate changelog for ${{ inputs.version }}"
+          body: |
+            Automated changelog draft for **${{ inputs.version }}**.
+
+            Generated from merged PRs since the previous release tag, grouped by `changelog:` label.
+
+            Please review the entries (wording, ordering, anything caught by the wrong label) before merging. Once merged into `develop`, the `Release` workflow can be run for this version.
+          branch: "changelog/${{ inputs.version }}"
+          base: develop
+          delete-branch: true
+          labels: "changelog: non-user-facing"
