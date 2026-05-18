@@ -99,13 +99,16 @@ for PR_NUM in $PR_NUMBERS; do
 		continue
 	fi
 
-	BODY=$(echo "$PR_JSON" | jq -r '.body // ""')
+	# Strip CRs (GitHub returns PR bodies with \r\n line endings; the trailing \r leaks into
+	# captured bullets and breaks the markdown rendering of any suffix we append).
+	BODY=$(echo "$PR_JSON" | jq -r '.body // ""' | tr -d '\r')
 
 	# Strip HTML comments first so the PR template's instructional `* changelog: …` bullets
 	# (which live inside <!-- ... -->) are not picked up as changelog entries.
-	# Capture bullet lines between the "Changelog Entry" anchor and the next markdown heading.
+	# Anchor the range on the `## Changelog Entry` *heading* (require `^##` at the start),
+	# not any bullet that happens to mention "Changelog Entry" later in the body.
 	ENTRIES=$(echo "$BODY" | awk 'BEGIN{c=0} /<!--/{c=1} !c{print} /-->/{c=0}' \
-		| sed -n '/[Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
+		| sed -n '/^## *[Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
 
 	if [ -z "$ENTRIES" ]; then
 		echo "  No changelog entry found"

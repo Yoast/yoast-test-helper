@@ -203,6 +203,13 @@ jobs:
       - name: "Grunt: build artifact"
         run: grunt artifact
 
+      - name: Reset working tree after artifact
+        # `grunt artifact` re-runs `build:i18n`, which regenerates languages/*.pot with a fresh
+        # POT-Creation-Date timestamp. That leaves the working tree dirty and causes the later
+        # `git checkout -B develop origin/develop` to refuse to overwrite the tracked file.
+        # Throw away the in-tree changes; the artifact we just built is intact under ./artifact.
+        run: git reset --hard HEAD
+
       - name: Deploy RC to wordpress.org SVN trunk
         if: ${{ inputs.deploy-to-svn-trunk == true }}
         env:
@@ -246,12 +253,23 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ inputs.version }}
         run: |
-          PREVIOUS_TAG=$(git tag --sort=-creatordate --merged HEAD | grep -E '^[0-9]+\.[0-9]+(\.[0-9]+)?$' | head -1 || echo "")
+          # Resolve the comparison tag for the QA notes:
+          #   * RC2+ -> the immediately previous RC of the same version (RC2 vs RC1, RC3 vs RC2),
+          #     so QA only sees what's new in this RC.
+          #   * RC1  -> the most recent non-RC release tag (e.g. 1.18), so QA sees the full diff
+          #     from the last shipped version.
+          RC_NUM=$(echo "$RC_VERSION" | grep -oP '(?<=-RC)[0-9]+$')
+          if [ "$RC_NUM" -gt 1 ]; then
+            PREVIOUS_TAG="${VERSION}-RC$((RC_NUM - 1))"
+          else
+            PREVIOUS_TAG=$(git tag --sort=-creatordate --merged HEAD | grep -E '^[0-9]+\.[0-9]+(\.[0-9]+)?$' | head -1 || echo "")
+          fi
           if [ -z "$PREVIOUS_TAG" ]; then
             echo "::warning::No previous release tag found; QA changelog will be empty."
             echo "RC ${RC_VERSION}" > qa-changelog.md
             exit 0
           fi
+          echo "QA changelog comparison tag: ${PREVIOUS_TAG}"
 
           # Pick up the planned release date from the readme.txt section; fall back to today.
           RELEASE_DATE=$(awk -v v="= ${VERSION} =" '
@@ -268,6 +286,9 @@ jobs:
             echo "## ${VERSION}"
             echo ""
             echo "Release date: ${RELEASE_DATE}"
+            if [ "$RC_NUM" -gt 1 ]; then
+              echo "Changes compared to ${PREVIOUS_TAG}:"
+            fi
             echo ""
           } > qa-changelog.md
 
@@ -277,9 +298,14 @@ jobs:
             PR_JSON=$(gh pr view "$PR_NUM" --json labels,body,title 2>/dev/null || echo '{"labels":[],"body":"","title":""}')
             LABEL=$(echo "$PR_JSON" | jq -r '[.labels[].name] | map(select(startswith("changelog:"))) | first // empty' | sed 's/^changelog: //')
             TITLE=$(echo "$PR_JSON" | jq -r '.title // ""')
-            BODY=$(echo "$PR_JSON" | jq -r '.body // ""')
+            # Strip CRs (GitHub returns PR bodies with \r\n line endings; the trailing \r leaks
+            # into captured bullets and breaks markdown rendering of any suffix we append).
+            BODY=$(echo "$PR_JSON" | jq -r '.body // ""' | tr -d '\r')
             # Strip HTML comments so PR-template guidance bullets aren't captured.
-            ENTRIES=$(echo "$BODY" | awk 'BEGIN{c=0} /<!--/{c=1} !c{print} /-->/{c=0}' | sed -n '/[Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
+            # Anchor the range on the `## Changelog Entry` *heading*, not any bullet that
+            # mentions "Changelog Entry" later in the body (e.g. PR descriptions that
+            # quote the heading inline).
+            ENTRIES=$(echo "$BODY" | awk 'BEGIN{c=0} /<!--/{c=1} !c{print} /-->/{c=0}' | sed -n '/^## *[Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
             if [ -z "$ENTRIES" ]; then
               ENTRIES="* ${TITLE}"
             fi

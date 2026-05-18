@@ -176,6 +176,13 @@ jobs:
       - name: "Grunt: build artifact"
         run: grunt artifact
 
+      - name: Reset working tree after artifact
+        # `grunt artifact` re-runs `build:i18n`, which regenerates languages/*.pot with a fresh
+        # POT-Creation-Date timestamp. That leaves the working tree dirty and causes a later
+        # `git checkout -B <branch> origin/<branch>` to refuse to overwrite the tracked file.
+        # Throw away the in-tree changes; the artifact we just built is intact under ./artifact.
+        run: git reset --hard HEAD
+
       - name: Extract release notes from readme.txt
         env:
           VERSION: ${{ inputs.version }}
