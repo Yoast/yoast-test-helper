@@ -349,8 +349,11 @@ class Logger_Integration implements Integration {
 	 * @return string The viewer HTML.
 	 */
 	private function render_viewer() {
+		$storage = $this->get_active_storage();
+		$storage->setup();
+
 		// Read VIEWER_LIMIT + 1 so we can detect overflow and show "1000+" without counting the whole backend.
-		$entries  = $this->get_active_storage()->read( self::VIEWER_LIMIT + 1 );
+		$entries  = $storage->read( self::VIEWER_LIMIT + 1 );
 		$overflow = \count( $entries ) > self::VIEWER_LIMIT;
 		if ( $overflow ) {
 			$entries = \array_slice( $entries, 0, self::VIEWER_LIMIT );
