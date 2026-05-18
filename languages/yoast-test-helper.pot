@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast Test Helper 1.19-RC2\n"
+"Project-Id-Version: Yoast Test Helper 1.19-RC3\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/yoast-test-helper/issues\n"
-"POT-Creation-Date: 2026-05-18 09:07:25+00:00\n"
+"POT-Creation-Date: 2026-05-18 10:14:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -219,51 +219,51 @@ msgstr ""
 msgid "Logger file path is not writable."
 msgstr ""
 
-#: src/logger-integration.php:360
+#: src/logger-integration.php:363
 msgid "Recent logs"
 msgstr ""
 
-#: src/logger-integration.php:366
+#: src/logger-integration.php:369
 msgid "View captured logs"
 msgstr ""
 
-#: src/logger-integration.php:373
+#: src/logger-integration.php:376
 msgid "Delete all captured logs"
 msgstr ""
 
-#: src/logger-integration.php:396
+#: src/logger-integration.php:399
 #. translators: %d: viewer cap; the actual count is at least this many.
 msgid "%d+ logs captured. Showing the most recent ones."
 msgstr ""
 
-#: src/logger-integration.php:403
+#: src/logger-integration.php:406
 #. translators: %d: number of captured logs.
 msgid "%d log captured."
 msgid_plural "%d logs captured."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/logger-integration.php:421
+#: src/logger-integration.php:424
 msgid "Yoast SEO logs"
 msgstr ""
 
-#: src/logger-integration.php:423 src/myyoast-oauth-overrides.php:288
+#: src/logger-integration.php:426 src/myyoast-oauth-overrides.php:288
 msgid "Close"
 msgstr ""
 
-#: src/logger-integration.php:430
+#: src/logger-integration.php:433
 msgid "Time (UTC)"
 msgstr ""
 
-#: src/logger-integration.php:431
+#: src/logger-integration.php:434
 msgid "Level"
 msgstr ""
 
-#: src/logger-integration.php:432
+#: src/logger-integration.php:435
 msgid "Message"
 msgstr ""
 
-#: src/logger-integration.php:433
+#: src/logger-integration.php:436
 msgid "Context"
 msgstr ""
 
