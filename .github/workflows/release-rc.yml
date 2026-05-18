@@ -302,10 +302,10 @@ jobs:
             # into captured bullets and breaks markdown rendering of any suffix we append).
             BODY=$(echo "$PR_JSON" | jq -r '.body // ""' | tr -d '\r')
             # Strip HTML comments so PR-template guidance bullets aren't captured.
-            # Anchor the range on the `## Changelog Entry` *heading*, not any bullet that
-            # mentions "Changelog Entry" later in the body (e.g. PR descriptions that
-            # quote the heading inline).
-            ENTRIES=$(echo "$BODY" | awk 'BEGIN{c=0} /<!--/{c=1} !c{print} /-->/{c=0}' | sed -n '/^## *[Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
+            # Anchor the range on the template intro `This PR can be summarized in the following
+            # changelog entry:` (identical across the old `## Summary` and new `## Changelog
+            # Entry` templates) rather than the heading itself.
+            ENTRIES=$(echo "$BODY" | awk 'BEGIN{c=0} /<!--/{c=1} !c{print} /-->/{c=0}' | sed -n '/[Ss]ummarized in the following [Cc]hangelog [Ee]ntry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
             if [ -z "$ENTRIES" ]; then
               ENTRIES="* ${TITLE}"
             fi
