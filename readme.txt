@@ -43,7 +43,6 @@ Enhancements:
 * Adds a "MyYoast OAuth overrides" card that swaps Yoast SEO's MyYoast OAuth issuer + software statement + initial access token at runtime, fetched from `{issuer}/api/oauth/software-statements` using a developer-supplied PAT. Lets you point Yoast SEO at a non-production MyYoast environment (staging, local, custom URL) without editing `wp-config.php`.
 * Updates the list of available domains in the Domain dropdown section.
 * Adds a custom domain option in the Domain dropdown section.
-* Adds the option to toggle the Site Kit Dashboard feature feature-flag.
 
 Other:
 * Sets the _WordPress tested up to_ version to 7.0.
