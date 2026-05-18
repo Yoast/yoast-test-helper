@@ -1,4 +1,4 @@
-## Changelog Entry
+## Summary
 
 <!--
 Apply exactly one `changelog:` label to this PR:
