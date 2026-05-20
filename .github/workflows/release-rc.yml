@@ -71,6 +71,15 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
+      - name: Configure git
+        # Must run before any step that creates a git commit (including the merge commit produced
+        # by `Create or check out release branch` when the release branch already exists).
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          git config user.name 'GitHub Action'
+          git config user.email "$ACTOR@users.noreply.github.com"
+
       - name: Determine next RC number
         env:
           VERSION: ${{ inputs.version }}
@@ -101,13 +110,6 @@ jobs:
             echo "Creating release branch ${RELEASE_BRANCH} from develop."
             git checkout -b "${RELEASE_BRANCH}"
           fi
-
-      - name: Configure git
-        env:
-          ACTOR: ${{ github.actor }}
-        run: |
-          git config user.name 'GitHub Action'
-          git config user.email "$ACTOR@users.noreply.github.com"
 
       - name: Regenerate changelog from merged PRs
         if: ${{ inputs.skip-changelog-regen != true }}
