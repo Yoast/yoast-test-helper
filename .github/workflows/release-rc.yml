@@ -267,12 +267,20 @@ jobs:
           mv artifact.zip "${ZIP_NAME}"
           echo "name=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
 
-      - name: Stage upload directory
+      - name: Stage plugin folder for upload
         # Copy the unzipped build under a `yoast-test-helper/` wrapper so the workflow
         # artifact (which `actions/upload-artifact` always wraps in a zip of its own)
         # downloads as a single zip containing the plugin folder — same shape as a
         # wp.org plugin zip — instead of a zip containing yoast-test-helper-x.y-RCn.zip.
-        run: cp -a artifact yoast-test-helper
+        #
+        # `cp -a artifact yoast-test-helper` would produce the right shape only when
+        # `yoast-test-helper/` does not already exist AND `artifact/` has no inner
+        # wrapper. Explicit `mkdir` + `cp artifact/.` removes both invariants and
+        # makes the intent unambiguous: empty wrapper dir, plus artifact contents
+        # copied into it.
+        run: |
+          mkdir yoast-test-helper
+          cp -a artifact/. yoast-test-helper/
 
       - name: Upload plugin folder as workflow artifact
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
