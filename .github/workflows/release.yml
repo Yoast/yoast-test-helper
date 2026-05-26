@@ -220,6 +220,7 @@ jobs:
         with:
           name: yoast-test-helper-${{ inputs.version }}${{ inputs.dry-run && '-dryrun' || '' }}
           path: artifact.zip
+          if-no-files-found: error
           retention-days: 30
 
       - name: Deploy to wordpress.org SVN

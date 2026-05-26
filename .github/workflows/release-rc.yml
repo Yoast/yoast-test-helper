@@ -272,6 +272,7 @@ jobs:
         with:
           name: ${{ steps.zip.outputs.name }}${{ inputs.dry-run && '-dryrun' || '' }}
           path: ${{ steps.zip.outputs.name }}
+          if-no-files-found: error
           retention-days: 30
 
       - name: Build QA changelog (full, with PR links and non-user-facing entries)
