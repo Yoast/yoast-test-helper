@@ -215,11 +215,18 @@ jobs:
           echo "Generated release-notes.md:"
           cat release-notes.md
 
-      - name: Upload artifact zip for inspection
+      - name: Stage upload directory
+        # Copy the unzipped build under a `yoast-test-helper/` wrapper so the workflow
+        # artifact (which `actions/upload-artifact` always wraps in a zip of its own)
+        # downloads as a single zip containing the plugin folder — same shape as a
+        # wp.org plugin zip — instead of a zip containing artifact.zip.
+        run: cp -a artifact yoast-test-helper
+
+      - name: Upload plugin folder as workflow artifact
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: yoast-test-helper-${{ inputs.version }}${{ inputs.dry-run && '-dryrun' || '' }}
-          path: artifact.zip
+          path: yoast-test-helper
           if-no-files-found: error
           retention-days: 30
 
@@ -338,7 +345,7 @@ jobs:
             echo "* Close milestone \`${VERSION}\` and open milestone \`${NEXT_VERSION}\`"
             echo "* \`git push origin develop\` (after merging \`main\` back)"
             echo ""
-            echo "The built zip is available as the \`yoast-test-helper-${VERSION}-dryrun\` workflow artifact above."
+            echo "The built plugin is available as the \`yoast-test-helper-${VERSION}-dryrun\` workflow artifact above (download → single zip containing the \`yoast-test-helper/\` folder)."
             echo ""
             echo "### Release notes preview"
             echo ""
