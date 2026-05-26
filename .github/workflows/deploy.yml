@@ -22,14 +22,11 @@ name: Deploy
 ##############################################################################
 
 on:
-  # Trigger the workflow whenever a new tag is created.
-  # RC tags (e.g. 1.19-RC1) are excluded so they do not publish to the dist repo's main branch;
-  # RC builds are handled by the `Release RC` workflow.
+  # Trigger the workflow whenever a new tag is created — both final releases and RC tags
+  # should land in the dist repo so internal consumers can install any tagged version.
   push:
     tags:
       - '**'
-      - '!*-RC*'
-      - '!*-rc*'
   # Allow manually triggering the workflow.
   workflow_dispatch:
 
