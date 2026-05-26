@@ -16,6 +16,11 @@ name: Release RC
 # the Stable tag is preserved at the last stable release so users do NOT see
 # the RC. Finally merges the release branch back into develop so the version
 # bump and i18n changes land there too.
+#
+# Pass `dry-run=true` to rehearse the pipeline without any remote side effect:
+# every `git push`, the SVN deploy, the GitHub pre-release, and the merge-back
+# push are skipped. The built zip is still uploaded as a workflow artifact so
+# you can inspect it.
 ##############################################################################
 
 on:
@@ -32,6 +37,11 @@ on:
         type: boolean
       deploy-to-svn-trunk:
         description: 'Push the build to wordpress.org SVN trunk so translators can pick up new strings. Stable tag stays on the last stable release.'
+        required: false
+        default: false
+        type: boolean
+      dry-run:
+        description: 'Dry-run: do all in-tree work (changelog regen, version bump, i18n, local commit/merge/tag, artifact build) but skip every remote side-effect (no git push, no SVN, no GH pre-release). The built zip is uploaded as a workflow artifact for inspection. Overrides `deploy-to-svn-trunk`.'
         required: false
         default: false
         type: boolean
@@ -116,6 +126,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ inputs.version }}
+          DRY_RUN: ${{ inputs.dry-run }}
         run: |
           bash .github/scripts/generate-changelog.sh
           if git diff --quiet -- readme.txt; then
@@ -123,7 +134,9 @@ jobs:
           else
             git add readme.txt
             git commit -m "Update changelog for ${VERSION}"
-            git push origin "${RELEASE_BRANCH}"
+            if [ "$DRY_RUN" != "true" ]; then
+              git push origin "${RELEASE_BRANCH}"
+            fi
           fi
 
       - name: Verify changelog section exists
@@ -187,7 +200,7 @@ jobs:
       - name: "Grunt: build i18n"
         run: grunt build:i18n
 
-      - name: Commit and push release branch
+      - name: Commit version bump on release branch
         run: |
           git add -A
           if git diff --cached --quiet; then
@@ -195,12 +208,17 @@ jobs:
           else
             git commit -m "Bump version number to ${RC_VERSION}"
           fi
-          git push origin "${RELEASE_BRANCH}"
+
+      - name: Push release branch
+        if: ${{ inputs.dry-run != true }}
+        run: git push origin "${RELEASE_BRANCH}"
 
       - name: Tag the RC
-        run: |
-          git tag -a "${RC_VERSION}" -m "${RC_VERSION}"
-          git push origin "${RC_VERSION}"
+        run: git tag -a "${RC_VERSION}" -m "${RC_VERSION}"
+
+      - name: Push RC tag
+        if: ${{ inputs.dry-run != true }}
+        run: git push origin "${RC_VERSION}"
 
       - name: "Grunt: build artifact"
         run: grunt artifact
@@ -213,7 +231,7 @@ jobs:
         run: git reset --hard HEAD
 
       - name: Deploy RC to wordpress.org SVN trunk
-        if: ${{ inputs.deploy-to-svn-trunk == true }}
+        if: ${{ inputs.deploy-to-svn-trunk == true && inputs.dry-run != true }}
         env:
           SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
@@ -248,6 +266,13 @@ jobs:
           ZIP_NAME="yoast-test-helper-${RC_VERSION}.zip"
           mv artifact.zip "${ZIP_NAME}"
           echo "name=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload artifact zip for inspection
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: ${{ steps.zip.outputs.name }}${{ inputs.dry-run && '-dryrun' || '' }}
+          path: ${{ steps.zip.outputs.name }}
+          retention-days: 30
 
       - name: Build QA changelog (full, with PR links and non-user-facing entries)
         id: qa
@@ -355,6 +380,7 @@ jobs:
           cat qa-changelog.md
 
       - name: Create GitHub pre-release
+        if: ${{ inputs.dry-run != true }}
         env:
           GH_TOKEN: ${{ github.token }}
           ZIP: ${{ steps.zip.outputs.name }}
@@ -371,25 +397,37 @@ jobs:
         # commit — back into develop. As a result `develop`'s package.json carries the
         # `x.y-RCn` version until the final `Release` workflow overwrites it with `x.y`.
         # This matches the manual release procedure and the duplicate-post convention.
+        env:
+          MERGE_SOURCE: ${{ inputs.dry-run == true && format('{0}', env.RELEASE_BRANCH) || format('origin/{0}', env.RELEASE_BRANCH) }}
         run: |
           git fetch origin develop
           # Reset the local develop to origin so we merge into the current upstream tip,
-          # not whatever the workflow checked out at the start of the run.
+          # not whatever the workflow checked out at the start of the run. In a real run
+          # we merge `origin/${RELEASE_BRANCH}` because the RC commits were just pushed
+          # there; in a dry-run nothing was pushed, so merge the local release branch.
           git checkout -B develop origin/develop
-          if ! git merge --no-ff --no-edit "origin/${RELEASE_BRANCH}" -m "Merge ${RELEASE_BRANCH} (${RC_VERSION}) back into develop"; then
+          if ! git merge --no-ff --no-edit "${MERGE_SOURCE}" -m "Merge ${RELEASE_BRANCH} (${RC_VERSION}) back into develop"; then
             git merge --abort || true
             echo "::error::Merge of ${RELEASE_BRANCH} into develop failed. Resolve conflicts and re-run."
             exit 1
           fi
-          git push origin develop
+
+      - name: Push develop (after merge-back)
+        if: ${{ inputs.dry-run != true }}
+        run: git push origin develop
 
       - name: Write #test announcement to job summary
         env:
           ZIP: ${{ steps.zip.outputs.name }}
+          DRY_RUN: ${{ inputs.dry-run }}
         run: |
           RELEASE_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${RC_VERSION}"
+          HEADING="## Slack announcement"
+          if [ "$DRY_RUN" = "true" ]; then
+            HEADING="## Slack announcement (preview — not actually released)"
+          fi
           cat >> "$GITHUB_STEP_SUMMARY" <<EOF
-          ## Slack announcement
+          ${HEADING}
 
           Copy this into **#test**:
 
@@ -400,3 +438,31 @@ jobs:
           Zip: ${ZIP}
           \`\`\`
           EOF
+
+      - name: Dry-run summary
+        if: ${{ inputs.dry-run == true }}
+        env:
+          DEPLOY_TO_SVN_TRUNK: ${{ inputs.deploy-to-svn-trunk }}
+          ZIP: ${{ steps.zip.outputs.name }}
+        run: |
+          {
+            echo "## Dry-run summary"
+            echo ""
+            echo "Nothing was pushed. The following actions would have happened in a real run:"
+            echo ""
+            echo "* \`git push origin ${RELEASE_BRANCH}\` (with the \"Update changelog for ${{ inputs.version }}\" and \"Bump version number to ${RC_VERSION}\" commits)"
+            echo "* \`git push origin ${RC_VERSION}\` (annotated tag on \`${RELEASE_BRANCH}\`)"
+            if [ "$DEPLOY_TO_SVN_TRUNK" = "true" ]; then
+              echo "* Push to wordpress.org SVN trunk (no SVN tag)"
+            else
+              echo "* (SVN trunk push skipped — \`deploy-to-svn-trunk\` was not enabled either)"
+            fi
+            echo "* \`gh release create ${RC_VERSION} --prerelease\` with \`${ZIP}\` attached and the QA changelog below"
+            echo "* \`git push origin develop\` (after merging \`${RELEASE_BRANCH}\` back)"
+            echo ""
+            echo "The built zip is available as the \`${ZIP}-dryrun\` workflow artifact above."
+            echo ""
+            echo "### QA changelog preview"
+            echo ""
+            cat qa-changelog.md
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -19,6 +19,11 @@ name: Release
 #      next version.
 #   8. Merges main back into develop.
 #   9. Emits a Slack message body in the job summary for manual posting.
+#
+# Pass `dry-run=true` to rehearse the pipeline without any remote side effect:
+# every `git push`, the SVN deploy, the GitHub release, and the milestone API
+# calls are skipped. The built zip is still uploaded as a workflow artifact
+# so you can inspect it.
 ##############################################################################
 
 on:
@@ -32,6 +37,11 @@ on:
         description: 'Version for the next milestone (e.g., 1.20). Defaults to bumping the minor of `version`.'
         required: false
         type: string
+      dry-run:
+        description: 'Dry-run: do all in-tree work (version bump, i18n, local commit/merge/tag, artifact build) but skip every remote side-effect (no git push, no SVN, no GH release, no milestone changes). The built zip is uploaded as a workflow artifact for inspection.'
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: ${{ github.workflow }}
@@ -149,7 +159,10 @@ jobs:
           else
             git commit -m "Bump version number to ${VERSION}"
           fi
-          git push origin develop
+
+      - name: Push develop
+        if: ${{ inputs.dry-run != true }}
+        run: git push origin develop
 
       - name: Merge develop into main
         env:
@@ -164,14 +177,21 @@ jobs:
             echo "::error::Merge of develop into main failed. Resolve conflicts on main and re-run."
             exit 1
           fi
-          git push origin main
+
+      - name: Push main
+        if: ${{ inputs.dry-run != true }}
+        run: git push origin main
 
       - name: Tag the release
         env:
           VERSION: ${{ inputs.version }}
-        run: |
-          git tag -a "${VERSION}" -m "${VERSION}"
-          git push origin "${VERSION}"
+        run: git tag -a "${VERSION}" -m "${VERSION}"
+
+      - name: Push tag
+        if: ${{ inputs.dry-run != true }}
+        env:
+          VERSION: ${{ inputs.version }}
+        run: git push origin "${VERSION}"
 
       - name: "Grunt: build artifact"
         run: grunt artifact
@@ -195,7 +215,15 @@ jobs:
           echo "Generated release-notes.md:"
           cat release-notes.md
 
+      - name: Upload artifact zip for inspection
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: yoast-test-helper-${{ inputs.version }}${{ inputs.dry-run && '-dryrun' || '' }}
+          path: artifact.zip
+          retention-days: 30
+
       - name: Deploy to wordpress.org SVN
+        if: ${{ inputs.dry-run != true }}
         uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2 # v2.3.0
         env:
           SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
@@ -206,6 +234,7 @@ jobs:
           ASSETS_DIR: svn-assets
 
       - name: Create GitHub release
+        if: ${{ inputs.dry-run != true }}
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ inputs.version }}
@@ -219,6 +248,7 @@ jobs:
             artifact.zip
 
       - name: Rename release asset
+        if: ${{ inputs.dry-run != true }}
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ inputs.version }}
@@ -230,6 +260,7 @@ jobs:
           fi
 
       - name: Close milestone and open the next one
+        if: ${{ inputs.dry-run != true }}
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ inputs.version }}
@@ -262,14 +293,22 @@ jobs:
             echo "::error::Merge of main into develop failed. Resolve conflicts and re-run."
             exit 1
           fi
-          git push origin develop
+
+      - name: Push develop (after merge-back)
+        if: ${{ inputs.dry-run != true }}
+        run: git push origin develop
 
       - name: Write Slack announcement to job summary
         env:
           VERSION: ${{ inputs.version }}
+          DRY_RUN: ${{ inputs.dry-run }}
         run: |
+          HEADING="## Slack announcement"
+          if [ "$DRY_RUN" = "true" ]; then
+            HEADING="## Slack announcement (preview — not actually released)"
+          fi
           cat >> "$GITHUB_STEP_SUMMARY" <<EOF
-          ## Slack announcement
+          ${HEADING}
 
           Copy this into **#yoast_support** and **#dev-rc-releases**:
 
@@ -278,3 +317,29 @@ jobs:
           Changelog: https://wordpress.org/plugins/yoast-test-helper/#developers
           \`\`\`
           EOF
+
+      - name: Dry-run summary
+        if: ${{ inputs.dry-run == true }}
+        env:
+          VERSION: ${{ inputs.version }}
+          NEXT_VERSION: ${{ steps.next.outputs.next }}
+        run: |
+          {
+            echo "## Dry-run summary"
+            echo ""
+            echo "Nothing was pushed. The following actions would have happened in a real run:"
+            echo ""
+            echo "* \`git push origin develop\` (with the \"Bump version number to ${VERSION}\" commit)"
+            echo "* \`git push origin main\` (with the \"Release ${VERSION}\" merge commit)"
+            echo "* \`git push origin ${VERSION}\` (annotated tag)"
+            echo "* Push to wordpress.org SVN: \`trunk/\`, \`assets/\`, new tag \`tags/${VERSION}/\`"
+            echo "* \`gh release create ${VERSION}\` with the artifact zip attached and the release notes below"
+            echo "* Close milestone \`${VERSION}\` and open milestone \`${NEXT_VERSION}\`"
+            echo "* \`git push origin develop\` (after merging \`main\` back)"
+            echo ""
+            echo "The built zip is available as the \`yoast-test-helper-${VERSION}-dryrun\` workflow artifact above."
+            echo ""
+            echo "### Release notes preview"
+            echo ""
+            cat release-notes.md
+          } >> "$GITHUB_STEP_SUMMARY"
