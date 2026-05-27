@@ -39,12 +39,14 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 Release date: 2026-05-26
 
 Enhancements:
+
 * Adds a Logger panel to the Yoast Test Helper (Tools → Yoast Test) that replaces Yoast SEO's `NullLogger` via the `wpseo_logger` filter and persists captured entries to either a custom DB table or a JSONL file.
 * Adds a "MyYoast OAuth overrides" card that swaps Yoast SEO's MyYoast OAuth issuer + software statement + initial access token at runtime, fetched from `{issuer}/api/oauth/software-statements` using a developer-supplied PAT. Lets you point Yoast SEO at a non-production MyYoast environment (staging, local, custom URL) without editing `wp-config.php`.
 * Updates the list of available domains in the Domain dropdown section.
 * Adds a custom domain option in the Domain dropdown section.
 
 Other:
+
 * Sets the _WordPress tested up to_ version to 7.0.
 * Sets the minimum supported WordPress version to 6.8.
 * The plugin has no known incompatibilities with PHP up to 8.5.
