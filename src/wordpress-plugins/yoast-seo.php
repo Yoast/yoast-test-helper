@@ -194,7 +194,7 @@ class Yoast_SEO implements WordPress_Plugin {
 			[
 				'meta_key' => 'wp_yoast_notifications',
 				'user_id'  => \get_current_user_id(),
-			]
+			],
 		);
 
 		// Delete all muted notification settings.
@@ -274,6 +274,8 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * Resets the indexing notification such that it is shown again.
 	 *
 	 * @param string $reason The indexing reason why the site needs to be reindexed.
+	 *
+	 * @return void
 	 */
 	protected function reset_indexing_notification( $reason ) {
 		\YoastSEO()->helpers->indexing->set_reason( $reason );

@@ -34,7 +34,7 @@ class WordPress_Plugin_Features implements Integration {
 		foreach ( $this->plugins as $plugin ) {
 			\add_action(
 				'admin_post_' . $plugin->get_identifier() . '-feature-reset',
-				[ $this, 'handle_reset_feature' ]
+				[ $this, 'handle_reset_feature' ],
 			);
 		}
 	}
@@ -71,14 +71,14 @@ class WordPress_Plugin_Features implements Integration {
 				static function ( $name, $feature ) {
 					return \sprintf(
 						'<button id="%s" name="%s" type="submit" class="button secondary">' . \esc_html__( 'Reset', 'yoast-test-helper' ) . ' %s</button> ',
-						\esc_attr( $feature ) . '_button',
+						\esc_attr( $feature . '_button' ),
 						\esc_attr( $feature ),
-						\esc_html( $name )
+						\esc_html( $name ),
 					);
 				},
 				$features,
-				\array_keys( $features )
-			)
+				\array_keys( $features ),
+			),
 		);
 
 		return Form_Presenter::get_html( $plugin->get_name(), $action, $fields, false );
@@ -107,8 +107,8 @@ class WordPress_Plugin_Features implements Integration {
 
 		\wp_safe_redirect(
 			\self_admin_url(
-				'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' )
-			)
+				'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ),
+			),
 		);
 	}
 
@@ -134,9 +134,9 @@ class WordPress_Plugin_Features implements Integration {
 					/* translators: %1$s expands to the plugin name, %2$s to the feature name. */
 					\esc_html__( '%1$s feature %2$s could not be reset.', 'yoast-test-helper' ),
 					$plugin->get_name(),
-					'<strong>' . $name . '</strong>'
+					'<strong>' . $name . '</strong>',
 				),
-				'error'
+				'error',
 			);
 
 			if ( $plugin->reset_feature( $feature ) ) {
@@ -145,9 +145,9 @@ class WordPress_Plugin_Features implements Integration {
 						/* translators: %1$s expands to the plugin name, %2$s to the feature name. */
 						\esc_html__( '%1$s feature %2$s has been reset.', 'yoast-test-helper' ),
 						$plugin->get_name(),
-						'<strong>' . $name . '</strong>'
+						'<strong>' . $name . '</strong>',
 					),
-					'success'
+					'success',
 				);
 			}
 

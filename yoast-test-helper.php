@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Yoast Test Helper
- * Version:     1.18
+ * Version:     1.19
  * Plugin URI:  https://github.com/yoast/yoast-test-helper
  * Description: Utility to provide testing features for Yoast plugins.
  * Author:      Team Yoast
@@ -16,8 +16,8 @@
  * Text Domain: yoast-test-helper
  * Domain Path: /languages/
  * License:     GPL v3
- * Requires at least: 6.3
- * Requires PHP: 7.2.5
+ * Requires at least: 6.8
+ * Requires PHP: 7.4
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,13 +33,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Yoast\WP\Test_Helper\Plugin;
+
 define( 'YOAST_TEST_HELPER_FILE', __FILE__ );
 define( 'YOAST_TEST_HELPER_DIR', dirname( YOAST_TEST_HELPER_FILE ) );
-define( 'YOAST_TEST_HELPER_VERSION', '1.18' );
+define( 'YOAST_TEST_HELPER_VERSION', '1.19' );
 
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }
 
-$yoast_test_helper = new Yoast\WP\Test_Helper\Plugin();
+$yoast_test_helper = new Plugin();
 $yoast_test_helper->add_hooks();

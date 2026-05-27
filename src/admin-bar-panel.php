@@ -20,6 +20,8 @@ class Admin_Bar_Panel extends Debug_Bar_Panel {
 
 	/**
 	 * Renders the debug panel.
+	 *
+	 * @return void
 	 */
 	public function render() {
 		echo '<h2>', \esc_html__( 'Debug Information', 'yoast-test-helper' ), '</h2>';
@@ -32,8 +34,8 @@ class Admin_Bar_Panel extends Debug_Bar_Panel {
 		foreach ( WPSEO_Options::get_option_names() as $option ) {
 			echo '<h3 id="', \esc_attr( $option ), '">', \esc_html__( 'Option', 'yoast-test-helper' ), ': <span class="wpseo-debug">', \esc_html( $option ), '</span></h3>';
 			echo '<pre>';
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export,WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo \var_export( \get_option( $option ) );
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+			\var_export( \get_option( $option ) );
 			echo '</pre>';
 		}
 	}

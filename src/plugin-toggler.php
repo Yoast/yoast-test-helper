@@ -49,7 +49,7 @@ class Plugin_Toggler implements Integration {
 
 		\add_action(
 			'admin_post_yoast_seo_plugin_toggler',
-			[ $this, 'handle_submit' ]
+			[ $this, 'handle_submit' ],
 		);
 	}
 
@@ -119,7 +119,7 @@ class Plugin_Toggler implements Integration {
 					'id'     => $menu_id,
 					'title'  => $menu_title,
 					'href'   => '#',
-				]
+				],
 			);
 
 			// Add a node for each plugin.
@@ -139,10 +139,10 @@ class Plugin_Toggler implements Integration {
 								'Yoast_Plugin_Toggler.toggle_plugin( "%1$s", "%2$s", "%3$s" )',
 								$group,
 								$plugin,
-								$nonce
+								$nonce,
 							),
 						],
-					]
+					],
 				);
 			}
 		}
@@ -160,7 +160,7 @@ class Plugin_Toggler implements Integration {
 			\plugin_dir_url( \YOAST_TEST_HELPER_FILE ) . 'assets/js/yoast-toggle.js',
 			[],
 			\YOAST_TEST_HELPER_VERSION,
-			true
+			true,
 		);
 	}
 
@@ -199,7 +199,7 @@ class Plugin_Toggler implements Integration {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The util takes care of escaping.
 		echo WPSEO_Utils::format_json_encode( $response );
-		die();
+		exit();
 	}
 
 	/**
@@ -211,7 +211,7 @@ class Plugin_Toggler implements Integration {
 		$fields = Form_Presenter::create_checkbox(
 			'plugin_toggler',
 			\esc_html__( 'Show plugin toggler.', 'yoast-test-helper' ),
-			$this->option->get( 'plugin_toggler' )
+			$this->option->get( 'plugin_toggler' ),
 		);
 
 		return Form_Presenter::get_html( \__( 'Plugin toggler', 'yoast-test-helper' ), 'yoast_seo_plugin_toggler', $fields );
@@ -427,7 +427,7 @@ class Plugin_Toggler implements Integration {
 	private function verify_nonce() {
 
 		// If nonce is valid return true.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- The nonce does not need sanitization.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- The nonce does not need sanitization.
 		if ( isset( $_GET['ajax_nonce'] ) && \wp_verify_nonce( $_GET['ajax_nonce'], 'yoast-plugin-toggle' ) ) {
 			return true;
 		}

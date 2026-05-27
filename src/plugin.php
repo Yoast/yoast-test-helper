@@ -41,7 +41,7 @@ class Plugin implements Integration {
 			static function ( Integration $integration ) {
 				$integration->add_hooks();
 			},
-			$this->integrations
+			$this->integrations,
 		);
 	}
 
@@ -49,6 +49,8 @@ class Plugin implements Integration {
 	 * Adds the blocks to the admin page.
 	 *
 	 * @param Admin_Page $admin_page The current admin page.
+	 *
+	 * @return void
 	 */
 	public function admin_page_blocks( Admin_Page $admin_page ) {
 		foreach ( $this->integrations as $integration ) {
@@ -69,7 +71,7 @@ class Plugin implements Integration {
 		$plugin_version_control = new Plugin_Version_Control(
 			$plugins,
 			new WordPress_Plugin_Version(),
-			new WordPress_Plugin_Options()
+			new WordPress_Plugin_Options(),
 		);
 
 		$option = new Option();
@@ -86,9 +88,12 @@ class Plugin implements Integration {
 		$this->integrations[] = new Feature_Toggler( $option );
 		$this->integrations[] = new Post_Types( $option );
 		$this->integrations[] = new Taxonomies( $option );
-		$this->integrations[] = new Domain_Dropdown( $option );
+		$domain_dropdown      = new Domain_Dropdown( $option );
+		$this->integrations[] = $domain_dropdown;
 		$this->integrations[] = new Inline_Script( $option );
+		$this->integrations[] = new MyYoast_OAuth_Overrides( $option, $domain_dropdown );
 		$this->integrations[] = new Admin_Debug_Info( $option );
+		$this->integrations[] = new Logger_Integration( $option );
 		$this->integrations[] = new Indexing_Reason_Integration();
 		$this->integrations[] = new Query_Monitor();
 		$this->integrations[] = new Downgrader();

@@ -45,7 +45,7 @@ class Admin_Page implements Integration {
 			'yoast-test-admin-style',
 			\plugin_dir_url( \YOAST_TEST_HELPER_FILE ) . 'assets/css/admin.css',
 			[],
-			\YOAST_TEST_HELPER_VERSION
+			\YOAST_TEST_HELPER_VERSION,
 		);
 		\wp_enqueue_script( 'masonry' );
 	}
@@ -61,7 +61,7 @@ class Admin_Page implements Integration {
 			\esc_html__( 'Yoast Test', 'yoast-test-helper' ),
 			'manage_options',
 			\sanitize_key( $this->get_admin_page() ),
-			[ $this, 'show_admin_page' ]
+			[ $this, 'show_admin_page' ],
 		);
 		\add_action( 'admin_print_styles-' . $menu_item, [ $this, 'add_assets' ] );
 	}
@@ -90,19 +90,25 @@ class Admin_Page implements Integration {
 		echo '<div id="yoast_masonry">';
 		$this->masonry_script();
 
-		\array_map(
-			static function( $block ) {
-				$block_output = $block();
-				if ( $block_output === '' ) {
-					return;
-				}
-				echo '<div class="wpseo_test_block">';
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $block_output;
-				echo '</div>';
-			},
-			$this->admin_page_blocks
-		);
+		\array_map( [ $this, 'display_block_output' ], $this->admin_page_blocks );
+		echo '</div>';
+	}
+
+	/**
+	 * Display an admin page block.
+	 *
+	 * @param callable $block Admin page block.
+	 *
+	 * @return void
+	 */
+	private function display_block_output( $block ) {
+		$block_output = $block();
+		if ( $block_output === '' ) {
+			return;
+		}
+		echo '<div class="wpseo_test_block">';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $block_output;
 		echo '</div>';
 	}
 
@@ -116,10 +122,21 @@ class Admin_Page implements Integration {
 		<script type="text/javascript">
 			jQuery( window ).on( "load", function() {
 				var container = document.querySelector( "#yoast_masonry" );
-				new Masonry( container, {
+				var masonry   = new Masonry( container, {
 					itemSelector: ".wpseo_test_block",
 					columnWidth: ".wpseo_test_block"
 				} );
+
+				// Re-flow the masonry layout whenever any tile's content size changes,
+				// so integrations that show/hide rows don't need to know about masonry.
+				if ( typeof ResizeObserver === "function" ) {
+					var observer = new ResizeObserver( function() {
+						masonry.layout();
+					} );
+					Array.prototype.forEach.call( container.children, function( tile ) {
+						observer.observe( tile );
+					} );
+				}
 			} );
 		</script>
 		<?php

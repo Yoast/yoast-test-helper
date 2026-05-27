@@ -40,7 +40,7 @@ class Feature_Toggler implements Integration {
 
 		\add_action(
 			'admin_post_yoast_seo_feature_toggler',
-			[ $this, 'handle_submit' ]
+			[ $this, 'handle_submit' ],
 		);
 	}
 
@@ -54,7 +54,6 @@ class Feature_Toggler implements Integration {
 			return '';
 		}
 
-
 		$fields = '';
 
 		foreach ( $this->features as $feature => $label ) {
@@ -63,7 +62,7 @@ class Feature_Toggler implements Integration {
 				$key,
 				/* translators: %s expands to the label. */
 				\sprintf( \esc_html__( 'Enable %s', 'yoast-test-helper' ), $label ),
-				$this->option->get( $key )
+				$this->option->get( $key ),
 			);
 		}
 

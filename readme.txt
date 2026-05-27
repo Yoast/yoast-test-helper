@@ -1,10 +1,10 @@
 === Yoast Test Helper ===
 Contributors: yoast, joostdevalk, omarreiss, jipmoors, herregroen
 Tags: Yoast, Yoast SEO, development
-Requires at least: 6.3
-Tested up to: 6.4
-Stable tag: 1.18
-Requires PHP: 7.2.5
+Requires at least: 6.8
+Tested up to: 7.0
+Stable tag: 1.19
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,23 @@ If you find bugs or would like to contribute, see our [GitHub repo](https://gith
 1. Screenshot of the Yoast test helper admin page.
 
 == Changelog ==
+
+= 1.19 =
+
+Release date: 2026-05-26
+
+Enhancements:
+* Adds a Logger panel to the Yoast Test Helper (Tools → Yoast Test) that replaces Yoast SEO's `NullLogger` via the `wpseo_logger` filter and persists captured entries to either a custom DB table or a JSONL file.
+* Adds a "MyYoast OAuth overrides" card that swaps Yoast SEO's MyYoast OAuth issuer + software statement + initial access token at runtime, fetched from `{issuer}/api/oauth/software-statements` using a developer-supplied PAT. Lets you point Yoast SEO at a non-production MyYoast environment (staging, local, custom URL) without editing `wp-config.php`.
+* Updates the list of available domains in the Domain dropdown section.
+* Adds a custom domain option in the Domain dropdown section.
+
+Other:
+* Sets the _WordPress tested up to_ version to 7.0.
+* Sets the minimum supported WordPress version to 6.8.
+* The plugin has no known incompatibilities with PHP up to 8.5.
+* Drops compatibility with PHP 7.2 and 7.3.
+* Improves discoverability of security policy.
 
 = 1.18 =
 

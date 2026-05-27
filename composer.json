@@ -1,46 +1,82 @@
 {
-  "name": "yoast/test-helper",
-  "type": "wordpress-plugin",
-  "description": "Yoast plugin testing helper",
-  "license": "GPL-2.0-or-later",
-  "authors": [
-    {
-      "name": "Team Yoast",
-      "email": "support@yoast.com"
-    }
-  ],
-  "autoload": {
-    "classmap": [
-      "src/"
-    ]
-  },
-  "config": {
-    "platform": {
-      "php": "7.2.5"
-    },
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    }
-  },
-  "require": {
-    "php": "^7.2.5 || ^8.0"
-  },
-  "require-dev": {
-    "yoast/yoastcs": "^2.3.1"
-  },
-  "scripts": {
-    "lint": [
-      "@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
-    ],
-    "config-yoastcs": [
-      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
-      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set default_standard Yoast"
-    ],
-    "check-cs": [
-      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
-    ],
-    "fix-cs": [
-      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
-    ]
-  }
+	"name": "yoast/test-helper",
+	"description": "Yoast plugin testing helper",
+	"license": "GPL-2.0-or-later",
+	"type": "wordpress-plugin",
+	"authors": [
+		{
+			"name": "Team Yoast",
+			"email": "support@yoast.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/Yoast/yoast-test-helper/issues",
+		"source": "https://github.com/Yoast/yoast-test-helper",
+		"security": "https://yoast.com/security-program/"
+	},
+	"require": {
+		"php": "^7.4 || ^8.0",
+		"ext-zip": "*"
+	},
+	"require-dev": {
+		"yoast/yoastcs": "^3.4.0"
+	},
+	"minimum-stability": "alpha",
+	"prefer-stable": true,
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"autoload-dev": {
+		"classmap": [
+			"config/"
+		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "7.4"
+		}
+	},
+	"scripts": {
+		"lint": [
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
+		],
+		"cs": [
+			"Yoast\\WP\\Test_Helper\\Config\\Composer\\Actions::check_coding_standards"
+		],
+		"check-cs-thresholds": [
+			"@putenv YOASTCS_THRESHOLD_ERRORS=30",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=0",
+			"Yoast\\WP\\Test_Helper\\Config\\Composer\\Actions::check_cs_thresholds"
+		],
+		"check-cs": [
+			"@check-cs-warnings -n"
+		],
+		"check-cs-warnings": [
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
+		],
+		"check-staged-cs": [
+			"@check-cs-warnings --filter=GitStaged"
+		],
+		"check-branch-cs": [
+			"Yoast\\WP\\Test_Helper\\Config\\Composer\\Actions::check_branch_cs"
+		],
+		"fix-cs": [
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
+		]
+	},
+	"scripts-descriptions": {
+		"lint": "Check the PHP files for parse errors.",
+		"cs": "See a menu with the code style checking script options.",
+		"check-cs-thresholds": "Check the PHP files for code style violations and best practices and verify the number of issues does not exceed predefined thresholds.",
+		"check-cs": "Check the PHP files for code style violations and best practices, ignoring warnings.",
+		"check-cs-warnings": "Check the PHP files for code style violations and best practices, including warnings.",
+		"check-staged-cs": "Check the staged PHP files for code style violations and best practices.",
+		"check-branch-cs": "Check the PHP files changed in the current branch for code style violations and best practices.",
+		"fix-cs": "Auto-fix code style violations in the PHP files."
+	}
 }

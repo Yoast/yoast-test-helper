@@ -100,6 +100,8 @@ class Plugin_Version_Control implements Integration {
 	 *
 	 * @param WordPress_Plugin $plugin  Plugin to update a version of.
 	 * @param string           $version Version to update.
+	 *
+	 * @return void
 	 */
 	protected function update_plugin_version( WordPress_Plugin $plugin, $version ) {
 		if ( $this->plugin_version->update_version( $plugin, $version ) ) {
@@ -110,10 +112,10 @@ class Plugin_Version_Control implements Integration {
 						/* translators: %1$s expands to the plugin name, %2$s to the version. */
 						\__( '%1$s version was set to %2$s.', 'yoast-test-helper' ),
 						$plugin->get_name(),
-						$version
+						$version,
 					),
-					'success'
-				)
+					'success',
+				),
 			);
 		}
 
@@ -124,10 +126,10 @@ class Plugin_Version_Control implements Integration {
 					\sprintf(
 						/* translators: %1$s expands to the plugin name. */
 						\__( '%1$s options were saved.', 'yoast-test-helper' ),
-						$plugin->get_name()
+						$plugin->get_name(),
 					),
-					'success'
-				)
+					'success',
+				),
 			);
 		}
 	}
@@ -141,12 +143,12 @@ class Plugin_Version_Control implements Integration {
 	 */
 	protected function get_plugin_option( WordPress_Plugin $plugin ) {
 		return \sprintf(
-			'<tr><td>%s:</td><td><input type="text" name="%s" value="%s" maxlength="9" size="10"></td><td>(%s)</td><td>%s</td></tr>',
+			'<tr><td>%s:</td><td><input type="text" name="%s" value="%s" size="10"></td><td>(%s)</td><td>%s</td></tr>',
 			\esc_html( $plugin->get_name() ),
 			\esc_attr( $plugin->get_identifier() ),
 			\esc_attr( $this->plugin_version->get_version( $plugin ) ),
 			\esc_html( $plugin->get_version_constant() ),
-			$this->get_option_history_select( $plugin )
+			$this->get_option_history_select( $plugin ),
 		);
 	}
 
@@ -184,13 +186,13 @@ class Plugin_Version_Control implements Integration {
 							'<option value="%s">(%s) %s</option>',
 							\esc_attr( $timestamp ),
 							\esc_html( $version ),
-							\esc_html( \gmdate( 'Y-m-d H:i:s', $timestamp ) )
+							\esc_html( \gmdate( 'Y-m-d H:i:s', $timestamp ) ),
 						);
 					},
 					\array_keys( $history ),
-					$history
-				)
-			)
+					$history,
+				),
+			),
 		);
 	}
 
@@ -216,9 +218,9 @@ class Plugin_Version_Control implements Integration {
 						\gmdate( 'Y-m-d H:i:s', $timestamp ),
 						$plugin->get_name(),
 						'<strong>',
-						'</strong>'
+						'</strong>',
 					),
-					'error'
+					'error',
 				);
 
 				if ( $this->plugin_options->restore_options( $plugin, $timestamp ) ) {
@@ -227,9 +229,9 @@ class Plugin_Version_Control implements Integration {
 							/* translators: %1$s expands to date, %2$s to plugin name. */
 							\esc_html__( 'Options from %1$s for %2$s have been restored.', 'yoast-test-helper' ),
 							\gmdate( 'Y-m-d H:i:s', $timestamp ),
-							$plugin->get_name()
+							$plugin->get_name(),
 						),
-						'success'
+						'success',
 					);
 				}
 

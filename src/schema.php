@@ -27,6 +27,8 @@ class Schema implements Integration {
 
 	/**
 	 * Adds the required hooks for this class.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
 		if ( $this->option->get( 'replace_schema_domain' ) === true ) {
@@ -63,6 +65,8 @@ class Schema implements Integration {
 
 	/**
 	 * Registers the schema endpoint if needed.
+	 *
+	 * @return void
 	 */
 	public function init_rewrite() {
 		\add_rewrite_endpoint( 'schema', \EP_ALL );
@@ -70,6 +74,8 @@ class Schema implements Integration {
 
 	/**
 	 * Send the Yoast SEO Schema.
+	 *
+	 * @return void
 	 */
 	public function send_json_ld() {
 		global $wp_query;
@@ -86,7 +92,7 @@ class Schema implements Integration {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This is our self generated Schema, no need for escaping.
 		echo WPSEO_Utils::format_json_encode( \YoastSEO()->meta->for_current_page()->schema );
-		exit;
+		exit();
 	}
 
 	/**
@@ -105,20 +111,20 @@ class Schema implements Integration {
 			'is_needed_breadcrumb',
 			\esc_html__( 'Influence the Breadcrumb Graph piece: ', 'yoast-test-helper' ),
 			$select_options,
-			$this->option->get( 'is_needed_breadcrumb' )
+			$this->option->get( 'is_needed_breadcrumb' ),
 		);
 
 		$output .= Form_Presenter::create_select(
 			'is_needed_webpage',
 			\esc_html__( 'Influence the WebPage Graph piece: ', 'yoast-test-helper' ),
 			$select_options,
-			$this->option->get( 'is_needed_webpage' )
+			$this->option->get( 'is_needed_webpage' ),
 		);
 
 		$output .= Form_Presenter::create_checkbox(
 			'replace_schema_domain',
 			\esc_html__( 'Replace .test domain name with example.com in Schema output.', 'yoast-test-helper' ),
-			$this->option->get( 'replace_schema_domain' )
+			$this->option->get( 'replace_schema_domain' ),
 		);
 
 		$output .= Form_Presenter::create_checkbox(
@@ -127,9 +133,9 @@ class Schema implements Integration {
 				/* translators: %1$ss is replaced by `<code>/schema/</code>`, %2$s is replaced by `<code>?schema</code>`. */
 				\esc_html__( 'Enable the Schema endpoint for every URL: suffix the URL with %1$s or %2$s to get the Schema for that URL, pretty printed.', 'yoast-test-helper' ),
 				'<code>/schema/</code>',
-				'<code>?schema</code>'
+				'<code>?schema</code>',
 			),
-			$this->option->get( 'enable_schema_endpoint' )
+			$this->option->get( 'enable_schema_endpoint' ),
 		);
 
 		return Form_Presenter::get_html( \__( 'Schema', 'yoast-test-helper' ), 'yoast_seo_test_schema', $output );

@@ -9,6 +9,8 @@ class Indexing_Reason_Integration implements Integration {
 
 	/**
 	 * Registers the hook to set the indexing reason.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
 		\add_filter( 'wpseo_indexables_indexation_alert', [ $this, 'set_indexing_alert' ], 10, 2 );
@@ -30,7 +32,7 @@ class Indexing_Reason_Integration implements Integration {
 		return \sprintf(
 			/* translators: %1$s: Yoast Test Helper */
 			\esc_html__( 'Because some of your SEO data was reset by the %1$s, your SEO data needs to be reprocessed.', 'yoast-test-helper' ),
-			'Yoast Test Helper'
+			'Yoast Test Helper',
 		);
 	}
 }

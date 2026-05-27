@@ -68,6 +68,18 @@ div.wpseo_test_block button.button:hover {
     border-bottom-color: rgba(0, 0, 0, 0.2);
 }
 
+div.wpseo_test_block button.button:disabled,
+div.wpseo_test_block button.button[disabled],
+div.wpseo_test_block button.button:disabled:hover,
+div.wpseo_test_block button.button[disabled]:hover {
+    background-color: #dcdcde;
+    color: #50575e;
+    text-shadow: none;
+    box-shadow: none;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    cursor: not-allowed;
+}
+
 div.wpseo_test_block button.button.secondary:hover {
     background-color: darkgray;
     color: black;
@@ -78,7 +90,7 @@ div.wpseo_test_block td {
     padding: 2px 3px;
 }
 
-div.wpseo_test_block button.button[type=submit]{
+div.wpseo_test_block button.button[type=submit] {
     margin-top: 12px !important;
 }
 
@@ -86,13 +98,21 @@ div.wpseo_test_block select {
     margin: 2px 5px;
 }
 
+div.wpseo_test_block input[type=text],
+div.wpseo_test_block input[type=url],
+div.wpseo_test_block input[type=password],
+div.wpseo_test_block input[type=email],
 div.wpseo_test_block input[type=checkbox] {
     margin: 5px 10px 5px 0;
 }
 
-div.wpseo_test_block input[type=number]{
+div.wpseo_test_block input[type=number] {
     width: 80px;
     margin: 5px 0 5px 10px;
+}
+
+div.wpseo_test_block input[type=text] {
+    margin: 10px 0;
 }
 
 div.wpseo_test_block textarea {
@@ -105,4 +125,49 @@ div.wpseo_test_block label {
 
 div.wpseo_test_block label code {
     font-size: 0.9em;
+}
+
+div.wpseo_test_block hr {
+    margin-top: 1.5em;
+}
+
+div.wpseo_test_block .wpseo_test_actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+    margin-top: 0.5em;
+}
+
+dialog.wpseo_test_dialog {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 1.5em 2em;
+    max-width: 90vw;
+    max-height: 80vh;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+dialog.wpseo_test_dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+dialog.wpseo_test_dialog .wpseo_test_dialog_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+dialog.wpseo_test_dialog td {
+    padding-right: 1em;
+}
+
+dialog.wpseo_test_dialog .wpseo_test_dialog_close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.4em;
+    line-height: 1;
+    color: #666;
+    padding: 0;
 }

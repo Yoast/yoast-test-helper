@@ -35,7 +35,7 @@ class Admin_Debug_Info implements Integration {
 
 		\add_action(
 			'admin_post_yoast_seo_debug_settings',
-			[ $this, 'handle_submit' ]
+			[ $this, 'handle_submit' ],
 		);
 	}
 
@@ -64,7 +64,7 @@ class Admin_Debug_Info implements Integration {
 			'show_options_debug',
 			/* translators: %1$s and %2$s expand to link to debug bar. */
 			\sprintf( \esc_html__( 'Add Yoast SEO panel to %1$sDebug Bar%2$s.', 'yoast-test-helper' ), '<a href="https://wordpress.org/plugins/debug-bar/">', '</a>' ),
-			$this->option->get( 'show_options_debug' )
+			$this->option->get( 'show_options_debug' ),
 		);
 
 		return Form_Presenter::get_html( \__( 'Debug Bar integration', 'yoast-test-helper' ), 'yoast_seo_debug_settings', $fields );

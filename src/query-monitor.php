@@ -9,6 +9,8 @@ class Query_Monitor implements Integration {
 
 	/**
 	 * Registers our menu item and output function.
+	 *
+	 * @return void
 	 */
 	public function add_hooks() {
 		\add_filter( 'qm/output/panel_menus', [ $this, 'add_menu_panel' ], 80 );
@@ -20,7 +22,7 @@ class Query_Monitor implements Integration {
 	 *
 	 * @param array $menu Array of menu items.
 	 *
-	 * @return array Array of menu items.
+	 * @return array<string, string> Array of menu items.
 	 */
 	public function add_menu_panel( array $menu ) {
 		$menu['yoast-seo'] = [
