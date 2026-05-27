@@ -4,14 +4,16 @@ name: Release
 # End-to-end release workflow for yoast-test-helper.
 #
 # Triggered manually with a `version` input (and optional `next-version`).
-# Performs the full release pipeline:
-#   1. Verifies a changelog section for the version exists in readme.txt.
-#   2. Bumps the version (package.json, plugin header, YOAST_TEST_HELPER_VERSION, Stable tag).
-#   3. Rebuilds the POT file.
-#   4. Commits to develop, merges develop into main (--no-ff), tags, pushes.
+# The release is built, tagged and deployed entirely FROM main. Pipeline:
+#   1. Checks out main and merges the source branch into it (release/x.y when an RC
+#      was cut, otherwise develop) to bring the release content onto main.
+#   2. Verifies a changelog section for the version exists in readme.txt.
+#   3. Bumps the version on main (package.json, plugin header, YOAST_TEST_HELPER_VERSION,
+#      Stable tag) and rebuilds the POT file; commits and pushes main.
+#   4. Tags main and pushes the tag.
 #      (The tag push also triggers .github/workflows/deploy.yml, which builds and
 #       pushes the artifact to Yoast-dist/yoast-test-helper.)
-#   5. Builds the artifact locally and deploys it to wordpress.org SVN via the
+#   5. Builds the artifact from main and deploys it to wordpress.org SVN via the
 #      10up action (uses WPORG_SVN_USERNAME / WPORG_SVN_PASSWORD secrets).
 #   6. Creates a GitHub release with the changelog section as notes and the zip
 #      attached.
@@ -97,12 +99,38 @@ jobs:
           echo "next=$NEXT" >> "$GITHUB_OUTPUT"
           echo "Resolved next version: $NEXT"
 
-      - name: Checkout develop
+      - name: Checkout main
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          ref: develop
+          ref: main
           fetch-depth: 0
           persist-credentials: true
+
+      - name: Configure git
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          git config user.name 'GitHub Action'
+          git config user.email "$ACTOR@users.noreply.github.com"
+
+      - name: Merge the source branch into main
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          # The release is built, tagged and deployed FROM main. Bring the release content onto
+          # main first: release/x.y when an RC was cut (the frozen, QA'd line), otherwise develop.
+          if git show-ref --verify --quiet "refs/remotes/origin/release/${VERSION}"; then
+            SOURCE="release/${VERSION}"
+          else
+            SOURCE="develop"
+          fi
+          echo "SOURCE_BRANCH=${SOURCE}" >> "$GITHUB_ENV"
+          echo "Merging ${SOURCE} into main."
+          if ! git merge --no-ff --no-edit "origin/${SOURCE}" -m "Merge ${SOURCE} into main for ${VERSION}"; then
+            git merge --abort || true
+            echo "::error::Merge of ${SOURCE} into main failed. Resolve conflicts on main and re-run."
+            exit 1
+          fi
 
       - name: Verify changelog section exists
         env:
@@ -142,14 +170,7 @@ jobs:
       - name: "Grunt: build i18n"
         run: grunt build:i18n
 
-      - name: Configure git
-        env:
-          ACTOR: ${{ github.actor }}
-        run: |
-          git config user.name 'GitHub Action'
-          git config user.email "$ACTOR@users.noreply.github.com"
-
-      - name: Commit version bump to develop
+      - name: Commit version bump on main
         env:
           VERSION: ${{ inputs.version }}
         run: |
@@ -158,24 +179,6 @@ jobs:
             echo "Nothing to commit."
           else
             git commit -m "Bump version number to ${VERSION}"
-          fi
-
-      - name: Push develop
-        if: ${{ inputs.dry-run != true }}
-        run: git push origin develop
-
-      - name: Merge develop into main
-        env:
-          VERSION: ${{ inputs.version }}
-        run: |
-          git fetch origin main
-          # Create/reset local `main` from origin/main — a fresh actions/checkout only set up
-          # the `develop` branch locally, so a plain `git checkout main` would fail.
-          git checkout -B main origin/main
-          if ! git merge --no-ff --no-edit develop -m "Release ${VERSION}"; then
-            git merge --abort || true
-            echo "::error::Merge of develop into main failed. Resolve conflicts on main and re-run."
-            exit 1
           fi
 
       - name: Push main
@@ -345,9 +348,8 @@ jobs:
             echo ""
             echo "Nothing was pushed. The following actions would have happened in a real run:"
             echo ""
-            echo "* \`git push origin develop\` (with the \"Bump version number to ${VERSION}\" commit)"
-            echo "* \`git push origin main\` (with the \"Release ${VERSION}\" merge commit)"
-            echo "* \`git push origin ${VERSION}\` (annotated tag)"
+            echo "* \`git push origin main\` (with the merge of \`${SOURCE_BRANCH}\` and the \"Bump version number to ${VERSION}\" commit)"
+            echo "* \`git push origin ${VERSION}\` (annotated tag on main)"
             echo "* Push to wordpress.org SVN: \`trunk/\`, \`assets/\`, new tag \`tags/${VERSION}/\`"
             echo "* \`gh release create ${VERSION}\` with the artifact zip attached and the release notes below"
             echo "* Close milestone \`${VERSION}\` and open milestone \`${NEXT_VERSION}\`"
