@@ -13,8 +13,14 @@
   - 'build:i18n'
   - 'build:images'
 
+# Update all versions except the readme Stable tag (for RC / trunk builds, so the
+# wordpress.org listing keeps serving the last stable release).
+'update-version-trunk':
+  - 'update-version:pluginFile'
+  - 'update-version:initializer'
+
 'deploy:trunk':
-  - 'update-version'
+  - 'update-version-trunk'
   - 'artifact'
   - 'wp_deploy:trunk'
 

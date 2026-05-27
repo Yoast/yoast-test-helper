@@ -146,22 +146,6 @@ jobs:
             exit 1
           fi
 
-      - name: Capture the current stable tag
-        id: stable
-        run: |
-          # The Stable tag must stay pointed at the last released version while we publish RCs.
-          # Prefer the highest non-RC git tag; fall back to the value currently in readme.txt.
-          LAST_TAG=$(git tag --list | grep -E '^[0-9]+\.[0-9]+(\.[0-9]+)?$' | sort -V | tail -1 || true)
-          if [ -z "$LAST_TAG" ]; then
-            LAST_TAG=$(grep -oP '(?<=Stable tag: ).*' readme.txt | head -1 || true)
-          fi
-          if [ -z "$LAST_TAG" ]; then
-            echo "::error::Could not determine the previous stable tag."
-            exit 1
-          fi
-          echo "stable=$LAST_TAG" >> "$GITHUB_OUTPUT"
-          echo "Preserving Stable tag at: $LAST_TAG"
-
       - name: Install PHP
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # 2.37.1
         with:
@@ -183,17 +167,11 @@ jobs:
       - name: "Grunt: set package version to RC"
         run: grunt set-version -new-version="${RC_VERSION}"
 
-      - name: "Grunt: update version references"
-        run: grunt update-version
-
-      - name: Restore Stable tag in readme.txt
-        env:
-          STABLE: ${{ steps.stable.outputs.stable }}
-        run: |
-          # update-version pushes the RC string into readme.txt's Stable tag header;
-          # revert it so the wordpress.org listing keeps serving the last stable release.
-          sed -i -E "s/^Stable tag: .*/Stable tag: ${STABLE}/" readme.txt
-          grep '^Stable tag:' readme.txt
+      - name: "Grunt: update version references (keeps Stable tag)"
+        # update-version-trunk bumps the plugin header and the YOAST_TEST_HELPER_VERSION
+        # constant but NOT readme.txt's Stable tag, so the wordpress.org listing keeps
+        # serving the last stable release while we publish RCs.
+        run: grunt update-version-trunk
 
       - name: "Grunt: build i18n"
         run: grunt build:i18n
