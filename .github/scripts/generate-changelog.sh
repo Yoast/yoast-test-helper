@@ -138,6 +138,7 @@ Release date: ${RELEASE_DATE}
 if [ -n "$ENHANCEMENTS" ]; then
 	NEW_SECTION+="
 Enhancements:
+
 $(echo -n "$ENHANCEMENTS" | sed '/^$/d')
 "
 fi
@@ -145,6 +146,7 @@ fi
 if [ -n "$BUGFIXES" ]; then
 	NEW_SECTION+="
 Bugfixes:
+
 $(echo -n "$BUGFIXES" | sed '/^$/d')
 "
 fi
@@ -152,6 +154,7 @@ fi
 if [ -n "$OTHER" ]; then
 	NEW_SECTION+="
 Other:
+
 $(echo -n "$OTHER" | sed '/^$/d')
 "
 fi
