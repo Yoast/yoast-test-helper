@@ -27,7 +27,7 @@ class Plugin implements Integration {
 	 * Constructs the class.
 	 */
 	public function __construct() {
-		$this->load_integrations();
+		\add_action( 'plugins_loaded', [ $this, 'load_integrations' ], 10 );
 
 		\add_action( 'Yoast\WP\Test_Helper\notifications', [ $this, 'admin_page_blocks' ] );
 	}
@@ -38,11 +38,11 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	public function add_hooks() {
-		\array_map(
+		\array_walk(
+			$this->integrations,
 			static function ( Integration $integration ) {
 				$integration->add_hooks();
 			},
-			$this->integrations,
 		);
 	}
 
@@ -66,7 +66,7 @@ class Plugin implements Integration {
 	 *
 	 * @return void
 	 */
-	private function load_integrations() {
+	public function load_integrations(): void {
 		$plugins = $this->get_plugins();
 
 		$plugin_version_control = new Plugin_Version_Control(
@@ -77,30 +77,31 @@ class Plugin implements Integration {
 
 		$option = new Option();
 
-		$this->integrations[] = $plugin_version_control;
-		$this->integrations[] = new Admin_Page();
-		$this->integrations[] = new Admin_Notifications();
-		$this->integrations[] = new Upgrade_Detector();
-		$this->integrations[] = new Development_Mode( $option );
-		$this->integrations[] = new Plugin_Toggler( $option );
-		$this->integrations[] = new WordPress_Plugin_Features( $plugins );
-		$this->integrations[] = new Schema( $option );
-		$this->integrations[] = new XML_Sitemaps( $option );
-		$this->integrations[] = new Feature_Toggler( $option );
-		$this->integrations[] = new Post_Types( $option );
-		$this->integrations[] = new Taxonomies( $option );
-		$domain_dropdown      = new Domain_Dropdown( $option );
-		$this->integrations[] = $domain_dropdown;
-		$this->integrations[] = new Inline_Script( $option );
-		$this->integrations[] = new MyYoast_OAuth_Overrides( $option, $domain_dropdown );
-		$this->integrations[] = new Admin_Debug_Info( $option );
-		$this->integrations[] = new Logger_Integration( $option );
-		$this->integrations[] = new Indexing_Reason_Integration();
-		$this->integrations[] = new Query_Monitor();
-		$this->integrations[] = new Downgrader();
+		$integrations    = [];
+		$integrations[]  = $plugin_version_control;
+		$integrations[]  = new Admin_Page();
+		$integrations[]  = new Admin_Notifications();
+		$integrations[]  = new Upgrade_Detector();
+		$integrations[]  = new Development_Mode( $option );
+		$integrations[]  = new Plugin_Toggler( $option );
+		$integrations[]  = new WordPress_Plugin_Features( $plugins );
+		$integrations[]  = new Schema( $option );
+		$integrations[]  = new XML_Sitemaps( $option );
+		$integrations[]  = new Feature_Toggler( $option );
+		$integrations[]  = new Post_Types( $option );
+		$integrations[]  = new Taxonomies( $option );
+		$domain_dropdown = new Domain_Dropdown( $option );
+		$integrations[]  = $domain_dropdown;
+		$integrations[]  = new Inline_Script( $option );
+		$integrations[]  = new MyYoast_OAuth_Overrides( $option, $domain_dropdown );
+		$integrations[]  = new Admin_Debug_Info( $option );
+		$integrations[]  = new Logger_Integration( $option );
+		$integrations[]  = new Indexing_Reason_Integration();
+		$integrations[]  = new Query_Monitor();
+		$integrations[]  = new Downgrader();
 
 		$this->integrations = \array_filter(
-			$this->integrations,
+			$integrations,
 			static function ( Integration $integration ) {
 				if ( ! $integration instanceof Conditional_Aware ) {
 					return true;

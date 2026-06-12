@@ -44,4 +44,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 $yoast_test_helper = new Plugin();
-$yoast_test_helper->add_hooks();
+
+// Priority 11 ensures this runs after Plugin::load_integrations() (priority 10 on the same hook),
+// so the integrations list is built and conditionally filtered before its hooks are registered.
+add_action( 'plugins_loaded', [ $yoast_test_helper, 'add_hooks' ], 11 );
