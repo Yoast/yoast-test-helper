@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Yoast\WP\Test_Helper\Conditionals\Conditional_Aware;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Local_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\News_SEO;
 use Yoast\WP\Test_Helper\WordPress_Plugins\Video_SEO;
@@ -97,6 +98,21 @@ class Plugin implements Integration {
 		$this->integrations[] = new Indexing_Reason_Integration();
 		$this->integrations[] = new Query_Monitor();
 		$this->integrations[] = new Downgrader();
+
+		$this->integrations = \array_filter(
+			$this->integrations,
+			static function ( Integration $integration ) {
+				if ( ! $integration instanceof Conditional_Aware ) {
+					return true;
+				}
+				foreach ( $integration::get_conditionals() as $conditional ) {
+					if ( ! $conditional->is_met() ) {
+						return false;
+					}
+				}
+				return true;
+			},
+		);
 	}
 
 	/**

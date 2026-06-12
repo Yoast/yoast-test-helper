@@ -2,10 +2,14 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Yoast\WP\Test_Helper\Conditionals\Conditional;
+use Yoast\WP\Test_Helper\Conditionals\Conditional_Aware;
+use Yoast\WP\Test_Helper\Conditionals\YoastSEO_Conditional;
+
 /**
  * Class to add a Yoast SEO tab to Query Monitor.
  */
-class Query_Monitor implements Integration {
+class Query_Monitor implements Integration, Conditional_Aware {
 
 	/**
 	 * Registers our menu item and output function.
@@ -45,5 +49,14 @@ class Query_Monitor implements Integration {
 		$output['yoast-seo'] = new Query_Monitor_Output();
 
 		return $output;
+	}
+
+	/**
+	 * Gets the conditionals for this integration.
+	 *
+	 * @return Conditional[]
+	 */
+	public static function get_conditionals(): array {
+		return [ new YoastSEO_Conditional() ];
 	}
 }

@@ -2,13 +2,16 @@
 
 namespace Yoast\WP\Test_Helper;
 
+use Yoast\WP\Test_Helper\Conditionals\Conditional;
+use Yoast\WP\Test_Helper\Conditionals\Conditional_Aware;
+use Yoast\WP\Test_Helper\Conditionals\YoastSEO_Conditional;
 use Yoast\WP\Test_Helper\Logger\Database_Log_Storage;
 use Yoast\WP\Test_Helper\Logger\Test_Helper_Logger;
 
 /**
  * Captures logs forwarded through Yoast SEO's wpseo_logger filter to a database-backed store.
  */
-class Logger_Integration implements Integration {
+class Logger_Integration implements Integration, Conditional_Aware {
 
 	/**
 	 * Nonce action for the settings form.
@@ -311,5 +314,14 @@ class Logger_Integration implements Integration {
 		\wp_safe_redirect(
 			\self_admin_url( 'tools.php?page=' . \apply_filters( 'Yoast\WP\Test_Helper\admin_page', '' ) ),
 		);
+	}
+
+	/**
+	 * Gets the conditionals for this integration to be loaded.
+	 *
+	 * @return Conditional[]
+	 */
+	public static function get_conditionals(): array {
+		return [ new YoastSEO_Conditional() ];
 	}
 }
