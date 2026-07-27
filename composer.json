@@ -19,7 +19,7 @@
 		"ext-zip": "*"
 	},
 	"require-dev": {
-		"yoast/yoastcs": "^3.4.0"
+		"yoast/yoastcs": "^3.4.2"
 	},
 	"minimum-stability": "alpha",
 	"prefer-stable": true,
