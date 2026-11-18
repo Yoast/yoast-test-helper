@@ -157,13 +157,13 @@ jobs:
       - name: "Grunt: set package version"
         env:
           VERSION: ${{ inputs.version }}
-        run: grunt set-version -new-version="$VERSION"
+        run: yarn grunt set-version -new-version="$VERSION"
 
       - name: "Grunt: update version references"
-        run: grunt update-version
+        run: yarn grunt update-version
 
       - name: "Grunt: build i18n"
-        run: grunt build:i18n
+        run: yarn grunt build:i18n
 
       - name: Commit version bump on the source branch
         env:
@@ -210,7 +210,7 @@ jobs:
         run: git push origin "${VERSION}"
 
       - name: "Grunt: build artifact"
-        run: grunt artifact
+        run: yarn grunt artifact
 
       - name: Reset working tree after artifact
         # `grunt artifact` re-runs `build:i18n`, which regenerates languages/*.pot with a fresh

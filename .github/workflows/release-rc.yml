@@ -165,16 +165,16 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: "Grunt: set package version to RC"
-        run: grunt set-version -new-version="${RC_VERSION}"
+        run: yarn grunt set-version -new-version="${RC_VERSION}"
 
       - name: "Grunt: update version references (keeps Stable tag)"
         # update-version-trunk bumps the plugin header and the YOAST_TEST_HELPER_VERSION
         # constant but NOT readme.txt's Stable tag, so the wordpress.org listing keeps
         # serving the last stable release while we publish RCs.
-        run: grunt update-version-trunk
+        run: yarn grunt update-version-trunk
 
       - name: "Grunt: build i18n"
-        run: grunt build:i18n
+        run: yarn grunt build:i18n
 
       - name: Commit version bump on release branch
         run: |
@@ -197,7 +197,7 @@ jobs:
         run: git push origin "${RC_VERSION}"
 
       - name: "Grunt: build artifact"
-        run: grunt artifact
+        run: yarn grunt artifact
 
       - name: Reset working tree after artifact
         # `grunt artifact` re-runs `build:i18n`, which regenerates languages/*.pot with a fresh

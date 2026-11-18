@@ -77,7 +77,6 @@ jobs:
           node --version
           npm --version
           yarn --version
-          grunt --version
           git --version
 
       # The Grunt artifact creation will run `composer install` twice (first: no-dev, then dev).
@@ -86,18 +85,21 @@ jobs:
       - name: Yarn install
         run: yarn install
 
+      - name: "Debug info: show grunt version"
+        run: yarn grunt --version
+
       - name: "Grunt: set package version (tags only)"
         if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
         env:
           REF_NAME: ${{ github.ref_name }}
-        run: grunt set-version -new-version="$REF_NAME"
+        run: yarn grunt set-version -new-version="$REF_NAME"
 
       - name: "Grunt: update package version (tags only)"
         if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
-        run: grunt update-version
+        run: yarn grunt update-version
 
       - name: "Grunt: create artifact"
-        run: grunt artifact
+        run: yarn grunt artifact
 
       - name: "Debug info: show contents of artifacts directory"
         run: tree -aC ./artifact
