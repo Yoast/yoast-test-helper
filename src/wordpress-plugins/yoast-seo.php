@@ -212,6 +212,7 @@ class Yoast_SEO implements WordPress_Plugin {
 	 * @return bool True if successful, false otherwise.
 	 */
 	private function reset_site_information() {
+		\delete_transient( 'wpseo_site_information_quick' );
 		return \delete_transient( 'wpseo_site_information' );
 	}
 
